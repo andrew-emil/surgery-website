@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { login } from "./controllers/login";
-import { deleteAccount } from "./controllers/deleteAccount";
+import { login } from "./controllers/login.js";
+import { deleteAccount } from "./controllers/deleteAccount.js";
 
 const usersRoutes = Router();
 

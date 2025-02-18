@@ -1,5 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Users } from "./User";
+import { User } from "./User.js";
 
 enum STATUS {
 	PENDING = "pending",
@@ -12,13 +12,7 @@ export class AuthenticationRequest {
 	@PrimaryGeneratedColumn()
 	id: number;
 
-	@Column({ type: "char", length: 36 })
-	trainee_id: string;
-
-	@Column({ type: "char", length: 36 })
-	consultant_id: string;
-
-	@Column({ length: 255 })
+	@Column({ length: 255, type: "varchar" })
 	surgery_log_id: string;
 
 	@Column({
@@ -31,9 +25,9 @@ export class AuthenticationRequest {
 	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
 	created_at: Date;
 
-	@ManyToOne(() => Users, (user) => user.authenticationRequestsAsTrainee)
-	trainee: Users;
+	@ManyToOne(() => User, (user) => user.authenticationRequestsAsTrainee)
+	trainee: User;
 
-	@ManyToOne(() => Users, (user) => user.authenticationRequestsAsConsultant)
-	consultant: Users;
+	@ManyToOne(() => User, (user) => user.authenticationRequestsAsConsultant)
+	consultant: User;
 }

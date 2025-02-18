@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userRepo } from "../../../config/repositories";
+import { userRepo } from "../../../config/repositories.js";
 
 export const deleteAccount = async (
 	req: Request,
@@ -8,7 +8,7 @@ export const deleteAccount = async (
 	try {
 		const userId = req.params.id as string;
 
-		if (!userId) throw Error("Invalid user ID");
+		if (!userId) throw Error("Invalid credentials");
 
 		const result = await userRepo.delete(userId);
 		//TODO: delete other rows
@@ -23,7 +23,6 @@ export const deleteAccount = async (
 		}
 	} catch (err) {
 		console.error("Error deleting account:", err);
-		res.status(500).json({ message: "Internal server error" });
-		return;
+		throw Error("Internal server error");
 	}
 };

@@ -1,15 +1,14 @@
-require('dotenv').config()
+import "reflect-metadata";
+import express, { Application } from "express";
+import { config } from "dotenv";
+import morgan from "morgan";
+import usersRoutes from "./modules/users/users.routes.js";
+import { notFoundHandler } from "./handlers/notFoundHandler.js";
+import { AppDataSource } from "./config/data-source.js";
+import { errorMiddleware } from "./middlewares/errorMiddleware.js";
+import {  initializeSQLRepositories } from "./config/repositories.js";
 
-import express from 'express';
-import { Application } from "express";
-import morgan from 'morgan';
-import usersRoutes from './modules/users/users.routes';
-import { notFoundHandler } from './handlers/notFoundHandler';
-import { AppDataSource } from './config/data-source';
-import { initializeSQLRepositories } from './config/repositories';
-import { errorMiddleware } from './middlewares/errorMiddleware';
-
-
+config({ path: "./.env" });
 const app: Application = express();
 const port: number = parseInt(process.env.PORT as string);
 
@@ -25,25 +24,25 @@ app.use(notFoundHandler);
 
 const startServer = async () => {
 	try {
+		console.log("connected to database successfully" + process.env.DB_NAME);
 		await AppDataSource.initialize();
-		console.log("connected to database successfully");
 
-		// Initialize repositories
 		initializeSQLRepositories();
 
 		// await MongoDataSource.initialize();
 		// console.log("Connected to MongoDB database successfully");
+
+		// initializeMongoRepositories();
 
 		app.listen(port, () => {
 			console.log(`app listening on port: ${port}`);
 		});
 	} catch (error) {
 		console.error("Error during data source initialization:", error);
-		process.exit(1); // Exit the process if database connection fails
+		process.exit(1);
 	}
 };
 
-//start the server
 startServer();
 
 app.use(errorMiddleware);
