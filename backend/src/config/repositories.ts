@@ -22,9 +22,9 @@ export let departmentRepo: Repository<Department>;
 export let surgeryEquipmentRepo: Repository<SurgeryEquipment>;
 export let surgeryTypeRepo: Repository<SurgeryType>;
 export let userPermissionRepo: Repository<UserPermission>;
-// export let postSurgeryRepo: Repository<PostSurgery>;
-// export let procedureRepo: Repository<ProcedureDetails>;
-// export let surgeryLogsRepo: Repository<SurgeryLog>;
+export let postSurgeryRepo: Repository<PostSurgery>;
+export let procedureRepo: Repository<ProcedureDetails>;
+export let surgeryLogsRepo: Repository<SurgeryLog>;
 
 export const initializeSQLRepositories = () => {
 	userRepo = AppDataSource.getRepository(User);
@@ -39,8 +39,8 @@ export const initializeSQLRepositories = () => {
 	userPermissionRepo = AppDataSource.getRepository(UserPermission);
 };
 
-// export const initializeMongoRepositories = () => {
-// 	postSurgeryRepo = MongoDataSource.getMongoRepository(PostSurgery);
-// 	procedureRepo = MongoDataSource.getMongoRepository(ProcedureDetails);
-// 	surgeryLogsRepo = MongoDataSource.getMongoRepository(SurgeryLog);
-// };
+export const initializeMongoRepositories = () => {
+	postSurgeryRepo = MongoDataSource.getMongoRepository(PostSurgery);
+	procedureRepo = MongoDataSource.getMongoRepository(ProcedureDetails);
+	surgeryLogsRepo = MongoDataSource.getMongoRepository(SurgeryLog);
+};

@@ -1,4 +1,10 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column,
+	CreateDateColumn,
+	Entity,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+} from "typeorm";
 import { User } from "./User.js";
 
 enum STATUS {
@@ -13,21 +19,17 @@ export class AuthenticationRequest {
 	id: number;
 
 	@Column({ length: 255, type: "varchar" })
-	surgery_log_id: string;
+	surgery_id: string;
 
-	@Column({
-		type: "enum",
-		enum: STATUS,
-		default: STATUS.PENDING,
-	})
+	@Column({ type: "enum", enum: STATUS, default: STATUS.PENDING })
 	status: STATUS;
 
-	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+	@CreateDateColumn()
 	created_at: Date;
 
-	@ManyToOne(() => User, (user) => user.authenticationRequestsAsTrainee)
+	@ManyToOne(() => User)
 	trainee: User;
 
-	@ManyToOne(() => User, (user) => user.authenticationRequestsAsConsultant)
+	@ManyToOne(() => User)
 	consultant: User;
 }

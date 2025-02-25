@@ -5,19 +5,19 @@ export class ProcedureDetails {
 	@ObjectIdColumn()
 	id: ObjectId;
 
-	@Column()
+	@Column({ type: "objectid" })
 	@Index()
-	surgery_id: ObjectId; // Reference to SurgeryLog
+	surgery_id: ObjectId;
 
-	@Column()
+	@Column({ type: "int" })
 	surgical_time: number;
 
-	@Column()
+	@Column({ type: "int" })
 	estimated_blood_loss: number;
 
-	@Column({ type: "array" })
+	@Column({ type: "simple-array" })
 	complications: string[];
 
-	@Column()
+	@Column({ type: "string" })
 	blood_products_used: string;
 }

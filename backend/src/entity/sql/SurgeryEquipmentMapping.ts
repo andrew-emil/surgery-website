@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { SurgeryType } from "./SurgeryType.js";
 import { SurgeryEquipment } from "./SurgeryEquipments.js";
 

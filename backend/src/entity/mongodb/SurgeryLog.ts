@@ -6,24 +6,27 @@ export class SurgeryLog {
 	@ObjectIdColumn()
 	id: ObjectId;
 
-	@Column()
+	@Column({ type: "int" })
 	@Index()
 	surgery_id: number; // MySQL Foreign Key for reference
 
-	@Column()
-	@Index()
-	performed_by: number; // Consultant ID from MySQL
+	@Column({ type: "int" })
+	stars: number;
 
-	@Column()
+	@Column({ type: "array" })
+	@Index()
+	performed_by: string[];
+
+	@Column({ type: "date" })
 	date: Date;
 
-	@Column()
+	@Column({ type: "string" })
 	time: string;
 
-	@Column()
+	@Column({ type: "string" })
 	cpt_code: string;
 
-	@Column()
+	@Column({ type: "string" })
 	status: string; // Completed, Ongoing, Cancelled
 
 	@Column(() => PatientDetails)

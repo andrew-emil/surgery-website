@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { User } from "./User.js";
+import { UserAffiliations } from "./UserAffiliations.js";
 
 enum AffiliationsType {
 	HOSPITAL = "Hospital",
@@ -34,6 +34,9 @@ export class Affiliations {
 	})
 	institution_type: AffiliationsType;
 
-	@OneToMany(() => User, (user) => user.affiliation)
-	users: User[];
+	@OneToMany(
+		() => UserAffiliations,
+		(userAffiliation) => userAffiliation.affiliation
+	)
+	userAffiliations: UserAffiliations[];
 }

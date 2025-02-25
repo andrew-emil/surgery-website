@@ -1,28 +1,43 @@
 import { Request, Response } from "express";
-import { userRepo } from "../../../config/repositories.js";
+import {
+	userRepo,
+	userPermissionRepo,
+} from "../../../config/repositories.js";
+import { AppDataSource } from "../../../config/data-source.js";
 
 export const deleteAccount = async (
 	req: Request,
 	res: Response
 ): Promise<void> => {
 	try {
-		const userId = req.params.id as string;
+		const { id } = req.params as { id: string };
 
-		if (!userId) throw Error("Invalid credentials");
-
-		const result = await userRepo.delete(userId);
-		//TODO: delete other rows
-
-		// Check if any rows were affected
-		if (result.affected && result.affected > 0) {
-			res.status(204).end();
-			return;
-		} else {
-			res.status(404).json({ message: "User not found" });
+		// Validate userId
+		if (!id) {
+			res.status(400).json({ error: "Invalid user ID" });
 			return;
 		}
+
+		await AppDataSource.transaction(async (transactionalEntityManager) => {
+			// Delete dependent records in SQL Repositories
+			await transactionalEntityManager.delete(userPermissionRepo.target, {
+				assigned_by: id,
+			});
+
+			// Delete user
+			const result = await transactionalEntityManager.delete(
+				userRepo.target,
+				id
+			);
+
+			if (result.affected && result.affected > 0) {
+				res.status(204).end();
+			} else {
+				res.status(404).json({ error: "User not found" });
+			}
+		});
 	} catch (err) {
 		console.error("Error deleting account:", err);
-		throw Error("Internal server error");
+		res.status(500).json({ error: "Internal server error" });
 	}
 };

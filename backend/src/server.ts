@@ -4,9 +4,12 @@ import { config } from "dotenv";
 import morgan from "morgan";
 import usersRoutes from "./modules/users/users.routes.js";
 import { notFoundHandler } from "./handlers/notFoundHandler.js";
-import { AppDataSource } from "./config/data-source.js";
-import { errorMiddleware } from "./middlewares/errorMiddleware.js";
-import {  initializeSQLRepositories } from "./config/repositories.js";
+import { AppDataSource, MongoDataSource } from "./config/data-source.js";
+import { errorHandler } from "./handlers/errorHandler.js";
+import {
+	initializeMongoRepositories,
+	initializeSQLRepositories,
+} from "./config/repositories.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -29,10 +32,10 @@ const startServer = async () => {
 
 		initializeSQLRepositories();
 
-		// await MongoDataSource.initialize();
-		// console.log("Connected to MongoDB database successfully");
+		await MongoDataSource.initialize();
+		console.log("Connected to MongoDB database successfully");
 
-		// initializeMongoRepositories();
+		initializeMongoRepositories();
 
 		app.listen(port, () => {
 			console.log(`app listening on port: ${port}`);
@@ -45,4 +48,4 @@ const startServer = async () => {
 
 startServer();
 
-app.use(errorMiddleware);
+app.use(errorHandler);

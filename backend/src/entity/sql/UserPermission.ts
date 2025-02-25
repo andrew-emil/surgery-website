@@ -5,7 +5,6 @@ import { Role } from "./Roles.js";
 enum PermissionAction {
 	CREATE_SURGERY = "create_surgery",
 	EDIT_SURGERY = "edit_surgery",
-	VIEW_SURGERY_HISTORY = "view_surgery_history",
 	INVITE_PARTICIPANTS = "invite_participants",
 	APPROVE_PARTICIPATION = "approve_participation",
 	ASSIGN_ROLES = "assign_roles",
@@ -20,14 +19,14 @@ enum PermissionAction {
 
 @Entity()
 export class UserPermission {
-	@PrimaryGeneratedColumn('increment')
+	@PrimaryGeneratedColumn("increment")
 	id: number;
-
-	@ManyToOne(() => Role, { onDelete: "CASCADE" })
-	role: Role;
 
 	@Column({ type: "enum", enum: PermissionAction })
 	action: PermissionAction;
+
+	@ManyToOne(() => Role, { onDelete: "CASCADE" })
+	role: Role;
 
 	@ManyToOne(() => User)
 	assigned_by: User;

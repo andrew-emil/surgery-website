@@ -1,16 +1,16 @@
 import { Column } from "typeorm";
 
 export class PatientDetails {
-	@Column()
-	patient_id: string; // Randomized ID for anonymity
+	@Column({ type: "string" })
+	patient_id: string;
 
-	@Column()
+	@Column({ type: "int" })
 	bmi: number;
 
-	@Column({ type: "array" })
+	@Column({ type: "simple-array" })
 	comorbidity: string[];
 
-	@Column()
+	@Column({ type: "string" })
 	diagnosis: string;
 
 	constructor(

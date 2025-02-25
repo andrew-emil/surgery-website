@@ -5,25 +5,25 @@ export class PostSurgery {
 	@ObjectIdColumn()
 	id: ObjectId;
 
-	@Column()
+	@Column({ type: "string" })
 	@Index()
 	surgery_id: ObjectId;
 
-	@Column()
+	@Column({ type: "string" })
 	outcome: string;
 
-	@Column()
+	@Column({ type: "string" })
 	complications: string;
 
-	@Column()
+	@Column({ type: "string" })
 	discharge_status: string;
 
-	@Column()
+	@Column({ type: "string" })
 	case_notes: string;
 
-	@Column()
+	@Column({ type: "int" })
 	rating: number;
 
-	@Column()
+	@Column({ type: "string" })
 	feedback: string;
 }

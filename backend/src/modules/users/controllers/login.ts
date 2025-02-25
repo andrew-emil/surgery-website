@@ -3,23 +3,31 @@ import { loginSchema } from "../../../utils/zodSchemas.js";
 import { fromError } from "zod-validation-error";
 import { userRepo } from "../../../config/repositories.js";
 import bcrypt from "bcrypt";
+import { AppDataSource } from "../../../config/data-source.js";
+import { sendVerificationEmails } from "../../../utils/sendEmails.js";
+import { createOtp } from "../../../utils/createOTP.js";
 
 const MAX_FAILED_ATTEMPTS = 5;
+const LOCK_TIME_MINUTES = 30;
 
 export const login = async (req: Request, res: Response): Promise<void> => {
+	const queryRunner = AppDataSource.createQueryRunner();
+	await queryRunner.connect();
+	await queryRunner.startTransaction();
+
 	try {
 		const userInput = loginSchema.parse(req.body);
 
 		const user = await userRepo.findOneBy({ email: userInput.email });
 
-		if (!user) {
-			throw Error("Invalid credentials");
-		}
+		if (!user) throw Error("Invalid credentials");
 
-		if (user.failed_attempts >= MAX_FAILED_ATTEMPTS) {
-			res
-				.status(403)
-				.json({ error: "Account locked due to multiple failed attempts" });
+		if (user.lock_until && new Date(user.lock_until) > new Date()) {
+			res.status(403).json({
+				error: `Account locked. Try again after ${new Date(
+					user.lock_until
+				).toLocaleTimeString()}.`,
+			});
 			return;
 		}
 
@@ -30,32 +38,41 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 		if (!isMatched) {
 			user.failed_attempts += 1;
-			await userRepo.save(user);
+			if (user.failed_attempts >= MAX_FAILED_ATTEMPTS) {
+				user.lock_until = new Date(Date.now() + LOCK_TIME_MINUTES * 60 * 1000);
+			}
+			await queryRunner.manager.save(user);
+			await queryRunner.commitTransaction();
 			throw Error("Invalid credentials");
 		}
 
-		user.failed_attempts = 0;
-		user.otp_enabled = true;
+		if (user.failed_attempts > 0 || user.lock_until) {
+			user.failed_attempts = 0;
+			user.lock_until = null;
+			await queryRunner.manager.save(user);
+		}
 
-		const otp = Math.floor(100000 + Math.random() * 900000).toString();
-		user.otp_secret = otp;
-		await userRepo.save(user);
-		//TODO: send OTP via email
-		//send otp and verify
+		const { otp, hashedOtp } = await createOtp(parseInt(process.env.salt_rounds) || 10);
 
-		//TODO: generate and returning a JWT token here for authentication
-		res.status(200).json({ message: "User successfully logged in" });
+		user.otp_secret = hashedOtp
+		await userRepo.save(user)
+		await sendVerificationEmails(userInput.email, otp);
+
+		await queryRunner.commitTransaction();
+		res
+			.status(202)
+			.json({ message: "OTP sent. Please verify to complete login." });
 	} catch (error) {
+		await queryRunner.rollbackTransaction();
 		if (error instanceof Error && error.name === "ZodError") {
 			const validationError = fromError(error);
 			console.error(validationError.toString());
 			throw Error(validationError.toString());
-		} else if (error instanceof Error) {
-			console.error("Login error:", error); // Log the full error for debugging
-			throw Error("Internal server error");
 		} else {
-			console.error("Unknown login error:", error);
+			console.error("login error:", error);
 			throw Error("Internal server error");
 		}
+	} finally {
+		await queryRunner.release();
 	}
 };

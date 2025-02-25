@@ -14,6 +14,7 @@ import { ProcedureDetails } from "../entity/mongodb/ProcedureDetails.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Surgery } from "../entity/sql/Surgery.js";
 import { SurgeryEquipmentMapping } from "../entity/sql/SurgeryEquipmentMapping.js";
+import { UserAffiliations } from "../entity/sql/UserAffiliations.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -28,25 +29,26 @@ export const AppDataSource = new DataSource({
 		User,
 		Role,
 		Affiliations,
+		UserAffiliations,
 		AuthenticationRequest,
 		Department,
 		SurgeryEquipment,
 		SurgeryType,
 		Surgery,
 		UserPermission,
-		SurgeryEquipmentMapping
+		SurgeryEquipmentMapping,
 	],
 	migrations: [],
 	subscribers: [],
 });
 
-// export const MongoDataSource = new DataSource({
-// 	type: "mongodb",
-// 	url: process.env.MONGODB as string,
-// 	useNewUrlParser: true,
-// 	useUnifiedTopology: true,
-// 	database: "surgical_logbook",
-// 	entities: [PostSurgery, ProcedureDetails, SurgeryLog],
-// 	synchronize: process.env.environment === "development",
-// 	logging: true,
-// });
+export const MongoDataSource = new DataSource({
+	type: "mongodb",
+	url: process.env.MONGODB as string,
+	useNewUrlParser: true,
+	useUnifiedTopology: true,
+	database: "surgical_logbook",
+	entities: [PostSurgery, ProcedureDetails, SurgeryLog],
+	synchronize: process.env.environment === "development",
+	logging: true,
+});
