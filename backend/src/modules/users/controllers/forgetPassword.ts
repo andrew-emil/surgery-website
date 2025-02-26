@@ -3,6 +3,7 @@ import { userRepo } from "../../../config/repositories.js";
 import crypto from "crypto";
 import { sendResetEmail } from "../../../utils/sendEmails.js";
 
+
 export const forgetPassword = async (req: Request, res: Response) => {
 	try {
 		const { email } = req.body;

@@ -31,23 +31,27 @@ export class User {
 	@Index()
 	phone_number: string;
 
-	@ManyToOne(() => Role, (role) => role.users, { eager: true })
+	@ManyToOne(() => Role, (role) => role.users, {
+		onDelete: "CASCADE",
+		nullable: true,
+		onUpdate: "CASCADE",
+	})
 	role: Role;
-
-	@Column({ length: 255, nullable: true, type: "varchar" })
-	otp_secret: string;
-
-	@Column({ type: "int", default: 0 })
-	failed_attempts: number;
-
-	@Column({ type: "int", default: 0 })
-	token_version: number;
 
 	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
 	last_login: Date;
 
 	@Column({ type: "timestamp", nullable: true })
 	lock_until: Date;
+
+	@Column({ type: "varchar", nullable: true })
+	otp_secret: string;
+
+	@Column({ type: "int", nullable: true })
+	failed_attempts: number;
+
+	@Column({ type: "int", default: 0 })
+	token_version: number;
 
 	@Column({ type: "varchar", nullable: true })
 	reset_token: string;

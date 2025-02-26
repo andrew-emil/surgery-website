@@ -1,4 +1,5 @@
 import "reflect-metadata";
+import "express-async-errors";
 import express, { Application } from "express";
 import { config } from "dotenv";
 import morgan from "morgan";
@@ -10,6 +11,7 @@ import {
 	initializeMongoRepositories,
 	initializeSQLRepositories,
 } from "./config/repositories.js";
+import rolesRoutes from "./modules/roles/roles.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -21,9 +23,13 @@ app.use(morgan("dev"));
 
 //routes
 app.use("/api/users", usersRoutes);
+app.use("/api/roles", rolesRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
+
+//errors handler
+app.use(errorHandler);
 
 const startServer = async () => {
 	try {
@@ -47,5 +53,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-app.use(errorHandler);

@@ -6,6 +6,7 @@ import bcrypt from 'bcrypt'
 import { sendVerificationEmails } from "../../../utils/sendEmails.js";
 import { createOtp } from "../../../utils/createOTP.js";
 
+
 export const register = async (req: Request, res: Response) => {
 	try {
         const userInput = registerSchema.parse(req.body)

@@ -7,7 +7,7 @@ import {
 	JoinTable,
 } from "typeorm";
 import { User } from "./User.js";
-import { UserPermission } from "./UserPermission.js";
+import { Permission } from "./Permission.js";
 
 @Entity()
 export class Role {
@@ -20,7 +20,7 @@ export class Role {
 	@OneToMany(() => User, (user) => user.role)
 	users: User[];
 
-	@ManyToMany(() => UserPermission)
+	@ManyToMany(() => Permission, { cascade: true })
 	@JoinTable()
-	permissions: UserPermission[];
+	permissions: Permission[];
 }

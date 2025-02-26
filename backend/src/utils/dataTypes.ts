@@ -7,7 +7,7 @@ export interface JWTPayload {
 		id: string;
 		date: Date;
 		status: string;
-        stars: number;
-        patient_id: string;
+		stars: number;
+		patient_id: string;
 	}>;
 }

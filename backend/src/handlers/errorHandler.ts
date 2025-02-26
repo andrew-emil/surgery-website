@@ -7,14 +7,14 @@ export const errorHandler: ErrorRequestHandler = (
 	next: NextFunction
 ) => {
 	if (err.message === "access denied" || err.message === "Unauthorized") {
-		res.status(403).json({
+		res.status(401).json({
 			message: err.message,
 		});
 	} else if (
 		err.message.includes("Validation error") ||
 		err.message == "Invalid credentials"
 	) {
-		res.status(401).json({ message: err.message });
+		res.status(400).json({ message: err.message });
 	} else if (err.message === "Internal server error") {
 		res.status(500).json({ message: err.message });
 	} else {

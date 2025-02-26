@@ -9,6 +9,6 @@ export class SurgeryEquipment {
 	@Column({ length: 255, type: "varchar" })
 	equipment_name: string;
 
-	@ManyToOne(() => SurgeryType, (surgeryType) => surgeryType.equipment)
+	@ManyToOne(() => SurgeryType, (surgeryType) => surgeryType.name)
 	surgeryType: SurgeryType;
 }

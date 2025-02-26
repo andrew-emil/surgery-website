@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { roleRepo } from "../../../config/repositories.js";
+import { Not } from "typeorm";
 
 export const getAllRoles = async (req: Request, res: Response) => {
 	const { page = "1", limit = "10" } = req.query;
@@ -11,6 +12,7 @@ export const getAllRoles = async (req: Request, res: Response) => {
 		roleRepo.find({
 			skip: (pageNumber - 1) * limitNumber,
 			take: limitNumber,
+			where: { name: Not("Admin") },
 		}),
 		roleRepo.count(),
 	]);

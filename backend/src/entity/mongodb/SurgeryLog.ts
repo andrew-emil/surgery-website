@@ -32,9 +32,9 @@ export class SurgeryLog {
 	@Column(() => PatientDetails)
 	patient_details: PatientDetails;
 
-	@Column()
+	@Column({ type: "objectId" })
 	procedure_details_id: ObjectId;
 
-	@Column()
+	@Column({ type: "objectId" })
 	post_surgery_id: ObjectId;
 }

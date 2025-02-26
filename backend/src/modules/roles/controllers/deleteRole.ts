@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../../../config/data-source.js";
 import {
 	roleRepo,
-	userPermissionRepo,
 	userRepo,
 } from "../../../config/repositories.js";
 
@@ -24,15 +23,14 @@ export const deleteRole = async (req: Request, res: Response) => {
 	}
     
 	await AppDataSource.transaction(async (transactionalEntityManager) => {
-		await transactionalEntityManager.delete(userPermissionRepo.target, {
-			role: role.name,
-		});
 
 		await transactionalEntityManager.update(
 			userRepo.target,
 			{ role: role.id },
 			{ role: null }
 		);
+
+		
 
 		const result = await transactionalEntityManager.delete(roleRepo.target, {
 			id: role.id,

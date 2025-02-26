@@ -21,7 +21,8 @@ export const verify2FA = async (req: Request, res: Response) => {
 			res.status(404).json({ error: "User not found" });
 			return;
 		}
-		console.log(user.otp_secret, otp);
+
+		// console.log(user.otp_secret, otp);
 		const isOtpValid = await bcrypt.compare(otp, user.otp_secret);
 		if (!isOtpValid) {
 			user.failed_attempts += 1;

@@ -12,7 +12,7 @@ enum AffiliationsType {
 
 @Entity()
 export class Affiliations {
-	@PrimaryGeneratedColumn()
+	@PrimaryGeneratedColumn('increment')
 	id: number;
 
 	@Column({ length: 100, type: "varchar" })
