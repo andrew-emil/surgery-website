@@ -18,7 +18,7 @@ import { Permission } from "../entity/sql/Permission.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
-	host: "localhost",
+	host: "mysql",
 	port: 3306,
 	username: "root",
 	password: "",

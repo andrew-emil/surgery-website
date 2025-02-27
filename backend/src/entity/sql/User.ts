@@ -47,7 +47,7 @@ export class User {
 	@Column({ type: "varchar", nullable: true })
 	otp_secret: string;
 
-	@Column({ type: "int", nullable: true })
+	@Column({ type: "int", default: 0 })
 	failed_attempts: number;
 
 	@Column({ type: "int", default: 0 })

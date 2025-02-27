@@ -1,0 +1,47 @@
+services:
+  app:
+    build: .
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mysql
+      - mongo
+    environment:
+      - PORT=4000
+      - DB_NAME=surgical_logbook_ms
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USER=root
+      - DB_PASSWORD=
+      - MONGO_URI=mongodb+srv://andrewemil343:EttmElMfGDYqvjzz@surgeries.hdgaj.mongodb.net/?retryWrites=true&w=majority&appName=surgeries
+      - salt_rounds=10
+      - environment=development
+      - EMAIL_USER=e9181d06f3d6a7
+      - JWT_SECRET=mySecret1243
+    volumes:
+      - .:/app
+      - /app/node_modules
+
+  mysql:
+    image: mysql:latest
+    restart: always
+    environment:
+      MYSQL_DATABASE: "surgical_logbook_ms"
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mysql_data:
+  mongo_data:
