@@ -9,12 +9,12 @@ import { Department } from "../entity/sql/departments.js";
 import { SurgeryEquipment } from "../entity/sql/SurgeryEquipments.js";
 import { SurgeryType } from "../entity/sql/SurgeryType.js";
 import { PostSurgery } from "../entity/mongodb/PostSurgery.js";
-import { ProcedureDetails } from "../entity/mongodb/ProcedureDetails.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Surgery } from "../entity/sql/Surgery.js";
 import { SurgeryEquipmentMapping } from "../entity/sql/SurgeryEquipmentMapping.js";
 import { UserAffiliations } from "../entity/sql/UserAffiliations.js";
 import { Permission } from "../entity/sql/Permission.js";
+import { Rating } from "../entity/mongodb/Rating.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -48,7 +48,7 @@ export const MongoDataSource = new DataSource({
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
 	database: "surgical_logbook",
-	entities: [PostSurgery, ProcedureDetails, SurgeryLog],
+	entities: [PostSurgery, SurgeryLog, Rating],
 	synchronize: process.env.environment === "development",
 	logging: true,
 });

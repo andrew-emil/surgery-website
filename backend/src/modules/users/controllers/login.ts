@@ -15,64 +15,53 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 	await queryRunner.connect();
 	await queryRunner.startTransaction();
 
-	try {
-		const userInput = loginSchema.parse(req.body);
+	const userInput = loginSchema.parse(req.body);
 
-		const user = await userRepo.findOneBy({ email: userInput.email });
+	const user = await userRepo.findOneBy({ email: userInput.email });
 
-		if (!user) throw Error("Invalid credentials");
+	if (!user) throw Error("Invalid credentials");
 
-		if (user.lock_until && new Date(user.lock_until) > new Date()) {
-			res.status(403).json({
-				error: `Account locked. Try again after ${new Date(
-					user.lock_until
-				).toLocaleTimeString()}.`,
-			});
-			return;
-		}
-
-		const isMatched = await bcrypt.compare(
-			userInput.password,
-			user.password_hash
-		);
-
-		if (!isMatched) {
-			user.failed_attempts += 1;
-			if (user.failed_attempts >= MAX_FAILED_ATTEMPTS) {
-				user.lock_until = new Date(Date.now() + LOCK_TIME_MINUTES * 60 * 1000);
-			}
-			await queryRunner.manager.save(user);
-			await queryRunner.commitTransaction();
-			throw Error("Invalid credentials");
-		}
-
-		if (user.failed_attempts > 0 || user.lock_until) {
-			user.failed_attempts = 0;
-			user.lock_until = null;
-			await queryRunner.manager.save(user);
-		}
-
-		const { otp, hashedOtp } = await createOtp(parseInt(process.env.salt_rounds) || 10);
-
-		user.otp_secret = hashedOtp
-		await userRepo.save(user)
-		await sendVerificationEmails(userInput.email, otp);
-
-		await queryRunner.commitTransaction();
-		res
-			.status(202)
-			.json({ message: "OTP sent. Please verify to complete login." });
-	} catch (error) {
-		await queryRunner.rollbackTransaction();
-		if (error instanceof Error && error.name === "ZodError") {
-			const validationError = fromError(error);
-			console.error(validationError.toString());
-			throw Error(validationError.toString());
-		} else {
-			console.error("login error:", error);
-			throw Error("Internal server error");
-		}
-	} finally {
-		await queryRunner.release();
+	if (user.lock_until && new Date(user.lock_until) > new Date()) {
+		res.status(403).json({
+			error: `Account locked. Try again after ${new Date(
+				user.lock_until
+			).toLocaleTimeString()}.`,
+		});
+		return;
 	}
+
+	const isMatched = await bcrypt.compare(
+		userInput.password,
+		user.password_hash
+	);
+
+	if (!isMatched) {
+		user.failed_attempts += 1;
+		if (user.failed_attempts >= MAX_FAILED_ATTEMPTS) {
+			user.lock_until = new Date(Date.now() + LOCK_TIME_MINUTES * 60 * 1000);
+		}
+		await queryRunner.manager.save(user);
+		await queryRunner.commitTransaction();
+		throw Error("Invalid credentials");
+	}
+
+	if (user.failed_attempts > 0 || user.lock_until) {
+		user.failed_attempts = 0;
+		user.lock_until = null;
+		await queryRunner.manager.save(user);
+	}
+
+	const { otp, hashedOtp } = await createOtp(
+		parseInt(process.env.salt_rounds) || 10
+	);
+
+	user.otp_secret = hashedOtp;
+	await userRepo.save(user);
+	await sendVerificationEmails(userInput.email, otp);
+
+	await queryRunner.commitTransaction();
+	await queryRunner.release();
+	res
+		.status(202)
+		.json({ message: "OTP sent. Please verify to complete login." });
 };

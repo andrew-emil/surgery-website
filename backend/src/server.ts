@@ -33,10 +33,9 @@ app.use(errorHandler);
 
 const startServer = async () => {
 	try {
-		console.log("connected to database successfully" + process.env.DB_NAME);
 		await AppDataSource.initialize();
-
 		initializeSQLRepositories();
+		console.log("connected to mysql database")
 
 		await MongoDataSource.initialize();
 		console.log("Connected to MongoDB database successfully");

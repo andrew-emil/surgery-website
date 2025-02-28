@@ -1,29 +1,24 @@
 import { Entity, ObjectIdColumn, ObjectId, Column, Index } from "typeorm";
+import { OUTCOME } from "../../utils/dataTypes.js";
 
 @Entity()
 export class PostSurgery {
 	@ObjectIdColumn()
 	id: ObjectId;
 
-	@Column({ type: "string" })
+	@Column({ type: "int" })
 	@Index()
-	surgery_id: ObjectId;
+	surgeryId: number;
 
-	@Column({ type: "string" })
-	outcome: string;
+	@Column({ type: "enum", nullable: true })
+	outcome: OUTCOME;
 
-	@Column({ type: "string" })
+	@Column({ type: "string", nullable: true })
 	complications: string;
 
-	@Column({ type: "string" })
-	discharge_status: string;
+	@Column({ type: "string", nullable: true })
+	dischargeStatus: string;
 
-	@Column({ type: "string" })
-	case_notes: string;
-
-	@Column({ type: "int" })
-	rating: number;
-
-	@Column({ type: "string" })
-	feedback: string;
+	@Column({ type: "string", nullable: true })
+	caseNotes: string;
 }

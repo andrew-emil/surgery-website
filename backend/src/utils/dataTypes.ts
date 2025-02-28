@@ -11,3 +11,14 @@ export interface JWTPayload {
 		patient_id: string;
 	}>;
 }
+
+export enum STATUS {
+	COMPLETED = "Completed",
+	ONGOING = "Ongoing",
+	CANCELLED = "Cancelled",
+}
+
+export enum OUTCOME {
+	SUCCESS = "success",
+	FAILURE = "failure",
+}

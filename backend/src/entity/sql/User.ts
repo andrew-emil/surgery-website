@@ -21,14 +21,12 @@ export class User {
 	last_name: string;
 
 	@Column({ length: 100, unique: true, type: "varchar" })
-	@Index()
 	email: string;
 
 	@Column({ length: 255, type: "varchar" })
 	password_hash: string;
 
 	@Column({ length: 20, type: "varchar", unique: true })
-	@Index()
 	phone_number: string;
 
 	@ManyToOne(() => Role, (role) => role.users, {

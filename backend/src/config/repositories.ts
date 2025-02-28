@@ -9,9 +9,9 @@ import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
 import { Department } from "../entity/sql/departments.js";
 import { SurgeryEquipment } from "../entity/sql/SurgeryEquipments.js";
 import { SurgeryType } from "../entity/sql/SurgeryType.js";
-import { ProcedureDetails } from "../entity/mongodb/ProcedureDetails.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Permission } from "../entity/sql/Permission.js";
+import { Rating } from "../entity/mongodb/Rating.js";
 
 // Export repositories for all entities
 export let userRepo: Repository<User>;
@@ -22,9 +22,10 @@ export let departmentRepo: Repository<Department>;
 export let surgeryEquipmentRepo: Repository<SurgeryEquipment>;
 export let surgeryTypeRepo: Repository<SurgeryType>;
 export let permissionRepo: Repository<Permission>;
+
 export let postSurgeryRepo: Repository<PostSurgery>;
-export let procedureRepo: Repository<ProcedureDetails>;
 export let surgeryLogsRepo: Repository<SurgeryLog>;
+export let ratingRepo: Repository<Rating>;
 
 export const initializeSQLRepositories = () => {
 	userRepo = AppDataSource.getRepository(User);
@@ -41,6 +42,6 @@ export const initializeSQLRepositories = () => {
 
 export const initializeMongoRepositories = () => {
 	postSurgeryRepo = MongoDataSource.getMongoRepository(PostSurgery);
-	procedureRepo = MongoDataSource.getMongoRepository(ProcedureDetails);
 	surgeryLogsRepo = MongoDataSource.getMongoRepository(SurgeryLog);
+	ratingRepo = MongoDataSource.getMongoRepository(Rating);
 };

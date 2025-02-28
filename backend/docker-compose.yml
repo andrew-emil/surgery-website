@@ -4,23 +4,27 @@ services:
     ports:
       - "4000:4000"
     depends_on:
-      - mysql
-      - mongo
+      mysql:
+        condition: service_healthy
+      mongo:
+        condition: service_started
     environment:
-      - PORT=4000
-      - DB_NAME=surgical_logbook_ms
-      - DB_HOST=mysql
-      - DB_PORT=3306
-      - DB_USER=root
-      - DB_PASSWORD=
-      - MONGO_URI=mongodb+srv://andrewemil343:EttmElMfGDYqvjzz@surgeries.hdgaj.mongodb.net/?retryWrites=true&w=majority&appName=surgeries
-      - salt_rounds=10
-      - environment=development
-      - EMAIL_USER=e9181d06f3d6a7
-      - JWT_SECRET=mySecret1243
+      PORT: "4000"
+      DB_NAME: "surgical_logbook_ms"
+      DB_HOST: "mysql"
+      DB_PORT: "3306"
+      DB_USER: "root"
+      DB_PASSWORD:
+      MONGO_URI: "mongodb+srv://andrewemil343:EttmElMfGDYqvjzz@surgeries.hdgaj.mongodb.net/?retryWrites=true&w=majority&appName=surgeries"
+      salt_rounds: "10"
+      environment: "development"
+      EMAIL_USER: "e9181d06f3d6a7"
+      JWT_SECRET: "mySecret1243"
     volumes:
       - .:/app
       - /app/node_modules
+    command: npm start
+    
 
   mysql:
     image: mysql:latest
@@ -28,11 +32,17 @@ services:
     environment:
       MYSQL_DATABASE: "surgical_logbook_ms"
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ""
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 5s
+      retries: 10
 
   mongo:
     image: mongo:latest

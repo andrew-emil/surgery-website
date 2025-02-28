@@ -1,5 +1,15 @@
-import { Entity, ObjectIdColumn, ObjectId, Column, Index } from "typeorm";
+import {
+	Entity,
+	ObjectIdColumn,
+	ObjectId,
+	Column,
+	Index,
+	VersionColumn,
+	UpdateDateColumn,
+	CreateDateColumn,
+} from "typeorm";
 import { PatientDetails } from "../sub entity/PatientDetails.js";
+import { STATUS } from "../../utils/dataTypes.js";
 
 @Entity()
 export class SurgeryLog {
@@ -8,14 +18,14 @@ export class SurgeryLog {
 
 	@Column({ type: "int" })
 	@Index()
-	surgery_id: number; // MySQL Foreign Key for reference
+	surgeryId: number;
 
-	@Column({ type: "int" })
+	@Column({ type: "int", nullable: true })
 	stars: number;
 
-	@Column({ type: "array" })
+	@Column({ type: "simple-array" })
 	@Index()
-	performed_by: string[];
+	performedBy: string[];
 
 	@Column({ type: "date" })
 	date: Date;
@@ -23,18 +33,36 @@ export class SurgeryLog {
 	@Column({ type: "string" })
 	time: string;
 
-	@Column({ type: "string" })
-	cpt_code: string;
+	@Column({ type: "int", nullable: true })
+	surgicalTimeMinutes: number;
+
+	@Column({ type: "int", nullable: true })
+	estimatedBloodLossMl: number;
+
+	@Column({ type: "text", nullable: true })
+	complications: string;
+
+	@Column({ type: "text", nullable: true })
+	bloodProductsUsed: string;
 
 	@Column({ type: "string" })
-	status: string; // Completed, Ongoing, Cancelled
+	cptCode: string;
+
+	@Column({ type: "string" })
+	icdCodes: string;
+
+	@Column({ type: "enum", default: STATUS.ONGOING })
+	status: STATUS; // Completed, Ongoing, Cancelled
 
 	@Column(() => PatientDetails)
 	patient_details: PatientDetails;
 
-	@Column({ type: "objectId" })
-	procedure_details_id: ObjectId;
+	@CreateDateColumn({ type: "timestamp" })
+	createdAt: Date;
 
-	@Column({ type: "objectId" })
-	post_surgery_id: ObjectId;
+	@UpdateDateColumn({ type: "timestamp" })
+	updatedAt: Date;
+
+	@VersionColumn()
+	version: number;
 }
