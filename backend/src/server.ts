@@ -12,6 +12,8 @@ import {
 	initializeSQLRepositories,
 } from "./config/repositories.js";
 import rolesRoutes from "./modules/roles/roles.routes.js";
+import departmentRoutes from "./modules/department/department.routes.js";
+import surgeryRoutes from "./modules/surgery/surgery.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -24,6 +26,8 @@ app.use(morgan("dev"));
 //routes
 app.use("/api/users", usersRoutes);
 app.use("/api/roles", rolesRoutes);
+app.use("/api/department", departmentRoutes)
+app.use('/api/surgery', surgeryRoutes)
 
 // 404 handler
 app.use(notFoundHandler);

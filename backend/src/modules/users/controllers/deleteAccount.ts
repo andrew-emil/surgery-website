@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { userRepo } from "../../../config/repositories.js";
-import { AppDataSource } from "../../../config/data-source.js";
 
 export const deleteAccount = async (
 	req: Request,

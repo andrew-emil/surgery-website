@@ -10,9 +10,9 @@ const rolesRoutes = Router()
 //TODO: only admins should change in the roles
 
 //routes
-rolesRoutes.post("/add-role", addRole)
-rolesRoutes.delete('/delete-role/:id', deleteRole)
-rolesRoutes.get('/all-roles', getAllRoles)
-rolesRoutes.put('/update-role', updateRole)
+rolesRoutes.post("/", addRole)
+rolesRoutes.delete('/:id', deleteRole)
+rolesRoutes.get('/', getAllRoles)
+rolesRoutes.put('/', updateRole)
 
 export default rolesRoutes;

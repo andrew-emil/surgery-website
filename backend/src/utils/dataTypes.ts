@@ -1,3 +1,5 @@
+import { ObjectId } from "typeorm";
+
 export interface JWTPayload {
 	userId: string;
 	userRole: string;
@@ -6,9 +8,11 @@ export interface JWTPayload {
 	surgeries: Array<{
 		id: string;
 		date: Date;
-		status: string;
+		status: STATUS;
 		stars: number;
-		patient_id: string;
+		cptCode: string;
+		icdCode: string;
+		patient_id: ObjectId;
 	}>;
 }
 

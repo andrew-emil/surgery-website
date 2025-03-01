@@ -54,20 +54,22 @@ export const updateAccount = async (req: Request, res: Response) => {
 	// Generate a new token if the password was updated
 	let token: string | null = null;
 	if (passwordUpdated) {
-		const surgeries = await surgeryLogsRepo.find({
-			where: { performed_by: In([userId]) },
+		const surgeries = await surgeryLogsRepo.findBy({
+			performedBy: In([userId]),
 		});
 
 		token = jwtHandler({
 			userId,
 			userRole: "admin",
-			tokenVersion: user.token_version,
 			name: `${user.first_name} ${user.last_name}`,
+			tokenVersion: user.token_version,
 			surgeries: surgeries.map((surgery) => ({
 				id: surgery.id.toString(),
 				date: surgery.date,
 				status: surgery.status,
 				stars: surgery.stars,
+				icdCode: surgery.icdCode,
+				cptCode: surgery.cptCode,
 				patient_id: surgery.patient_details.patient_id,
 			})),
 		});

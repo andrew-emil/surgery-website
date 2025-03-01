@@ -42,10 +42,8 @@ export const verify2FA = async (req: Request, res: Response) => {
 		user.last_login = new Date(Date.now());
 		await userRepo.save(user);
 
-		const surgeries = await surgeryLogsRepo.find({
-			where: {
-				performed_by: In([user.id]),
-			},
+		const surgeries = await surgeryLogsRepo.findBy({
+			performedBy: In([user.id]),
 		});
 
 		const payload: JWTPayload = {
@@ -58,6 +56,8 @@ export const verify2FA = async (req: Request, res: Response) => {
 				date: surgery.date,
 				status: surgery.status,
 				stars: surgery.stars,
+				icdCode: surgery.icdCode,
+				cptCode: surgery.cptCode,
 				patient_id: surgery.patient_details.patient_id,
 			})),
 		};

@@ -12,7 +12,7 @@ export const errorHandler: ErrorRequestHandler = (
 		});
 	} else if (
 		err.message.includes("Validation error") ||
-		err.message == "Invalid credentials"
+		err.message.includes("Invalid")
 	) {
 		res.status(400).json({ message: err.message });
 	} else if (err.message === "Internal server error") {

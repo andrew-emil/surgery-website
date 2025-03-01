@@ -1,13 +1,13 @@
-import { Column } from "typeorm";
+import { Column, ObjectId } from "typeorm";
 
 export class PatientDetails {
 	@Column({ type: "string" })
-	patient_id: string;
+	patient_id: ObjectId;
 
 	@Column({ type: "int" })
 	bmi: number;
 
-	@Column({ type: "simple-array" })
+	@Column({ type: "json" })
 	comorbidity: string[];
 
 	@Column({ type: "string" })
@@ -19,7 +19,7 @@ export class PatientDetails {
 		comorbidity: string[],
 		diagnosis: string
 	) {
-		this.patient_id = patientId;
+		this.patient_id = new ObjectId(patientId);
 		this.bmi = bmi;
 		this.comorbidity = comorbidity;
 		this.diagnosis = diagnosis;

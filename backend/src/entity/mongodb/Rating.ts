@@ -5,8 +5,11 @@ import {
 	Column,
 	Index,
 	CreateDateColumn,
+	ManyToOne,
 } from "typeorm";
 import { PatientDetails } from "../sub entity/PatientDetails.js";
+import { Min, Max } from "class-validator"; 
+import { User } from "../sql/User.js";
 
 @Entity()
 export class Rating {
@@ -21,9 +24,11 @@ export class Rating {
 	patient_details: PatientDetails;
 
 	@Column({ type: "int", nullable: true })
-	rating: number;
+	@Min(1)
+	@Max(5)
+	stars: number;
 
-	@Column({ type: "text", nullable: true })
+	@Column({ type: "text", default: "" })
 	comments: string;
 
 	@CreateDateColumn({ type: "timestamp" })

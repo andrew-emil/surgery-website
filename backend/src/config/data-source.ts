@@ -18,7 +18,7 @@ import { Rating } from "../entity/mongodb/Rating.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
-	host: "mysql",
+	host: "localhost",
 	port: 3306,
 	username: "root",
 	password: "",

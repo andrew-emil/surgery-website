@@ -20,9 +20,6 @@ export class SurgeryLog {
 	@Index()
 	surgeryId: number;
 
-	@Column({ type: "int", nullable: true })
-	stars: number;
-
 	@Column({ type: "simple-array" })
 	@Index()
 	performedBy: string[];
@@ -49,7 +46,7 @@ export class SurgeryLog {
 	cptCode: string;
 
 	@Column({ type: "string" })
-	icdCodes: string;
+	icdCode: string;
 
 	@Column({ type: "enum", default: STATUS.ONGOING })
 	status: STATUS; // Completed, Ongoing, Cancelled

@@ -6,8 +6,6 @@
 http://localhost:4000
 ```
 
-## Authentication Endpoints
-
 ### 1. User Registration
 
 **Endpoint:** `POST /api/users/register`
@@ -140,6 +138,53 @@ http://localhost:4000
 
 ---
 
+### 6. Delete User Account
+
+**Endpoint:**  `DELETE /users/:id`
+
+**Request Body:**
+
+This endpoint does not accept a request body.
+
+**Response:**
+
+# Success
+
+-   **Status Code:** 204 No Content
+-   **Body:** (Empty)
+
+---
+
+### 7. Update User Account
+
+**Endpoint:**  `PUT /users/`
+
+**Request Body:**
+
+The request body should be a JSON object containing the fields to update. All fields are optional except when updating the password.
+
+-   **`first_name` (string, optional)
+-   **`last_name` (string, optional)
+-   **`email` (string, optional)
+-   **`phone_number` (string, optional)
+-   **`old_password` (string, optional)
+-   **`new_password` (string, optional)
+-   **`confirm_password` (string, optional)
+
+**Response:**
+
+# Success
+
+-   **Status Code:** 200 OK
+-   **Body:**
+    ```json
+    {
+      "message": "Account updated successfully",
+      "token": "<new_jwt_token>" // Only present if the password was updated.
+    }
+    ```
+
+---
 ## Notes
 
 - All requests should be sent with `Content-Type: application/json`.
