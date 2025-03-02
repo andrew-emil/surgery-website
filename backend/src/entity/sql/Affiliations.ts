@@ -1,18 +1,10 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { UserAffiliations } from "./UserAffiliations.js";
-
-enum AffiliationsType {
-	HOSPITAL = "Hospital",
-	CLINIC = "Clinic",
-	RESEARCH_CENTER = "Research Center",
-	UNIVERSITY = "University",
-	MEDICAL_SCHOOL = "Medical School",
-	PRIVATE_PRACTICE = "Private Practice",
-}
+import { AffiliationsType } from "../../utils/dataTypes.js";
 
 @Entity()
 export class Affiliations {
-	@PrimaryGeneratedColumn('increment')
+	@PrimaryGeneratedColumn("increment")
 	id: number;
 
 	@Column({ length: 100, type: "varchar" })

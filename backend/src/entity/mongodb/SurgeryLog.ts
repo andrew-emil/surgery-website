@@ -34,6 +34,9 @@ export class SurgeryLog {
 	surgicalTimeMinutes: number;
 
 	@Column({ type: "int", nullable: true })
+	stars: number;
+
+	@Column({ type: "int", nullable: true })
 	estimatedBloodLossMl: number;
 
 	@Column({ type: "text", nullable: true })

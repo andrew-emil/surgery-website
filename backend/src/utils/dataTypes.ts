@@ -26,3 +26,13 @@ export enum OUTCOME {
 	SUCCESS = "success",
 	FAILURE = "failure",
 }
+
+
+export enum AffiliationsType {
+	HOSPITAL = "Hospital",
+	CLINIC = "Clinic",
+	RESEARCH_CENTER = "Research Center",
+	UNIVERSITY = "University",
+	MEDICAL_SCHOOL = "Medical School",
+	PRIVATE_PRACTICE = "Private Practice",
+}

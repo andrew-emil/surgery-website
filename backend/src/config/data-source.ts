@@ -15,6 +15,7 @@ import { SurgeryEquipmentMapping } from "../entity/sql/SurgeryEquipmentMapping.j
 import { UserAffiliations } from "../entity/sql/UserAffiliations.js";
 import { Permission } from "../entity/sql/Permission.js";
 import { Rating } from "../entity/mongodb/Rating.js";
+import { AuditTrail } from "../entity/sql/AuditTrail.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -37,6 +38,7 @@ export const AppDataSource = new DataSource({
 		Surgery,
 		Permission,
 		SurgeryEquipmentMapping,
+		AuditTrail
 	],
 	migrations: [],
 	subscribers: [],

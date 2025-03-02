@@ -25,14 +25,14 @@ export const updateAccountSchema = z
 		last_name: z.string().min(1).optional(),
 		email: z.string().email().optional(),
 		phone_number: z.string().min(10).max(15).optional(),
-		old_password: z.string().min(6).optional(), // Required only if changing password
+		old_password: z.string().min(6).optional(),
 		new_password: z.string().min(8).optional(),
 		confirm_password: z.string().min(8).optional(),
 	})
 	.refine(
 		(data) => {
 			if (data.new_password || data.confirm_password) {
-				return data.old_password; // Ensure old_password is provided when changing password
+				return data.old_password;
 			}
 			return true;
 		},
@@ -41,3 +41,9 @@ export const updateAccountSchema = z
 			path: ["old_password"],
 		}
 	);
+
+export const updateDepartmentSchema = z.object({
+	id: z.string(),
+	name: z.string().optional(),
+	surgeryTypes: z.array(z.string()).nonempty().optional()
+})

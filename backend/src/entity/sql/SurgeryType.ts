@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from "typeorm";
 import { Department } from "./departments.js";
 
 @Entity()
@@ -9,6 +9,6 @@ export class SurgeryType {
 	@Column({ length: 255, type: "varchar" })
 	name: string;
 
-	@ManyToOne(() => Department, (department) => department.surgeryTypes)
-	department: Department;
+	@ManyToMany(() => Department, (department) => department.surgeryTypes)
+	departments: Department[];
 }

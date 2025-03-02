@@ -1,5 +1,13 @@
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column,
+	Entity,
+	JoinTable,
+	ManyToMany,
+	OneToMany,
+	PrimaryGeneratedColumn,
+} from "typeorm";
 import { SurgeryType } from "./SurgeryType.js";
+import { User } from "./User.js";
 
 @Entity()
 export class Department {
@@ -9,6 +17,10 @@ export class Department {
 	@Column({ length: 255, type: "varchar" })
 	name: string;
 
-	@OneToMany(() => SurgeryType, (surgeryType) => surgeryType.department)
+	@OneToMany(() => User, (user) => user.department)
+	users: User[];
+
+	@ManyToMany(() => SurgeryType, (surgeryType) => surgeryType.departments)
+	@JoinTable()
 	surgeryTypes: SurgeryType[];
 }

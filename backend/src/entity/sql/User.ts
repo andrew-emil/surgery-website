@@ -8,6 +8,7 @@ import {
 	Index,
 } from "typeorm";
 import { Role } from "./Roles.js";
+import { Department } from "./departments.js";
 
 @Entity()
 export class User {
@@ -35,6 +36,13 @@ export class User {
 		onUpdate: "CASCADE",
 	})
 	role: Role;
+
+	@ManyToOne(() => Department, (department) => department.users, {
+		onDelete: "SET NULL",
+		nullable: true,
+		onUpdate: "CASCADE",
+	})
+	department: Department;
 
 	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
 	last_login: Date;
