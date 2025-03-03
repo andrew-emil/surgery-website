@@ -1,54 +1,92 @@
-# API Documentation
+# Roles API Documentation
 
-## Base URL
-
-```
-http://localhost:4000
-```
+## Endpoints
 
 ### 1. Add Role
+**URL:** `POST /roles`
 
-**Endpoint:** `POST /roles`
+**Description:** Adds a new role.
 
-## Request Headers
+**Request Body:**
+```json
+{
+  "name": "string",
+  "permissions": ["string"]
+}
+```
 
--   **Authorization:** `Bearer <token>` (required) - JWT token for authentication. (Only Admins)
+**Responses:**
+- `201 Created`: Role added successfully.
+- `409 Conflict`: Role already exists.
+- `400 Bad Request`: Invalid credentials.
 
-## Request Body
+---
 
-The request body should be a JSON object containing the following fields:
+### 2. Delete Role
+**URL:** `DELETE /roles/:id`
 
--   **`name` (string, required):** The name of the new role.
--   **`permissions` (array of strings, required):** An array of permission actions (strings) to associate with the role. These actions must correspond to existing permission actions.
+**Description:** Deletes a role by its ID.
 
-## Response
+**Request Parameters:**
+- `id` (integer) - Role ID to delete.
 
-### Success
+**Responses:**
+- `204 No Content`: Role deleted successfully.
+- `404 Not Found`: Role not found.
+- `400 Bad Request`: Invalid ID.
 
--   **Status Code:** 201 Created
--   **Body:**
-    ```json
+---
+
+### 3. Get All Roles
+**URL:** `GET /roles`
+
+**Description:** Retrieves all roles except the "Admin" role.
+
+**Responses:**
+- `200 OK`: Returns a list of roles.
+- `404 Not Found`: No roles found.
+
+**Response Example:**
+```json
+{
+  "roles": [
     {
-      "message": "Role added successfully"
+      "id": 1,
+      "name": "Manager",
+      "permissions": ["read", "write"]
     }
-    ```
+  ],
+  "total": 5
+}
+```
 
-### Client Errors
+---
 
--   **Status Code:** 400 Bad Request
-    -   **Body:**
-        ```json
-        {
-          "error": "Invalid credentials"
-        }
-        ```
-        This error is returned when the `name` or `permissions` fields are missing or invalid.
+### 4. Update Role
+**URL:** `PUT /roles/:id`
 
--   **Status Code:** 409 Conflict
-    -   **Body:**
-        ```json
-        {
-          "error": "Role already exists"
-        }
-        ```
-        This error is returned when a role with the same name already exists.
+**Description:** Updates an existing role.
+
+**Request Parameters:**
+- `id` (integer) - Role ID to update.
+
+**Request Body:**
+```json
+{
+  "name": "string",
+  "permissions": ["string"]
+}
+```
+
+**Responses:**
+- `200 OK`: Role updated successfully.
+- `404 Not Found`: Role not found.
+- `400 Bad Request`: Invalid Role ID.
+
+---
+
+## Notes
+- The `permissions` array should contain valid permission actions.
+- The "Admin" role is excluded from listing operations.
+- Deleting a role will also update associated users to remove that role.
+

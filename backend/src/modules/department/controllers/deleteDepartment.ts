@@ -25,9 +25,7 @@ export const deleteDepartment = async (req: Request, res: Response) => {
 				.remove(department.surgeryTypes);
 		}
 
-		await transactionalEntityManager.delete(departmentRepo.target, {
-			id: departmentId
-		})
+		await transactionalEntityManager.remove(department)
 	});
 
 	res.status(204).end();

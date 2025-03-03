@@ -25,5 +25,6 @@ export const addRole = async (req: Request, res: Response) => {
 
 	res.status(201).json({
 		message: "Role added successfully",
+		role: newRole
 	});
 };

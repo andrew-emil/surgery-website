@@ -13,6 +13,9 @@ export const updateDepartment = async (req: Request, res: Response) => {
 
 	const data = result.data;
 
+	if (!data.id || isNaN(parseInt(data.id)))
+		throw Error("Invalid department ID");
+
 	const department = await departmentRepo.findOne({
 		where: { id: parseInt(data.id) },
 		relations: ["surgeryTypes"],
@@ -23,19 +26,29 @@ export const updateDepartment = async (req: Request, res: Response) => {
 	if (data.name) department.name = data.name;
 
 	if (data.surgeryTypes && data.surgeryTypes.length > 0) {
-		const surgeryTypes = await surgeryTypeRepo.findBy({
+		const allSurgeryTypes = await surgeryTypeRepo.findBy({
 			id: In(data.surgeryTypes),
 		});
 
-		if (surgeryTypes.length !== data.surgeryTypes.length) {
-			throw Error("Some surgery types not found");
+		const missingSurgeryTypes = data.surgeryTypes.filter(
+			(id) => !allSurgeryTypes.some((st) => st.id === parseInt(id))
+		);
+
+		if (missingSurgeryTypes.length > 0) {
+			res.status(404).json({
+				error: "Some surgery types not found",
+				missingSurgeryTypes,
+			});
+			return;
 		}
-		department.surgeryTypes = surgeryTypes;
+
+		department.surgeryTypes = allSurgeryTypes;
 	}
 
 	await departmentRepo.save(department);
 
 	res.status(200).json({
 		message: "department updated successfully",
+		department,
 	});
 };

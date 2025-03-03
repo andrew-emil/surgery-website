@@ -13,6 +13,6 @@ const rolesRoutes = Router()
 rolesRoutes.post("/", addRole)
 rolesRoutes.delete('/:id', deleteRole)
 rolesRoutes.get('/', getAllRoles)
-rolesRoutes.put('/', updateRole)
+rolesRoutes.put('/:id', updateRole)
 
 export default rolesRoutes;

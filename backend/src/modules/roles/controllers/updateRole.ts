@@ -1,30 +1,30 @@
 import { Request, Response } from "express";
-import { permissionRepo, roleRepo } from "../../../config/repositories.js";
+import { roleRepo, permissionRepo } from "../../../config/repositories.js";
+import { AppDataSource } from "../../../config/data-source.js";
 
 export const updateRole = async (req: Request, res: Response) => {
 	const { id } = req.params as { id: string };
 	const { name, permissions } = req.body;
 
-	if (!id) {
-		res.status(400).json({ error: "Invalid Role ID" });
-		return;
-	}
+	if (!id || isNaN(parseInt(id))) throw Error("Invalid Role ID");
 
-	const role = await roleRepo.findOneBy({ id: parseInt(id) });
+	const roleId = parseInt(id);
+
+	const role = await roleRepo.findOneBy({ id: roleId });
 	if (!role) throw Error("Role not found");
 
-	if (name) role.name = name;
-	if (permissions && permissions.length > 0) {
-		const allPermissions = await permissionRepo.find();
+	await AppDataSource.transaction(async (transactionalEntityManager) => {
+		role.name = name || role.name;
 
-		role.permissions = allPermissions.filter((p) =>
-			permissions.includes(p.action)
-		);
-	}
+		if (permissions && permissions.length > 0) {
+			const allPermissions = await permissionRepo.find();
+			role.permissions = allPermissions.filter((p) =>
+				permissions.includes(p.action)
+			);
+		}
 
-	const updatedRole = await roleRepo.save(role);
+		await transactionalEntityManager.save(role);
+	});
 
-	res
-		.status(200)
-		.json({ message: "Role updated successfully", role: updatedRole });
+	res.status(200).json({ message: "Role updated successfully", role });
 };

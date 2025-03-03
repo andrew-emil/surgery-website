@@ -3,12 +3,12 @@
 ## Base URL
 
 ```
-http://localhost:4000
+http://localhost:4000/api
 ```
 
 ### 1. User Registration
 
-**Endpoint:** `POST /api/users/register`
+**Endpoint:** `POST users/register`
 
 **Request Body:**
 
@@ -35,7 +35,7 @@ http://localhost:4000
 
 ### 2. User Login
 
-**Endpoint:** `POST /api/users/login`
+**Endpoint:** `POST users/login`
 
 **Request Body:**
 
@@ -58,7 +58,7 @@ http://localhost:4000
 
 ### 3. Verify 2FA
 
-**Endpoint:** `POST /api/users/verify`
+**Endpoint:** `POST users/verify`
 
 **Request Body:**
 
@@ -94,7 +94,7 @@ http://localhost:4000
 
 ### 4. Forgot Password
 
-**Endpoint:** `POST /api/users/forget-password`
+**Endpoint:** `POST users/forget-password`
 
 **Request Body:**
 
@@ -116,7 +116,7 @@ http://localhost:4000
 
 ### 5. Reset Password
 
-**Endpoint:** `POST /api/users/reset-password`
+**Endpoint:** `POST users/reset-password`
 
 **Request Body:**
 
