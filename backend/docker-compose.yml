@@ -23,7 +23,7 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: npm start
+    command: npm run dev
     
 
   mysql:
@@ -31,10 +31,7 @@ services:
     restart: always
     environment:
       MYSQL_DATABASE: "surgical_logbook_ms"
-      # MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
-      MYSQL_ROOT_PASSWORD: "root"
-      # MYSQL_USER: root
-      MYSQL_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "3306:3306"
     volumes:
@@ -58,6 +55,17 @@ services:
       - 9001:80
     environment:
       - PMA_ARBITRARY=1
+
+  mongo-express:
+    image: mongo-express:latest
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: "mongo"
+      ME_CONFIG_MONGODB_PORT: "27017"
+      ME_CONFIG_BASICAUTH_USERNAME: "admin"
+      ME_CONFIG_BASICAUTH_PASSWORD: "password"
 
 volumes:
   mysql_data:

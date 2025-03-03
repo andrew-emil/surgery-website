@@ -10,22 +10,22 @@ export class AuditTrail {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
 
-	@Column()
+	@Column({ type: "uuid" })
 	userId: string;
 
-	@Column()
+	@Column({ type: "varchar" })
 	action: string; // INSERT, UPDATE, DELETE, LOGIN, LOGOUT
 
-	@Column()
+	@Column({ type: "varchar" })
 	entityName: string;
 
-	@Column({ nullable: true })
+	@Column({ nullable: true, type: "varchar" })
 	entityId: string; // ID of the affected record
 
-	@Column("json", { nullable: true })
+	@Column({ nullable: true, type: "json" })
 	oldValue: any;
 
-	@Column("json", { nullable: true })
+	@Column({ nullable: true, type: "json" })
 	newValue: any;
 
 	@Column({ type: "varchar", nullable: true })
@@ -34,6 +34,6 @@ export class AuditTrail {
 	@Column({ type: "varchar", nullable: true })
 	userAgent: string;
 
-	@CreateDateColumn()
+	@CreateDateColumn({ type: "datetime", precision: 6 })
 	timestamp: Date;
 }
