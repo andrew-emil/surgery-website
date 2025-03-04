@@ -34,7 +34,7 @@ export default function Register() {
         password: passwordRef.current.value,
       };
       axiosClient
-        .post("/register", payload)
+        .post("/users/register", payload)
         .then(({ data }) => {
           setUser(data.user);
           setToken(data.token);
