@@ -24,8 +24,8 @@ export const AppDataSource = new DataSource({
 	username: "root",
 	password: "",
 	database: process.env.DB_NAME,
-	synchronize: process.env.environment === "development",
-	logging: process.env.environment === "development",
+	synchronize: true,
+	logging: true,
 	entities: [
 		User,
 		Role,
@@ -40,7 +40,6 @@ export const AppDataSource = new DataSource({
 		SurgeryEquipmentMapping,
 		AuditTrail
 	],
-	migrations: [],
 	subscribers: [],
 });
 
