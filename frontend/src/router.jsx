@@ -5,12 +5,16 @@ import Users from "./views/users";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
 import OTP_auth from "./views/OTP_auth";
+import Home from "./views/home";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <DefaultLayout />,
-    children: [{ path: "/users", element: <Users /> }],
+    children: [
+      { path: "/users", element: <Users /> },
+      { path: "/home", element: <Home /> },
+    ],
   },
   {
     path: "/",
