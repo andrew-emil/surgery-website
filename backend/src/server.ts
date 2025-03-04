@@ -38,6 +38,7 @@ app.use(errorHandler);
 const startServer = async () => {
 	try {
 		await AppDataSource.initialize();
+await AppDataSource.synchronize();  // Force sync
 		initializeSQLRepositories();
 		console.log("connected to mysql database")
 
