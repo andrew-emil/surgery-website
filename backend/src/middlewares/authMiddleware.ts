@@ -11,7 +11,7 @@ export const authMiddleware = (
 ) => {
 	const token = getCookie("token", { req, res });
 
-	if (!token) throw new Error("Unauthorized");
+	if (!token) throw Error("Unauthorized");
 
 	try {
 		const decoded = jwt.verify(token as string, SECRET_KEY);

@@ -1,5 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
-import { UserAffiliations } from "./UserAffiliations.js";
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 import { AffiliationsType } from "../../utils/dataTypes.js";
 
 @Entity()
@@ -25,10 +24,4 @@ export class Affiliations {
 		default: AffiliationsType.HOSPITAL,
 	})
 	institution_type: AffiliationsType;
-
-	@OneToMany(
-		() => UserAffiliations,
-		(userAffiliation) => userAffiliation.affiliation
-	)
-	userAffiliations: UserAffiliations[];
 }

@@ -6,8 +6,11 @@ import { register } from "./controllers/register.js";
 import { forgetPassword } from "./controllers/forgetPassword.js";
 import { resetPassword } from "./controllers/resetPassword.js";
 import { updateAccount } from "./controllers/updateAccount.js";
+import { auditLogger } from "../../middlewares/auditLogger.js";
 
 const usersRoutes = Router();
+
+usersRoutes.use(auditLogger);
 
 //user routes...
 usersRoutes.post("/login", login);
@@ -16,7 +19,6 @@ usersRoutes.post("/verify", verify2FA);
 usersRoutes.post("/forget-password", forgetPassword);
 usersRoutes.post("/reset-password", resetPassword);
 
-//middleware routes
 
 
 //protected routes

@@ -7,8 +7,8 @@ import {
 
 @Entity()
 export class AuditTrail {
-	@PrimaryGeneratedColumn("uuid")
-	id: string;
+	@PrimaryGeneratedColumn("increment")
+	id: number;
 
 	@Column({ type: "uuid" })
 	userId: string;

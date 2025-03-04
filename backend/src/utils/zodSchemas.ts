@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { AffiliationsType } from "./dataTypes.js";
 
 export const loginSchema = z.object({
 	email: z.string().email(),
@@ -45,5 +46,22 @@ export const updateAccountSchema = z
 export const updateDepartmentSchema = z.object({
 	id: z.string(),
 	name: z.string().optional(),
-	surgeryTypes: z.array(z.string()).nonempty().optional()
-})
+	surgeryTypes: z.array(z.string()).nonempty().optional(),
+});
+
+export const addAffiliationSchema = z.object({
+	name: z.string().min(2, "Name must be at least 2 characters"),
+	city: z.string().min(2, "City must be at least 2 characters"),
+	country: z.string().min(2, "Country must be at least 2 characters"),
+	address: z.string().min(2, "Address must be at least 2 characters"),
+	institution_type: z
+		.string()
+		.transform((val) => val.toUpperCase()) // Convert user input to uppercase
+		.refine(
+			(val) =>
+				Object.values(AffiliationsType).includes(val as AffiliationsType),
+			{
+				message: "Invalid institution type",
+			}
+		),
+});

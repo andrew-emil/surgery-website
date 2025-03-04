@@ -5,7 +5,6 @@ import {
 	ManyToOne,
 	CreateDateColumn,
 	UpdateDateColumn,
-	Index,
 } from "typeorm";
 import { Role } from "./Roles.js";
 import { Department } from "./departments.js";

@@ -1,4 +1,6 @@
 import { NextFunction, Response, Request, ErrorRequestHandler } from "express";
+import { fromZodError } from "zod-validation-error";
+import { ZodError } from "zod";
 
 export const errorHandler: ErrorRequestHandler = (
 	err: Error,
@@ -6,7 +8,13 @@ export const errorHandler: ErrorRequestHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	if (err.message === "access denied" || err.message === "Unauthorized") {
+	if (err instanceof ZodError) {
+		const formattedError = fromZodError(err);
+		res.status(400).json({ message: formattedError.message });
+	} else if (
+		err.message === "access denied" ||
+		err.message === "Unauthorized"
+	) {
 		res.status(401).json({
 			message: err.message,
 		});

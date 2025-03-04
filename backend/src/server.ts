@@ -14,6 +14,7 @@ import {
 import rolesRoutes from "./modules/roles/roles.routes.js";
 import departmentRoutes from "./modules/department/department.routes.js";
 import surgeryRoutes from "./modules/surgery/surgery.routes.js";
+import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -26,8 +27,9 @@ app.use(morgan("dev"));
 //routes
 app.use("/api/users", usersRoutes);
 app.use("/api/roles", rolesRoutes);
-app.use("/api/department", departmentRoutes)
-app.use('/api/surgery', surgeryRoutes)
+app.use("/api/department", departmentRoutes);
+app.use("/api/surgery", surgeryRoutes);
+app.use("/api/affiliation", affiliationRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
@@ -38,9 +40,9 @@ app.use(errorHandler);
 const startServer = async () => {
 	try {
 		await AppDataSource.initialize();
-await AppDataSource.synchronize();  // Force sync
+		await AppDataSource.synchronize(); // Force sync
 		initializeSQLRepositories();
-		console.log("connected to mysql database")
+		console.log("connected to mysql database");
 
 		await MongoDataSource.initialize();
 		console.log("Connected to MongoDB database successfully");

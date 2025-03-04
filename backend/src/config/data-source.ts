@@ -12,7 +12,6 @@ import { PostSurgery } from "../entity/mongodb/PostSurgery.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Surgery } from "../entity/sql/Surgery.js";
 import { SurgeryEquipmentMapping } from "../entity/sql/SurgeryEquipmentMapping.js";
-import { UserAffiliations } from "../entity/sql/UserAffiliations.js";
 import { Permission } from "../entity/sql/Permission.js";
 import { Rating } from "../entity/mongodb/Rating.js";
 import { AuditTrail } from "../entity/sql/AuditTrail.js";
@@ -30,7 +29,6 @@ export const AppDataSource = new DataSource({
 		User,
 		Role,
 		Affiliations,
-		UserAffiliations,
 		AuthenticationRequest,
 		Department,
 		SurgeryEquipment,
@@ -50,6 +48,6 @@ export const MongoDataSource = new DataSource({
 	useUnifiedTopology: true,
 	database: "surgical_logbook",
 	entities: [PostSurgery, SurgeryLog, Rating],
-	synchronize: process.env.environment === "development",
+	synchronize: true,
 	logging: true,
 });
