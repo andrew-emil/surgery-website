@@ -25,8 +25,8 @@ const port: number = parseInt(process.env.PORT as string);
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(cors({
-	origin: "http://localhost:5173", // Allow frontend to access API
-    methods: "GET,POST,PUT,DELETE",
+	origin: "*", // Allow frontend to access API
+    methods: "GET,POST,PUT,DELETE, PATCH",
     credentials: true, // Allow cookies or authentication headers
 }))
 
