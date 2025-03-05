@@ -6,9 +6,15 @@ import { AffiliationsType } from "../../../utils/dataTypes.js";
 export const addAffiliation = async (req: Request, res: Response) => {
 	const validation = addAffiliationSchema.safeParse(req.body);
 
-    console.log(validation.error)
+	console.log(validation.error);
 
-	if (!validation.success) throw Error(validation.error.message);
+	if (!validation.success) {
+		const errorMessages = validation.error.issues
+			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
+			.join(", ");
+
+		throw new Error(errorMessages);
+	}
 
 	const { name, country, city, address, institution_type } = validation.data;
 

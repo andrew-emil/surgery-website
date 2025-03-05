@@ -27,11 +27,12 @@ export default function Register() {
     ev.preventDefault();
     if (passwordRef.current.value == confirmPasswordRef.current.value) {
       const payload = {
-        firstname: firstnameRef.current.value,
-        lastname: lastnameRef.current.value,
+        first_name: firstnameRef.current.value,
+        last_name: lastnameRef.current.value,
         email: emailRef.current.value,
-        phone: phoneRef.current.value,
+        phone_number: phoneRef.current.value,
         password: passwordRef.current.value,
+        confirm_password: confirmPasswordRef.current.value,
       };
       axiosClient
         .post("/users/register", payload)

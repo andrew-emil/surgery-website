@@ -56,7 +56,6 @@ export const addAffiliationSchema = z.object({
 	address: z.string().min(2, "Address must be at least 2 characters"),
 	institution_type: z
 		.string()
-		.transform((val) => val.toUpperCase()) // Convert user input to uppercase
 		.refine(
 			(val) =>
 				Object.values(AffiliationsType).includes(val as AffiliationsType),

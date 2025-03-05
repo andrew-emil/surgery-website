@@ -1,6 +1,5 @@
 import { Response, Request } from "express";
 import { loginSchema } from "../../../utils/zodSchemas.js";
-import { fromError } from "zod-validation-error";
 import { userRepo } from "../../../config/repositories.js";
 import bcrypt from "bcrypt";
 import { AppDataSource } from "../../../config/data-source.js";

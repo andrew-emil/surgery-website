@@ -8,24 +8,43 @@ export const errorHandler: ErrorRequestHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
+	console.error(`[ERROR] ${err.name}: ${err.message}`); // Log error details
+
 	if (err instanceof ZodError) {
 		const formattedError = fromZodError(err);
-		res.status(400).json({ message: formattedError.message });
+		sendErrorResponse(res, 400, "Validation error", formattedError.details);
 	} else if (
 		err.message === "access denied" ||
 		err.message === "Unauthorized"
 	) {
-		res.status(401).json({
-			message: err.message,
-		});
+		sendErrorResponse(res, 401, err.message);
 	} else if (
 		err.message.includes("Validation error") ||
 		err.message.includes("Invalid")
 	) {
-		res.status(400).json({ message: err.message });
+		sendErrorResponse(res, 400, err.message);
+	} else if (err.name === "QueryFailedError") {
+		sendErrorResponse(res, 500, "Database query error", err.message);
+	} else if (err.name === "EntityNotFoundError") {
+		sendErrorResponse(res, 404, "Requested resource not found");
 	} else if (err.message === "Internal server error") {
-		res.status(500).json({ message: err.message });
+		sendErrorResponse(res, 500, err.message);
 	} else {
-		res.status(404).json({ message: err.message });
+		sendErrorResponse(res, 500, "Something went wrong", err.message);
 	}
+};
+
+
+const sendErrorResponse = (
+	res: Response,
+	statusCode: number,
+	message: string,
+	details?: any
+) => {
+	res.status(statusCode).json({
+		success: false,
+		errorCode: statusCode,
+		message,
+		details,
+	});
 };

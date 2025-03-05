@@ -3,6 +3,7 @@ import "express-async-errors";
 import express, { Application } from "express";
 import { config } from "dotenv";
 import morgan from "morgan";
+import cors from 'cors'
 import usersRoutes from "./modules/users/users.routes.js";
 import { notFoundHandler } from "./handlers/notFoundHandler.js";
 import { AppDataSource, MongoDataSource } from "./config/data-source.js";
@@ -23,6 +24,11 @@ const port: number = parseInt(process.env.PORT as string);
 //middlewares
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors({
+	origin: "http://localhost:5173", // Allow frontend to access API
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true, // Allow cookies or authentication headers
+}))
 
 //routes
 app.use("/api/users", usersRoutes);

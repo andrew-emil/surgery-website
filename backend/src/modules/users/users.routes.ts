@@ -23,6 +23,6 @@ usersRoutes.post("/reset-password", resetPassword);
 
 //protected routes
 usersRoutes.delete("/:id", deleteAccount);
-usersRoutes.put("/", updateAccount);
+usersRoutes.patch("/", updateAccount);
 
 export default usersRoutes;
