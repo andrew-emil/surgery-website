@@ -23,11 +23,11 @@ export default function DefaultLayout() {
       <div className="content">
         <header>
           <MiniDrawer></MiniDrawer>
+          <Container sx={{ mt: 10, pl: { sm: 10, xs: 6 }, pr: { xs: 0 } }}>
+            <Outlet />
+          </Container>
         </header>
       </div>
-      <Container>
-        <Outlet />
-      </Container>
     </Box>
   );
 }
