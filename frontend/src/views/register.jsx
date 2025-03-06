@@ -30,7 +30,7 @@ export default function Register() {
         first_name: firstnameRef.current.value,
         last_name: lastnameRef.current.value,
         email: emailRef.current.value,
-        phone_number: phoneRef.current.value,
+        phone_number: `+${phoneRef.current.value}`,
         password: passwordRef.current.value,
         confirm_password: confirmPasswordRef.current.value,
       };
@@ -93,7 +93,7 @@ export default function Register() {
           />
           <FormTextField
             inputRef={phoneRef}
-            type="phone"
+            type="text"
             name=""
             id="standard-basic"
             label="Phone"
