@@ -6,11 +6,11 @@ import {
   FormTextField,
   FormTitle,
 } from "../components/StyledComponents";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import axiosClient from "../axiosClient";
-import { useStateContext } from "../context/contextprovider";
 import AlertTitle from "@mui/material/AlertTitle";
 import { Alert, Typography } from "@mui/material";
+import { useStateContext } from "../context/contextprovider";
 
 export default function Register() {
   const firstnameRef = useRef();
@@ -21,7 +21,8 @@ export default function Register() {
   const confirmPasswordRef = useRef();
 
   const [err, setErr] = useState(null);
-  const { setUser, setToken } = useStateContext();
+  const [redirectToOTP, setRedirectToOTP] = useState(false);
+  const { setMessage } = useStateContext();
 
   const submit = (ev) => {
     ev.preventDefault();
@@ -37,8 +38,10 @@ export default function Register() {
       axiosClient
         .post("/users/register", payload)
         .then(({ data }) => {
-          setUser(data.user);
-          setToken(data.token);
+          if (data.message === "OTP sent. Please verify to complete login.") {
+            setMessage(data.message);
+            setRedirectToOTP(true);
+          }
         })
         .catch((err) => {
           const response = err.response;
@@ -51,6 +54,9 @@ export default function Register() {
       console.log(err);
     }
   };
+  if (redirectToOTP) {
+    return <Navigate to="/otp" />;
+  }
   return (
     <FormContainer className="login-signup-form animated fadinDown">
       <FormCard className="form">
