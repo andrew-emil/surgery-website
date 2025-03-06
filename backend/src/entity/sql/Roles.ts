@@ -5,6 +5,7 @@ import {
 	OneToMany,
 	ManyToMany,
 	JoinTable,
+	ManyToOne,
 } from "typeorm";
 import { User } from "./User.js";
 import { Permission } from "./Permission.js";
@@ -23,4 +24,10 @@ export class Role {
 	@ManyToMany(() => Permission, { cascade: true })
 	@JoinTable()
 	permissions: Permission[];
+
+	@ManyToOne(() => Role, (role) => role.children, { nullable: true })
+	parent: Role;
+
+	@OneToMany(() => Role, (role) => role.parent)
+	children: Role[];
 }

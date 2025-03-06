@@ -12,7 +12,8 @@ import { SurgeryType } from "../entity/sql/SurgeryType.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Permission } from "../entity/sql/Permission.js";
 import { Rating } from "../entity/mongodb/Rating.js";
-import { AuditTrail } from "../entity/sql/AuditTrail.js";
+import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
+import { Surgery } from "../entity/sql/Surgery.js";
 
 // Export repositories for all entities
 export let userRepo: Repository<User>;
@@ -23,8 +24,9 @@ export let departmentRepo: Repository<Department>;
 export let surgeryEquipmentRepo: Repository<SurgeryEquipment>;
 export let surgeryTypeRepo: Repository<SurgeryType>;
 export let permissionRepo: Repository<Permission>;
-export let auditTrailRepo: Repository<AuditTrail>;
+export let surgeryRepo: Repository<Surgery>;
 
+export let auditTrailRepo: Repository<AuditTrail>;
 export let postSurgeryRepo: Repository<PostSurgery>;
 export let surgeryLogsRepo: Repository<SurgeryLog>;
 export let ratingRepo: Repository<Rating>;
@@ -40,11 +42,12 @@ export const initializeSQLRepositories = () => {
 	surgeryEquipmentRepo = AppDataSource.getRepository(SurgeryEquipment);
 	surgeryTypeRepo = AppDataSource.getRepository(SurgeryType);
 	permissionRepo = AppDataSource.getRepository(Permission);
-	auditTrailRepo = AppDataSource.getRepository(AuditTrail);
+	surgeryRepo = AppDataSource.getRepository(Surgery);
 };
 
 export const initializeMongoRepositories = () => {
 	postSurgeryRepo = MongoDataSource.getMongoRepository(PostSurgery);
 	surgeryLogsRepo = MongoDataSource.getMongoRepository(SurgeryLog);
 	ratingRepo = MongoDataSource.getMongoRepository(Rating);
+	auditTrailRepo = MongoDataSource.getMongoRepository(AuditTrail);
 };

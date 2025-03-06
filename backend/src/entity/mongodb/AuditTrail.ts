@@ -1,14 +1,15 @@
 import {
 	Entity,
-	PrimaryGeneratedColumn,
+	ObjectIdColumn,
 	Column,
 	CreateDateColumn,
+	ObjectId,
 } from "typeorm";
 
 @Entity()
 export class AuditTrail {
-	@PrimaryGeneratedColumn("increment")
-	id: number;
+	@ObjectIdColumn()
+	id: ObjectId;
 
 	@Column({ type: "uuid" })
 	userId: string;

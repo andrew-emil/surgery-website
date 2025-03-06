@@ -11,9 +11,7 @@ const LOCK_TIME_MINUTES = 30;
 export const verify2FA = async (req: Request, res: Response) => {
 	const { email, otp } = req.body;
 
-	if (!email || !otp) {
-		throw Error("Email and OTP are required");
-	}
+	if (!email || !otp) throw Error("Email and OTP are required");
 
 	const user = await userRepo.findOneBy({ email });
 	if (!user) {
@@ -49,7 +47,7 @@ export const verify2FA = async (req: Request, res: Response) => {
 
 	const payload: JWTPayload = {
 		userId: user.id,
-		userRole: "admin",
+		userRole: user.role?.name || 'admin',
 		name: `${user.first_name} ${user.last_name}`,
 		tokenVersion: user.token_version,
 		surgeries: surgeries.map((surgery) => ({

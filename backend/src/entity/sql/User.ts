@@ -8,6 +8,7 @@ import {
 } from "typeorm";
 import { Role } from "./Roles.js";
 import { Department } from "./departments.js";
+import { Affiliations } from "./Affiliations.js";
 
 @Entity()
 export class User {
@@ -30,11 +31,18 @@ export class User {
 	phone_number: string;
 
 	@ManyToOne(() => Role, (role) => role.users, {
-		onDelete: "CASCADE",
+		onDelete: "SET NULL",
 		nullable: true,
 		onUpdate: "CASCADE",
 	})
 	role: Role;
+
+	@ManyToOne(() => Affiliations, (affiliation) => affiliation.users, {
+		onDelete: "SET NULL",
+		nullable: true,
+		onUpdate: "CASCADE",
+	})
+	affiliation: Affiliations;
 
 	@ManyToOne(() => Department, (department) => department.users, {
 		onDelete: "SET NULL",

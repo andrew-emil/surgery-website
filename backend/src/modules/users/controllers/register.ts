@@ -8,11 +8,6 @@ import { createOtp } from "../../../utils/createOTP.js";
 export const register = async (req: Request, res: Response) => {
 	const userInput = registerSchema.parse(req.body);
 
-	if (userInput.password !== userInput.confirm_password) {
-		res.status(400).json({ message: "Passwords do not match" });
-		return;
-	}
-
 	const existingUser = await userRepo.findOneBy({ email: userInput.email });
 	if (existingUser) {
 		res.status(409).json({ error: "Email is already registered" });

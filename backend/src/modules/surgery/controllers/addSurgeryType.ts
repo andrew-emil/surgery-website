@@ -3,23 +3,33 @@ import {
 	departmentRepo,
 	surgeryTypeRepo,
 } from "../../../config/repositories.js";
+import { In } from "typeorm";
 
 export const addSurgeryType = async (req: Request, res: Response) => {
-	const { name, departmentId } = req.body;
+	const { name, departmentIds } = req.body;
 
-	if (!name || !departmentId || isNaN(parseInt(departmentId)))
+	if (!name || !Array.isArray(departmentIds) || departmentIds.length === 0)
 		throw Error("Invalid Credential");
 
-	const existingDepartment = await departmentRepo.findOneBy({
-		id: parseInt(departmentId),
+	const parsedDepartmentIds = departmentIds
+		.map((id: any) => parseInt(id))
+		.filter((id) => !isNaN(id));
+
+	if (parsedDepartmentIds.length === 0) throw Error("Invalid department IDs");
+
+	const departments = await departmentRepo.findBy({
+		id: In(parsedDepartmentIds),
 	});
+	if (departments.length !== parsedDepartmentIds.length) {
+		throw new Error("One or more departments not found");
+	}
 
-	if (!existingDepartment) throw Error("Invalid department name");
-
-	await surgeryTypeRepo.insert({
+	const newSurgeryType = surgeryTypeRepo.create({
 		name,
-		department: existingDepartment,
+		departments,
 	});
+
+	await surgeryTypeRepo.save(newSurgeryType);
 
 	res.status(201).json({
 		message: "Add Surgery type successfully",

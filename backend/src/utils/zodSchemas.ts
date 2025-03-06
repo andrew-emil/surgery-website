@@ -17,7 +17,6 @@ export const registerSchema = z.object({
 			message: "Please enter a valid phone number",
 		}),
 	password: z.string(),
-	confirm_password: z.string(),
 });
 
 export const updateAccountSchema = z
@@ -63,4 +62,22 @@ export const addAffiliationSchema = z.object({
 				message: "Invalid institution type",
 			}
 		),
+});
+
+export const updateAffiliationSchema = z.object({
+	id: z.string(),
+	name: z.string().optional(),
+	city: z.string().optional(),
+	country: z.string().optional(),
+	address: z.string().optional(),
+	institution_type: z
+		.string()
+		.refine(
+			(val) =>
+				Object.values(AffiliationsType).includes(val as AffiliationsType),
+			{
+				message: "Invalid institution type",
+			}
+		)
+		.optional(),
 });

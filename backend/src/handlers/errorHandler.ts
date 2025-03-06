@@ -34,7 +34,6 @@ export const errorHandler: ErrorRequestHandler = (
 	}
 };
 
-
 const sendErrorResponse = (
 	res: Response,
 	statusCode: number,

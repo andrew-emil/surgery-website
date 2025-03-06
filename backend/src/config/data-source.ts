@@ -14,7 +14,7 @@ import { Surgery } from "../entity/sql/Surgery.js";
 import { SurgeryEquipmentMapping } from "../entity/sql/SurgeryEquipmentMapping.js";
 import { Permission } from "../entity/sql/Permission.js";
 import { Rating } from "../entity/mongodb/Rating.js";
-import { AuditTrail } from "../entity/sql/AuditTrail.js";
+import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -36,18 +36,16 @@ export const AppDataSource = new DataSource({
 		Surgery,
 		Permission,
 		SurgeryEquipmentMapping,
-		AuditTrail
 	],
 	subscribers: [],
 });
 
 export const MongoDataSource = new DataSource({
 	type: "mongodb",
-	url: process.env.MONGODB as string,
+	url: process.env.MONGO_URI as string,
 	useNewUrlParser: true,
-	useUnifiedTopology: true,
 	database: "surgical_logbook",
-	entities: [PostSurgery, SurgeryLog, Rating],
+	entities: [PostSurgery, SurgeryLog, Rating, AuditTrail],
 	synchronize: true,
 	logging: true,
 });

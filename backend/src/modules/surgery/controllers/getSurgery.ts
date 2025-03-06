@@ -10,42 +10,42 @@ import { PostSurgery } from "../../../entity/mongodb/PostSurgery.js";
 import { Rating } from "../../../entity/mongodb/Rating.js";
 
 export const getSurgery = async (req: Request, res: Response) => {
-	const { id } = req.params;
+	const surgeryId = parseInt(req.params.id);
 
-	if (!id || isNaN(parseInt(id))) throw Error("Invalid surgery ID");
+	if (isNaN(surgeryId)) throw Error("Invalid surgery ID");
 
-	const parsedId = parseInt(id);
-
-	const [surgeryLog, surgery] = await Promise.all([
+	const [surgeryLog, surgeryTypeData] = await Promise.all([
 		surgeryLogsRepo.findOneBy({
-			surgeryId: parsedId,
+			surgeryId,
 		}),
-		surgeryTypeRepo.findOneBy({ id: parsedId }),
+		surgeryTypeRepo.findOneBy({ id: surgeryId }),
 	]);
 
-	if (!surgeryLog || !surgery) throw Error("Invalid surgery ID");
-
-	const departmentName = surgery.department?.name || "Unknown Department";
+	if (!surgeryLog || !surgeryTypeData) throw Error("Surgery not found");
 
 	let postSurgery: null | PostSurgery = null;
 	let rating: null | Rating[] = null;
+	let averageRating: number | null = null;
 
 	if (surgeryLog.status == STATUS.COMPLETED) {
 		[postSurgery, rating] = await Promise.all([
-			postSurgeryRepo.findOneBy({ surgeryId: parsedId }),
-			ratingRepo.findBy({ surgeryId: parsedId }),
+			postSurgeryRepo.findOneBy({ surgeryId }),
+			ratingRepo.findBy({ surgeryId }),
 		]);
 
-		if(rating.length > 1){
-			
+		if (rating && rating.length > 1) {
+			const rawAverage =
+				rating.reduce((sum, r) => sum + (r.stars || 0), 0) / rating.length;
+			averageRating = Math.max(1, Math.min(5, Math.round(rawAverage)));
 		}
 	}
 
 	res.status(200).json({
-		department: departmentName,
-		surgeryType: surgery.name,
+		department: surgeryTypeData.departments,
+		surgeryType: surgeryTypeData.name,
 		surgeryLog,
 		postSurgery,
 		rating,
+		averageRating,
 	});
 };
