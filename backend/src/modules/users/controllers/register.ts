@@ -6,31 +6,44 @@ import { sendVerificationEmails } from "../../../utils/sendEmails.js";
 import { createOtp } from "../../../utils/createOTP.js";
 
 export const register = async (req: Request, res: Response) => {
-	const userInput = registerSchema.parse(req.body);
+	const validation = registerSchema.safeParse(req.body);
 
-	const existingUser = await userRepo.findOneBy({ email: userInput.email });
+	if (!validation.success) {
+		const errorMessages = validation.error.issues
+			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
+			.join(", ");
+
+		throw Error(errorMessages);
+	}
+
+	const data = validation.data;
+
+	const existingUser = await userRepo.findOneBy({ email: data.email });
 	if (existingUser) {
-		res.status(409).json({ error: "Email is already registered" });
+		res
+			.status(409)
+			.json({ success: false, message: "Email is already registered" });
 		return;
 	}
 
 	const saltRounds = parseInt(process.env.salt_rounds) || 10;
-	const hashedPassword = await bcrypt.hash(userInput.password, saltRounds);
+	const hashedPassword = await bcrypt.hash(data.password, saltRounds);
 
 	const { otp, hashedOtp } = await createOtp(saltRounds);
 
 	await userRepo.insert({
-		first_name: userInput.first_name,
-		last_name: userInput.last_name,
-		email: userInput.email,
-		phone_number: userInput.phone_number,
+		first_name: data.first_name,
+		last_name: data.last_name,
+		email: data.email,
+		phone_number: data.phone_number,
 		password_hash: hashedPassword,
 		otp_secret: hashedOtp,
 	});
 
-	await sendVerificationEmails(userInput.email, otp);
+	await sendVerificationEmails(data.email, otp);
 
-	res
-		.status(202)
-		.json({ message: "OTP sent. Please verify to complete login." });
+	res.status(202).json({
+		success: true,
+		message: "OTP sent. Please verify to complete login.",
+	});
 };

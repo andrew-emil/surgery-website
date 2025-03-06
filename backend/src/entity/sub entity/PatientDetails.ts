@@ -14,10 +14,10 @@ export class PatientDetails {
 	diagnosis: string;
 
 	constructor(
-		patientId: string,
 		bmi: number,
 		comorbidity: string[],
-		diagnosis: string
+		diagnosis: string,
+		patientId?: string
 	) {
 		this.patient_id = new ObjectId(patientId);
 		this.bmi = bmi;

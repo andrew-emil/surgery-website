@@ -42,7 +42,6 @@ const sendErrorResponse = (
 ) => {
 	res.status(statusCode).json({
 		success: false,
-		errorCode: statusCode,
 		message,
 		details,
 	});

@@ -11,13 +11,10 @@ const LOCK_TIME_MINUTES = 30;
 export const verify2FA = async (req: Request, res: Response) => {
 	const { email, otp } = req.body;
 
-	if (!email || !otp) throw Error("Email and OTP are required");
+	if (!email || !otp) throw Error("Invalid credentials");
 
 	const user = await userRepo.findOneBy({ email });
-	if (!user) {
-		res.status(404).json({ error: "User not found" });
-		return;
-	}
+	if (!user) throw Error("User not found");
 
 	// console.log(user.otp_secret, otp);
 	const isOtpValid = await bcrypt.compare(otp, user.otp_secret);
@@ -29,8 +26,7 @@ export const verify2FA = async (req: Request, res: Response) => {
 		}
 
 		await userRepo.save(user);
-		res.status(401).json({ error: "Invalid OTP" });
-		return;
+		throw Error("Invalid credentials");
 	}
 
 	user.failed_attempts = 0;
@@ -47,7 +43,7 @@ export const verify2FA = async (req: Request, res: Response) => {
 
 	const payload: JWTPayload = {
 		userId: user.id,
-		userRole: user.role?.name || 'admin',
+		userRole: user.role?.name || null,
 		name: `${user.first_name} ${user.last_name}`,
 		tokenVersion: user.token_version,
 		surgeries: surgeries.map((surgery) => ({
@@ -63,5 +59,7 @@ export const verify2FA = async (req: Request, res: Response) => {
 
 	const token = jwtHandler(payload);
 
-	res.status(200).json({ message: "Verification successful", token });
+	res
+		.status(200)
+		.json({ success: true, message: "Verification successful", token });
 };

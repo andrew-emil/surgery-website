@@ -19,28 +19,14 @@ export const registerSchema = z.object({
 	password: z.string(),
 });
 
-export const updateAccountSchema = z
-	.object({
-		first_name: z.string().min(1).optional(),
-		last_name: z.string().min(1).optional(),
-		email: z.string().email().optional(),
-		phone_number: z.string().min(10).max(15).optional(),
-		old_password: z.string().min(6).optional(),
-		new_password: z.string().min(8).optional(),
-		confirm_password: z.string().min(8).optional(),
-	})
-	.refine(
-		(data) => {
-			if (data.new_password || data.confirm_password) {
-				return data.old_password;
-			}
-			return true;
-		},
-		{
-			message: "Old password is required when updating password.",
-			path: ["old_password"],
-		}
-	);
+export const updateAccountSchema = z.object({
+	first_name: z.string().min(1).optional(),
+	last_name: z.string().min(1).optional(),
+	email: z.string().email().optional(),
+	phone_number: z.string().min(10).max(15).optional(),
+	old_password: z.string().min(6).optional(),
+	new_password: z.string().min(8).optional(),
+});
 
 export const updateDepartmentSchema = z.object({
 	id: z.string(),
@@ -80,4 +66,20 @@ export const updateAffiliationSchema = z.object({
 			}
 		)
 		.optional(),
+});
+
+export const addSurgerySchema = z.object({
+	hospitalId: z.string(),
+	surgeryTypeId: z.string(),
+	performedBy: z.array(z.string().min(1)),
+	date: z.string().refine((d) => !isNaN(Date.parse(d)), {
+		message: "Invalid date format",
+	}),
+	time: z.string(),
+	surgicalTimeMinutes: z.number().optional(),
+	cptCode: z.string(),
+	icdCode: z.string(),
+	patientBmi: z.number().optional(),
+	patientComorbidity: z.array(z.string().min(1)).optional(),
+	patientDiagnosis: z.string().optional(),
 });

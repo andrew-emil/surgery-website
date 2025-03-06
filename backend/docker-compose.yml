@@ -14,13 +14,8 @@ services:
       DB_HOST: "mysql"
       DB_PORT: "3306"
       DB_USER: "root"
-<<<<<<< HEAD
-      DB_PASSWORD:
       MONGO_URI: "mongodb://mongo:27017/surgical_logbook"
-=======
       DB_PASSWORD: ""
-      MONGO_URI: "mongodb+srv://andrewemil343:EttmElMfGDYqvjzz@surgeries.hdgaj.mongodb.net/surgical_logbook?retryWrites=true&w=majority&appName=surgeries"
->>>>>>> ed06d46e6f11a53b5de1f415707bc68929bafb10
       salt_rounds: "10"
       environment: "development"
       EMAIL_USER: "e9181d06f3d6a7"

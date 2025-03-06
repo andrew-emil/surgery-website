@@ -8,44 +8,50 @@ import { In } from "typeorm";
 import { sendAccountUpdateEmail } from "../../../utils/sendEmails.js";
 
 export const updateAccount = async (req: Request, res: Response) => {
-	const userInput = updateAccountSchema.parse(req.body);
+	const validation = updateAccountSchema.safeParse(req.body);
+
+	if (!validation.success) {
+		const errorMessages = validation.error.issues
+			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
+			.join(", ");
+
+		throw Error(errorMessages);
+	}
+
+	const data = validation.data
 
 	const userId = req.user?.id;
-	if (!userId) throw new Error("Unauthorized");
+	if (!userId) throw Error("Unauthorized");
 
 	const user = await userRepo.findOneBy({ id: userId });
-	if (!user) throw new Error("User not found");
+	if (!user) throw Error("User not found");
 
 	const saltRounds = parseInt(process.env.SALT_ROUNDS || "10", 10);
 	let passwordUpdated = false;
 
 	// Handle password update
-	if (userInput.old_password && userInput.new_password) {
+	if (data.old_password && data.new_password) {
 		const isPasswordCorrect = await bcrypt.compare(
-			userInput.old_password,
+			data.old_password,
 			user.password_hash
 		);
-		if (!isPasswordCorrect) throw new Error("Incorrect password");
+		if (!isPasswordCorrect) throw Error("Invalid credentials");
 
-		if (userInput.new_password !== userInput.confirm_password) {
-			throw new Error("Passwords do not match");
-		}
-
-		user.password_hash = await bcrypt.hash(userInput.new_password, saltRounds);
+		user.password_hash = await bcrypt.hash(data.new_password, saltRounds);
 		passwordUpdated = true;
 		user.token_version = (user.token_version || 0) + 1; // Invalidate old tokens
 	}
 
 	// Prepare updated fields
 	const updatedUser: Partial<User> = {};
-	if (userInput.first_name && userInput.first_name !== user.first_name)
-		updatedUser.first_name = userInput.first_name;
-	if (userInput.last_name && userInput.last_name !== user.last_name)
-		updatedUser.last_name = userInput.last_name;
-	if (userInput.email && userInput.email !== user.email)
-		updatedUser.email = userInput.email;
-	if (userInput.phone_number && userInput.phone_number !== user.phone_number)
-		updatedUser.phone_number = userInput.phone_number;
+	if (data.first_name && data.first_name !== user.first_name)
+		updatedUser.first_name = data.first_name;
+	if (data.last_name && data.last_name !== user.last_name)
+		updatedUser.last_name = data.last_name;
+	if (data.email && data.email !== user.email)
+		updatedUser.email = data.email;
+	if (data.phone_number && data.phone_number !== user.phone_number)
+		updatedUser.phone_number = data.phone_number;
 
 	if (Object.keys(updatedUser).length > 0 || passwordUpdated) {
 		await userRepo.save({ ...user, ...updatedUser });
@@ -60,7 +66,7 @@ export const updateAccount = async (req: Request, res: Response) => {
 
 		token = jwtHandler({
 			userId,
-			userRole: "admin",
+			userRole: user.role?.name || null,
 			name: `${user.first_name} ${user.last_name}`,
 			tokenVersion: user.token_version,
 			surgeries: surgeries.map((surgery) => ({
@@ -77,5 +83,7 @@ export const updateAccount = async (req: Request, res: Response) => {
 
 	await sendAccountUpdateEmail(user.email, updatedUser);
 
-	res.status(200).json({ message: "Account updated successfully", token });
+	res
+		.status(200)
+		.json({ success: true, message: "Account updated successfully", token });
 };

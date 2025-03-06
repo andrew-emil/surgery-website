@@ -33,9 +33,9 @@ export default function Login() {
       })
       .catch((err) => {
         const response = err.response;
-        if (response && response.status === 422) {
-          setErr(response.data.errors);
-          console.log(err);
+        console.log(err);
+        if (response) {
+          setErr(response.data.message);
         }
       });
   };

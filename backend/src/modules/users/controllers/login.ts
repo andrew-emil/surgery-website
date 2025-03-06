@@ -14,25 +14,32 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 	await queryRunner.connect();
 	await queryRunner.startTransaction();
 
-	const userInput = loginSchema.parse(req.body);
+	const validation = loginSchema.safeParse(req.body);
+	if (!validation.success) {
+		const errorMessages = validation.error.issues
+			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
+			.join(", ");
 
-	const user = await userRepo.findOneBy({ email: userInput.email });
+		throw Error(errorMessages);
+	}
+
+	const { email, password } = validation.data;
+
+	const user = await userRepo.findOneBy({ email });
 
 	if (!user) throw Error("Invalid credentials");
 
 	if (user.lock_until && new Date(user.lock_until) > new Date()) {
 		res.status(403).json({
-			error: `Account locked. Try again after ${new Date(
+			success: false,
+			message: `Account locked. Try again after ${new Date(
 				user.lock_until
 			).toLocaleTimeString()}.`,
 		});
 		return;
 	}
 
-	const isMatched = await bcrypt.compare(
-		userInput.password,
-		user.password_hash
-	);
+	const isMatched = await bcrypt.compare(password, user.password_hash);
 
 	if (!isMatched) {
 		user.failed_attempts += 1;
@@ -56,11 +63,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 	user.otp_secret = hashedOtp;
 	await userRepo.save(user);
-	await sendVerificationEmails(userInput.email, otp);
+	await sendVerificationEmails(email, otp);
 
 	await queryRunner.commitTransaction();
 	await queryRunner.release();
-	res
-		.status(202)
-		.json({ message: "OTP sent. Please verify to complete login." });
+	res.status(202).json({
+		success: true,
+		message: "OTP sent. Please verify to complete login.",
+	});
 };
