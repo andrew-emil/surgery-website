@@ -5,6 +5,9 @@ import { FormContainer, FormCard } from "../components/StyledComponents";
 import { styled } from "@mui/material/styles";
 import { FormTitle, FormButton } from "./../components/StyledComponents";
 import OTPInput from "./../components/OTPInput";
+import axiosClient from "../axiosClient";
+import { useStateContext } from "../context/contextprovider";
+import { Navigate } from "react-router-dom";
 
 export default function OTP_auth() {
   const [otp, setOtp] = useState("");
@@ -17,8 +20,17 @@ export default function OTP_auth() {
     boxShadow: theme.shadows[2],
     marginBottom: ".5rem",
   }));
+  const { setUser, setToken, message } = useStateContext();
+  if (!message) {
+    return <Navigate to="/login" />;
+  }
   const submit = (ev) => {
     ev.preventDefault();
+    axiosClient.post("/users/verify", { otp }).then(({ data }) => {
+      console.log(data);
+      // setUser(data.user);
+      // setToken(data.token);
+    });
     console.log(otp);
   };
 

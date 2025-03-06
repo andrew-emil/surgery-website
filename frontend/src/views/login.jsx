@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
   FormButton,
   FormCard,
@@ -13,9 +13,10 @@ import { Typography, Alert, AlertTitle } from "@mui/material";
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-
-  const { setUser, setToken } = useStateContext();
+  const [redirectToOTP, setRedirectToOTP] = useState(false);
+  const { setMessage } = useStateContext();
   const [err, setErr] = useState(null);
+
   const submit = (ev) => {
     ev.preventDefault();
     const payload = {
@@ -25,8 +26,10 @@ export default function Login() {
     axiosClient
       .post("/users/login", payload)
       .then(({ data }) => {
-        setUser(data.user);
-        setToken(data.token);
+        if (data.message === "OTP sent. Please verify to complete login.") {
+          setMessage(data.message);
+          setRedirectToOTP(true);
+        }
       })
       .catch((err) => {
         const response = err.response;
@@ -36,7 +39,9 @@ export default function Login() {
         }
       });
   };
-
+  if (redirectToOTP) {
+    return <Navigate to="/otp" />;
+  }
   return (
     <FormContainer>
       <FormCard>
