@@ -60,7 +60,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 	const { otp, hashedOtp } = await createOtp(
 		parseInt(process.env.salt_rounds) || 10
 	);
-
+	// console.log("OTP: ", otp);
 	user.otp_secret = hashedOtp;
 	await userRepo.save(user);
 	await sendVerificationEmails(email, otp);

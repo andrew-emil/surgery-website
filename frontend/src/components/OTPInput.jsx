@@ -175,7 +175,7 @@ export default function OTPInput({ otp, setOtp }) {
         separator={<span>-</span>}
         value={otp}
         onChange={setOtp}
-        length={5}
+        length={6}
       />
       <span>Entered value: {otp}</span>
     </Box>

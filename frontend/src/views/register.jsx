@@ -45,12 +45,13 @@ export default function Register() {
         })
         .catch((err) => {
           const response = err.response;
-          if (response && response.status === 422) {
-            console.log(response.data.errors);
+          console.log(err);
+          if (response) {
+            setErr(response.data.message);
           }
         });
     } else {
-      setErr({ passwordConfirmation: "Passwords do not match." });
+      setErr("Passwords do not match.");
       console.log(err);
     }
   };
@@ -63,10 +64,10 @@ export default function Register() {
         <FormTitle variant="h1" className="title">
           Create A New Account
         </FormTitle>
-        {err?.passwordConfirmation && (
+        {err && (
           <Alert severity="error" sx={{ marginBottom: "1rem" }}>
             <AlertTitle>Error</AlertTitle>
-            {err.passwordConfirmation}
+            {err}
           </Alert>
         )}
         <form onSubmit={submit}>

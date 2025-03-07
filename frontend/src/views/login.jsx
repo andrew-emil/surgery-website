@@ -80,6 +80,9 @@ export default function Login() {
             Login
           </FormButton>
           <br />
+          <Typography sx={{ textAlign: "center", marginTop: "1rem" }}>
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </Typography>
           <Typography
             variant="body2"
             sx={{ marginTop: "1rem", textAlign: "center" }}
