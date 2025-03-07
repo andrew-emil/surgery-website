@@ -6,14 +6,13 @@ import { User } from "../../../entity/sql/User.js";
 import { jwtHandler } from "../../../handlers/jwtHandler.js";
 import { In } from "typeorm";
 import { sendAccountUpdateEmail } from "../../../utils/sendEmails.js";
+import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const updateAccount = async (req: Request, res: Response) => {
 	const validation = updateAccountSchema.safeParse(req.body);
 
 	if (!validation.success) {
-		const errorMessages = validation.error.issues
-			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
-			.join(", ");
+		const errorMessages = formatErrorMessage(validation)
 
 		throw Error(errorMessages);
 	}
@@ -21,6 +20,7 @@ export const updateAccount = async (req: Request, res: Response) => {
 	const data = validation.data
 
 	const userId = req.user?.id;
+	console.log(req.user)
 	if (!userId) throw Error("Unauthorized");
 
 	const user = await userRepo.findOneBy({ id: userId });
@@ -40,6 +40,8 @@ export const updateAccount = async (req: Request, res: Response) => {
 		user.password_hash = await bcrypt.hash(data.new_password, saltRounds);
 		passwordUpdated = true;
 		user.token_version = (user.token_version || 0) + 1; // Invalidate old tokens
+	}else if(!data.old_password && data.new_password){
+		throw Error("Invalid credentials")
 	}
 
 	// Prepare updated fields
@@ -60,12 +62,14 @@ export const updateAccount = async (req: Request, res: Response) => {
 	// Generate a new token if the password was updated
 	let token: string | null = null;
 	if (passwordUpdated) {
-		const surgeries = await surgeryLogsRepo.findBy({
-			performedBy: In([userId]),
+		const surgeries = await surgeryLogsRepo.find({
+			where: {
+				performedBy: In([user.id]),
+			},
 		});
 
 		token = jwtHandler({
-			userId,
+			id: userId,
 			userRole: user.role?.name || null,
 			name: `${user.first_name} ${user.last_name}`,
 			tokenVersion: user.token_version,

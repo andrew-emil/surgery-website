@@ -1,6 +1,13 @@
 import { Request, Response, NextFunction } from "express";
-import { auditTrailRepo } from "./../config/repositories.js";
-import { ObjectId } from "typeorm";
+import {
+	affiliationRepo,
+	auditTrailRepo,
+	departmentRepo,
+	roleRepo,
+	surgeryRepo,
+	userRepo,
+} from "./../config/repositories.js";
+import { Repository } from "typeorm";
 
 export const auditLogger = async (
 	req: Request,
@@ -13,17 +20,51 @@ export const auditLogger = async (
 		const entityId = req.params.id || req.body.id || null;
 		const ipAddress = req.ip || req.socket.remoteAddress;
 		const userAgent = req.headers["user-agent"] || "Unknown";
-		const sensitiveFields = ["otp", "otp_secret", "password", "reset_token"];
-		const requestBody = { ...req.body };
+		const sensitiveFields = [
+			"otp",
+			"otp_secret",
+			"password",
+			"reset_token",
+			"old_password",
+			"new_password",
+		];
 
 		let action: string;
 		let oldValue = null;
+		let newValue = { ...req.body };
+
+		const entityRepoMap: Record<string, Repository<any>> = {
+			users: userRepo,
+			affiliation: affiliationRepo,
+			department: departmentRepo,
+			roles: roleRepo,
+			surgery: surgeryRepo,
+		};
+
+		const entityRepo = entityRepoMap[entityName];
+		if (!entityRepo) {
+			console.warn(
+				`Audit log: Unknown entity '${entityName}', skipping logging.`
+			);
+			next();
+		}
+
+		const entityIdParsed = entityId ? parseInt(entityId) : null;
+
+		// ✅ Fetch the old value before updating or deleting
+		if (
+			(req.method === "PUT" ||
+				req.method === "PATCH" ||
+				req.method === "DELETE") &&
+			entityIdParsed
+		) {
+			oldValue = await entityRepo.findOne({ where: { id: entityIdParsed } });
+		}
 
 		sensitiveFields.forEach((field) => {
-			if (requestBody[field]) requestBody[field] = "[REDACTED]";
+			if (oldValue && oldValue[field]) oldValue[field] = "[REDACTED]";
+			if (newValue[field]) newValue[field] = "[REDACTED]";
 		});
-
-		let newValue = requestBody;
 
 		switch (req.method) {
 			case "POST":
@@ -32,20 +73,10 @@ export const auditLogger = async (
 			case "PUT":
 			case "PATCH":
 				action = "UPDATE";
-				if (entityId) {
-					oldValue = await auditTrailRepo.findOneBy({
-						id: new ObjectId(entityId),
-					});
-				}
 				break;
 
 			case "DELETE":
 				action = "DELETE";
-				if (entityId) {
-					oldValue = await auditTrailRepo.findOneBy({
-						id: new ObjectId(entityId),
-					});
-				}
 				newValue = null;
 				break;
 

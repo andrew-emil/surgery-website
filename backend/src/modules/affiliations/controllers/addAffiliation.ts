@@ -2,16 +2,13 @@ import { Request, Response } from "express";
 import { addAffiliationSchema } from "../../../utils/zodSchemas.js";
 import { affiliationRepo } from "../../../config/repositories.js";
 import { AffiliationsType } from "../../../utils/dataTypes.js";
+import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const addAffiliation = async (req: Request, res: Response) => {
 	const validation = addAffiliationSchema.safeParse(req.body);
 
-	console.log(validation.error);
-
 	if (!validation.success) {
-		const errorMessages = validation.error.issues
-			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
-			.join(", ");
+		const errorMessages = formatErrorMessage(validation);
 
 		throw new Error(errorMessages);
 	}
@@ -23,18 +20,17 @@ export const addAffiliation = async (req: Request, res: Response) => {
 			institution_type as AffiliationsType
 		)
 	) {
-		throw new Error(`Invalid institution type: ${institution_type}`);
+		throw Error(`Invalid institution type: ${institution_type}`);
 	}
 
-	const existingAffiliation = await affiliationRepo.findOneBy({
-		name,
-		country,
-		city,
-		address,
+	const existingAffiliation = await affiliationRepo.findOne({
+		where: { name, country, city, address },
 	});
 
 	if (existingAffiliation) {
-		res.status(400).json({ message: "Affiliation already exists" });
+		res
+			.status(400)
+			.json({ success: false, message: "Affiliation already exists" });
 		return;
 	}
 
@@ -49,6 +45,7 @@ export const addAffiliation = async (req: Request, res: Response) => {
 	await affiliationRepo.save(newAffiliation);
 
 	res.status(201).json({
+		success: true,
 		message: "Affiliation created successfully",
 		newAffiliation,
 	});

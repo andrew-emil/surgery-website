@@ -42,7 +42,7 @@ export const verify2FA = async (req: Request, res: Response) => {
 	});
 
 	const payload: JWTPayload = {
-		userId: user.id,
+		id: user.id,
 		userRole: user.role?.name || null,
 		name: `${user.first_name} ${user.last_name}`,
 		tokenVersion: user.token_version,

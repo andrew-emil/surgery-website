@@ -2,12 +2,17 @@ import { Request, Response } from "express";
 import { departmentRepo } from "../../../config/repositories.js";
 
 export const getDepartments = async (req: Request, res: Response) => {
-	const departments = await departmentRepo.find();
+	const { id } = req.params;
 
-	if (!departments || departments.length == 0)
-		throw Error("Departments not found");
+	if (!id || isNaN(parseInt(id))) throw Error("Invalid affiliation ID");
 
-	res.status(200).json({
-		departments,
+	const departments = await departmentRepo.find({
+		where: { affiliation: { id: parseInt(id) } },
+		relations: ["affiliation"],
 	});
+
+	if (departments.length === 0)
+		throw Error("No departments found for this affiliation");
+
+	res.status(200).json({ success: true, departments });
 };

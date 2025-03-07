@@ -11,7 +11,6 @@ import { SurgeryType } from "../entity/sql/SurgeryType.js";
 import { PostSurgery } from "../entity/mongodb/PostSurgery.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Surgery } from "../entity/sql/Surgery.js";
-import { SurgeryEquipmentMapping } from "../entity/sql/SurgeryEquipmentMapping.js";
 import { Permission } from "../entity/sql/Permission.js";
 import { Rating } from "../entity/mongodb/Rating.js";
 import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
@@ -35,7 +34,7 @@ export const AppDataSource = new DataSource({
 		SurgeryType,
 		Surgery,
 		Permission,
-		SurgeryEquipmentMapping,
+		
 	],
 	subscribers: [],
 });

@@ -3,16 +3,18 @@ import { addRole } from "./controllers/addRole.js";
 import { deleteRole } from "./controllers/deleteRole.js";
 import { getAllRoles } from "./controllers/getAllRoles.js";
 import { updateRole } from "./controllers/updateRole.js";
+import { auditLogger } from "./../../middlewares/auditLogger.js";
 
-const rolesRoutes = Router()
+const rolesRoutes = Router();
+
+rolesRoutes.get("/", getAllRoles);
 
 //middleware
-//TODO: only admins should change in the roles
+rolesRoutes.use(auditLogger);
 
 //routes
-rolesRoutes.post("/", addRole)
-rolesRoutes.delete('/:id', deleteRole)
-rolesRoutes.get('/', getAllRoles)
-rolesRoutes.put('/:id', updateRole)
+rolesRoutes.post("/", addRole);
+rolesRoutes.delete("/:id", deleteRole);
+rolesRoutes.put("/", updateRole);
 
 export default rolesRoutes;

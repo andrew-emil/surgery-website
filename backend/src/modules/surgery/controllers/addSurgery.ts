@@ -7,14 +7,13 @@ import {
 } from "../../../config/repositories.js";
 import { PatientDetails } from "../../../entity/sub entity/PatientDetails.js";
 import { addSurgerySchema } from "../../../utils/zodSchemas.js";
+import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const addSurgery = async (req: Request, res: Response) => {
 	const validation = addSurgerySchema.safeParse(req.body);
 
 	if (!validation.success) {
-		const errorMessages = validation.error.issues
-			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
-			.join(", ");
+		const errorMessages = formatErrorMessage(validation);
 
 		throw Error(errorMessages);
 	}

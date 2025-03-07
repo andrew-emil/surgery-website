@@ -21,7 +21,7 @@ export const addSurgeryType = async (req: Request, res: Response) => {
 		id: In(parsedDepartmentIds),
 	});
 	if (departments.length !== parsedDepartmentIds.length) {
-		throw new Error("One or more departments not found");
+		throw Error("One or more departments Not Found");
 	}
 
 	const newSurgeryType = surgeryTypeRepo.create({
@@ -32,6 +32,7 @@ export const addSurgeryType = async (req: Request, res: Response) => {
 	await surgeryTypeRepo.save(newSurgeryType);
 
 	res.status(201).json({
+		success: true,
 		message: "Add Surgery type successfully",
 	});
 };

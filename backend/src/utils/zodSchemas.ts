@@ -31,6 +31,7 @@ export const updateAccountSchema = z.object({
 export const updateDepartmentSchema = z.object({
 	id: z.string(),
 	name: z.string().optional(),
+	affiliationId: z.string().optional(),
 	surgeryTypes: z.array(z.string()).nonempty().optional(),
 });
 
@@ -71,7 +72,7 @@ export const updateAffiliationSchema = z.object({
 export const addSurgerySchema = z.object({
 	hospitalId: z.string(),
 	surgeryTypeId: z.string(),
-	performedBy: z.array(z.string().min(1)),
+	performedBy: z.array(z.string().min(1)).nonempty(),
 	date: z.string().refine((d) => !isNaN(Date.parse(d)), {
 		message: "Invalid date format",
 	}),
@@ -80,6 +81,6 @@ export const addSurgerySchema = z.object({
 	cptCode: z.string(),
 	icdCode: z.string(),
 	patientBmi: z.number().optional(),
-	patientComorbidity: z.array(z.string().min(1)).optional(),
+	patientComorbidity: z.array(z.string().min(1)).nonempty().optional(),
 	patientDiagnosis: z.string().optional(),
 });

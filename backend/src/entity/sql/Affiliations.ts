@@ -1,6 +1,8 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 import { AffiliationsType } from "../../utils/dataTypes.js";
 import { User } from "./User.js";
+import { Department } from "./departments.js";
+import { Surgery } from "./Surgery.js";
 
 @Entity()
 export class Affiliations {
@@ -28,4 +30,10 @@ export class Affiliations {
 
 	@OneToMany(() => User, (user) => user.affiliation)
 	users: User[];
+
+	@OneToMany(() => Department, (department) => department.affiliation)
+	departments: Department[];
+
+	@OneToMany(() => Surgery, (surgery) => surgery.hospital, { cascade: true })
+	surgeries: Surgery[];
 }

@@ -1,7 +1,7 @@
 import { ObjectId } from "typeorm";
 
 export interface JWTPayload {
-	userId: string;
+	id: string;
 	userRole: string;
 	name: string;
 	tokenVersion: number;
@@ -26,7 +26,6 @@ export enum OUTCOME {
 	SUCCESS = "success",
 	FAILURE = "failure",
 }
-
 
 export enum AffiliationsType {
 	HOSPITAL = "Hospital",

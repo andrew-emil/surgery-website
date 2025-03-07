@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { AppDataSource } from "../../../config/data-source.js";
 import {
 	affiliationRepo,
+	departmentRepo,
 	surgeryRepo,
 	userRepo,
 } from "../../../config/repositories.js";
@@ -15,7 +16,7 @@ export const deleteAffiliation = async (req: Request, res: Response) => {
 
 	const affiliation = await affiliationRepo.findOne({
 		where: { id: affiliationId },
-		relations: ["users", "surgeries"],
+		relations: ["users", "departments"],
 	});
 
 	if (!affiliation) throw Error("Invalid Affiliation ID");
@@ -29,9 +30,11 @@ export const deleteAffiliation = async (req: Request, res: Response) => {
 
 		await transactionManager.update(
 			userRepo.target,
-			{ affiliationId: affiliation.id },
+			{ affiliation },
 			{ affiliation: null }
 		);
+
+		await transactionManager.delete(departmentRepo.target, { affiliation });
 
 		const result = await transactionManager.delete(
 			affiliationRepo.target,

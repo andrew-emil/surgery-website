@@ -4,12 +4,13 @@ import jwt from "jsonwebtoken";
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
-export const authMiddleware = (
+export const authMiddleware = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const token = getCookie("token", { req, res });
+	const token = await getCookie("ACCESS_TOKEN", { req, res });
+	console.log(token)
 
 	if (!token) throw Error("Unauthorized");
 

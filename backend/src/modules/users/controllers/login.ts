@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 import { AppDataSource } from "../../../config/data-source.js";
 import { sendVerificationEmails } from "../../../utils/sendEmails.js";
 import { createOtp } from "../../../utils/createOTP.js";
+import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 const MAX_FAILED_ATTEMPTS = 5;
 const LOCK_TIME_MINUTES = 30;
@@ -16,9 +17,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 	const validation = loginSchema.safeParse(req.body);
 	if (!validation.success) {
-		const errorMessages = validation.error.issues
-			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
-			.join(", ");
+		const errorMessages = formatErrorMessage(validation);
 
 		throw Error(errorMessages);
 	}

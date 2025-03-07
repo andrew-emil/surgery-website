@@ -29,7 +29,7 @@ export const forgetPassword = async (req: Request, res: Response) => {
 
 	await userRepo.save(user);
 
-	const resetUrl = `http://localhost:3000/reset-password?token=${resetToken}`;
+	const resetUrl = `http://localhost:5173/forget-password?token=${resetToken}`;
 	await sendResetEmail(email, resetUrl);
 
 	res.status(200).json({

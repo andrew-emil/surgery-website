@@ -4,25 +4,32 @@ import { userRepo } from "../../../config/repositories.js";
 import bcrypt from "bcrypt";
 import { sendVerificationEmails } from "../../../utils/sendEmails.js";
 import { createOtp } from "../../../utils/createOTP.js";
+import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const register = async (req: Request, res: Response) => {
 	const validation = registerSchema.safeParse(req.body);
 
 	if (!validation.success) {
-		const errorMessages = validation.error.issues
-			.map((issue) => `${issue.path.join(".")} - ${issue.message}`)
-			.join(", ");
+		const errorMessages = formatErrorMessage(validation);
 
 		throw Error(errorMessages);
 	}
 
 	const data = validation.data;
 
-	const existingUser = await userRepo.findOneBy({ email: data.email });
+	const existingUser = await userRepo.findOneBy([
+		{ email: data.email },
+		{ phone_number: data.phone_number },
+	]);
+
 	if (existingUser) {
-		res
-			.status(409)
-			.json({ success: false, message: "Email is already registered" });
+		const conflictField =
+			existingUser.email === data.email ? "Email" : "Phone Number";
+
+		res.status(409).json({
+			success: false,
+			message: `${conflictField} is already registered`,
+		});
 		return;
 	}
 

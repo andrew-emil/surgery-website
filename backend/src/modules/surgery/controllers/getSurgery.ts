@@ -4,10 +4,12 @@ import {
 	ratingRepo,
 	surgeryLogsRepo,
 	surgeryTypeRepo,
+	userRepo,
 } from "../../../config/repositories.js";
 import { STATUS } from "../../../utils/dataTypes.js";
 import { PostSurgery } from "../../../entity/mongodb/PostSurgery.js";
 import { Rating } from "../../../entity/mongodb/Rating.js";
+import { In } from "typeorm";
 
 export const getSurgery = async (req: Request, res: Response) => {
 	const surgeryId = parseInt(req.params.id);
@@ -21,11 +23,19 @@ export const getSurgery = async (req: Request, res: Response) => {
 		surgeryTypeRepo.findOneBy({ id: surgeryId }),
 	]);
 
-	if (!surgeryLog || !surgeryTypeData) throw Error("Surgery not found");
+	if (!surgeryLog || !surgeryTypeData) throw Error("Surgery Not Found");
 
 	let postSurgery: null | PostSurgery = null;
 	let rating: null | Rating[] = null;
 	let averageRating: number | null = null;
+	let doctors = [];
+
+	if (surgeryLog.performedBy.length > 0) {
+		doctors = await userRepo.find({
+			where: { id: In([surgeryLog.performedBy]) },
+			select: ["id", "first_name", "last_name", "email", "role"],
+		});
+	}
 
 	if (surgeryLog.status == STATUS.COMPLETED) {
 		[postSurgery, rating] = await Promise.all([
@@ -41,11 +51,13 @@ export const getSurgery = async (req: Request, res: Response) => {
 	}
 
 	res.status(200).json({
+		success: true,
 		department: surgeryTypeData.departments,
 		surgeryType: surgeryTypeData.name,
 		surgeryLog,
 		postSurgery,
 		rating,
 		averageRating,
+		doctors,
 	});
 };
