@@ -9,11 +9,12 @@ import { In } from "typeorm";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const updateDepartment = async (req: Request, res: Response) => {
-	const result = updateDepartmentSchema.safeParse(req.body);
+	const validation = updateDepartmentSchema.safeParse(req.body);
+	if (!validation.success)
+		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	if (!result.success) throw Error(formatErrorMessage(result));
 
-	const { id, name, affiliationId, surgeryTypes } = result.data;
+	const { id, name, affiliationId, surgeryTypes } = validation.data;
 
 	if (!id || isNaN(parseInt(id))) throw Error("Invalid department ID");
 

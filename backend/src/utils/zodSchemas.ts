@@ -1,5 +1,11 @@
 import { z } from "zod";
-import { AffiliationsType } from "./dataTypes.js";
+import {
+	AffiliationsType,
+	DISCHARGE_STATUS,
+	DoctorRole,
+	OUTCOME,
+	NOTIFICATION_TYPES,
+} from "./dataTypes.js";
 
 export const loginSchema = z.object({
 	email: z.string().email(),
@@ -17,6 +23,10 @@ export const registerSchema = z.object({
 			message: "Please enter a valid phone number",
 		}),
 	password: z.string(),
+	roleId: z.string(),
+	affiliationId: z.string(),
+	departmentId: z.string().optional(),
+	residencyLevel: z.string().optional(),
 });
 
 export const updateAccountSchema = z.object({
@@ -72,7 +82,14 @@ export const updateAffiliationSchema = z.object({
 export const addSurgerySchema = z.object({
 	hospitalId: z.string(),
 	surgeryTypeId: z.string(),
-	performedBy: z.array(z.string().min(1)).nonempty(),
+	performedBy: z
+		.array(
+			z.object({
+				doctorId: z.string(),
+				role: z.nativeEnum(DoctorRole),
+			})
+		)
+		.nonempty(),
 	date: z.string().refine((d) => !isNaN(Date.parse(d)), {
 		message: "Invalid date format",
 	}),
@@ -81,6 +98,26 @@ export const addSurgerySchema = z.object({
 	cptCode: z.string(),
 	icdCode: z.string(),
 	patientBmi: z.number().optional(),
-	patientComorbidity: z.array(z.string().min(1)).nonempty().optional(),
+	patientComorbidity: z.array(z.string().min(1)).optional(),
 	patientDiagnosis: z.string().optional(),
+});
+
+export const addPostSurgerySchema = z.object({
+	surgeryId: z.string(),
+	outcome: z.nativeEnum(OUTCOME).optional(),
+	complications: z
+		.string()
+		.max(1000, "Complications must be less than 1000 characters")
+		.optional(),
+	dischargeStatus: z.nativeEnum(DISCHARGE_STATUS).optional(),
+	caseNotes: z
+		.string()
+		.max(2000, "Case notes must be less than 2000 characters")
+		.optional(),
+});
+
+export const createNotificationSchema = z.object({
+	userId: z.string(),
+	type: z.nativeEnum(NOTIFICATION_TYPES),
+	message: z.string()
 });

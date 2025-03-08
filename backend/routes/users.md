@@ -3,22 +3,21 @@
 ## Base URL
 
 ```
-http://localhost:4000/api
+http://localhost:4000/api/users
 ```
+---
 
-### 1. Register
+### **1. Register**  
 
-## Endpoint
+## **Endpoint**  
+`POST /register`  
 
-`POST /users/register`
+## **Description**  
+This route handles **user registration** by validating input data, ensuring unique credentials, hashing the password, linking the user to a role, affiliation, and optionally a department, and generating an OTP for verification.  
 
-## Description
+## **Request Body**  
 
-This route handles user registration by validating input data, hashing the password, generating an OTP for verification, and storing the user in the database.
-
-## Request Body
-
-The request body must follow this schema:
+The request body must follow this schema:  
 
 ```json
 {
@@ -26,14 +25,32 @@ The request body must follow this schema:
 	"last_name": "string",
 	"email": "string",
 	"phone_number": "string",
-	"password": "string"
+	"password": "string",
+	"roleId": "number",
+	"affiliationId": "number",
+	"departmentId": "number (optional)",
+	"residencyLevel": "number (only required if role is 'Resident')"
 }
 ```
 
-## Response
+### **Field Descriptions**  
+| Field           | Type    | Required | Description |
+|----------------|--------|----------|-------------|
+| `first_name`   | string | ✅ Yes  | User's first name. |
+| `last_name`    | string | ✅ Yes  | User's last name. |
+| `email`        | string | ✅ Yes  | User's email address. Must be unique. |
+| `phone_number` | string | ✅ Yes  | User's phone number. Must be unique. |
+| `password`     | string | ✅ Yes  | User's password (hashed before storing). |
+| `roleId`       | number | ✅ Yes  | ID of the user's role (e.g., Doctor, Resident, Admin). |
+| `affiliationId`| number | ✅ Yes  | ID of the affiliated hospital/clinic. |
+| `departmentId` | number | ❌ No  | ID of the department (required only if applicable). |
+| `residencyLevel` | number | ❌ No  | Required **only if** `roleId` corresponds to a **Resident**. |
 
-### Success Response (202 Accepted)
+---
 
+## **Response**  
+
+### ✅ **Success Response (202 Accepted)**  
 ```json
 {
 	"success": true,
@@ -41,27 +58,37 @@ The request body must follow this schema:
 }
 ```
 
-### Error Responses
+---
 
-#### 400 Bad Request
+### ❌ **Error Responses**  
 
-- **Validation errors from Zod**
+#### 🔴 **400 Bad Request**  
+- **Validation errors from Zod (invalid/missing fields).**  
 
 ```json
 {
 	"success": false,
-	"message": "Validation error details"
+	"message": "Invalid affiliation ID"
 }
 ```
 
-#### 409 Conflict
-
-- **Email or Phone Number is already registered**
+#### 🔴 **409 Conflict**  
+- **Email or Phone Number is already registered.**  
 
 ```json
 {
 	"success": false,
-	"error": "Email is already registered"
+	"message": "Phone Number is already registered"
+}
+```
+
+#### 🔴 **404 Not Found**  
+- **Role, Affiliation, or Department does not exist.**  
+
+```json
+{
+	"success": false,
+	"message": "Affiliation Not Found"
 }
 ```
 

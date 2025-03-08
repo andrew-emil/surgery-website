@@ -7,6 +7,8 @@ import bcrypt from "bcrypt";
 export const resetPassword = async (req: Request, res: Response) => {
 	const { token, newPassword } = req.body;
 
+	if (!token || !newPassword) throw Error("Invalid credentials");
+
 	const hashedToken = crypto.createHash("sha256").update(token).digest("hex");
 
 	const user = await userRepo.findOneBy({

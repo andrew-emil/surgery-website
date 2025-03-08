@@ -8,7 +8,7 @@ export const errorHandler: ErrorRequestHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.error(`[ERROR] ${err.name}: ${err.message}`); // Log error details
+	console.error(`[ERROR] ${err.name}: ${err.message}`, err instanceof ZodError); // Log error details
 
 	if (err instanceof ZodError) {
 		const formattedError = fromZodError(err);
@@ -20,7 +20,8 @@ export const errorHandler: ErrorRequestHandler = (
 		sendErrorResponse(res, 401, err.message);
 	} else if (
 		err.message.includes("Validation error") ||
-		err.message.includes("Invalid")
+		err.message.includes("Invalid") ||
+		err.message.includes("- Required")
 	) {
 		sendErrorResponse(res, 400, err.message);
 	} else if (err.name === "QueryFailedError") {

@@ -1,5 +1,5 @@
 import { Entity, ObjectIdColumn, ObjectId, Column, Index } from "typeorm";
-import { OUTCOME } from "../../utils/dataTypes.js";
+import { OUTCOME, DISCHARGE_STATUS } from "../../utils/dataTypes.js";
 
 @Entity()
 export class PostSurgery {
@@ -10,14 +10,14 @@ export class PostSurgery {
 	@Index()
 	surgeryId: number;
 
-	@Column({ type: "enum", nullable: true })
+	@Column({ type: "enum", enum: OUTCOME, nullable: true })
 	outcome: OUTCOME;
 
 	@Column({ type: "string", nullable: true })
 	complications: string;
 
-	@Column({ type: "string", nullable: true })
-	dischargeStatus: string;
+	@Column({ type: "enum", enum: DISCHARGE_STATUS, nullable: true })
+	dischargeStatus: DISCHARGE_STATUS;
 
 	@Column({ type: "string", nullable: true })
 	caseNotes: string;

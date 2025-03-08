@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import {
+	affiliationRepo,
 	postSurgeryRepo,
 	ratingRepo,
 	surgeryLogsRepo,
+	surgeryRepo,
 	surgeryTypeRepo,
 	userRepo,
 } from "../../../config/repositories.js";
@@ -13,27 +15,62 @@ import { In } from "typeorm";
 
 export const getSurgery = async (req: Request, res: Response) => {
 	const surgeryId = parseInt(req.params.id);
-
 	if (isNaN(surgeryId)) throw Error("Invalid surgery ID");
 
-	const [surgeryLog, surgeryTypeData] = await Promise.all([
-		surgeryLogsRepo.findOneBy({
-			surgeryId,
-		}),
-		surgeryTypeRepo.findOneBy({ id: surgeryId }),
-	]);
+	const surgery = await surgeryRepo.findOne({
+		where: { id: surgeryId },
+		relations: ["surgery_type", "hospital"],
+	});
+	if (!surgery) throw Error("Surgery Not Found");
 
-	if (!surgeryLog || !surgeryTypeData) throw Error("Surgery Not Found");
+	const [surgeryLog, surgeryTypeData, hospital] = await Promise.all([
+		surgeryLogsRepo.findOne({
+			where: { surgeryId },
+			select: [
+				"id",
+				"performedBy",
+				"date",
+				"time",
+				"surgicalTimeMinutes",
+				"cptCode",
+				"icdCode",
+				"patient_details",
+			],
+		}),
+
+		surgeryTypeRepo.findOneBy({ id: surgery.surgery_type.id }),
+		affiliationRepo.findOneBy({ id: surgery.hospital.id }),
+	]);
+	if (!surgeryLog || !surgeryTypeData || !hospital)
+		throw Error("Surgery Not Found");
 
 	let postSurgery: null | PostSurgery = null;
 	let rating: null | Rating[] = null;
 	let averageRating: number | null = null;
 	let doctors = [];
 
-	if (surgeryLog.performedBy.length > 0) {
-		doctors = await userRepo.find({
-			where: { id: In([surgeryLog.performedBy]) },
-			select: ["id", "first_name", "last_name", "email", "role"],
+	console.log("Surgery Log from DB:", JSON.stringify(surgeryLog, null, 2));
+
+	if (surgeryLog?.performedBy && surgeryLog.performedBy.length > 0) {
+		const doctorIds = surgeryLog.performedBy.map((p) => p.doctorId);
+		const doctorDetails =
+			doctorIds.length > 0
+				? await userRepo.find({
+						where: { id: In(doctorIds) },
+						select: ["id", "first_name", "last_name", "email", "role"],
+				  })
+				: [];
+		doctors = surgeryLog.performedBy.map(({ doctorId, role }) => {
+			const doctorInfo = doctorDetails.find((d) => d.id === doctorId);
+			return {
+				id: doctorId,
+				name: doctorInfo
+					? `${doctorInfo.first_name} ${doctorInfo.last_name}`
+					: "Unknown Doctor",
+				email: doctorInfo?.email || "N/A",
+				role: doctorInfo?.role || "N/A",
+				surgicalRole: role,
+			};
 		});
 	}
 
@@ -54,10 +91,18 @@ export const getSurgery = async (req: Request, res: Response) => {
 		success: true,
 		department: surgeryTypeData.departments,
 		surgeryType: surgeryTypeData.name,
-		surgeryLog,
+		surgeryLog: {
+			date: surgeryLog.date,
+			time: surgeryLog.time,
+			surgicalTimeMinutes: surgeryLog.surgicalTimeMinutes,
+			cptCode: surgeryLog.cptCode,
+			icdCode: surgeryLog.icdCode,
+		},
+		patient: surgeryLog.patient_details,
 		postSurgery,
 		rating,
 		averageRating,
 		doctors,
+		hospital,
 	});
 };

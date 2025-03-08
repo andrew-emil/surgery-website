@@ -11,11 +11,8 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 export const updateAccount = async (req: Request, res: Response) => {
 	const validation = updateAccountSchema.safeParse(req.body);
 
-	if (!validation.success) {
-		const errorMessages = formatErrorMessage(validation)
-
-		throw Error(errorMessages);
-	}
+	if (!validation.success)
+		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const data = validation.data
 

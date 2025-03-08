@@ -16,11 +16,8 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 	await queryRunner.startTransaction();
 
 	const validation = loginSchema.safeParse(req.body);
-	if (!validation.success) {
-		const errorMessages = formatErrorMessage(validation);
-
-		throw Error(errorMessages);
-	}
+	if (!validation.success)
+		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const { email, password } = validation.data;
 

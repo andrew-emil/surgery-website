@@ -6,18 +6,17 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const updateAffiliation = async (req: Request, res: Response) => {
 	const validation = updateAffiliationSchema.safeParse(req.body);
-
-	if (!validation.success) throw Error(formatErrorMessage(validation));
+	if (!validation.success)
+		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const { id, institution_type, ...updateData } = validation.data;
-	const affiliationId = parseInt(id);
 
+	const affiliationId = parseInt(id);
 	if (isNaN(parseInt(id))) throw Error("Invalid Affiliation Id");
 
 	const affiliation = await affiliationRepo.findOne({
 		where: { id: affiliationId },
 	});
-
 	if (!affiliation) throw Error("Affiliation Not Found");
 
 	if (
@@ -25,9 +24,8 @@ export const updateAffiliation = async (req: Request, res: Response) => {
 		!Object.values(AffiliationsType).includes(
 			institution_type as AffiliationsType
 		)
-	) {
+	)
 		throw new Error(`Invalid institution type: ${institution_type}`);
-	}
 
 	Object.assign(affiliation, updateData);
 

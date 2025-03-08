@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import "express-async-errors";
 import express, { Application } from "express";
+import http from "http";
+import { Server } from "socket.io";
 import { config } from "dotenv";
 import morgan from "morgan";
 import cors from "cors";
@@ -21,6 +23,21 @@ import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
 config({ path: "./.env" });
 const app: Application = express();
 const port: number = parseInt(process.env.PORT as string);
+const server = http.createServer(app)
+const io = new Server(server, {
+	cors: {
+		origin: "*",
+		methods: ["GET", "POST", "DELETE"]
+	}
+})
+
+io.on("connection", (socket) => {
+	console.log(`User connected: ${socket.id}`);
+
+	socket.on("disconnect", () => {
+		console.log(`User disconnected: ${socket.id}`);
+	});
+});
 
 //middlewares
 app.use(express.json());
@@ -59,7 +76,7 @@ const startServer = async () => {
 
 		initializeMongoRepositories();
 
-		app.listen(port, () => {
+		server.listen(port, () => {
 			console.log(`app listening on port: ${port}`);
 		});
 	} catch (error) {
@@ -68,4 +85,5 @@ const startServer = async () => {
 	}
 };
 
+export {io, server}
 startServer();

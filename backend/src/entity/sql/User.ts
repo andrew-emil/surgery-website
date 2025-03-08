@@ -5,10 +5,13 @@ import {
 	ManyToOne,
 	CreateDateColumn,
 	UpdateDateColumn,
+	OneToMany,
 } from "typeorm";
 import { Role } from "./Roles.js";
 import { Department } from "./departments.js";
 import { Affiliations } from "./Affiliations.js";
+import { Notification } from './Notification.js';
+import { UserLevel } from "../../utils/dataTypes.js";
 
 @Entity()
 export class User {
@@ -50,6 +53,18 @@ export class User {
 		onUpdate: "CASCADE",
 	})
 	department: Department;
+
+	@OneToMany(() => Notification, (notification) => notification.user)
+	notifications: Notification[];
+
+	@Column({
+		type: "enum",
+		enum: UserLevel,
+	})
+	level: UserLevel;
+
+	@Column({ type: "int", nullable: true })
+	residencyLevel: number;
 
 	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
 	last_login: Date;

@@ -1,35 +1,35 @@
-import {
-	Column,
-	CreateDateColumn,
-	Entity,
-	ManyToOne,
-	PrimaryGeneratedColumn,
-} from "typeorm";
-import { User } from "./User.js";
+// import {
+// 	Column,
+// 	CreateDateColumn,
+// 	Entity,
+// 	ManyToOne,
+// 	PrimaryGeneratedColumn,
+// } from "typeorm";
+// import { User } from "./User.js";
+// import { NOTIFICATION_STATUS } from "../../utils/dataTypes.js";
 
-enum STATUS {
-	PENDING = "pending",
-	APPROVED = "approved",
-	REJECTED = "rejected",
-}
 
-@Entity()
-export class AuthenticationRequest {
-	@PrimaryGeneratedColumn()
-	id: number;
+// @Entity()
+// export class AuthenticationRequest {
+// 	@PrimaryGeneratedColumn()
+// 	id: number;
 
-	@Column({ length: 255, type: "varchar" })
-	surgery_id: string;
+// 	@Column({ length: 255, type: "varchar" })
+// 	surgery_id: string;
 
-	@Column({ type: "enum", enum: STATUS, default: STATUS.PENDING })
-	status: STATUS;
+// 	@Column({
+// 		type: "enum",
+// 		enum: NOTIFICATION_STATUS,
+// 		default: NOTIFICATION_STATUS.PENDING,
+// 	})
+// 	status: NOTIFICATION_STATUS;
 
-	@CreateDateColumn()
-	created_at: Date;
+// 	@CreateDateColumn()
+// 	created_at: Date;
 
-	@ManyToOne(() => User)
-	trainee: User;
+// 	@ManyToOne(() => User)
+// 	trainee: User;
 
-	@ManyToOne(() => User)
-	consultant: User;
-}
+// 	@ManyToOne(() => User)
+// 	consultant: User;
+// }

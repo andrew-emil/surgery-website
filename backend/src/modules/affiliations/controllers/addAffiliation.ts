@@ -6,12 +6,8 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const addAffiliation = async (req: Request, res: Response) => {
 	const validation = addAffiliationSchema.safeParse(req.body);
-
-	if (!validation.success) {
-		const errorMessages = formatErrorMessage(validation);
-
-		throw new Error(errorMessages);
-	}
+	if (!validation.success)
+		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const { name, country, city, address, institution_type } = validation.data;
 

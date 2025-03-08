@@ -35,3 +35,36 @@ export enum AffiliationsType {
 	MEDICAL_SCHOOL = "Medical School",
 	PRIVATE_PRACTICE = "Private Practice",
 }
+
+export enum UserLevel {
+	STUDENT = "Student",
+	INTERN = "Intern",
+	RESIDENT = "Resident",
+	SERVICE = "Service",
+	ATTACHMENT = "Attachment",
+}
+
+export enum DoctorRole {
+	O = "Observer",
+	AS = "Assistant Surgeon",
+	PS = "Primary Surgeon",
+	PI = "Procedure Instructor",
+}
+
+export enum DISCHARGE_STATUS {
+	HOME = "Home",
+	TRANSFERRED = "Transferred",
+	DECEASED = "Deceased",
+	REHAB = "Rehabilitation",
+}
+
+export enum NOTIFICATION_STATUS {
+	READ = "read",
+	UNREAD = "unread",
+}
+
+export enum NOTIFICATION_TYPES {
+	INVITE = "invite",
+	AUTH_REQUEST = "auth_request",
+	SCHEDULE_UPDATE = "schedule_update",
+}

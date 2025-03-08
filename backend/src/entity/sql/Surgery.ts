@@ -14,6 +14,10 @@ export class Surgery {
 	})
 	hospital: Affiliations;
 
-	@ManyToOne(() => SurgeryType)
+	@ManyToOne(() => SurgeryType, {
+		onDelete: "SET NULL",
+		nullable: true,
+		onUpdate: "CASCADE",
+	})
 	surgery_type: SurgeryType;
 }

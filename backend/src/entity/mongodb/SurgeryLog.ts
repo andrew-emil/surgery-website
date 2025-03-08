@@ -9,6 +9,7 @@ import {
 	CreateDateColumn,
 } from "typeorm";
 import { PatientDetails } from "../sub entity/PatientDetails.js";
+import { DoctorsRoles } from "../sub entity/DoctorsRoles.js";
 import { STATUS } from "../../utils/dataTypes.js";
 
 @Entity()
@@ -19,10 +20,6 @@ export class SurgeryLog {
 	@Column({ type: "int" })
 	@Index()
 	surgeryId: number;
-
-	@Column({ type: "simple-array" })
-	@Index()
-	performedBy: string[];
 
 	@Column({ type: "date" })
 	date: Date;
@@ -56,6 +53,9 @@ export class SurgeryLog {
 
 	@Column(() => PatientDetails)
 	patient_details: PatientDetails;
+
+	@Column({ type: "json" }) // Store array properly
+	performedBy: DoctorsRoles[];
 
 	@CreateDateColumn({ type: "timestamp" })
 	createdAt: Date;
