@@ -57,7 +57,7 @@ export default function ForgoPassword() {
             type="email"
             name=""
             id="standard-basic"
-            label="Email"
+            label="Enter Your Email"
             variant="standard"
             required
           />
