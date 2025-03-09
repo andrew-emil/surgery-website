@@ -5,6 +5,7 @@ export interface JWTPayload {
 	userRole: string;
 	name: string;
 	tokenVersion: number;
+	first_login: boolean;
 	surgeries: Array<{
 		id: string;
 		date: Date;
@@ -67,4 +68,10 @@ export enum NOTIFICATION_TYPES {
 	INVITE = "invite",
 	AUTH_REQUEST = "auth_request",
 	SCHEDULE_UPDATE = "schedule_update",
+}
+
+export enum Authentication_Request {
+	PENDING = "pending",
+	CANCELLED = "cancelled",
+	APPROVED = "approved",
 }

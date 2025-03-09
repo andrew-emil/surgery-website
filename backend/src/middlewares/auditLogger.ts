@@ -27,6 +27,8 @@ export const auditLogger = async (
 			"reset_token",
 			"old_password",
 			"new_password",
+			"token",
+			"newPassword",
 		];
 
 		let action: string;

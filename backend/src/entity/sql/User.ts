@@ -10,7 +10,7 @@ import {
 import { Role } from "./Roles.js";
 import { Department } from "./departments.js";
 import { Affiliations } from "./Affiliations.js";
-import { Notification } from './Notification.js';
+import { Notification } from "./Notification.js";
 import { UserLevel } from "../../utils/dataTypes.js";
 
 @Entity()
@@ -68,6 +68,9 @@ export class User {
 
 	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
 	last_login: Date;
+
+	@Column({ type: "boolean", default: false })
+	first_login: boolean;
 
 	@Column({ type: "timestamp", nullable: true })
 	lock_until: Date;
