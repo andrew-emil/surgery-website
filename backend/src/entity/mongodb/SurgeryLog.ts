@@ -21,6 +21,9 @@ export class SurgeryLog {
 	@Index()
 	surgeryId: number;
 
+	@Column({ type: "string" })
+	leadSurgeroen: string;
+
 	@Column({ type: "date" })
 	date: Date;
 
@@ -48,14 +51,14 @@ export class SurgeryLog {
 	@Column({ type: "string" })
 	icdCode: string;
 
+	@Column({ type: "int" })
+	slots: number;
+
 	@Column({ type: "enum", default: STATUS.ONGOING })
 	status: STATUS; // Completed, Ongoing, Cancelled
 
 	@Column(() => PatientDetails)
 	patient_details: PatientDetails;
-
-	@Column({ type: "json" }) // Store array properly
-	performedBy: DoctorsRoles[];
 
 	@CreateDateColumn({ type: "timestamp" })
 	createdAt: Date;

@@ -2,7 +2,7 @@ import { Response, Request } from "express";
 import { roleRepo } from "../../../config/repositories.js";
 
 export const addRole = async (req: Request, res: Response) => {
-	const { name, parentName } = req.body;
+	const { name, parentName, permissions } = req.body;
 
 	if (!name) throw Error("Invalid credentials");
 

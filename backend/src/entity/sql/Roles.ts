@@ -4,8 +4,11 @@ import {
 	PrimaryGeneratedColumn,
 	OneToMany,
 	ManyToOne,
+	ManyToMany,
+	JoinTable,
 } from "typeorm";
 import { User } from "./User.js";
+import { Permission } from "./Permission.js";
 
 @Entity()
 export class Role {
@@ -23,4 +26,10 @@ export class Role {
 
 	@OneToMany(() => Role, (role) => role.parent)
 	children: Role[];
+
+	@ManyToMany(() => Permission, (perm) => perm.role)
+	@JoinTable({
+		name: "role_permission"
+	})
+	permissions: Permission[];
 }

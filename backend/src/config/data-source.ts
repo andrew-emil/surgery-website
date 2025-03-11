@@ -15,6 +15,7 @@ import { Rating } from "../entity/mongodb/Rating.js";
 import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
 import { SurgeryRequirement } from "../entity/sql/SurgeryRequirements.js";
 import { Notification } from "../entity/sql/Notification.js";
+import { Permission } from "../entity/sql/Permission.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -36,6 +37,7 @@ export const AppDataSource = new DataSource({
 		Surgery,
 		SurgeryRequirement,
 		Notification,
+		Permission,
 	],
 	subscribers: [],
 });

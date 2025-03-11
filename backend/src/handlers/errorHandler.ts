@@ -8,7 +8,7 @@ export const errorHandler: ErrorRequestHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.error(`[ERROR] ${err.name}: ${err.message}`, err instanceof ZodError); // Log error details
+	console.error(`[ERROR] ${err.name}: ${err.message}`, err); // Log error details
 
 	if (err instanceof ZodError) {
 		const formattedError = fromZodError(err);
@@ -32,9 +32,11 @@ export const errorHandler: ErrorRequestHandler = (
 		sendErrorResponse(res, 404, err.message);
 	} else if (
 		err.message.split(" ")[0] === "No" &&
-		err.message.split(" ")[2] === "Found"
+		err.message.split(" ").at(-1) === "Found"
 	) {
 		sendErrorResponse(res, 404, err.message);
+	} else if (err.message.includes("already exists")) {
+		sendErrorResponse(res, 409, err.message);
 	} else if (err.message === "Internal server error") {
 		sendErrorResponse(res, 500, err.message);
 	} else {

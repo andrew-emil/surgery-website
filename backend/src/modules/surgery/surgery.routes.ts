@@ -4,10 +4,12 @@ import { addSurgery } from "./controllers/addSurgery.js";
 import { getSurgery } from "./controllers/getSurgery.js";
 import { addPostSurgery } from "./controllers/addPostSurgery.js";
 import { auditLogger } from "../../middlewares/auditLogger.js";
+import { searchSurgery } from "./controllers/searchSurgery.js";
 
 const surgeryRoutes = Router();
 
-surgeryRoutes.get("/:id", getSurgery);
+surgeryRoutes.get("/get-surergies/:id", getSurgery);
+surgeryRoutes.get("/search", searchSurgery);
 
 //middleware
 surgeryRoutes.use(auditLogger);

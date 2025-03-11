@@ -19,17 +19,18 @@ import rolesRoutes from "./modules/roles/roles.routes.js";
 import departmentRoutes from "./modules/department/department.routes.js";
 import surgeryRoutes from "./modules/surgery/surgery.routes.js";
 import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
+import authRequestsRoutes from "./modules/authRequests/authRequests.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
 const port: number = parseInt(process.env.PORT as string);
-const server = http.createServer(app)
+const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
 		origin: "*",
-		methods: ["GET", "POST", "DELETE"]
-	}
-})
+		methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+	},
+});
 
 io.on("connection", (socket) => {
 	console.log(`User connected: ${socket.id}`);
@@ -45,9 +46,9 @@ app.use(morgan("dev"));
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "*", // Allow frontend to access API
+		origin: "*",
 		methods: "GET,POST,PUT,DELETE,PATCH",
-		credentials: true, // Allow cookies or authentication headers
+		credentials: true,
 	})
 );
 
@@ -57,6 +58,7 @@ app.use("/api/roles", rolesRoutes);
 app.use("/api/department", departmentRoutes);
 app.use("/api/surgery", surgeryRoutes);
 app.use("/api/affiliation", affiliationRoutes);
+app.use("/api/auth-requests", authRequestsRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
@@ -85,5 +87,5 @@ const startServer = async () => {
 	}
 };
 
-export {io, server}
+export { io, server };
 startServer();

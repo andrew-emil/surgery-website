@@ -7,15 +7,12 @@ import {
 } from "typeorm";
 import { User } from "./User.js";
 import { Authentication_Request } from "../../utils/dataTypes.js";
-
+import { Surgery } from "./Surgery.js";
 
 @Entity()
 export class AuthenticationRequest {
 	@PrimaryGeneratedColumn()
 	id: number;
-
-	@Column({ length: 255, type: "varchar" })
-	surgery_id: string;
 
 	@Column({
 		type: "enum",
@@ -26,6 +23,11 @@ export class AuthenticationRequest {
 
 	@CreateDateColumn()
 	created_at: Date;
+
+	@ManyToOne(() => Surgery, (surg) => surg.authentication, {
+		onDelete: "CASCADE",
+	})
+	surgery: Surgery;
 
 	@ManyToOne(() => User)
 	trainee: User;

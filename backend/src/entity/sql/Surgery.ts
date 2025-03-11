@@ -1,6 +1,7 @@
-import { Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Affiliations } from "./Affiliations.js";
 import { SurgeryType } from "./SurgeryType.js";
+import { AuthenticationRequest } from "./AuthenticationRequests.js";
 
 @Entity()
 export class Surgery {
@@ -20,4 +21,7 @@ export class Surgery {
 		onUpdate: "CASCADE",
 	})
 	surgery_type: SurgeryType;
+
+	@OneToMany(() => AuthenticationRequest, (req) => req.surgery)
+	authentication: AuthenticationRequest;
 }

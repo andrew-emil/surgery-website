@@ -10,7 +10,7 @@ export const getAllRoles = async (req: Request, res: Response) => {
 		roleRepo.count(),
 	]);
 
-	if (roles.length === 0) throw Error("No roles found");
+	if (roles.length === 0) throw Error("No roles Found");
 
 	res.status(200).json({
 		roles,
