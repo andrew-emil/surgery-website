@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   FormButton,
   FormCard,
@@ -9,7 +9,15 @@ import {
 import { Link, Navigate } from "react-router-dom";
 import axiosClient from "../axiosClient";
 import AlertTitle from "@mui/material/AlertTitle";
-import { Alert, Typography } from "@mui/material";
+import {
+  Alert,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormControl,
+  Box,
+} from "@mui/material";
 import { useStateContext } from "../context/contextprovider";
 
 export default function Register() {
@@ -22,7 +30,28 @@ export default function Register() {
 
   const [err, setErr] = useState(null);
   const [redirectToOTP, setRedirectToOTP] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [role, setRole] = useState("");
   const { setMessage } = useStateContext();
+  const [roleData, setRoleData] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    axiosClient
+      .get("/roles/")
+      .then(({ data }) => {
+        console.log(data);
+        setRoleData(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   const submit = (ev) => {
     ev.preventDefault();
@@ -55,15 +84,17 @@ export default function Register() {
       console.log(err);
     }
   };
+
+  const handleChange = (event) => {
+    setRole(event.target.value);
+  };
+
   if (redirectToOTP) {
     return <Navigate to="/otp" />;
   }
   return (
     <FormContainer className="login-signup-form animated fadinDown">
-      <FormCard className="form">
-        <FormTitle variant="h1" className="title">
-          Create A New Account
-        </FormTitle>
+      <FormCard variant={"register"} className="form">
         {err && (
           <Alert severity="error" sx={{ marginBottom: "1rem" }}>
             <AlertTitle>Error</AlertTitle>
@@ -71,60 +102,91 @@ export default function Register() {
           </Alert>
         )}
         <form onSubmit={submit}>
-          <FormTextField
-            inputRef={firstnameRef}
-            type="name"
-            name=""
-            id="standard-basic"
-            label="First Name"
-            variant="standard"
-            required
-          />
-          <FormTextField
-            inputRef={lastnameRef}
-            type="name"
-            name=""
-            id="standard-basic"
-            label="Last Name"
-            variant="standard"
-            required
-          />
-          <FormTextField
-            inputRef={emailRef}
-            type="email"
-            name=""
-            id="standard-basic"
-            label="Email"
-            variant="standard"
-            required
-          />
-          <FormTextField
-            inputRef={phoneRef}
-            type="text"
-            name=""
-            id="standard-basic"
-            label="Phone"
-            variant="standard"
-            required
-          />
-          <FormTextField
-            inputRef={passwordRef}
-            type="password"
-            name=""
-            id="standard-basic"
-            label="Password"
-            variant="standard"
-            required
-          />
-          <FormTextField
-            inputRef={confirmPasswordRef}
-            type="password"
-            name=""
-            id="standard-basic"
-            label="Confirm Password"
-            variant="standard"
-            required
-          />
+          <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+            <Box sx={{ width: "50%" }}>
+              <FormTitle variant="h1" className="title">
+                Personal Information
+              </FormTitle>
+              <FormTextField
+                inputRef={firstnameRef}
+                type="name"
+                name=""
+                id="standard-basic"
+                label="First Name"
+                variant="standard"
+                required
+              />
+              <FormTextField
+                inputRef={lastnameRef}
+                type="name"
+                name=""
+                id="standard-basic"
+                label="Last Name"
+                variant="standard"
+                required
+              />
+              <FormTextField
+                inputRef={emailRef}
+                type="email"
+                name=""
+                id="standard-basic"
+                label="Email"
+                variant="standard"
+                required
+              />
+              <FormTextField
+                inputRef={phoneRef}
+                type="text"
+                name=""
+                id="standard-basic"
+                label="Phone"
+                variant="standard"
+                required
+              />
+              <FormTextField
+                inputRef={passwordRef}
+                type="password"
+                name=""
+                id="standard-basic"
+                label="Password"
+                variant="standard"
+                required
+              />
+              <FormTextField
+                inputRef={confirmPasswordRef}
+                type="password"
+                name=""
+                id="standard-basic"
+                label="Confirm Password"
+                variant="standard"
+                required
+              />
+            </Box>
+            <Box sx={{ width: "50%" }}>
+              <FormTitle variant="h1" className="title">
+                Professional Details
+              </FormTitle>
+              <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                <InputLabel id="demo-simple-select-standard-label">
+                  Role
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={role}
+                  onChange={handleChange}
+                  label="Role"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+          </Box>
           <FormButton
             variant="contained"
             className="btn btn-black"
@@ -141,6 +203,36 @@ export default function Register() {
           Already Have An Account? <Link to="/login">Login</Link>
         </Typography>
       </FormCard>
+      {/* <FormCard className="form">
+        <FormTitle variant="h1" className="title">
+          Professional Details
+        </FormTitle>
+        {err && (
+          <Alert severity="error" sx={{ marginBottom: "1rem" }}>
+            <AlertTitle>Error</AlertTitle>
+            {err}
+          </Alert>
+        )}
+        <form onSubmit={submit}>
+          <FormControl variant="standard" sx={{ m: 1, minWidth: "100%" }}>
+            <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
+            <Select
+              labelId="demo-simple-select-standard-label"
+              id="demo-simple-select-standard"
+              value={age}
+              onChange={handleChange}
+              label="Age"
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={10}>Ten</MenuItem>
+              <MenuItem value={20}>Twenty</MenuItem>
+              <MenuItem value={30}>Thirty</MenuItem>
+            </Select>
+          </FormControl>
+        </form>
+      </FormCard> */}
     </FormContainer>
   );
 }

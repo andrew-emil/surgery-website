@@ -25,11 +25,11 @@ export const FormTitle = styled(Typography)(({ theme }) => ({
   textAlign: "center",
 }));
 
-export const FormCard = styled(Card)(({ theme }) => ({
-  width: "360px",
+export const FormCard = styled(Card)(({ variant, theme }) => ({
+  width: variant === "register" ? "720px" : "360px",
   position: "relative",
   zIndex: 1,
-  maxWidth: "360px",
+
   padding: "34px",
 }));
 
