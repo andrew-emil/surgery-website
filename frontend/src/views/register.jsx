@@ -17,6 +17,7 @@ import {
   MenuItem,
   FormControl,
   Box,
+  Skeleton,
 } from "@mui/material";
 import { useStateContext } from "../context/contextprovider";
 
@@ -38,10 +39,10 @@ export default function Register() {
   useEffect(() => {
     setLoading(true);
     axiosClient
-      .get("/roles/")
+      .get("/roles")
       .then(({ data }) => {
-        console.log(data);
-        setRoleData(data);
+        console.log(data.roles[0].name);
+        setRoleData(data.roles);
         setLoading(false);
       })
       .catch((err) => {
@@ -50,7 +51,11 @@ export default function Register() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <FormContainer>
+        <Skeleton variant="rounded" width={720} height={526} />;
+      </FormContainer>
+    );
   }
 
   const submit = (ev) => {
@@ -85,7 +90,7 @@ export default function Register() {
     }
   };
 
-  const handleChange = (event) => {
+  const handleRoleChange = (event) => {
     setRole(event.target.value);
   };
 
@@ -174,15 +179,21 @@ export default function Register() {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={role}
-                  onChange={handleChange}
+                  onChange={handleRoleChange}
                   label="Role"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  <MenuItem value={10}>Ten</MenuItem>
+                  {roleData.map((role) => (
+                    <MenuItem key={role.id} value={role.id}>
+                      {role.name}
+                    </MenuItem>
+                  ))}
+
+                  {/* <MenuItem value={10}>Ten</MenuItem>
                   <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem> */}
                 </Select>
               </FormControl>
             </Box>
