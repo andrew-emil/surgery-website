@@ -20,6 +20,7 @@ import departmentRoutes from "./modules/department/department.routes.js";
 import surgeryRoutes from "./modules/surgery/surgery.routes.js";
 import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
 import authRequestsRoutes from "./modules/authRequests/authRequests.routes.js";
+import notificationRoutes from "./modules/notification/notification.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -59,6 +60,7 @@ app.use("/api/department", departmentRoutes);
 app.use("/api/surgery", surgeryRoutes);
 app.use("/api/affiliation", affiliationRoutes);
 app.use("/api/auth-requests", authRequestsRoutes);
+app.use("/api/notification", notificationRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

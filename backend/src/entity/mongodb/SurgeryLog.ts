@@ -9,7 +9,7 @@ import {
 	CreateDateColumn,
 } from "typeorm";
 import { PatientDetails } from "../sub entity/PatientDetails.js";
-import { DoctorsRoles } from "../sub entity/DoctorsRoles.js";
+import { DoctorsTeam } from "../sub entity/DoctorsTeam.js";
 import { STATUS } from "../../utils/dataTypes.js";
 
 @Entity()
@@ -23,6 +23,9 @@ export class SurgeryLog {
 
 	@Column({ type: "string" })
 	leadSurgeroen: string;
+
+	@Column({ type: "json", nullable: true })
+	doctorsTeam: DoctorsTeam[];
 
 	@Column({ type: "date" })
 	date: Date;

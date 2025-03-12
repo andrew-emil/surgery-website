@@ -12,7 +12,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 	const userService = new UserService();
 
-	const authResult = await userService.authenticateUser(email, password);
+	const authResult = await userService.login(email, password);
 
 	if (!authResult.success) res.status(403).json(authResult);
 

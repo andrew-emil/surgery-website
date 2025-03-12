@@ -8,6 +8,7 @@ import {
 import { User } from "./User.js";
 import { Authentication_Request } from "../../utils/dataTypes.js";
 import { Surgery } from "./Surgery.js";
+import { Role } from "./Roles.js";
 
 @Entity()
 export class AuthenticationRequest {
@@ -28,6 +29,9 @@ export class AuthenticationRequest {
 		onDelete: "CASCADE",
 	})
 	surgery: Surgery;
+
+	@ManyToOne(() => Role)
+	role: Role;
 
 	@ManyToOne(() => User)
 	trainee: User;

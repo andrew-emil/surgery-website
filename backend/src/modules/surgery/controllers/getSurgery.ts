@@ -3,12 +3,13 @@ import {
 	affiliationRepo,
 	postSurgeryRepo,
 	ratingRepo,
+	roleRepo,
 	surgeryLogsRepo,
 	surgeryRepo,
 	surgeryTypeRepo,
 	userRepo,
 } from "../../../config/repositories.js";
-import { STATUS } from "../../../utils/dataTypes.js";
+import { PARTICIPATION_STATUS, STATUS } from "../../../utils/dataTypes.js";
 import { PostSurgery } from "../../../entity/mongodb/PostSurgery.js";
 import { Rating } from "../../../entity/mongodb/Rating.js";
 import { In } from "typeorm";
@@ -28,13 +29,14 @@ export const getSurgery = async (req: Request, res: Response) => {
 			where: { surgeryId },
 			select: [
 				"id",
-				"performedBy",
+				"doctorsTeam",
 				"date",
 				"time",
 				"surgicalTimeMinutes",
 				"cptCode",
 				"icdCode",
 				"patient_details",
+				"status",
 			],
 		}),
 
@@ -49,10 +51,8 @@ export const getSurgery = async (req: Request, res: Response) => {
 	let averageRating: number | null = null;
 	let doctors = [];
 
-	console.log("Surgery Log from DB:", JSON.stringify(surgeryLog, null, 2));
-
-	if (surgeryLog?.performedBy && surgeryLog.performedBy.length > 0) {
-		const doctorIds = surgeryLog.performedBy.map((p) => p.doctorId);
+	if (surgeryLog?.doctorsTeam && surgeryLog.doctorsTeam.length > 0) {
+		const doctorIds = surgeryLog.doctorsTeam.map((p) => p.doctorId);
 		const doctorDetails =
 			doctorIds.length > 0
 				? await userRepo.find({
@@ -60,18 +60,24 @@ export const getSurgery = async (req: Request, res: Response) => {
 						select: ["id", "first_name", "last_name", "email", "role"],
 				  })
 				: [];
-		doctors = surgeryLog.performedBy.map(({ doctorId, role }) => {
-			const doctorInfo = doctorDetails.find((d) => d.id === doctorId);
-			return {
-				id: doctorId,
-				name: doctorInfo
-					? `${doctorInfo.first_name} ${doctorInfo.last_name}`
-					: "Unknown Doctor",
-				email: doctorInfo?.email || "N/A",
-				role: doctorInfo?.role || "N/A",
-				surgicalRole: role,
-			};
-		});
+		doctors = await Promise.all(
+			surgeryLog.doctorsTeam.map(
+				async ({ doctorId, roleId, participationStatus }) => {
+					if (participationStatus === PARTICIPATION_STATUS.PENDING) return;
+					const doctorInfo = doctorDetails.find((d) => d.id === doctorId);
+					const surgicalRole = await roleRepo.findOneBy({ id: roleId });
+					return {
+						id: doctorId,
+						name: doctorInfo
+							? `${doctorInfo.first_name} ${doctorInfo.last_name}`
+							: "Unknown Doctor",
+						email: doctorInfo?.email || "N/A",
+						role: doctorInfo?.role?.name || "N/A",
+						surgicalRole: surgicalRole ? surgicalRole.name : "N/A",
+					};
+				}
+			)
+		);
 	}
 
 	if (surgeryLog.status == STATUS.COMPLETED) {
@@ -80,7 +86,7 @@ export const getSurgery = async (req: Request, res: Response) => {
 			ratingRepo.findBy({ surgeryId }),
 		]);
 
-		if (rating && rating.length > 1) {
+		if (rating && rating.length > 0) {
 			const rawAverage =
 				rating.reduce((sum, r) => sum + (r.stars || 0), 0) / rating.length;
 			averageRating = Math.max(1, Math.min(5, Math.round(rawAverage)));
@@ -97,12 +103,12 @@ export const getSurgery = async (req: Request, res: Response) => {
 			surgicalTimeMinutes: surgeryLog.surgicalTimeMinutes,
 			cptCode: surgeryLog.cptCode,
 			icdCode: surgeryLog.icdCode,
+			team: doctors,
 		},
 		patient: surgeryLog.patient_details,
 		postSurgery,
 		rating,
 		averageRating,
-		doctors,
 		hospital,
 	});
 };

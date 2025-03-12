@@ -80,7 +80,6 @@
 ```json
 {
   "name": "Senior Manager",
-  "permissions": ["read", "write", "approve"],
   "parentName": "Manager"
 }
 ```

@@ -11,7 +11,7 @@ import { addSurgerySchema } from "../../../utils/zodSchemas.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { AppDataSource } from "../../../config/data-source.js";
 import { In } from "typeorm";
-import { DoctorsRoles } from "../../../entity/sub entity/DoctorsRoles.js";
+import { DoctorsTeam } from "../../../entity/sub entity/DoctorsTeam.js";
 import { Surgery } from "../../../entity/sql/Surgery.js";
 import { SurgeryLog } from "../../../entity/mongodb/SurgeryLog.js";
 
@@ -23,7 +23,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 	const {
 		hospitalId,
 		surgeryTypeId,
-		performedBy,
+		doctorsTeam,
 		date,
 		time,
 		surgicalTimeMinutes,
@@ -44,12 +44,10 @@ export const addSurgery = async (req: Request, res: Response) => {
 	});
 	if (!surgeryTypeDetails) throw Error("Surgery type Not Found");
 
-	const doctorIds = performedBy.map((p) => p.doctorId);
+	const doctorIds = doctorsTeam.map((p) => p.doctorId);
 	const doctors = await userRepo.findBy({ id: In(doctorIds) });
-	if (doctors.length !== performedBy.length)
+	if (doctors.length !== doctorsTeam.length)
 		throw Error("One or more doctors Not Found");
-
-	console.log(performedBy);
 
 	let surgery: Surgery;
 
@@ -70,9 +68,19 @@ export const addSurgery = async (req: Request, res: Response) => {
 
 		const surgeryLog = new SurgeryLog();
 		surgeryLog.surgeryId = surgery.id;
-		surgeryLog.performedBy = performedBy.map(
-			(doctor) => new DoctorsRoles(doctor.doctorId, doctor.role)
-		);
+		if (doctorsTeam.length > 0) {
+			surgeryLog.doctorsTeam = doctorsTeam.map((doctor) => {
+				const permissions = doctor.permissions.map((perm) => parseInt(perm));
+				const teamMember = new DoctorsTeam(
+					doctor.doctorId,
+					parseInt(doctor.roleId),
+					permissions,
+					doctor.participationStatus,
+					doctor.notes
+				);
+				return teamMember;
+			});
+		}
 
 		surgeryLog.date = new Date(date);
 		surgeryLog.time = time;

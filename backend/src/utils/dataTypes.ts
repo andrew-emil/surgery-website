@@ -45,13 +45,6 @@ export enum UserLevel {
 	ATTACHMENT = "Attachment",
 }
 
-export enum DoctorRole {
-	O = "Observer",
-	AS = "Assistant Surgeon",
-	PS = "Primary Surgeon",
-	PI = "Procedure Instructor",
-}
-
 export enum DISCHARGE_STATUS {
 	HOME = "Home",
 	TRANSFERRED = "Transferred",
@@ -74,4 +67,9 @@ export enum Authentication_Request {
 	PENDING = "pending",
 	CANCELLED = "cancelled",
 	APPROVED = "approved",
+}
+
+export enum PARTICIPATION_STATUS {
+	APPROVED= "Approved",
+	PENDING = "Pending",
 }

@@ -2,9 +2,9 @@ import { z } from "zod";
 import {
 	AffiliationsType,
 	DISCHARGE_STATUS,
-	DoctorRole,
 	OUTCOME,
 	NOTIFICATION_TYPES,
+	PARTICIPATION_STATUS,
 } from "./dataTypes.js";
 
 export const loginSchema = z.object({
@@ -82,14 +82,20 @@ export const updateAffiliationSchema = z.object({
 export const addSurgerySchema = z.object({
 	hospitalId: z.string(),
 	surgeryTypeId: z.string(),
-	performedBy: z
+	doctorsTeam: z
 		.array(
 			z.object({
 				doctorId: z.string(),
-				role: z.nativeEnum(DoctorRole),
+				roleId: z.string().refine((id) => !isNaN(parseInt(id))),
+				permissions: z.array(
+					z.string().refine((perm) => !isNaN(parseInt(perm)))
+				),
+				participationStatus: z.nativeEnum(PARTICIPATION_STATUS),
+				notes: z.string().optional(),
 			})
 		)
-		.nonempty(),
+		.nonempty()
+		.optional(),
 	date: z.string().refine((d) => !isNaN(Date.parse(d)), {
 		message: "Invalid date format",
 	}),
@@ -120,4 +126,13 @@ export const createNotificationSchema = z.object({
 	userId: z.string(),
 	type: z.nativeEnum(NOTIFICATION_TYPES),
 	message: z.string()
+});
+
+export const createRequestSchema = z.object({
+	surgeryId: z.string().refine((id) => !isNaN(parseInt(id))),
+	traineeId: z.string(),
+	consultantId: z.string(),
+	roleId: z.string().refine((id) => !isNaN(parseInt(id))),
+	permissions: z.array(z.string().refine((perm) => !isNaN(parseInt(perm)))),
+	notes: z.string().optional(),
 });

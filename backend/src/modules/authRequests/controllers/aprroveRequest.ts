@@ -1,14 +1,21 @@
 import { Request, Response } from "express";
-import { authenticationRequestRepo } from "../../../config/repositories.js";
-import { Authentication_Request } from "../../../utils/dataTypes.js";
+import {
+	authenticationRequestRepo,
+	surgeryLogsRepo,
+} from "../../../config/repositories.js";
+import {
+	Authentication_Request,
+	PARTICIPATION_STATUS,
+} from "../../../utils/dataTypes.js";
 
 export const approveRequest = async (req: Request, res: Response) => {
 	const id = parseInt(req.params.id);
 
 	if (isNaN(id)) throw Error("Invalid request id");
 
-	const authRequest = await authenticationRequestRepo.findOneBy({
-		id,
+	const authRequest = await authenticationRequestRepo.findOne({
+		where: { id },
+		relations: ["surgery"],
 	});
 	if (!authRequest) throw Error("Authentication request Not Found");
 
@@ -17,11 +24,24 @@ export const approveRequest = async (req: Request, res: Response) => {
 			success: false,
 			message: "Only pending requests can be approved",
 		});
-        return;
+		return;
 	}
 
+	const surgery = await surgeryLogsRepo.findOneBy({
+		surgeryId: authRequest.surgery.id,
+	});
+
+	surgery.doctorsTeam.map((doctor) => {
+		if (doctor.doctorId === authRequest.trainee.id) {
+			doctor.participationStatus = PARTICIPATION_STATUS.APPROVED;
+		}
+	});
 	authRequest.status = Authentication_Request.APPROVED;
-	await authenticationRequestRepo.save(authRequest);
+
+	await Promise.all([
+		authenticationRequestRepo.save(authRequest),
+		surgeryLogsRepo.save(surgery),
+	]);
 
 	res.status(200).json({
 		success: true,

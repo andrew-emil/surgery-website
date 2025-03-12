@@ -57,7 +57,7 @@ export const register = async (req: Request, res: Response) => {
 		if (!department) throw Error("Department Not Found");
 	}
 
-	let residencyLevel = null;
+	let residencyLevel: number | null = null;
 	if (
 		role.name === "Resident" &&
 		(!data.residencyLevel || isNaN(parseInt(data.residencyLevel)))
@@ -68,11 +68,8 @@ export const register = async (req: Request, res: Response) => {
 		});
 		return;
 	}
-
-	residencyLevel = parseInt(data.residencyLevel);
-
-	if (!Object.values(UserLevel).includes(role.name as UserLevel))
-		throw Error("Invalid user level");
+	if (role.name === "Resident Doctor")
+		residencyLevel = parseInt(data.residencyLevel);
 
 	const saltRounds = parseInt(process.env.salt_rounds) || 10;
 	const hashedPassword = await bcrypt.hash(data.password, saltRounds);
@@ -89,7 +86,6 @@ export const register = async (req: Request, res: Response) => {
 		role,
 		affiliation,
 		department,
-		level: role.name as UserLevel,
 		residencyLevel,
 	});
 

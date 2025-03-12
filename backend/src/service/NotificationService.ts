@@ -3,10 +3,23 @@ import { NOTIFICATION_TYPES } from "../utils/dataTypes.js";
 import { userRepo } from "../config/repositories.js";
 import { Notification } from "../entity/sql/Notification.js";
 import { io } from "../server.js";
+import { mail, sender } from "../config/nodeMailerConfig.js";
+import { NOTIFICATION_EMAIL } from "../utils/emailTemplate.js";
 
 export class NotificationService {
 	private notificationRepo = notificationRepo;
 	private userRepo = userRepo;
+
+	private async sendNotificationEmail(to: string, message: string) {
+		const response = await mail.sendMail({
+			from: sender,
+			to,
+			subject: "New Notification",
+			html: NOTIFICATION_EMAIL.replace("{message}", message),
+			sandbox: true,
+		});
+		console.log("Notification email sent successfully", response);
+	}
 
 	async createNotification(
 		userId: string,
@@ -25,6 +38,8 @@ export class NotificationService {
 
 		io.emit(`notification:${userId}`, savedNotification);
 
+		if (user.email) await this.sendNotificationEmail(user.email, message);
+
 		return savedNotification;
 	}
 
@@ -42,8 +57,9 @@ export class NotificationService {
 	}
 
 	async markAsRead(notificationId: number, userId: string): Promise<boolean> {
-		const notification = await notificationRepo.findOneBy({
-			id: notificationId,
+		const notification = await notificationRepo.findOne({
+			where: { id: notificationId },
+			relations: ["user"],
 		});
 
 		if (!notification) throw Error("Notification Not Found");

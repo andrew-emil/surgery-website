@@ -140,3 +140,38 @@ export const ACCOUNT_UPDATE_TEMPLATE = `
 </body>
 </html>
 `;
+
+export const NOTIFICATION_EMAIL = `
+					<!DOCTYPE html>
+					<html lang="en">
+					<head>
+						<meta charset="UTF-8">
+						<meta name="viewport" content="width=device-width, initial-scale=1.0">
+						<title>New Notification</title>
+						<style>
+							body { margin: 0; padding: 0; background-color: #f4f4f4; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+							.container { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+							.header { background: linear-gradient(to right, #007bff, #0056b3); padding: 20px; text-align: center; }
+							.header h1 { color: #fff; margin: 0; font-size: 24px; }
+							.content { padding: 30px; }
+							.content p { font-size: 16px; color: #333; margin: 0 0 20px; }
+							.btn { display: inline-block; padding: 10px 20px; background-color: #007bff; color: #fff; text-decoration: none; border-radius: 4px; }
+							.footer { padding: 20px; text-align: center; background-color: #f1f1f1; font-size: 12px; color: #888; }
+						</style>
+					</head>
+					<body>
+						<div class="container">
+							<div class="header">
+								<h1>New Notification</h1>
+							</div>
+							<div class="content">
+								<p>{message}</p>
+								<a href="#" class="btn">View Notification</a>
+							</div>
+							<div class="footer">
+								<p>This is an automated message. Please do not reply.</p>
+							</div>
+						</div>
+					</body>
+					</html>
+				`;

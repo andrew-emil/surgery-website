@@ -8,14 +8,14 @@ import {
 } from "../utils/sendEmails.js";
 import { generateResetToken } from "../utils/generateResetToken.js";
 import { User } from "../entity/sql/User.js";
-import { In } from "typeorm";
 import { jwtHandler } from "../handlers/jwtHandler.js";
+import { JWTPayload } from "../utils/dataTypes.js";
 
 export class UserService {
 	private MAX_FAILED_ATTEMPTS = 5;
 	private LOCK_TIME_MINUTES = 30;
 
-	async authenticateUser(
+	async login(
 		email: string,
 		password: string
 	): Promise<{ success: boolean; user?: any; message?: string }> {
@@ -156,30 +156,28 @@ export class UserService {
 			await userRepo.save({ ...user, ...updatedUser });
 		}
 
-		// Generate a new token if the password was updated
-		let token: string | null = null;
-		if (passwordUpdated) {
-			const surgeries = await surgeryLogsRepo.find({
-				where: { performedBy: In([user.id]) },
-			});
+		const surgeries = await surgeryLogsRepo.find({
+			where: {
+				doctorsTeam: { $elemMatch: { doctorId: user.id } } as any,
+			},
+		});
 
-			token = jwtHandler({
-				id: user.id,
-				userRole: user.role?.name || null,
-				name: `${user.first_name} ${user.last_name}`,
-				tokenVersion: user.token_version,
-				first_login: user.first_login,
-				surgeries: surgeries.map((surgery) => ({
-					id: surgery.id.toString(),
-					date: surgery.date,
-					status: surgery.status,
-					stars: surgery.stars || 0,
-					icdCode: surgery.icdCode,
-					cptCode: surgery.cptCode,
-					patient_id: surgery.patient_details.patient_id,
-				})),
-			});
-		}
+		const token = jwtHandler({
+			id: user.id,
+			userRole: user.role?.name || null,
+			name: `${user.first_name} ${user.last_name}`,
+			tokenVersion: user.token_version,
+			first_login: user.first_login,
+			surgeries: surgeries.map((surgery) => ({
+				id: surgery.id.toString(),
+				date: surgery.date,
+				status: surgery.status,
+				stars: surgery.stars,
+				icdCode: surgery.icdCode,
+				cptCode: surgery.cptCode,
+				patient_id: surgery.patient_details.patient_id,
+			})),
+		});
 
 		await sendAccountUpdateEmail(user.email, updatedUser);
 
@@ -230,9 +228,11 @@ export class UserService {
 
 		// Fetch user's surgery logs
 		const surgeries = await surgeryLogsRepo.find({
-			where: { performedBy: In([user.id]) },
+			where: {
+				doctorsTeam: { $elemMatch: { doctorId: user.id } } as any,
+			},
 		});
-		
+
 		const token = jwtHandler({
 			id: user.id,
 			userRole: user.role?.name || null,
@@ -251,5 +251,10 @@ export class UserService {
 		});
 
 		return { success: true, token };
+	}
+
+	authUser(userData: JWTPayload, role: string): boolean {
+		if (userData.userRole === role) return true;
+		return false;
 	}
 }
