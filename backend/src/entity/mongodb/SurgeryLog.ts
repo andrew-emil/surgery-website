@@ -21,8 +21,8 @@ export class SurgeryLog {
 	@Index()
 	surgeryId: number;
 
-	@Column({ type: "string" })
-	leadSurgeroen: string;
+	@Column({ type: "string", nullable: true })
+	leadSurgeon: string;
 
 	@Column({ type: "json", nullable: true })
 	doctorsTeam: DoctorsTeam[];
@@ -32,9 +32,6 @@ export class SurgeryLog {
 
 	@Column({ type: "string" })
 	time: string;
-
-	@Column({ type: "int", nullable: true })
-	surgicalTimeMinutes: number;
 
 	@Column({ type: "int", nullable: true })
 	stars: number;

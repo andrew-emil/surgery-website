@@ -32,7 +32,6 @@ export const getSurgery = async (req: Request, res: Response) => {
 				"doctorsTeam",
 				"date",
 				"time",
-				"surgicalTimeMinutes",
 				"cptCode",
 				"icdCode",
 				"patient_details",
@@ -100,7 +99,6 @@ export const getSurgery = async (req: Request, res: Response) => {
 		surgeryLog: {
 			date: surgeryLog.date,
 			time: surgeryLog.time,
-			surgicalTimeMinutes: surgeryLog.surgicalTimeMinutes,
 			cptCode: surgeryLog.cptCode,
 			icdCode: surgeryLog.icdCode,
 			team: doctors,

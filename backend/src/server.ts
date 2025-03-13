@@ -21,6 +21,7 @@ import surgeryRoutes from "./modules/surgery/surgery.routes.js";
 import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
 import authRequestsRoutes from "./modules/authRequests/authRequests.routes.js";
 import notificationRoutes from "./modules/notification/notification.routes.js";
+import { seedDatabase } from "./config/databaseSeed.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -90,4 +91,9 @@ const startServer = async () => {
 };
 
 export { io, server };
-startServer();
+startServer().then(() =>
+	seedDatabase().catch((error) => {
+		console.error("Error seeding database:", error);
+		process.exit(1);
+	})
+);

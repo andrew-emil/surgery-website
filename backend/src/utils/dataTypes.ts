@@ -46,7 +46,7 @@ export enum UserLevel {
 }
 
 export enum DISCHARGE_STATUS {
-	HOME = "Home",
+	DISCHARGED = "Discharged",
 	TRANSFERRED = "Transferred",
 	DECEASED = "Deceased",
 	REHAB = "Rehabilitation",

@@ -6,13 +6,23 @@ import { DISCHARGE_STATUS, OUTCOME } from "../../../utils/dataTypes.js";
 
 export const addPostSurgery = async (req: Request, res: Response) => {
 	const validation = addPostSurgerySchema.safeParse(req.body);
-	if (!validation.success) throw Error(formatErrorMessage(validation), {cause: validation.error});
+	if (!validation.success)
+		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	const { surgeryId, outcome, complications, dischargeStatus, caseNotes } =
-		validation.data;
+	const {
+		surgeryId,
+		surgicalTimeMinutes,
+		outcome,
+		complications,
+		dischargeStatus,
+		caseNotes,
+	} = validation.data;
 
 	const parsedSurgeryId = parseInt(surgeryId);
 	if (isNaN(parsedSurgeryId)) throw Error("Invalid Surgery ID");
+
+	const surgeryMinutes = parseInt(surgicalTimeMinutes);
+	if (isNaN(surgeryMinutes)) throw Error("Invalid surgical time minutes");
 
 	const surgery = await surgeryRepo.findOneBy({
 		id: parsedSurgeryId,
@@ -42,6 +52,7 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 
 	const postSurgery = postSurgeryRepo.create({
 		surgeryId: parsedSurgeryId,
+		surgicalTimeMinutes: surgeryMinutes,
 		outcome: outcome as OUTCOME,
 		complications: complications?.trim() || null,
 		dischargeStatus: dischargeStatus as DISCHARGE_STATUS,
@@ -53,6 +64,5 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 	res.status(201).json({
 		success: true,
 		message: "Surgery details added successfully",
-		postSurgery,
 	});
 };

@@ -10,6 +10,9 @@ export class PostSurgery {
 	@Index()
 	surgeryId: number;
 
+	@Column({ type: "int" })
+	surgicalTimeMinutes: number;
+
 	@Column({ type: "enum", enum: OUTCOME, nullable: true })
 	outcome: OUTCOME;
 

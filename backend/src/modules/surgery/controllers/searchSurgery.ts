@@ -19,12 +19,7 @@ export const searchSurgery = async (req: Request, res: Response) => {
 
 	if (date) {
 		const parsedDate = new Date(date.toString());
-		if (isNaN(parsedDate.getTime())) {
-			res
-				.status(400)
-				.json({ success: false, message: "Invalid date parameter" });
-			return;
-		}
+		if (isNaN(parsedDate.getTime())) throw Error("Invalid date parameter");
 		query.date = parsedDate;
 	}
 

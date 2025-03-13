@@ -3,15 +3,11 @@ import { registerSchema } from "../../../utils/zodSchemas.js";
 import {
 	affiliationRepo,
 	departmentRepo,
-	roleRepo,
 	userRepo,
 } from "../../../config/repositories.js";
 import bcrypt from "bcrypt";
-import { sendVerificationEmails } from "../../../utils/sendEmails.js";
-import { createOtp } from "../../../utils/createOTP.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { Department } from "../../../entity/sql/departments.js";
-import { UserLevel } from "../../../utils/dataTypes.js";
 
 export const register = async (req: Request, res: Response) => {
 	const validation = registerSchema.safeParse(req.body);
@@ -37,16 +33,13 @@ export const register = async (req: Request, res: Response) => {
 		return;
 	}
 
-	if (isNaN(parseInt(data.roleId))) throw Error("Invalid role ID");
 	if (isNaN(parseInt(data.affiliationId)))
 		throw Error("Invalid affiliation ID");
 
-	const role = await roleRepo.findOneBy({ id: parseInt(data.roleId) });
 	const affiliation = await affiliationRepo.findOneBy({
 		id: parseInt(data.affiliationId),
 	});
 
-	if (!role) throw Error("Role Not Found");
 	if (!affiliation) throw Error("Affiliation Not Found");
 
 	let department: Department | null = null;
@@ -57,24 +50,8 @@ export const register = async (req: Request, res: Response) => {
 		if (!department) throw Error("Department Not Found");
 	}
 
-	let residencyLevel: number | null = null;
-	if (
-		role.name === "Resident" &&
-		(!data.residencyLevel || isNaN(parseInt(data.residencyLevel)))
-	) {
-		res.status(400).json({
-			success: false,
-			message: "Residency level is required for residents",
-		});
-		return;
-	}
-	if (role.name === "Resident Doctor")
-		residencyLevel = parseInt(data.residencyLevel);
-
 	const saltRounds = parseInt(process.env.salt_rounds) || 10;
 	const hashedPassword = await bcrypt.hash(data.password, saltRounds);
-
-	const { otp, hashedOtp } = await createOtp(saltRounds);
 
 	await userRepo.insert({
 		first_name: data.first_name,
@@ -82,14 +59,9 @@ export const register = async (req: Request, res: Response) => {
 		email: data.email,
 		phone_number: data.phone_number,
 		password_hash: hashedPassword,
-		otp_secret: hashedOtp,
-		role,
 		affiliation,
 		department,
-		residencyLevel,
 	});
-
-	await sendVerificationEmails(data.email, otp);
 
 	res.status(202).json({
 		success: true,

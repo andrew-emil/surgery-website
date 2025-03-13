@@ -15,7 +15,7 @@ export const approveRequest = async (req: Request, res: Response) => {
 
 	const authRequest = await authenticationRequestRepo.findOne({
 		where: { id },
-		relations: ["surgery"],
+		relations: ["surgery", "trainee"],
 	});
 	if (!authRequest) throw Error("Authentication request Not Found");
 
@@ -31,16 +31,23 @@ export const approveRequest = async (req: Request, res: Response) => {
 		surgeryId: authRequest.surgery.id,
 	});
 
-	surgery.doctorsTeam.map((doctor) => {
-		if (doctor.doctorId === authRequest.trainee.id) {
-			doctor.participationStatus = PARTICIPATION_STATUS.APPROVED;
-		}
-	});
+	if (!surgery) throw Error("Surgery Not Found");
+
+	const doctorIndex = surgery.doctorsTeam.findIndex(
+		(doctor) => doctor.doctorId === authRequest.trainee.id
+	);
+	if (doctorIndex === -1) throw Error("Doctor Not Found in surgery team");
+
+	surgery.doctorsTeam[doctorIndex].participationStatus =
+		PARTICIPATION_STATUS.APPROVED;
 	authRequest.status = Authentication_Request.APPROVED;
 
 	await Promise.all([
 		authenticationRequestRepo.save(authRequest),
-		surgeryLogsRepo.save(surgery),
+		surgeryLogsRepo.update(
+			{ surgeryId: authRequest.surgery.id },
+			{ doctorsTeam: surgery.doctorsTeam }
+		),
 	]);
 
 	res.status(200).json({

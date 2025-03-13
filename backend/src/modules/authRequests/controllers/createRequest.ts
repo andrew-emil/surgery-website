@@ -25,8 +25,8 @@ export const createRequest = async (req: Request, res: Response) => {
 	const { surgeryId, traineeId, consultantId, roleId, permissions, notes } =
 		validation.data;
 
-	const parsedSurgeryId = parseInt(surgeryId, 10);
-	const parsedRoleId = parseInt(roleId, 10);
+	const parsedSurgeryId = parseInt(surgeryId);
+	const parsedRoleId = parseInt(roleId);
 
 	const surgery = await surgeryRepo.findOne({
 		where: {
@@ -37,26 +37,24 @@ export const createRequest = async (req: Request, res: Response) => {
 
 	if (!surgery) throw Error("Surgery not Found");
 
-	const trainee = await userRepo.findOneBy({
-		id: traineeId,
-	});
-
-	if (!trainee) throw Error("Invalid user data");
-
 	const consultantRole = await roleRepo.findOneBy({ name: "Consultant" });
 
 	if (!consultantRole)
 		throw Error("Consultant role is not defined in the system.");
 
-	const consultant = await userRepo.findOneBy({
-		id: consultantId,
-		role: consultantRole,
-	});
+	const [trainee, consultant, role] = await Promise.all([
+		userRepo.findOneBy({
+			id: traineeId,
+		}),
+		userRepo.findOneBy({
+			id: consultantId,
+			role: consultantRole,
+		}),
+		roleRepo.findOneBy({ id: parsedRoleId }),
+	]);
 
+	if (!trainee) throw Error("Invalid trainee data");
 	if (!consultant) throw Error("Invalid Consultant data");
-
-	const role = await roleRepo.findOneBy({ id: parsedRoleId });
-
 	if (!role) throw Error("Invalid role");
 
 	const existingRequest = await authenticationRequestRepo.findOne({

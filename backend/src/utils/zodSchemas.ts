@@ -23,9 +23,9 @@ export const registerSchema = z.object({
 			message: "Please enter a valid phone number",
 		}),
 	password: z.string(),
-	roleId: z.string(),
+	roleId: z.string().optional(),
 	affiliationId: z.string(),
-	departmentId: z.string().optional(),
+	departmentId: z.string(),
 	residencyLevel: z.string().optional(),
 });
 
@@ -82,6 +82,7 @@ export const updateAffiliationSchema = z.object({
 export const addSurgerySchema = z.object({
 	hospitalId: z.string(),
 	surgeryTypeId: z.string(),
+	leadSurgeon: z.string(),
 	doctorsTeam: z
 		.array(
 			z.object({
@@ -100,7 +101,6 @@ export const addSurgerySchema = z.object({
 		message: "Invalid date format",
 	}),
 	time: z.string(),
-	surgicalTimeMinutes: z.number().optional(),
 	cptCode: z.string(),
 	icdCode: z.string(),
 	patientBmi: z.number().optional(),
@@ -109,7 +109,8 @@ export const addSurgerySchema = z.object({
 });
 
 export const addPostSurgerySchema = z.object({
-	surgeryId: z.string(),
+	surgeryId: z.string().refine((num) => !isNaN(parseInt(num))),
+	surgicalTimeMinutes: z.string().refine((num) => !isNaN(parseInt(num))),
 	outcome: z.nativeEnum(OUTCOME).optional(),
 	complications: z
 		.string()
@@ -134,5 +135,13 @@ export const createRequestSchema = z.object({
 	consultantId: z.string(),
 	roleId: z.string().refine((id) => !isNaN(parseInt(id))),
 	permissions: z.array(z.string().refine((perm) => !isNaN(parseInt(perm)))),
+	notes: z.string().optional(),
+});
+
+export const editRequestSchema = z.object({
+	surgeryId: z.string().refine((id) => !isNaN(parseInt(id))),
+	traineeId: z.string(),
+	roleId: z.string().refine((id) => !isNaN(parseInt(id))).optional(),
+	permissions: z.array(z.string().refine((perm) => !isNaN(parseInt(perm)))).optional(),
 	notes: z.string().optional(),
 });

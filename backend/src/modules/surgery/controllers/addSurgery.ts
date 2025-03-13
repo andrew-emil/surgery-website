@@ -23,10 +23,10 @@ export const addSurgery = async (req: Request, res: Response) => {
 	const {
 		hospitalId,
 		surgeryTypeId,
+		leadSurgeon,
 		doctorsTeam,
 		date,
 		time,
-		surgicalTimeMinutes,
 		cptCode,
 		icdCode,
 		patientBmi,
@@ -43,6 +43,11 @@ export const addSurgery = async (req: Request, res: Response) => {
 		id: parseInt(surgeryTypeId),
 	});
 	if (!surgeryTypeDetails) throw Error("Surgery type Not Found");
+
+	const leadSurgeonEntity = await userRepo.findOneBy({
+		id: leadSurgeon,
+	})
+	if(!leadSurgeonEntity) throw Error("Lead Surgeon Not Found")
 
 	const doctorIds = doctorsTeam.map((p) => p.doctorId);
 	const doctors = await userRepo.findBy({ id: In(doctorIds) });
@@ -81,17 +86,12 @@ export const addSurgery = async (req: Request, res: Response) => {
 				return teamMember;
 			});
 		}
-
+		surgeryLog.leadSurgeon = leadSurgeonEntity.id;
 		surgeryLog.date = new Date(date);
 		surgeryLog.time = time;
-		surgeryLog.surgicalTimeMinutes = surgicalTimeMinutes
-			? surgicalTimeMinutes
-			: null;
 		surgeryLog.cptCode = cptCode;
 		surgeryLog.icdCode = icdCode;
 		surgeryLog.patient_details = patient;
-
-		console.log(surgeryLog);
 
 		await surgeryLogsRepo.save(surgeryLog);
 	} catch (error) {

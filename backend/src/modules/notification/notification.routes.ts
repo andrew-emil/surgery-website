@@ -6,7 +6,7 @@ import { markNotificationAsRead } from "./controllers/markNotificationAsRead.js"
 const notificationRoutes = Router();
 
 notificationRoutes.post("/", createNotification);
-notificationRoutes.post("/:userId", getNotification);
+notificationRoutes.get("/:userId", getNotification);
 notificationRoutes.put("/", markNotificationAsRead);
 
 export default notificationRoutes;
