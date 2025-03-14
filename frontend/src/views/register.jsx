@@ -32,28 +32,45 @@ export default function Register() {
   const [err, setErr] = useState(null);
   const [redirectToOTP, setRedirectToOTP] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [role, setRole] = useState("");
+  const [affiliation, setAffiliation] = useState(null);
+  const [department, setDepartment] = useState("");
   const { setMessage } = useStateContext();
-  const [roleData, setRoleData] = useState([]);
+  const [affiliationData, setAffiliationData] = useState([]);
+  const [departmentData, setDepartmentData] = useState([]);
 
   useEffect(() => {
     setLoading(true);
     axiosClient
-      .get("/roles")
+      .get("/affiliation")
       .then(({ data }) => {
-        console.log(data.roles[0].name);
-        setRoleData(data.roles);
+        setAffiliationData(data.affiliations);
         setLoading(false);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+  useEffect(() => {
+    if (affiliation) {
+      console.log(affiliation);
+      axiosClient
+        .get(`/departments/:${affiliation}`)
+        .then(({ data }) => {
+          console.log(data);
+          setDepartmentData(data.departments);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      console.log("Affiliation is not yet available.");
+    }
+  }, [affiliation, setDepartmentData]);
 
   if (loading) {
     return (
       <FormContainer>
-        <Skeleton variant="rounded" width={720} height={526} />;
+        <Skeleton variant="rounded" width={720} height={526} />
       </FormContainer>
     );
   }
@@ -91,7 +108,10 @@ export default function Register() {
   };
 
   const handleRoleChange = (event) => {
-    setRole(event.target.value);
+    setAffiliation(event.target.value);
+  };
+  const handleDepartmentChange = (event) => {
+    setDepartment(event.target.value);
   };
 
   if (redirectToOTP) {
@@ -173,27 +193,48 @@ export default function Register() {
               </FormTitle>
               <FormControl variant="standard" sx={{ minWidth: "100%" }}>
                 <InputLabel id="demo-simple-select-standard-label">
-                  Role
+                  Affiliations
                 </InputLabel>
                 <Select
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
-                  value={role}
+                  value={affiliation}
                   onChange={handleRoleChange}
-                  label="Role"
+                  label="Affiliation"
                 >
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {roleData.map((role) => (
-                    <MenuItem key={role.id} value={role.id}>
-                      {role.name}
+                  {affiliationData.map((affiliation) => (
+                    <MenuItem key={affiliation.id} value={affiliation.id}>
+                      {affiliation.name}
                     </MenuItem>
                   ))}
-
-                  {/* <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem> */}
+                </Select>
+              </FormControl>
+              <FormControl
+                variant="standard"
+                sx={{ minWidth: "100%", marginTop: "1rem" }}
+              >
+                <InputLabel id="demo-simple-select-standard-label">
+                  Departments
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={department}
+                  onChange={handleDepartmentChange}
+                  label="Department"
+                  disabled={departmentData.length === 0}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {departmentData.map((department) => (
+                    <MenuItem key={department.id} value={department.id}>
+                      {department.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Box>
@@ -214,36 +255,6 @@ export default function Register() {
           Already Have An Account? <Link to="/login">Login</Link>
         </Typography>
       </FormCard>
-      {/* <FormCard className="form">
-        <FormTitle variant="h1" className="title">
-          Professional Details
-        </FormTitle>
-        {err && (
-          <Alert severity="error" sx={{ marginBottom: "1rem" }}>
-            <AlertTitle>Error</AlertTitle>
-            {err}
-          </Alert>
-        )}
-        <form onSubmit={submit}>
-          <FormControl variant="standard" sx={{ m: 1, minWidth: "100%" }}>
-            <InputLabel id="demo-simple-select-standard-label">Age</InputLabel>
-            <Select
-              labelId="demo-simple-select-standard-label"
-              id="demo-simple-select-standard"
-              value={age}
-              onChange={handleChange}
-              label="Age"
-            >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value={10}>Ten</MenuItem>
-              <MenuItem value={20}>Twenty</MenuItem>
-              <MenuItem value={30}>Thirty</MenuItem>
-            </Select>
-          </FormControl>
-        </form>
-      </FormCard> */}
     </FormContainer>
   );
 }
