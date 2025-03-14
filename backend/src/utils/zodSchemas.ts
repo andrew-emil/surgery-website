@@ -23,10 +23,9 @@ export const registerSchema = z.object({
 			message: "Please enter a valid phone number",
 		}),
 	password: z.string(),
-	roleId: z.string().optional(),
-	affiliationId: z.string(),
-	departmentId: z.string(),
-	residencyLevel: z.string().optional(),
+	roleId: z.number(),
+	affiliationId: z.number(),
+	departmentId: z.number(),
 });
 
 export const updateAccountSchema = z.object({
@@ -42,7 +41,7 @@ export const updateDepartmentSchema = z.object({
 	id: z.string(),
 	name: z.string().optional(),
 	affiliationId: z.string().optional(),
-	surgeryTypes: z.array(z.string()).nonempty().optional(),
+	surgeryEquipments: z.array(z.string()).nonempty().optional(),
 });
 
 export const addAffiliationSchema = z.object({
@@ -80,8 +79,8 @@ export const updateAffiliationSchema = z.object({
 });
 
 export const addSurgerySchema = z.object({
-	hospitalId: z.string(),
-	surgeryTypeId: z.string(),
+	hospitalId: z.number(),
+	departmentId: z.number(),
 	leadSurgeon: z.string(),
 	doctorsTeam: z
 		.array(

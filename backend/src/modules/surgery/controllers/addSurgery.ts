@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import {
 	affiliationRepo,
+	departmentRepo,
 	surgeryLogsRepo,
 	surgeryRepo,
 	surgeryTypeRepo,
@@ -22,7 +23,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 
 	const {
 		hospitalId,
-		surgeryTypeId,
+		departmentId,
 		leadSurgeon,
 		doctorsTeam,
 		date,
@@ -35,14 +36,14 @@ export const addSurgery = async (req: Request, res: Response) => {
 	} = validation.data;
 
 	const hospital = await affiliationRepo.findOneBy({
-		id: parseInt(hospitalId),
+		id: (hospitalId),
 	});
 	if (!hospital) throw Error("Hospital Not Found");
 
-	const surgeryTypeDetails = await surgeryTypeRepo.findOneBy({
-		id: parseInt(surgeryTypeId),
+	const department = await departmentRepo.findOneBy({
+		id: departmentId,
 	});
-	if (!surgeryTypeDetails) throw Error("Surgery type Not Found");
+	if (!department) throw Error("Department Not Found");
 
 	const leadSurgeonEntity = await userRepo.findOneBy({
 		id: leadSurgeon,
@@ -58,7 +59,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 
 	await AppDataSource.transaction(async (transactionalEntityManager) => {
 		surgery = transactionalEntityManager.create(surgeryRepo.target, {
-			surgery_type: surgeryTypeDetails,
+			surgery_type: department,
 			hospital,
 		});
 		await transactionalEntityManager.save(surgeryRepo.target, surgery);

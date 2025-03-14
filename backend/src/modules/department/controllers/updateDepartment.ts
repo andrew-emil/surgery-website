@@ -14,7 +14,7 @@ export const updateDepartment = async (req: Request, res: Response) => {
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 
-	const { id, name, affiliationId, surgeryTypes } = validation.data;
+	const { id, name, affiliationId, surgeryEquipments } = validation.data;
 
 	if (!id || isNaN(parseInt(id))) throw Error("Invalid department ID");
 
@@ -22,7 +22,7 @@ export const updateDepartment = async (req: Request, res: Response) => {
 
 	const department = await departmentRepo.findOne({
 		where: { id: departmentId },
-		relations: ["surgeryTypes", "affiliation"],
+		relations: ["surgeryEquipment", "affiliation"],
 	});
 
 	if (!department) throw Error("Department not found");
@@ -37,19 +37,19 @@ export const updateDepartment = async (req: Request, res: Response) => {
 
 	if (name) department.name = name;
 
-	if (surgeryTypes && surgeryTypes.length > 0) {
-		const validSurgeryTypes = await surgeryTypeRepo.findBy({
-			id: In(surgeryTypes.map(Number)),
+	if (surgeryEquipments && surgeryEquipments.length > 0) {
+		const validsurgeryEquipments = await surgeryTypeRepo.findBy({
+			id: In(surgeryEquipments.map(Number)),
 		});
 
-		const missingSurgeryTypes = surgeryTypes.filter(
-			(id) => !validSurgeryTypes.some((st) => st.id === parseInt(id))
+		const missingsurgeryEquipments = surgeryEquipments.filter(
+			(id) => !validsurgeryEquipments.some((st) => st.id === parseInt(id))
 		);
 
-		if (missingSurgeryTypes.length > 0)
+		if (missingsurgeryEquipments.length > 0)
 			throw Error("Some surgery types Not Found");
 
-		department.surgeryTypes = validSurgeryTypes;
+		department.surgeryEquipment = validsurgeryEquipments;
 	}
 
 	await departmentRepo.save(department);

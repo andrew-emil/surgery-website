@@ -1,6 +1,6 @@
 # Department Routes Documentation
 
-## Base URL: `http://localhost:4000/api/department`
+## Base URL: `http://localhost:4000/api/departments`
 
 ### 1. **Add a Department**
 

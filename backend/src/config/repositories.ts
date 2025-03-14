@@ -9,12 +9,10 @@ import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
 import { Department } from "../entity/sql/departments.js";
 import { Notification } from "../entity/sql/Notification.js";
 import { SurgeryEquipment } from "../entity/sql/SurgeryEquipments.js";
-import { SurgeryType } from "../entity/sql/SurgeryType.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Rating } from "../entity/mongodb/Rating.js";
 import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
 import { Surgery } from "../entity/sql/Surgery.js";
-import { SurgeryRequirement } from "../entity/sql/SurgeryRequirements.js";
 import { Permission } from "../entity/sql/Permission.js";
 
 // Export repositories for all entities
@@ -24,9 +22,7 @@ export let affiliationRepo: Repository<Affiliations>;
 export let authenticationRequestRepo: Repository<AuthenticationRequest>;
 export let departmentRepo: Repository<Department>;
 export let surgeryEquipmentRepo: Repository<SurgeryEquipment>;
-export let surgeryTypeRepo: Repository<SurgeryType>;
 export let surgeryRepo: Repository<Surgery>;
-export let surgeryReqRepo: Repository<SurgeryRequirement>;
 export let notificationRepo: Repository<Notification>;
 export let permissionRepo: Repository<Permission>;
 
@@ -44,9 +40,7 @@ export const initializeSQLRepositories = () => {
 	);
 	departmentRepo = AppDataSource.getRepository(Department);
 	surgeryEquipmentRepo = AppDataSource.getRepository(SurgeryEquipment);
-	surgeryTypeRepo = AppDataSource.getRepository(SurgeryType);
 	surgeryRepo = AppDataSource.getRepository(Surgery);
-	surgeryReqRepo = AppDataSource.getRepository(SurgeryRequirement);
 	notificationRepo = AppDataSource.getRepository(Notification);
 	permissionRepo = AppDataSource.getRepository(Permission);
 };

@@ -6,9 +6,11 @@ import {
 	ManyToOne,
 	ManyToMany,
 	JoinTable,
+	OneToOne,
 } from "typeorm";
 import { User } from "./User.js";
 import { Permission } from "./Permission.js";
+import { Surgery } from "./Surgery.js";
 
 @Entity()
 export class Role {

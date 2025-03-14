@@ -3,11 +3,16 @@ import { registerSchema } from "../../../utils/zodSchemas.js";
 import {
 	affiliationRepo,
 	departmentRepo,
+	roleRepo,
 	userRepo,
 } from "../../../config/repositories.js";
-import bcrypt from "bcrypt";
+import crypto from "crypto";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
-import { Department } from "../../../entity/sql/departments.js";
+import { NOTIFICATION_TYPES, USER_STATUS } from "../../../utils/dataTypes.js";
+import { NotificationService } from "../../../service/NotificationService.js";
+import { bcryptHash } from "../../../utils/hashFunction.js";
+
+const notificationService = new NotificationService();
 
 export const register = async (req: Request, res: Response) => {
 	const validation = registerSchema.safeParse(req.body);
@@ -33,27 +38,29 @@ export const register = async (req: Request, res: Response) => {
 		return;
 	}
 
-	if (isNaN(parseInt(data.affiliationId)))
-		throw Error("Invalid affiliation ID");
-
 	const affiliation = await affiliationRepo.findOneBy({
-		id: parseInt(data.affiliationId),
+		id: data.affiliationId,
 	});
 
 	if (!affiliation) throw Error("Affiliation Not Found");
 
-	let department: Department | null = null;
-	if (data.departmentId) {
-		department = await departmentRepo.findOneBy({
-			id: parseInt(data.departmentId),
-		});
-		if (!department) throw Error("Department Not Found");
-	}
+	const department = await departmentRepo.findOneBy({
+		id: data.departmentId,
+	});
+	if (!department) throw Error("Department Not Found");
+
+	const role = await roleRepo.findOneBy({
+		id: data.roleId,
+	});
+	if (!role) throw Error("Role Not Found");
 
 	const saltRounds = parseInt(process.env.salt_rounds) || 10;
-	const hashedPassword = await bcrypt.hash(data.password, saltRounds);
+	const hashedPassword = await bcryptHash(data.password, saltRounds);
+	const activationToken = crypto.randomBytes(32).toString("hex");
+	const tokenExpiry = new Date();
+	tokenExpiry.setHours(tokenExpiry.getHours() + 48);
 
-	await userRepo.insert({
+	const newUser = userRepo.create({
 		first_name: data.first_name,
 		last_name: data.last_name,
 		email: data.email,
@@ -61,10 +68,33 @@ export const register = async (req: Request, res: Response) => {
 		password_hash: hashedPassword,
 		affiliation,
 		department,
+		role,
+		account_status: USER_STATUS.PENDING,
+		first_login: true,
+		activation_token: activationToken,
+		token_expiry: tokenExpiry,
+	});
+	await userRepo.save(newUser);
+
+	const adminId = await userRepo.findOne({
+		where: {
+			role: {
+				name: "Admin",
+			},
+		},
+		relations: ["role"],
+		select: ["id"],
 	});
 
-	res.status(202).json({
+	const activationLink = `${process.env.BASE_URL}/admin/approve-user?token=${activationToken}`;
+	await notificationService.createNotification(
+		adminId.id,
+		NOTIFICATION_TYPES.USER_REGISTRATION,
+		`New user registered: ${newUser.email}. Please review and approve. \nActivation link: ${activationLink}`
+	);
+
+	res.status(201).json({
 		success: true,
-		message: "OTP sent. Please verify to complete login.",
+		message: "Registration successful. Your account is pending admin approval.",
 	});
 };

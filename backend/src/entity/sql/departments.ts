@@ -1,15 +1,14 @@
 import {
 	Column,
 	Entity,
-	JoinTable,
 	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from "typeorm";
-import { SurgeryType } from "./SurgeryType.js";
 import { User } from "./User.js";
 import { Affiliations } from "./Affiliations.js";
+import { SurgeryEquipment } from "./SurgeryEquipments.js";
 
 @Entity()
 export class Department {
@@ -27,9 +26,6 @@ export class Department {
 	})
 	affiliation: Affiliations;
 
-	@ManyToMany(() => SurgeryType, (surgeryType) => surgeryType.departments)
-	@JoinTable({
-		name: "surgery_type_department"
-	})
-	surgeryTypes: SurgeryType[];
+	@ManyToMany(() => SurgeryEquipment, (surgery) => surgery.department)
+	surgeryEquipment: SurgeryEquipment[];
 }

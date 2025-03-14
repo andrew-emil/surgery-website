@@ -54,7 +54,7 @@ export default function Register() {
     if (affiliation) {
       console.log(affiliation);
       axiosClient
-        .get(`/departments/:${affiliation}`)
+        .get(`/departments/${affiliation}`)
         .then(({ data }) => {
           console.log(data);
           setDepartmentData(data.departments);
@@ -79,13 +79,14 @@ export default function Register() {
     ev.preventDefault();
     if (passwordRef.current.value == confirmPasswordRef.current.value) {
       const payload = {
-        first_name: firstnameRef.current.value,
-        last_name: lastnameRef.current.value,
-        email: emailRef.current.value,
-        phone_number: `+${phoneRef.current.value}`,
-        password: passwordRef.current.value,
-        confirm_password: confirmPasswordRef.current.value,
-      };
+				first_name: firstnameRef.current.value,
+				last_name: lastnameRef.current.value,
+				email: emailRef.current.value,
+				phone_number: `${phoneRef.current.value}`,
+				password: passwordRef.current.value,
+				affiliationId: affiliation,
+				departmentId: department,
+			};
       axiosClient
         .post("/users/register", payload)
         .then(({ data }) => {
@@ -95,6 +96,7 @@ export default function Register() {
           }
         })
         .catch((err) => {
+          console.log(payload);
           const response = err.response;
           console.log(err);
           if (response) {

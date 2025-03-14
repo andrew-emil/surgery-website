@@ -28,6 +28,12 @@ export enum OUTCOME {
 	FAILURE = "failure",
 }
 
+export enum USER_STATUS {
+	PENDING = "pending",
+	ACTIVE = "active",
+	INACTIVE = "inactive"
+}
+
 export enum AffiliationsType {
 	HOSPITAL = "Hospital",
 	CLINIC = "Clinic",
@@ -59,8 +65,9 @@ export enum NOTIFICATION_STATUS {
 
 export enum NOTIFICATION_TYPES {
 	INVITE = "invite",
-	AUTH_REQUEST = "auth_request",
-	SCHEDULE_UPDATE = "schedule_update",
+	AUTH_REQUEST = "auth request",
+	SCHEDULE_UPDATE = "schedule update",
+	USER_REGISTRATION = "User Registration",
 }
 
 export enum Authentication_Request {

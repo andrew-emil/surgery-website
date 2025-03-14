@@ -11,7 +11,7 @@ export const verify2FA = async (req: Request, res: Response) => {
 	const result = await userService.verify2FA(email, otp);
 
 	if (!result.success) {
-		res.status(403).json(result);
+		res.status(400).json(result);
 		return;
 	}
 

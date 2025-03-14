@@ -1,4 +1,5 @@
 import bcrypt from "bcrypt";
+import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
 import { surgeryLogsRepo, userRepo } from "../config/repositories.js";
 import { createOtp } from "../utils/createOTP.js";
 import {
@@ -18,7 +19,7 @@ export class UserService {
 	async login(
 		email: string,
 		password: string
-	): Promise<{ success: boolean; user?: any; message?: string }> {
+	): Promise<{ success: boolean; user?: User; message?: string }> {
 		const user = await userRepo.findOneBy({ email });
 
 		if (!user) return { success: false, message: "Invalid credentials" };
@@ -54,13 +55,13 @@ export class UserService {
 		return { success: true, user };
 	}
 
-	async sendOtp(user: any): Promise<{ success: boolean; message: string }> {
+	async sendOtp(user: User): Promise<{ success: boolean; message: string }> {
 		const { otp, hashedOtp } = await createOtp(
 			parseInt(process.env.salt_rounds) || 10
 		);
 		console.log("Generated OTP:", otp);
 
-		user.otp_secret = hashedOtp;
+		user.otp_secret = hashedOtp
 		await userRepo.save(user);
 		await sendVerificationEmails(user.email, otp);
 
@@ -80,7 +81,7 @@ export class UserService {
 		user.reset_token_expires = new Date(Date.now() + 60 * 60 * 1000);
 		await userRepo.save(user);
 
-		const resetURL = `http://localhost:5173/reset-password?token=${token}`;
+		const resetURL = `${process.env.BASE_URL}/reset-password?token=${token}`;
 
 		// Send reset email
 		await sendResetEmail(email, resetURL);

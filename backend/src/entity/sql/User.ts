@@ -11,7 +11,7 @@ import { Role } from "./Roles.js";
 import { Department } from "./departments.js";
 import { Affiliations } from "./Affiliations.js";
 import { Notification } from "./Notification.js";
-import { UserLevel } from "../../utils/dataTypes.js";
+import { USER_STATUS } from "../../utils/dataTypes.js";
 
 @Entity()
 export class User {
@@ -57,14 +57,11 @@ export class User {
 	@OneToMany(() => Notification, (notification) => notification.user)
 	notifications: Notification[];
 
-	@Column({
-		type: "enum",
-		enum: UserLevel,
-	})
-	level: UserLevel;
+	@Column({ type: "enum", enum: USER_STATUS, default: USER_STATUS.PENDING })
+	account_status: USER_STATUS;
 
-	@Column({ type: "int", nullable: true })
-	residencyLevel: number;
+	@Column({ type: "int", default: 0 })
+	surgeryCount: number;
 
 	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
 	last_login: Date;
@@ -83,6 +80,12 @@ export class User {
 
 	@Column({ type: "int", default: 0 })
 	token_version: number;
+
+	@Column({ type: "varchar", nullable: true })
+	activation_token: string;
+
+	@Column({ type: "timestamp", nullable: true })
+	token_expiry: Date;
 
 	@Column({ type: "varchar", nullable: true })
 	reset_token: string;
