@@ -6,7 +6,6 @@ import {
 	roleRepo,
 	surgeryLogsRepo,
 	surgeryRepo,
-	surgeryTypeRepo,
 	userRepo,
 } from "../../../config/repositories.js";
 import { PARTICIPATION_STATUS, STATUS } from "../../../utils/dataTypes.js";

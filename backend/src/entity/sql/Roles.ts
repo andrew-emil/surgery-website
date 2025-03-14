@@ -20,6 +20,9 @@ export class Role {
 	@Column({ type: "varchar", unique: true })
 	name: string;
 
+	@Column({ type: 'int', default: 0 })
+	requiredSurgeries: number;
+
 	@OneToMany(() => User, (user) => user.role)
 	users: User[];
 
@@ -31,7 +34,7 @@ export class Role {
 
 	@ManyToMany(() => Permission, (perm) => perm.role)
 	@JoinTable({
-		name: "role_permission"
+		name: "role_permission",
 	})
 	permissions: Permission[];
 }

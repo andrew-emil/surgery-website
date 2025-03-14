@@ -65,8 +65,8 @@ export enum NOTIFICATION_STATUS {
 
 export enum NOTIFICATION_TYPES {
 	INVITE = "invite",
-	AUTH_REQUEST = "auth request",
-	SCHEDULE_UPDATE = "schedule update",
+	AUTH_REQUEST = "auth_request",
+	SCHEDULE_UPDATE = "schedule_update",
 	USER_REGISTRATION = "User Registration",
 }
 

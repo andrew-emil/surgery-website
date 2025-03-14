@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import {
 	affiliationRepo,
 	departmentRepo,
-	surgeryTypeRepo,
+	surgeryEquipmentRepo,
 } from "../../../config/repositories.js";
 import { updateDepartmentSchema } from "../../../utils/zodSchemas.js";
 import { In } from "typeorm";
@@ -12,7 +12,6 @@ export const updateDepartment = async (req: Request, res: Response) => {
 	const validation = updateDepartmentSchema.safeParse(req.body);
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
 
 	const { id, name, affiliationId, surgeryEquipments } = validation.data;
 
@@ -38,7 +37,7 @@ export const updateDepartment = async (req: Request, res: Response) => {
 	if (name) department.name = name;
 
 	if (surgeryEquipments && surgeryEquipments.length > 0) {
-		const validsurgeryEquipments = await surgeryTypeRepo.findBy({
+		const validsurgeryEquipments = await surgeryEquipmentRepo.findBy({
 			id: In(surgeryEquipments.map(Number)),
 		});
 
