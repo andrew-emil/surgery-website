@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
-import { surgeryLogsRepo, userRepo } from "../config/repositories.js";
+import { surgeryLogsRepo, surgeryRepo, userRepo } from "../config/repositories.js";
 import { createOtp } from "../utils/createOTP.js";
 import {
 	sendAccountUpdateEmail,
@@ -61,7 +61,7 @@ export class UserService {
 		);
 		console.log("Generated OTP:", otp);
 
-		user.otp_secret = hashedOtp
+		user.otp_secret = hashedOtp;
 		await userRepo.save(user);
 		await sendVerificationEmails(user.email, otp);
 
@@ -189,7 +189,10 @@ export class UserService {
 		email: string,
 		otp: string
 	): Promise<{ success: boolean; message?: string; token?: string }> {
-		const user = await userRepo.findOneBy({ email });
+		const user = await userRepo.findOne({
+			where: { email },
+			relations: ["role"],
+		});
 		if (!user) {
 			return { success: false, message: "User Not Found" };
 		}
@@ -230,9 +233,24 @@ export class UserService {
 		// Fetch user's surgery logs
 		const surgeries = await surgeryLogsRepo.find({
 			where: {
-				doctorsTeam: { $elemMatch: { doctorId: user.id } } as any,
+				$or: [{ "doctorsTeam.doctorId": user.id }, { leadSurgeon: user.id }],
 			},
 		});
+
+
+		let names: Promise<string>[]
+		if(surgeries.length > 0){
+			names = surgeries.map( async (sur) => {
+				const surgeriesName = await surgeryRepo.findOne({
+					where: {
+						id: sur.surgeryId,
+					},
+					select: ['name']
+				})
+				return surgeriesName.name
+			})
+		}
+		const resolvedNames = surgeries.length > 0 ? await Promise.all(names) : [];
 
 		const token = jwtHandler({
 			id: user.id,
@@ -240,8 +258,9 @@ export class UserService {
 			name: `${user.first_name} ${user.last_name}`,
 			tokenVersion: user.token_version,
 			first_login: user.first_login,
-			surgeries: surgeries.map((surgery) => ({
+			surgeries: surgeries.map((surgery, index) => ({
 				id: surgery.id.toString(),
+				name: resolvedNames[index],
 				date: surgery.date,
 				status: surgery.status,
 				stars: surgery.stars,

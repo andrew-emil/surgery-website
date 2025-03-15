@@ -9,6 +9,7 @@ export interface JWTPayload {
 	surgeries: Array<{
 		id: string;
 		date: Date;
+		name: string;
 		status: STATUS;
 		stars: number;
 		cptCode: string;
@@ -31,7 +32,7 @@ export enum OUTCOME {
 export enum USER_STATUS {
 	PENDING = "pending",
 	ACTIVE = "active",
-	INACTIVE = "inactive"
+	INACTIVE = "inactive",
 }
 
 export enum AffiliationsType {
@@ -77,6 +78,21 @@ export enum Authentication_Request {
 }
 
 export enum PARTICIPATION_STATUS {
-	APPROVED= "Approved",
+	APPROVED = "Approved",
 	PENDING = "Pending",
+}
+
+export enum SURGERY_TYPE {
+	COMPLEX = "complex",
+	SPECIALIZED = "specialized",
+	SUPERVISED = "supervised",
+	OBSERVED = "observed",
+	SHADOWING = "shadowing",
+}
+
+export enum SurgeryRole {
+	LEAD_SURGEON = "lead_surgeon",
+	ASSISTANT = "assistant",
+	OBSERVER = "observer",
+	TRAINEE = "trainee",
 }

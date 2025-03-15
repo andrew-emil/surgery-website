@@ -1,8 +1,14 @@
 import { Request, Response } from "express";
 import { addPostSurgerySchema } from "../../../utils/zodSchemas.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
-import { postSurgeryRepo, surgeryRepo } from "../../../config/repositories.js";
-import { DISCHARGE_STATUS, OUTCOME } from "../../../utils/dataTypes.js";
+import {
+	postSurgeryRepo,
+	surgeryRepo,
+	surgeryLogsRepo,
+	authenticationRequestRepo,
+} from "../../../config/repositories.js";
+import { Authentication_Request } from "../../../utils/dataTypes.js";
+import { trainingService } from "../../../config/initializeServices.js";
 
 export const addPostSurgery = async (req: Request, res: Response) => {
 	const validation = addPostSurgerySchema.safeParse(req.body);
@@ -18,19 +24,24 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 		caseNotes,
 	} = validation.data;
 
-	const parsedSurgeryId = parseInt(surgeryId);
-	if (isNaN(parsedSurgeryId)) throw Error("Invalid Surgery ID");
+	const [surgery, surgeryLog] = await Promise.all([
+		surgeryRepo.findOne({
+			where: { id: surgeryId },
+			relations: ["leadSurgeon"],
+		}),
+		surgeryLogsRepo.findOneBy({ surgeryId }),
+	]);
 
-	const surgeryMinutes = parseInt(surgicalTimeMinutes);
-	if (isNaN(surgeryMinutes)) throw Error("Invalid surgical time minutes");
-
-	const surgery = await surgeryRepo.findOneBy({
-		id: parsedSurgeryId,
-	});
-	if (!surgery) throw Error("Surgery Not Found");
+	if (!surgery || !surgeryLog) {
+		res.status(404).json({
+			success: false,
+			message: "Surgery record not found in system",
+		});
+		return;
+	}
 
 	const existingPostSurgery = await postSurgeryRepo.findOneBy({
-		surgeryId: parsedSurgeryId,
+		surgeryId,
 	});
 	if (existingPostSurgery) {
 		res.status(409).json({
@@ -40,29 +51,36 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 		return;
 	}
 
-	if (!Object.values(OUTCOME).includes(outcome as OUTCOME))
-		throw Error("Invalid outcome value");
-
-	if (
-		!Object.values(DISCHARGE_STATUS).includes(
-			dischargeStatus as DISCHARGE_STATUS
-		)
-	)
-		throw Error("Invalid discharge status value");
-
 	const postSurgery = postSurgeryRepo.create({
-		surgeryId: parsedSurgeryId,
-		surgicalTimeMinutes: surgeryMinutes,
-		outcome: outcome as OUTCOME,
+		surgeryId,
+		surgicalTimeMinutes: parseInt(surgicalTimeMinutes),
+		outcome,
 		complications: complications?.trim() || null,
-		dischargeStatus: dischargeStatus as DISCHARGE_STATUS,
+		dischargeStatus,
 		caseNotes: caseNotes?.trim() || null,
 	});
 
-	await postSurgeryRepo.save(postSurgery);
+	await Promise.all([
+		postSurgeryRepo.save(postSurgery),
+		trainingService.handleSurgeryCompletion(surgeryId),
+		authenticationRequestRepo.update(
+			{ surgery: { id: surgeryId } },
+			{ status: Authentication_Request.APPROVED }
+		),
+	]);
 
 	res.status(201).json({
 		success: true,
-		message: "Surgery details added successfully",
+		message: "Surgery details added and training records updated",
+		data: {
+			postSurgeryId: postSurgery.id,
+			surgeryDetails: {
+				id: surgery.id,
+				name: surgery.name,
+				duration: postSurgery.surgicalTimeMinutes,
+				outcome: postSurgery.outcome,
+			},
+			trainingUpdated: surgeryLog.doctorsTeam.length,
+		},
 	});
 };

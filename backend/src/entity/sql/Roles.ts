@@ -11,6 +11,7 @@ import {
 import { User } from "./User.js";
 import { Permission } from "./Permission.js";
 import { Surgery } from "./Surgery.js";
+import { SURGERY_TYPE } from "../../utils/dataTypes.js";
 
 @Entity()
 export class Role {
@@ -20,8 +21,11 @@ export class Role {
 	@Column({ type: "varchar", unique: true })
 	name: string;
 
-	@Column({ type: 'int', default: 0 })
-	requiredSurgeries: number;
+	@Column({ type: "enum", enum: SURGERY_TYPE, nullable: true })
+	requiredSurgeryType: SURGERY_TYPE;
+
+	@Column({ type: "int", default: 0 })
+	requiredCount: number;
 
 	@OneToMany(() => User, (user) => user.role)
 	users: User[];
@@ -37,4 +41,10 @@ export class Role {
 		name: "role_permission",
 	})
 	permissions: Permission[];
+
+	static readonly INTERN = "Internship Doctor";
+	static readonly RESIDENT = "Resident Doctor";
+	static readonly SPECIALIST = "Specialist";
+	static readonly CONSULTANT = "Consultant";
+	static readonly DEPARTMENT_HEAD = "Department Head";
 }

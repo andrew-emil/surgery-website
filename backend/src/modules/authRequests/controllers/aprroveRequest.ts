@@ -1,57 +1,34 @@
 import { Request, Response } from "express";
-import {
-	authenticationRequestRepo,
-	surgeryLogsRepo,
-} from "../../../config/repositories.js";
-import {
-	Authentication_Request,
-	PARTICIPATION_STATUS,
-} from "../../../utils/dataTypes.js";
+import { authenticationRequestRepo } from "../../../config/repositories.js";
+import { surgeryAuthService } from "../../../config/initializeServices.js";
 
 export const approveRequest = async (req: Request, res: Response) => {
-	const id = parseInt(req.params.id);
+	const requestId = parseInt(req.params.id);
 
-	if (isNaN(id)) throw Error("Invalid request id");
-
-	const authRequest = await authenticationRequestRepo.findOne({
-		where: { id },
-		relations: ["surgery", "trainee"],
-	});
-	if (!authRequest) throw Error("Authentication request Not Found");
-
-	if (authRequest.status !== Authentication_Request.PENDING) {
-		res.status(400).json({
+	if (isNaN(requestId)) {
+		return res.status(400).json({
 			success: false,
-			message: "Only pending requests can be approved",
+			message: "Invalid request ID format",
 		});
-		return;
 	}
 
-	const surgery = await surgeryLogsRepo.findOneBy({
-		surgeryId: authRequest.surgery.id,
+	await surgeryAuthService.handleRequestApproval(requestId);
+
+	// Fetch updated request details
+	const updatedRequest = await authenticationRequestRepo.findOne({
+		where: { id: requestId },
+		relations: ["surgery", "trainee", "consultant"],
 	});
 
-	if (!surgery) throw Error("Surgery Not Found");
-
-	const doctorIndex = surgery.doctorsTeam.findIndex(
-		(doctor) => doctor.doctorId === authRequest.trainee.id
-	);
-	if (doctorIndex === -1) throw Error("Doctor Not Found in surgery team");
-
-	surgery.doctorsTeam[doctorIndex].participationStatus =
-		PARTICIPATION_STATUS.APPROVED;
-	authRequest.status = Authentication_Request.APPROVED;
-
-	await Promise.all([
-		authenticationRequestRepo.save(authRequest),
-		surgeryLogsRepo.update(
-			{ surgeryId: authRequest.surgery.id },
-			{ doctorsTeam: surgery.doctorsTeam }
-		),
-	]);
-
-	res.status(200).json({
+	res.json({
 		success: true,
 		message: "Request approved successfully",
+		data: {
+			requestId: updatedRequest.id,
+			surgeryId: updatedRequest.surgery.id,
+			trainee: `${updatedRequest.trainee.first_name} ${updatedRequest.trainee.last_name}`,
+			consultant: `${updatedRequest.consultant.first_name} ${updatedRequest.consultant.last_name}`,
+			newStatus: updatedRequest.status,
+		},
 	});
 };

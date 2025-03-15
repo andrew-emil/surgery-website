@@ -15,7 +15,6 @@ export class Rating {
 	id: ObjectId;
 
 	@Column({ type: "int" })
-	@Index()
 	surgeryId: number;
 
 	@Column({type: 'string'})

@@ -4,8 +4,8 @@ import {
 	departmentRepo,
 	surgeryLogsRepo,
 	surgeryRepo,
-	surgeryTypeRepo,
 	userRepo,
+	roleRepo,
 } from "../../../config/repositories.js";
 import { PatientDetails } from "../../../entity/sub entity/PatientDetails.js";
 import { addSurgerySchema } from "../../../utils/zodSchemas.js";
@@ -15,6 +15,10 @@ import { In } from "typeorm";
 import { DoctorsTeam } from "../../../entity/sub entity/DoctorsTeam.js";
 import { Surgery } from "../../../entity/sql/Surgery.js";
 import { SurgeryLog } from "../../../entity/mongodb/SurgeryLog.js";
+import {
+	surgeryAuthService,
+	trainingService,
+} from "../../../config/initializeServices.js";
 
 export const addSurgery = async (req: Request, res: Response) => {
 	const validation = addSurgerySchema.safeParse(req.body);
@@ -24,6 +28,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 	const {
 		hospitalId,
 		departmentId,
+		name,
 		leadSurgeon,
 		doctorsTeam,
 		date,
@@ -34,74 +39,116 @@ export const addSurgery = async (req: Request, res: Response) => {
 		patientComorbidity,
 		patientDiagnosis,
 	} = validation.data;
-
-	const hospital = await affiliationRepo.findOneBy({
-		id: (hospitalId),
-	});
-	if (!hospital) throw Error("Hospital Not Found");
-
-	const department = await departmentRepo.findOneBy({
-		id: departmentId,
-	});
-	if (!department) throw Error("Department Not Found");
-
-	const leadSurgeonEntity = await userRepo.findOneBy({
-		id: leadSurgeon,
-	})
-	if(!leadSurgeonEntity) throw Error("Lead Surgeon Not Found")
-
-	const doctorIds = doctorsTeam.map((p) => p.doctorId);
-	const doctors = await userRepo.findBy({ id: In(doctorIds) });
-	if (doctors.length !== doctorsTeam.length)
-		throw Error("One or more doctors Not Found");
-
 	let surgery: Surgery;
-
-	await AppDataSource.transaction(async (transactionalEntityManager) => {
-		surgery = transactionalEntityManager.create(surgeryRepo.target, {
-			surgery_type: department,
-			hospital,
-		});
-		await transactionalEntityManager.save(surgeryRepo.target, surgery);
-	});
+	let surgeryLog: SurgeryLog;
 
 	try {
-		const patient = new PatientDetails(
-			patientBmi,
-			patientComorbidity,
-			patientDiagnosis
-		);
+		const [hospital, department, leadSurgeonEntity] = await Promise.all([
+			affiliationRepo.findOneBy({ id: hospitalId }),
+			departmentRepo.findOneBy({ id: departmentId }),
+			userRepo.findOne({
+				where: { id: leadSurgeon },
+				relations: ["role"],
+			}),
+		]);
 
-		const surgeryLog = new SurgeryLog();
-		surgeryLog.surgeryId = surgery.id;
-		if (doctorsTeam.length > 0) {
+		if (!hospital) throw new Error("Hospital Not Found");
+		if (!department) throw new Error("Department Not Found");
+		if (!leadSurgeonEntity?.role)
+			throw new Error("Lead surgeon role Not Found");
+
+		// Validate team members
+		const doctorIds = doctorsTeam.map((p) => p.doctorId);
+		const roleIds = doctorsTeam.map((p) => p.roleId);
+
+		const [existingUsers, existingRoles] = await Promise.all([
+			userRepo.findBy({ id: In(doctorIds) }),
+			roleRepo.findBy({ id: In(roleIds) }),
+		]);
+
+		if (existingUsers.length !== doctorsTeam.length) {
+			const missingIds = doctorIds.filter(
+				(id) => !existingUsers.some((u) => u.id === id)
+			);
+			throw new Error(`Invalid doctors`);
+		}
+
+		if (existingRoles.length !== new Set(roleIds).size) {
+			const missingRoles = roleIds.filter(
+				(id) => !existingRoles.some((r) => r.id === id)
+			);
+			throw new Error(`Invalid roles: ${missingRoles.join(", ")}`);
+		}
+
+		await AppDataSource.transaction(async (transactionalEntityManager) => {
+			// Create SQL surgery
+			surgery = transactionalEntityManager.create(Surgery, {
+				department,
+				hospital,
+				lead_surgeon: leadSurgeonEntity,
+				name
+			});
+			await transactionalEntityManager.save(surgery);
+
+			// Create MongoDB surgery log
+			const patient = new PatientDetails(
+				patientBmi,
+				patientComorbidity,
+				patientDiagnosis
+			);
+
+			surgeryLog = new SurgeryLog();
+			surgeryLog.surgeryId = surgery.id;
 			surgeryLog.doctorsTeam = doctorsTeam.map((doctor) => {
-				const permissions = doctor.permissions.map((perm) => parseInt(perm));
-				const teamMember = new DoctorsTeam(
+				return new DoctorsTeam(
 					doctor.doctorId,
-					parseInt(doctor.roleId),
-					permissions,
+					doctor.roleId,
+					doctor.permissions,
 					doctor.participationStatus,
 					doctor.notes
 				);
-				return teamMember;
 			});
-		}
-		surgeryLog.leadSurgeon = leadSurgeonEntity.id;
-		surgeryLog.date = new Date(date);
-		surgeryLog.time = time;
-		surgeryLog.cptCode = cptCode;
-		surgeryLog.icdCode = icdCode;
-		surgeryLog.patient_details = patient;
+			surgeryLog.leadSurgeon = leadSurgeonEntity.id;
+			surgeryLog.date = new Date(date);
+			surgeryLog.time = time;
+			surgeryLog.cptCode = cptCode;
+			surgeryLog.icdCode = icdCode;
+			surgeryLog.patient_details = patient;
 
-		await surgeryLogsRepo.save(surgeryLog);
+			await surgeryLogsRepo.save(surgeryLog);
+		});
+
+		// Initialize training records
+		await trainingService.initializeSurgeryRecords(
+			surgery.id,
+			doctorsTeam.map((d) => ({
+				userId: d.doctorId,
+				roleId: d.roleId,
+			}))
+		);
+
+		res.status(201).json({
+			success: true,
+			message: "Surgery created successfully",
+			data: {
+				surgeryId: surgery.id,
+				logId: surgeryLog.id,
+				participantCount: doctorsTeam.length,
+				leadSurgeon: {
+					id: leadSurgeonEntity.id,
+					name: `${leadSurgeonEntity.first_name} ${leadSurgeonEntity.last_name}`,
+				},
+			},
+		});
 	} catch (error) {
-		await surgeryRepo.delete(surgery.id);
-		throw Error("Failed to save surgery log. Rolling back surgery creation.");
-	}
+		// Cleanup on failure
+		if (surgery?.id) await surgeryRepo.delete(surgery.id);
+		if (surgeryLog?.id) await surgeryLogsRepo.delete(surgeryLog.id);
 
-	res.status(201).json({
-		success: true,
-		message: "Surgery created successfully",
-	});
+		res.status(400).json({
+			success: false,
+			message: error.message,
+			errorDetails: error.stack?.split("\n")[0],
+		});
+	}
 };

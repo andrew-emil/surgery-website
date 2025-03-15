@@ -1,5 +1,5 @@
 import { AppDataSource, MongoDataSource } from "./data-source.js";
-import { Repository } from "typeorm";
+import { Repository, MongoRepository } from "typeorm";
 
 import { PostSurgery } from "../entity/mongodb/PostSurgery.js";
 import { User } from "../entity/sql/User.js";
@@ -26,10 +26,10 @@ export let surgeryRepo: Repository<Surgery>;
 export let notificationRepo: Repository<Notification>;
 export let permissionRepo: Repository<Permission>;
 
-export let auditTrailRepo: Repository<AuditTrail>;
-export let postSurgeryRepo: Repository<PostSurgery>;
-export let surgeryLogsRepo: Repository<SurgeryLog>;
-export let ratingRepo: Repository<Rating>;
+export let auditTrailRepo: MongoRepository<AuditTrail>;
+export let postSurgeryRepo: MongoRepository<PostSurgery>;
+export let surgeryLogsRepo: MongoRepository<SurgeryLog>;
+export let ratingRepo: MongoRepository<Rating>;
 
 export const initializeSQLRepositories = () => {
 	userRepo = AppDataSource.getRepository(User);

@@ -11,16 +11,16 @@ import {
 	Authentication_Request,
 	NOTIFICATION_TYPES,
 } from "../../../utils/dataTypes.js";
-import { NotificationService } from "../../../service/NotificationService.js";
 import { createRequestSchema } from "../../../utils/zodSchemas.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { DoctorsTeam } from "../../../entity/sub entity/DoctorsTeam.js";
+import { notificationService } from "../../../config/initializeServices.js";
 
 export const createRequest = async (req: Request, res: Response) => {
 	const validation = createRequestSchema.safeParse(req.body);
-
-	if (!validation.success)
+	if (!validation.success) {
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
+	}
 
 	const { surgeryId, traineeId, consultantId, roleId, permissions, notes } =
 		validation.data;
@@ -28,33 +28,24 @@ export const createRequest = async (req: Request, res: Response) => {
 	const parsedSurgeryId = parseInt(surgeryId);
 	const parsedRoleId = parseInt(roleId);
 
-	const surgery = await surgeryRepo.findOne({
-		where: {
-			id: parsedSurgeryId,
-		},
-		relations: ["surgery_type"],
-	});
+	// 2. Fetch required entities
+	const [surgery, consultantRole, trainee, consultant, role] =
+		await Promise.all([
+			surgeryRepo.findOne({
+				where: { id: parsedSurgeryId },
+				relations: ["surgery_type"],
+			}),
+			roleRepo.findOneBy({ name: "Consultant" }),
+			userRepo.findOneBy({ id: traineeId }),
+			userRepo.findOneBy({ id: consultantId }),
+			roleRepo.findOneBy({ id: parsedRoleId }),
+		]);
 
-	if (!surgery) throw Error("Surgery not Found");
-
-	const consultantRole = await roleRepo.findOneBy({ name: "Consultant" });
-
-	if (!consultantRole)
-		throw Error("Consultant role is not defined in the system.");
-
-	const [trainee, consultant, role] = await Promise.all([
-		userRepo.findOneBy({
-			id: traineeId,
-		}),
-		userRepo.findOneBy({
-			id: consultantId,
-			role: consultantRole,
-		}),
-		roleRepo.findOneBy({ id: parsedRoleId }),
-	]);
-
+	// 3. Validate entities
+	if (!surgery) throw Error("Surgery Not Found");
+	if (!consultantRole) throw Error("Consultant role Not Found");
 	if (!trainee) throw Error("Invalid trainee data");
-	if (!consultant) throw Error("Invalid Consultant data");
+	if (!consultant) throw Error("Invalid consultant data");
 	if (!role) throw Error("Invalid role");
 
 	const existingRequest = await authenticationRequestRepo.findOne({
@@ -65,22 +56,23 @@ export const createRequest = async (req: Request, res: Response) => {
 			status: Authentication_Request.PENDING,
 		},
 	});
+
 	if (existingRequest) {
-		res.status(409).json({
+		return res.status(409).json({
 			success: false,
-			message:
-				"An authentication request is already pending for this trainee in the specified surgery.",
+			message: "A pending request already exists for this surgery",
 		});
-		return;
 	}
 
+	// 5. Create new request
 	const authRequest = new AuthenticationRequest();
 	authRequest.surgery = surgery;
 	authRequest.trainee = trainee;
 	authRequest.consultant = consultant;
-	authRequest.role = role;
+	authRequest.requestedRole = role;
 	authRequest.status = Authentication_Request.PENDING;
 
+	// 6. Add to doctors team
 	const parsedPermissions = permissions.map((perm) => parseInt(perm));
 	const doctor = new DoctorsTeam(
 		traineeId,
@@ -94,21 +86,33 @@ export const createRequest = async (req: Request, res: Response) => {
 		surgeryId: parsedSurgeryId,
 	});
 
-	surgeryLog.doctorsTeam.push(doctor);
-	const notificationService = new NotificationService();
+	if (!surgeryLog) {
+		throw Error("Surgery log not found");
+	}
 
+	surgeryLog.doctorsTeam.push(doctor);
+
+	await notificationService.createNotification(
+		consultant.id,
+		NOTIFICATION_TYPES.AUTH_REQUEST,
+		`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.SurgeryType})`
+	);
+
+	// 8. Save changes
 	await Promise.all([
 		authenticationRequestRepo.save(authRequest),
 		surgeryLogsRepo.save(surgeryLog),
-		notificationService.createNotification(
-			consultant.id,
-			NOTIFICATION_TYPES.AUTH_REQUEST,
-			`You have a new request from DR.${trainee.first_name} ${trainee.last_name} \nfor surgery: ${surgery.surgery_type.name}`
-		),
 	]);
 
 	res.status(201).json({
 		success: true,
-		message: "Request has been sent",
+		message: "Request created successfully",
+		data: {
+			requestId: authRequest.id,
+			surgery: surgery.name,
+			surgeryType: surgery.SurgeryType,
+			trainee: `${trainee.first_name} ${trainee.last_name}`,
+			consultant: `${consultant.first_name} ${consultant.last_name}`,
+		},
 	});
 };

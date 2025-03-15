@@ -11,6 +11,7 @@ import {
 import { PatientDetails } from "../sub entity/PatientDetails.js";
 import { DoctorsTeam } from "../sub entity/DoctorsTeam.js";
 import { STATUS } from "../../utils/dataTypes.js";
+import { TrainingCredit } from "../sub entity/TrainingCredit.js";
 
 @Entity()
 export class SurgeryLog {
@@ -68,4 +69,7 @@ export class SurgeryLog {
 
 	@VersionColumn()
 	version: number;
+
+	@Column(() => TrainingCredit)
+	trainingCredits: TrainingCredit[];
 }

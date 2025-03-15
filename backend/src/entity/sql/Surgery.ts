@@ -1,13 +1,28 @@
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+	Column,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	OneToMany,
+	OneToOne,
+	PrimaryGeneratedColumn,
+} from "typeorm";
 import { Affiliations } from "./Affiliations.js";
 import { AuthenticationRequest } from "./AuthenticationRequests.js";
 import { Role } from "./Roles.js";
 import { Department } from "./departments.js";
+import { SURGERY_TYPE } from "../../utils/dataTypes.js";
 
 @Entity()
 export class Surgery {
 	@PrimaryGeneratedColumn("increment")
 	id: number;
+
+	@Column({ type: "varchar" })
+	name: string;
+
+	@Column({ type: "enum", enum: SURGERY_TYPE, nullable: true })
+	SurgeryType: SURGERY_TYPE;
 
 	@OneToOne(() => Role)
 	@JoinColumn()
@@ -25,7 +40,7 @@ export class Surgery {
 		nullable: true,
 		onUpdate: "CASCADE",
 	})
-	depaertment: Department;
+	department: Department;
 
 	@OneToMany(() => AuthenticationRequest, (req) => req.surgery)
 	authentication: AuthenticationRequest;

@@ -10,7 +10,7 @@ import crypto from "crypto";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { NOTIFICATION_TYPES, USER_STATUS } from "../../../utils/dataTypes.js";
 import { NotificationService } from "../../../service/NotificationService.js";
-import { bcryptHash } from "../../../utils/hashFunction.js";
+import { bcryptHash } from "../../../config/hashFunction.js";
 
 const notificationService = new NotificationService();
 
@@ -90,7 +90,7 @@ export const register = async (req: Request, res: Response) => {
 	await notificationService.createNotification(
 		adminId.id,
 		NOTIFICATION_TYPES.USER_REGISTRATION,
-		`New user registered: ${newUser.email}. Please review and approve. \nActivation link: ${activationLink}`
+		`New user registered: ${newUser.email}. Please review and approve. \\nActivation link: ${activationLink}`
 	);
 
 	res.status(201).json({
