@@ -27,7 +27,7 @@ export default function Login() {
       .post("/users/login", payload)
       .then(({ data }) => {
         if (data.message === "OTP sent. Please verify to complete login.") {
-          setMessage(data.message);
+          setMessage(payload.email);
           setRedirectToOTP(true);
         }
       })

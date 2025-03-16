@@ -5,8 +5,11 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Container } from "@mui/material";
+import { useStateContext } from "../context/contextprovider";
 
 export default function Home() {
+  const { user } = useStateContext();
+  console.log(user.name);
   return (
     <Container>
       <Card variant="outlined">

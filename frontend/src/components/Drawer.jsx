@@ -27,7 +27,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useStateContext } from "../context/contextprovider";
-import axiosClient from "../axiosClient";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -186,16 +185,8 @@ export default function MiniDrawer() {
   const { setUser, setToken } = useStateContext();
   const handlelogout = (ev) => {
     ev.preventDefault();
-    axiosClient
-      .post("/logout")
-      .then(() => {
-        setUser(null);
-        setToken(null);
-      })
-      .catch((err) => {
-        console.error(err);
-        // Handle error appropriately, e.g., show an error message to the user.
-      });
+    setUser(null);
+    setToken(null);
   };
 
   const menuId = "primary-search-account-menu";

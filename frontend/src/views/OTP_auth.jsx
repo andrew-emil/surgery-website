@@ -8,7 +8,7 @@ import OTPInput from "./../components/OTPInput";
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../context/contextprovider";
 import { Navigate } from "react-router-dom";
-
+import * as jose from "jose";
 export default function OTP_auth() {
   const [otp, setOtp] = useState("");
   const StyledImg = styled("img")(({ theme }) => ({
@@ -21,15 +21,29 @@ export default function OTP_auth() {
     marginBottom: ".5rem",
   }));
   const { setUser, setToken, message } = useStateContext();
+
   if (!message) {
     return <Navigate to="/login" />;
   }
+  const secretKey = "mySecret1243"; // Your secret as a string
+
+  // Convert the secret key into a Uint8Array
+  const secret = new TextEncoder().encode(secretKey);
   const submit = (ev) => {
     ev.preventDefault();
-    axiosClient.post("/users/verify", { otp }).then(({ data }) => {
-      console.log(data);
-      // setUser(data.user);
-      // setToken(data.token);
+    const payload = {
+      email: message,
+      otp: otp,
+    };
+    axiosClient.post("/users/verify", payload).then(({ data }) => {
+      const token = data.token;
+      jose
+        .jwtVerify(token, secret, { algorithms: ["HS256"] })
+        .then((result) => {
+          setUser(result.payload);
+          console.log(result.payload);
+          setToken(token);
+        });
     });
     console.log(otp);
   };
