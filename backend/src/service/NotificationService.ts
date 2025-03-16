@@ -7,8 +7,6 @@ import { mail, sender } from "../config/nodeMailerConfig.js";
 import { NOTIFICATION_EMAIL } from "../utils/emailTemplate.js";
 
 export class NotificationService {
-	private notificationRepo = notificationRepo;
-	private userRepo = userRepo;
 
 	private async sendNotificationEmail(to: string, message: string) {
 		const response = await mail.sendMail({
@@ -26,15 +24,15 @@ export class NotificationService {
 		type: NOTIFICATION_TYPES,
 		message: string
 	): Promise<Notification> {
-		const user = await this.userRepo.findOneBy({ id: userId });
+		const user = await userRepo.findOneBy({ id: userId });
 		if (!user) throw Error("User Not Found");
 
-		const notification = this.notificationRepo.create({
+		const notification = notificationRepo.create({
 			type,
 			message,
 			user,
 		});
-		const savedNotification = await this.notificationRepo.save(notification);
+		const savedNotification = await notificationRepo.save(notification);
 
 		io.emit(`notification:${userId}`, savedNotification);
 

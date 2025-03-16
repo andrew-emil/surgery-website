@@ -23,10 +23,9 @@ export const registerSchema = z.object({
 			message: "Please enter a valid phone number",
 		}),
 	password: z.string(),
-	roleId: z.string().optional(),
-	affiliationId: z.string(),
-	departmentId: z.string(),
-	residencyLevel: z.string().optional(),
+	roleId: z.number(),
+	affiliationId: z.number(),
+	departmentId: z.number(),
 });
 
 export const updateAccountSchema = z.object({
@@ -42,7 +41,7 @@ export const updateDepartmentSchema = z.object({
 	id: z.string(),
 	name: z.string().optional(),
 	affiliationId: z.string().optional(),
-	surgeryTypes: z.array(z.string()).nonempty().optional(),
+	surgeryEquipments: z.array(z.string()).nonempty().optional(),
 });
 
 export const addAffiliationSchema = z.object({
@@ -80,17 +79,16 @@ export const updateAffiliationSchema = z.object({
 });
 
 export const addSurgerySchema = z.object({
-	hospitalId: z.string(),
-	surgeryTypeId: z.string(),
+	hospitalId: z.number(),
+	departmentId: z.number(),
+	name:z.string(),
 	leadSurgeon: z.string(),
 	doctorsTeam: z
 		.array(
 			z.object({
 				doctorId: z.string(),
-				roleId: z.string().refine((id) => !isNaN(parseInt(id))),
-				permissions: z.array(
-					z.string().refine((perm) => !isNaN(parseInt(perm)))
-				),
+				roleId: z.number(),
+				permissions: z.array(z.number()),
 				participationStatus: z.nativeEnum(PARTICIPATION_STATUS),
 				notes: z.string().optional(),
 			})
@@ -109,7 +107,7 @@ export const addSurgerySchema = z.object({
 });
 
 export const addPostSurgerySchema = z.object({
-	surgeryId: z.string().refine((num) => !isNaN(parseInt(num))),
+	surgeryId: z.number(),
 	surgicalTimeMinutes: z.string().refine((num) => !isNaN(parseInt(num))),
 	outcome: z.nativeEnum(OUTCOME).optional(),
 	complications: z
@@ -126,7 +124,7 @@ export const addPostSurgerySchema = z.object({
 export const createNotificationSchema = z.object({
 	userId: z.string(),
 	type: z.nativeEnum(NOTIFICATION_TYPES),
-	message: z.string()
+	message: z.string(),
 });
 
 export const createRequestSchema = z.object({
@@ -141,7 +139,12 @@ export const createRequestSchema = z.object({
 export const editRequestSchema = z.object({
 	surgeryId: z.string().refine((id) => !isNaN(parseInt(id))),
 	traineeId: z.string(),
-	roleId: z.string().refine((id) => !isNaN(parseInt(id))).optional(),
-	permissions: z.array(z.string().refine((perm) => !isNaN(parseInt(perm)))).optional(),
+	roleId: z
+		.string()
+		.refine((id) => !isNaN(parseInt(id)))
+		.optional(),
+	permissions: z
+		.array(z.string().refine((perm) => !isNaN(parseInt(perm))))
+		.optional(),
 	notes: z.string().optional(),
 });

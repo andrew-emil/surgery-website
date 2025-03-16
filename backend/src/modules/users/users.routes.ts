@@ -18,7 +18,7 @@ usersRoutes.post("/verify", auditLogger, verify2FA);
 usersRoutes.post("/forget-password", forgetPassword);
 usersRoutes.post("/reset-password", auditLogger, resetPassword);
 
-usersRoutes.use(authMiddleware);
+// usersRoutes.use(authMiddleware);
 usersRoutes.use(auditLogger);
 
 //protected routes

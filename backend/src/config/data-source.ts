@@ -7,13 +7,11 @@ import { Affiliations } from "../entity/sql/Affiliations.js";
 import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
 import { Department } from "../entity/sql/departments.js";
 import { SurgeryEquipment } from "../entity/sql/SurgeryEquipments.js";
-import { SurgeryType } from "../entity/sql/SurgeryType.js";
 import { PostSurgery } from "../entity/mongodb/PostSurgery.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Surgery } from "../entity/sql/Surgery.js";
 import { Rating } from "../entity/mongodb/Rating.js";
 import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
-import { SurgeryRequirement } from "../entity/sql/SurgeryRequirements.js";
 import { Notification } from "../entity/sql/Notification.js";
 import { Permission } from "../entity/sql/Permission.js";
 
@@ -33,9 +31,7 @@ export const AppDataSource = new DataSource({
 		AuthenticationRequest,
 		Department,
 		SurgeryEquipment,
-		SurgeryType,
 		Surgery,
-		SurgeryRequirement,
 		Notification,
 		Permission,
 	],

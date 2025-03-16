@@ -2,11 +2,10 @@ import {
 	Entity,
 	PrimaryGeneratedColumn,
 	Column,
-	ManyToOne,
 	ManyToMany,
 	JoinTable,
 } from "typeorm";
-import { SurgeryType } from "./SurgeryType.js";
+import { Department } from "./departments.js";
 
 @Entity()
 export class SurgeryEquipment {
@@ -16,9 +15,12 @@ export class SurgeryEquipment {
 	@Column({ length: 255, type: "varchar" })
 	equipment_name: string;
 
-	@ManyToMany(() => SurgeryType, (surgeryType) => surgeryType.surgeryEquipment)
+	@Column({ type: "blob", nullable: true })
+	photo: Buffer;
+
+	@ManyToMany(() => Department, (department) => department.surgeryEquipment)
 	@JoinTable({
 		name: "surgery_equipment_mapping",
 	})
-	surgeryType: SurgeryType;
+	department: Department;
 }

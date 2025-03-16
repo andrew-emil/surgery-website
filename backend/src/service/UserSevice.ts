@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
-import { surgeryLogsRepo, userRepo } from "../config/repositories.js";
+import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
+import { surgeryLogsRepo, surgeryRepo, userRepo } from "../config/repositories.js";
 import { createOtp } from "../utils/createOTP.js";
 import {
 	sendAccountUpdateEmail,
@@ -18,7 +19,7 @@ export class UserService {
 	async login(
 		email: string,
 		password: string
-	): Promise<{ success: boolean; user?: any; message?: string }> {
+	): Promise<{ success: boolean; user?: User; message?: string }> {
 		const user = await userRepo.findOneBy({ email });
 
 		if (!user) return { success: false, message: "Invalid credentials" };
@@ -54,7 +55,7 @@ export class UserService {
 		return { success: true, user };
 	}
 
-	async sendOtp(user: any): Promise<{ success: boolean; message: string }> {
+	async sendOtp(user: User): Promise<{ success: boolean; message: string }> {
 		const { otp, hashedOtp } = await createOtp(
 			parseInt(process.env.salt_rounds) || 10
 		);
@@ -80,7 +81,7 @@ export class UserService {
 		user.reset_token_expires = new Date(Date.now() + 60 * 60 * 1000);
 		await userRepo.save(user);
 
-		const resetURL = `http://localhost:5173/reset-password?token=${token}`;
+		const resetURL = `${process.env.BASE_URL}/reset-password?token=${token}`;
 
 		// Send reset email
 		await sendResetEmail(email, resetURL);
@@ -188,7 +189,10 @@ export class UserService {
 		email: string,
 		otp: string
 	): Promise<{ success: boolean; message?: string; token?: string }> {
-		const user = await userRepo.findOneBy({ email });
+		const user = await userRepo.findOne({
+			where: { email },
+			relations: ["role"],
+		});
 		if (!user) {
 			return { success: false, message: "User Not Found" };
 		}
@@ -229,9 +233,24 @@ export class UserService {
 		// Fetch user's surgery logs
 		const surgeries = await surgeryLogsRepo.find({
 			where: {
-				doctorsTeam: { $elemMatch: { doctorId: user.id } } as any,
+				$or: [{ "doctorsTeam.doctorId": user.id }, { leadSurgeon: user.id }],
 			},
 		});
+
+
+		let names: Promise<string>[]
+		if(surgeries.length > 0){
+			names = surgeries.map( async (sur) => {
+				const surgeriesName = await surgeryRepo.findOne({
+					where: {
+						id: sur.surgeryId,
+					},
+					select: ['name']
+				})
+				return surgeriesName.name
+			})
+		}
+		const resolvedNames = surgeries.length > 0 ? await Promise.all(names) : [];
 
 		const token = jwtHandler({
 			id: user.id,
@@ -239,8 +258,9 @@ export class UserService {
 			name: `${user.first_name} ${user.last_name}`,
 			tokenVersion: user.token_version,
 			first_login: user.first_login,
-			surgeries: surgeries.map((surgery) => ({
+			surgeries: surgeries.map((surgery, index) => ({
 				id: surgery.id.toString(),
+				name: resolvedNames[index],
 				date: surgery.date,
 				status: surgery.status,
 				stars: surgery.stars,

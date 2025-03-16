@@ -31,11 +31,17 @@ export class AuthenticationRequest {
 	surgery: Surgery;
 
 	@ManyToOne(() => Role)
-	role: Role;
+	requestedRole: Role;
 
 	@ManyToOne(() => User)
 	trainee: User;
 
 	@ManyToOne(() => User)
 	consultant: User;
+
+	@Column({type: 'timestamp', nullable: true})
+	approvedAt: Date;
+
+	@Column({type: 'varchar', nullable: true})
+	rejectionReason: string
 }

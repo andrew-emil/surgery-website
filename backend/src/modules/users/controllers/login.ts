@@ -14,7 +14,10 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 	const authResult = await userService.login(email, password);
 
-	if (!authResult.success) res.status(403).json(authResult);
+	if (!authResult.success) {
+		res.status(400).json(authResult);
+		return;
+	}
 
 	const otpResult = await userService.sendOtp(authResult.user);
 

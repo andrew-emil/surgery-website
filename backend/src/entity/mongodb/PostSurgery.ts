@@ -1,4 +1,4 @@
-import { Entity, ObjectIdColumn, ObjectId, Column, Index } from "typeorm";
+import { Entity, ObjectIdColumn, ObjectId, Column, Index, CreateDateColumn } from "typeorm";
 import { OUTCOME, DISCHARGE_STATUS } from "../../utils/dataTypes.js";
 
 @Entity()
@@ -24,4 +24,7 @@ export class PostSurgery {
 
 	@Column({ type: "string", nullable: true })
 	caseNotes: string;
+
+	@CreateDateColumn({ type: "timestamp" })
+	createdAt: Date;
 }

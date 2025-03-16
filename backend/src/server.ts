@@ -22,6 +22,8 @@ import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
 import authRequestsRoutes from "./modules/authRequests/authRequests.routes.js";
 import notificationRoutes from "./modules/notification/notification.routes.js";
 import { seedDatabase } from "./config/databaseSeed.js";
+import adminRoutes from "./modules/admin/admin.routes.js";
+import { intializeServices } from "./config/initializeServices.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -57,11 +59,12 @@ app.use(
 //routes
 app.use("/api/users", usersRoutes);
 app.use("/api/roles", rolesRoutes);
-app.use("/api/department", departmentRoutes);
+app.use("/api/departments", departmentRoutes);
 app.use("/api/surgery", surgeryRoutes);
 app.use("/api/affiliation", affiliationRoutes);
 app.use("/api/auth-requests", authRequestsRoutes);
 app.use("/api/notification", notificationRoutes);
+app.use("/api/admin", adminRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
@@ -77,9 +80,10 @@ const startServer = async () => {
 		console.log("connected to mysql database");
 
 		await MongoDataSource.initialize();
+		initializeMongoRepositories();
 		console.log("Connected to MongoDB database successfully");
 
-		initializeMongoRepositories();
+		intializeServices();
 
 		server.listen(port, () => {
 			console.log(`app listening on port: ${port}`);

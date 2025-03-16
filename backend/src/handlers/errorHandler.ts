@@ -28,7 +28,7 @@ export const errorHandler: ErrorRequestHandler = (
 		sendErrorResponse(res, 500, "Database query error", err.message);
 	} else if (err.name === "EntityNotFoundError") {
 		sendErrorResponse(res, 404, "Requested resource not found");
-	} else if (err.message.includes("Not Found")) {
+	} else if (err.message.toLowerCase().includes("not found")) {
 		sendErrorResponse(res, 404, err.message);
 	} else if (
 		err.message.split(" ")[0] === "No" &&

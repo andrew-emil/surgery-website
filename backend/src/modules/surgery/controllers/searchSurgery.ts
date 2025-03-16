@@ -43,7 +43,8 @@ export const searchSurgery = async (req: Request, res: Response) => {
 			res.status(200).json({ success: true, surgeries: [] });
 			return;
 		}
-		query["performedBy.doctorId"] = { $in: doctorIds };
+		query["doctorsTeam.doctorId"] = { $in: doctorIds };
+		query.leadSurgeon = { $in: doctorIds };
 	}
 
 	const pageNumber = Math.max(1, parseInt(page.toString(), 10));
