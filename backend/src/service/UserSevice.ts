@@ -1,6 +1,5 @@
 import bcrypt from "bcrypt";
-import { randomBytes, createCipheriv, createDecipheriv } from "crypto";
-import { surgeryLogsRepo, surgeryRepo, userRepo } from "../config/repositories.js";
+import { userRepo } from "../config/repositories.js";
 import { createOtp } from "../utils/createOTP.js";
 import {
 	sendAccountUpdateEmail,
@@ -9,12 +8,12 @@ import {
 } from "../utils/sendEmails.js";
 import { generateResetToken } from "../utils/generateResetToken.js";
 import { User } from "../entity/sql/User.js";
-import { jwtHandler } from "../handlers/jwtHandler.js";
+import { createJWTtoken } from "../handlers/jwtHandler.js";
 import { JWTPayload } from "../utils/dataTypes.js";
 
 export class UserService {
 	private MAX_FAILED_ATTEMPTS = 5;
-	private LOCK_TIME_MINUTES = 30;
+	private LOCK_TIME_MINUTES = 60;
 
 	async login(
 		email: string,
@@ -157,28 +156,7 @@ export class UserService {
 			await userRepo.save({ ...user, ...updatedUser });
 		}
 
-		const surgeries = await surgeryLogsRepo.find({
-			where: {
-				doctorsTeam: { $elemMatch: { doctorId: user.id } } as any,
-			},
-		});
-
-		const token = jwtHandler({
-			id: user.id,
-			userRole: user.role?.name || null,
-			name: `${user.first_name} ${user.last_name}`,
-			tokenVersion: user.token_version,
-			first_login: user.first_login,
-			surgeries: surgeries.map((surgery) => ({
-				id: surgery.id.toString(),
-				date: surgery.date,
-				status: surgery.status,
-				stars: surgery.stars,
-				icdCode: surgery.icdCode,
-				cptCode: surgery.cptCode,
-				patient_id: surgery.patient_details.patient_id,
-			})),
-		});
+		const token = await createJWTtoken(user);
 
 		await sendAccountUpdateEmail(user.email, updatedUser);
 
@@ -230,45 +208,7 @@ export class UserService {
 		user.last_login = new Date();
 		await userRepo.save(user);
 
-		// Fetch user's surgery logs
-		const surgeries = await surgeryLogsRepo.find({
-			where: {
-				$or: [{ "doctorsTeam.doctorId": user.id }, { leadSurgeon: user.id }],
-			},
-		});
-
-
-		let names: Promise<string>[]
-		if(surgeries.length > 0){
-			names = surgeries.map( async (sur) => {
-				const surgeriesName = await surgeryRepo.findOne({
-					where: {
-						id: sur.surgeryId,
-					},
-					select: ['name']
-				})
-				return surgeriesName.name
-			})
-		}
-		const resolvedNames = surgeries.length > 0 ? await Promise.all(names) : [];
-
-		const token = jwtHandler({
-			id: user.id,
-			userRole: user.role?.name || null,
-			name: `${user.first_name} ${user.last_name}`,
-			tokenVersion: user.token_version,
-			first_login: user.first_login,
-			surgeries: surgeries.map((surgery, index) => ({
-				id: surgery.id.toString(),
-				name: resolvedNames[index],
-				date: surgery.date,
-				status: surgery.status,
-				stars: surgery.stars,
-				icdCode: surgery.icdCode,
-				cptCode: surgery.cptCode,
-				patient_id: surgery.patient_details.patient_id,
-			})),
-		});
+		const token = await createJWTtoken(user);
 
 		return { success: true, token };
 	}

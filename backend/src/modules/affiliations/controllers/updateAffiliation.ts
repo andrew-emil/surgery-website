@@ -19,24 +19,15 @@ export const updateAffiliation = async (req: Request, res: Response) => {
 	});
 	if (!affiliation) throw Error("Affiliation Not Found");
 
-	if (
-		institution_type &&
-		!Object.values(AffiliationsType).includes(
-			institution_type as AffiliationsType
-		)
-	)
-		throw new Error(`Invalid institution type: ${institution_type}`);
-
 	Object.assign(affiliation, updateData);
 
 	if (institution_type)
-		affiliation.institution_type = institution_type as AffiliationsType;
+		affiliation.institution_type = institution_type;
 
 	await affiliationRepo.save(affiliation);
 
 	res.status(200).json({
 		success: true,
 		message: "Affiliation updated successfully",
-		affiliation,
 	});
 };

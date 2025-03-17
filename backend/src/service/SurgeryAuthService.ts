@@ -1,5 +1,5 @@
 import { MongoRepository, Repository } from "typeorm";
-import { authenticationRequestRepo, roleRepo } from "../config/repositories.js";
+import { authenticationRequestRepo } from "../config/repositories.js";
 import { Authentication_Request } from "../utils/dataTypes.js";
 import { TrainingService } from "./TrainingService.js";
 import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";

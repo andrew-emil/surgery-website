@@ -66,19 +66,11 @@ export const addSurgery = async (req: Request, res: Response) => {
 			roleRepo.findBy({ id: In(roleIds) }),
 		]);
 
-		if (existingUsers.length !== doctorsTeam.length) {
-			const missingIds = doctorIds.filter(
-				(id) => !existingUsers.some((u) => u.id === id)
-			);
+		if (existingUsers.length !== doctorsTeam.length)
 			throw new Error(`Invalid doctors`);
-		}
 
-		if (existingRoles.length !== new Set(roleIds).size) {
-			const missingRoles = roleIds.filter(
-				(id) => !existingRoles.some((r) => r.id === id)
-			);
-			throw new Error(`Invalid roles: ${missingRoles.join(", ")}`);
-		}
+		if (existingRoles.length !== new Set(roleIds).size)
+			throw new Error(`Invalid roles`);
 
 		await AppDataSource.transaction(async (transactionalEntityManager) => {
 			// Create SQL surgery
@@ -86,7 +78,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 				department,
 				hospital,
 				lead_surgeon: leadSurgeonEntity,
-				name
+				name,
 			});
 			await transactionalEntityManager.save(surgery);
 

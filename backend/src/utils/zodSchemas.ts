@@ -5,6 +5,7 @@ import {
 	OUTCOME,
 	NOTIFICATION_TYPES,
 	PARTICIPATION_STATUS,
+	SURGERY_TYPE,
 } from "./dataTypes.js";
 
 export const loginSchema = z.object({
@@ -49,15 +50,7 @@ export const addAffiliationSchema = z.object({
 	city: z.string().min(2, "City must be at least 2 characters"),
 	country: z.string().min(2, "Country must be at least 2 characters"),
 	address: z.string().min(2, "Address must be at least 2 characters"),
-	institution_type: z
-		.string()
-		.refine(
-			(val) =>
-				Object.values(AffiliationsType).includes(val as AffiliationsType),
-			{
-				message: "Invalid institution type",
-			}
-		),
+	institution_type: z.nativeEnum(AffiliationsType)
 });
 
 export const updateAffiliationSchema = z.object({
@@ -66,22 +59,13 @@ export const updateAffiliationSchema = z.object({
 	city: z.string().optional(),
 	country: z.string().optional(),
 	address: z.string().optional(),
-	institution_type: z
-		.string()
-		.refine(
-			(val) =>
-				Object.values(AffiliationsType).includes(val as AffiliationsType),
-			{
-				message: "Invalid institution type",
-			}
-		)
-		.optional(),
+	institution_type: z.nativeEnum(AffiliationsType).optional(),
 });
 
 export const addSurgerySchema = z.object({
 	hospitalId: z.number(),
 	departmentId: z.number(),
-	name:z.string(),
+	name: z.string(),
 	leadSurgeon: z.string(),
 	doctorsTeam: z
 		.array(
@@ -128,23 +112,35 @@ export const createNotificationSchema = z.object({
 });
 
 export const createRequestSchema = z.object({
-	surgeryId: z.string().refine((id) => !isNaN(parseInt(id))),
+	surgeryId: z.number(),
 	traineeId: z.string(),
 	consultantId: z.string(),
-	roleId: z.string().refine((id) => !isNaN(parseInt(id))),
-	permissions: z.array(z.string().refine((perm) => !isNaN(parseInt(perm)))),
+	roleId: z.number(),
+	permissions: z.array(z.number()),
 	notes: z.string().optional(),
 });
 
 export const editRequestSchema = z.object({
-	surgeryId: z.string().refine((id) => !isNaN(parseInt(id))),
+	surgeryId: z.number(),
 	traineeId: z.string(),
-	roleId: z
-		.string()
-		.refine((id) => !isNaN(parseInt(id)))
-		.optional(),
-	permissions: z
-		.array(z.string().refine((perm) => !isNaN(parseInt(perm))))
-		.optional(),
+	roleId: z.number(),
+	permissions: z.array(z.number()).min(1).optional(),
 	notes: z.string().optional(),
+});
+
+export const addRoleSchema = z.object({
+	name: z.string(),
+	parentId: z.number(),
+	permissionActions: z.array(z.number()).min(1),
+	requiredSurgeryType: z.nativeEnum(SURGERY_TYPE),
+	requiredCount: z.number()
+})
+
+export const updateRoleSchema = z.object({
+	id: z.number().positive(),
+	name: z.string().min(2).max(50).optional(),
+	parentId: z.number().positive().optional().nullable(),
+	permissions: z.array(z.number().positive()).optional(),
+	requiredSurgeryType: z.nativeEnum(SURGERY_TYPE).optional(),
+	requiredCount: z.number().optional(),
 });

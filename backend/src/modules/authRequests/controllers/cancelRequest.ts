@@ -7,9 +7,9 @@ import {
 	Authentication_Request,
 	NOTIFICATION_TYPES,
 } from "../../../utils/dataTypes.js";
-import { notificationService } from "../../../config/initializeServices.js";
+import { notificationService, surgeryAuthService } from "../../../config/initializeServices.js";
 
-export const cancelRequest = async (req: Request, res: Response) => {
+export const rejectRequest = async (req: Request, res: Response) => {
 	const { requestId, rejectionReason } = req.body;
 
 	if (isNaN(requestId)) throw Error("Invalid request ID format");
@@ -44,12 +44,10 @@ export const cancelRequest = async (req: Request, res: Response) => {
 
 	if (doctorIndex === -1) throw Error("Trainee not found in surgery team");
 
-	// Update records
-	surgeryLog.doctorsTeam.splice(doctorIndex, 1);
-	authRequest.status = Authentication_Request.CANCELLED;
-	if (rejectionReason) authRequest.rejectionReason = rejectionReason;
+	
 
 	await Promise.all([
+		surgeryAuthService.rejectRequest(authRequest, rejectionReason),
 		// Notify consultant
 		notificationService.createNotification(
 			authRequest.consultant.id,

@@ -2,6 +2,7 @@ import {
 	Column,
 	Entity,
 	JoinColumn,
+	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	OneToOne,
@@ -12,6 +13,7 @@ import { AuthenticationRequest } from "./AuthenticationRequests.js";
 import { Role } from "./Roles.js";
 import { Department } from "./departments.js";
 import { SURGERY_TYPE } from "../../utils/dataTypes.js";
+import { SurgeryEquipment } from "./SurgeryEquipments.js";
 
 @Entity()
 export class Surgery {
@@ -44,4 +46,7 @@ export class Surgery {
 
 	@OneToMany(() => AuthenticationRequest, (req) => req.surgery)
 	authentication: AuthenticationRequest;
+
+	@ManyToMany(() => SurgeryEquipment, (equipment) => equipment.surgery)
+	surgeryEquipments: SurgeryEquipment[];
 }

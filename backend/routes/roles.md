@@ -13,8 +13,16 @@
 ```json
 {
   "name": "Manager",
-  "permissions": ["read", "write"],
-  "parentName": "Admin"
+  "parentId" : number,
+  "permissions": number[],
+  "requiredSurgeryType": enum SURGERY_TYPE {
+	                        COMPLEX = "complex",
+                          SPECIALIZED = "specialized",
+                          SUPERVISED = "supervised",
+                          OBSERVED = "observed",
+                          SHADOWING = "shadowing",
+                          },
+  "requiredCount": number
 }
 ```
 
@@ -78,11 +86,21 @@
 
 **Request Body:**
 ```json
+```json
 {
-  "name": "Senior Manager",
-  "parentName": "Manager"
+  "id" : number,
+  "name": "Manager", (optional)
+  "parentId" : number, (optional)
+  "permissions": number[], (optional)
+  "requiredSurgeryType": enum SURGERY_TYPE {
+	                        COMPLEX = "complex",
+                          SPECIALIZED = "specialized",
+                          SUPERVISED = "supervised",
+                          OBSERVED = "observed",
+                          SHADOWING = "shadowing",
+                          }, (optional)
+  "requiredCount": number (optional)
 }
-```
 
 **Responses:**
 - `200 OK`: Role updated successfully.

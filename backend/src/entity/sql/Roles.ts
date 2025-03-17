@@ -6,11 +6,9 @@ import {
 	ManyToOne,
 	ManyToMany,
 	JoinTable,
-	OneToOne,
 } from "typeorm";
 import { User } from "./User.js";
 import { Permission } from "./Permission.js";
-import { Surgery } from "./Surgery.js";
 import { SURGERY_TYPE } from "../../utils/dataTypes.js";
 
 @Entity()

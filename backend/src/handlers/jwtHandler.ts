@@ -1,15 +1,60 @@
 import jwt from "jsonwebtoken";
 import { JWTPayload } from "../utils/dataTypes.js";
+import { User } from "../entity/sql/User.js";
+import { surgeryLogsRepo, surgeryRepo } from "../config/repositories.js";
 
-export const jwtHandler = (payload: JWTPayload): string => {
-	try {
-		const token: string = jwt.sign(payload, process.env.JWT_SECRET, {
-			expiresIn: "1h",
+const secretKey = process.env.JWT_SECRET;
+
+const jwtHandler = (payload: JWTPayload): string => {
+	const token: string = jwt.sign(payload, secretKey, {
+		expiresIn: "30d",
+	});
+
+	return token;
+};
+
+export const createJWTtoken = async (user: User): Promise<string> => {
+	const surgeries = await surgeryLogsRepo.find({
+		where: {
+			$or: [{ "doctorsTeam.doctorId": user.id }, { leadSurgeon: user.id }],
+		},
+	});
+	const permissions = user.role?.permissions.map((p) => p.action);
+
+	let names: Promise<string>[];
+	if (surgeries.length > 0) {
+		names = surgeries.map(async (sur) => {
+			const surgeriesName = await surgeryRepo.findOne({
+				where: {
+					id: sur.surgeryId,
+				},
+				select: ["name", "id"],
+			});
+			return surgeriesName.name;
 		});
-
-		return token;
-	} catch (error) {
-		console.error(error);
-		throw Error(error.message);
 	}
+	const resolvedNames = surgeries.length > 0 ? await Promise.all(names) : [];
+
+	const jwtPayload: JWTPayload = {
+		id: user.id,
+		userRole: user.role?.name || null,
+		permissions,
+		name: `${user.first_name} ${user.last_name}`,
+		tokenVersion: user.token_version,
+		first_login: user.first_login,
+		surgeries: surgeries.map((surgery, index) => ({
+			id: surgery.id.toString(),
+			name: resolvedNames[index],
+			date: surgery.date,
+			status: surgery.status,
+			stars: surgery.stars,
+			icdCode: surgery.icdCode,
+			cptCode: surgery.cptCode,
+			patient_id: surgery.patient_details.patient_id,
+		})),
+	};
+
+	const token = jwtHandler(jwtPayload);
+
+	return token;
 };

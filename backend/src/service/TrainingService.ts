@@ -5,7 +5,7 @@ import { Role } from "../entity/sql/Roles.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
 import { surgeryRepo } from "../config/repositories.js";
-import { EligibilityResult, TrainingProgress } from "../utils/interface.js";
+import { EligibilityResult, TrainingProgress } from "../utils/dataTypes.js";
 
 export class TrainingService {
 	constructor(

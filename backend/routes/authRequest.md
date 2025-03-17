@@ -18,11 +18,11 @@ http://localhost:4000/api/auth-requests
 
 ```json
 {
-	"surgeryId": "1",
-	"traineeId": "2",
-	"consultantId": "3",
-	"roleId": "4",
-	"permissions": ["1", "2"],
+	"surgeryId": "number",
+	"traineeId": "string for user id",
+	"consultantId": "string for user id",
+	"roleId": "number",
+	"permissions": ["number", "number"],
 	"notes": "Some notes about the request"
 }
 ```
@@ -54,11 +54,16 @@ http://localhost:4000/api/auth-requests
 
 ### 3. Cancel Authentication Request
 
-**PUT** `/:id/cancel`
+**PUT** `/:id/reject`
 
-#### Parameters
+#### Request Body
 
-- `id` (path): The ID of the authentication request to cancel.
+```json
+{
+	"requestId": "number",
+	"rejectionReason": "string for rejection reason"
+}
+```
 
 #### Responses
 
@@ -92,10 +97,10 @@ http://localhost:4000/api/auth-requests
 
 ```json
 {
-	"surgeryId": "1",
+	"surgeryId": "number",
 	"traineeId": "2",
-	"roleId": "4",
-	"permissions": ["1", "2"],
+	"roleId": "number",
+	"permissions": ["number", "number"],
 	"notes": "Updated notes"
 }
 ```

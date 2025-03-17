@@ -71,7 +71,6 @@ export const getSurgery = async (req: Request, res: Response) => {
 
 	res.status(200).json({
 		success: true,
-
 		surgeryId: surgery.id,
 		metadata: {
 			department: department.name,

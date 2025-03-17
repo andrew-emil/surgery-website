@@ -3,6 +3,7 @@ import { ObjectId } from "typeorm";
 export interface JWTPayload {
 	id: string;
 	userRole: string;
+	permissions: string[];
 	name: string;
 	tokenVersion: number;
 	first_login: boolean;
@@ -95,4 +96,17 @@ export enum SurgeryRole {
 	ASSISTANT = "assistant",
 	OBSERVER = "observer",
 	TRAINEE = "trainee",
+}
+
+export interface TrainingProgress {
+	completed: number;
+	required: number;
+	remaining: number;
+	met: boolean;
+	type: SURGERY_TYPE | null;
+}
+
+export interface EligibilityResult extends TrainingProgress {
+	eligible: boolean;
+	reason: string;
 }

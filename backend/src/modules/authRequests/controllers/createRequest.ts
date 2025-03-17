@@ -25,20 +25,17 @@ export const createRequest = async (req: Request, res: Response) => {
 	const { surgeryId, traineeId, consultantId, roleId, permissions, notes } =
 		validation.data;
 
-	const parsedSurgeryId = parseInt(surgeryId);
-	const parsedRoleId = parseInt(roleId);
-
 	// 2. Fetch required entities
 	const [surgery, consultantRole, trainee, consultant, role] =
 		await Promise.all([
 			surgeryRepo.findOne({
-				where: { id: parsedSurgeryId },
+				where: { id: surgeryId },
 				relations: ["surgery_type"],
 			}),
 			roleRepo.findOneBy({ name: "Consultant" }),
 			userRepo.findOneBy({ id: traineeId }),
 			userRepo.findOneBy({ id: consultantId }),
-			roleRepo.findOneBy({ id: parsedRoleId }),
+			roleRepo.findOneBy({ id: roleId }),
 		]);
 
 	// 3. Validate entities
@@ -50,7 +47,7 @@ export const createRequest = async (req: Request, res: Response) => {
 
 	const existingRequest = await authenticationRequestRepo.findOne({
 		where: {
-			surgery: { id: parsedSurgeryId },
+			surgery: { id: surgeryId },
 			trainee: { id: traineeId },
 			consultant: { id: consultantId },
 			status: Authentication_Request.PENDING,
@@ -58,10 +55,11 @@ export const createRequest = async (req: Request, res: Response) => {
 	});
 
 	if (existingRequest) {
-		return res.status(409).json({
+		res.status(409).json({
 			success: false,
 			message: "A pending request already exists for this surgery",
 		});
+		return;
 	}
 
 	// 5. Create new request
@@ -73,17 +71,10 @@ export const createRequest = async (req: Request, res: Response) => {
 	authRequest.status = Authentication_Request.PENDING;
 
 	// 6. Add to doctors team
-	const parsedPermissions = permissions.map((perm) => parseInt(perm));
-	const doctor = new DoctorsTeam(
-		traineeId,
-		role.id,
-		parsedPermissions,
-		null,
-		notes
-	);
+	const doctor = new DoctorsTeam(traineeId, role.id, permissions, null, notes);
 
 	const surgeryLog = await surgeryLogsRepo.findOneBy({
-		surgeryId: parsedSurgeryId,
+		surgeryId: surgeryId,
 	});
 
 	if (!surgeryLog) {

@@ -28,7 +28,7 @@ export const deleteRole = async (req: Request, res: Response) => {
 			.createQueryBuilder()
 			.relation(Role, "permissions")
 			.of(roleId)
-			.set([]);
+			.add([]);
 
 		if (role.children.length > 0) {
 			await transactionalEntityManager.update(

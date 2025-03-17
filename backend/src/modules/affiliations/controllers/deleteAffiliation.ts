@@ -8,14 +8,12 @@ import {
 } from "../../../config/repositories.js";
 
 export const deleteAffiliation = async (req: Request, res: Response) => {
-	const { id } = req.params;
+	const id = parseInt(req.params.id);
 
-	if (!id || isNaN(parseInt(id))) throw Error("Invalid Affiliation ID");
-
-	const affiliationId = parseInt(id);
+	if (isNaN(id)) throw Error("Invalid Affiliation ID");
 
 	const affiliation = await affiliationRepo.findOne({
-		where: { id: affiliationId },
+		where: { id },
 		relations: ["users", "departments"],
 	});
 
@@ -36,13 +34,13 @@ export const deleteAffiliation = async (req: Request, res: Response) => {
 
 		await transactionManager.delete(departmentRepo.target, { affiliation });
 
-		const result = await transactionManager.delete(
-			affiliationRepo.target,
-			affiliationId
-		);
+		const result = await transactionManager.delete(affiliationRepo.target, id);
 
 		if (result.affected === 0) throw Error("Internal server error");
 	});
 
-	res.status(204).end();
+	res.status(204).json({
+		sucess: true,
+		message: "Affiliation deleted successfully",
+	});
 };
