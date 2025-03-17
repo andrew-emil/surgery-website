@@ -1,7 +1,6 @@
 import { Typography } from "@mui/material";
 import { useState } from "react";
 import { FormContainer, FormCard } from "../components/StyledComponents";
-
 import { styled } from "@mui/material/styles";
 import { FormTitle, FormButton } from "./../components/StyledComponents";
 import OTPInput from "./../components/OTPInput";
@@ -9,6 +8,7 @@ import axiosClient from "../axiosClient";
 import { useStateContext } from "../context/contextprovider";
 import { Navigate } from "react-router-dom";
 import * as jose from "jose";
+
 export default function OTP_auth() {
   const [otp, setOtp] = useState("");
   const StyledImg = styled("img")(({ theme }) => ({
@@ -25,9 +25,7 @@ export default function OTP_auth() {
   if (!message) {
     return <Navigate to="/login" />;
   }
-  const secretKey = "mySecret1243"; // Your secret as a string
-
-  // Convert the secret key into a Uint8Array
+  const secretKey = import.meta.env.VITE_JWT_SECRET;
   const secret = new TextEncoder().encode(secretKey);
   const submit = (ev) => {
     ev.preventDefault();
@@ -41,7 +39,6 @@ export default function OTP_auth() {
         .jwtVerify(token, secret, { algorithms: ["HS256"] })
         .then((result) => {
           setUser(result.payload);
-          console.log(result.payload);
           setToken(token);
         });
     });
@@ -51,14 +48,23 @@ export default function OTP_auth() {
   return (
     <FormContainer>
       <FormCard
-        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "3rem",
+          width: "28rem",
+        }}
       >
-        <StyledImg src="/images/Otp_Icon.svg"></StyledImg>
+        <StyledImg
+          sx={{ marginTop: "2rem" }}
+          src="/images/Otp_Icon.svg"
+        ></StyledImg>
         <FormTitle>Verfication Code</FormTitle>
         <Typography
           variant="body2"
           className="message"
-          sx={{ textAlign: "center" }}
+          sx={{ textAlign: "center", marginBottom: "1rem" }}
         >
           We have sent a verification code to your email address. Please enter
           the code to verify your account.
@@ -69,6 +75,7 @@ export default function OTP_auth() {
             type="submit"
             variant="contained"
             className="btn btn-black btn-block"
+            sx={{ width: "100%", marginTop: "1rem", marginBottom: "2rem" }}
           >
             Submit
           </FormButton>

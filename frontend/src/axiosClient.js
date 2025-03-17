@@ -1,13 +1,15 @@
 import axios from "axios";
+import Cookies from "js-cookie";
+
 const axiosClient = axios.create({
   baseURL: "http://localhost:4000/api",
   headers: {
     "Content-Type": "application/json",
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
+    Authorization: `Bearer ${Cookies.get("ACCESS_TOKEN")}`,
   },
 });
 axiosClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem("ACCESS_TOKEN");
+  const token = Cookies.get("ACCESS_TOKEN");
   config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
@@ -19,7 +21,7 @@ axiosClient.interceptors.response.use(
   (error) => {
     try {
       if (error.response.status === 401) {
-        localStorage.removeItem("ACCESS_TOKEN");
+        Cookies.remove("ACCESS_TOKEN");
         window.location.href = "/login";
       }
     } catch (error) {

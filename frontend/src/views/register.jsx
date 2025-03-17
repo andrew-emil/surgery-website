@@ -34,8 +34,10 @@ export default function Register() {
   const [loading, setLoading] = useState(true);
   const [affiliation, setAffiliation] = useState(null);
   const [department, setDepartment] = useState("");
+  const [role, setRole] = useState("");
   const { setMessage } = useStateContext();
   const [affiliationData, setAffiliationData] = useState([]);
+  const [roleData, setRoleData] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
 
   useEffect(() => {
@@ -44,6 +46,18 @@ export default function Register() {
       .get("/affiliation")
       .then(({ data }) => {
         setAffiliationData(data.affiliations);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  useEffect(() => {
+    setLoading(true);
+    axiosClient
+      .get("/roles")
+      .then(({ data }) => {
+        setRoleData(data.roles);
         setLoading(false);
       })
       .catch((err) => {
@@ -79,14 +93,15 @@ export default function Register() {
     ev.preventDefault();
     if (passwordRef.current.value == confirmPasswordRef.current.value) {
       const payload = {
-				first_name: firstnameRef.current.value,
-				last_name: lastnameRef.current.value,
-				email: emailRef.current.value,
-				phone_number: `${phoneRef.current.value}`,
-				password: passwordRef.current.value,
-				affiliationId: affiliation,
-				departmentId: department,
-			};
+        first_name: firstnameRef.current.value,
+        last_name: lastnameRef.current.value,
+        email: emailRef.current.value,
+        phone_number: `${phoneRef.current.value}`,
+        password: passwordRef.current.value,
+        roleId: role,
+        affiliationId: affiliation,
+        departmentId: department,
+      };
       axiosClient
         .post("/users/register", payload)
         .then(({ data }) => {
@@ -109,11 +124,14 @@ export default function Register() {
     }
   };
 
-  const handleRoleChange = (event) => {
+  const handleAffiliationChange = (event) => {
     setAffiliation(event.target.value);
   };
   const handleDepartmentChange = (event) => {
     setDepartment(event.target.value);
+  };
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
   };
 
   if (redirectToOTP) {
@@ -201,7 +219,7 @@ export default function Register() {
                   labelId="demo-simple-select-standard-label"
                   id="demo-simple-select-standard"
                   value={affiliation}
-                  onChange={handleRoleChange}
+                  onChange={handleAffiliationChange}
                   label="Affiliation"
                 >
                   <MenuItem value="">
@@ -235,6 +253,30 @@ export default function Register() {
                   {departmentData.map((department) => (
                     <MenuItem key={department.id} value={department.id}>
                       {department.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <FormControl
+                variant="standard"
+                sx={{ minWidth: "100%", marginTop: "1rem" }}
+              >
+                <InputLabel id="demo-simple-select-standard-label">
+                  Roles
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={role}
+                  onChange={handleRoleChange}
+                  label="Department"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {roleData.map((role) => (
+                    <MenuItem key={role.id} value={role.id}>
+                      {role.name}
                     </MenuItem>
                   ))}
                 </Select>

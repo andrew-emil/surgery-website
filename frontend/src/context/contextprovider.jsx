@@ -1,6 +1,5 @@
-import { useContext } from "react";
-import { useState } from "react";
-import { createContext } from "react";
+import { useContext, useState, createContext } from "react";
+import Cookies from "js-cookie";
 
 const StateContext = createContext({
   user: null,
@@ -15,28 +14,24 @@ const StateContext = createContext({
 export const ContextProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [message, setMessage] = useState();
-  // const [user, setUser] = useState({ name: "adhm", email: "adhm@example.com" });
-  const [token, _setToken] = useState(localStorage.getItem("ACCESS_TOKEN"));
-  // const [token, _setToken] = useState(123);
+  const [token, _setToken] = useState(Cookies.get("ACCESS_TOKEN") || null);
 
   const setToken = (token) => {
     _setToken(token);
     if (token) {
-      localStorage.setItem("ACCESS_TOKEN", token);
+      Cookies.set("ACCESS_TOKEN", token, {
+        expires: 7,
+        secure: true,
+        sameSite: "Strict",
+      });
     } else {
-      localStorage.removeItem("ACCESS_TOKEN");
+      Cookies.remove("ACCESS_TOKEN");
     }
   };
+
   return (
     <StateContext.Provider
-      value={{
-        user,
-        token,
-        message,
-        setUser,
-        setToken,
-        setMessage,
-      }}
+      value={{ user, token, message, setUser, setToken, setMessage }}
     >
       {children}
     </StateContext.Provider>

@@ -9,7 +9,7 @@ import MiniDrawer from "../components/Drawer";
 export default function DefaultLayout() {
   // eslint-disable-next-line no-unused-vars
   const { user, token, setUser, setToken } = useStateContext();
-  if (!token) {
+  if (!token || !user) {
     return <Navigate to="/login" />;
   }
 
