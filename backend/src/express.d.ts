@@ -1,7 +1,7 @@
-import { User } from "./entity/sql/User.js";
+import { JWTPayload } from "./utils/dataTypes.ts";
 
 declare module "express-serve-static-core" {
 	interface Request {
-		user?: Partial<User>;
+		user?: JWTPayload;
 	}
 }

@@ -231,7 +231,7 @@ export class TrainingService {
 			verifiedAt: null,
 		}));
 
-		await this.surgeryLogRepo.save(surgeryLog);
+		return surgeryLog.trainingCredits;
 	}
 
 	async removeSurgeryRecords(surgeryId: number) {

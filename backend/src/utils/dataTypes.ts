@@ -1,22 +1,11 @@
-import { ObjectId } from "typeorm";
-
 export interface JWTPayload {
 	id: string;
 	userRole: string;
 	permissions: string[];
 	name: string;
+	picture: Buffer;
 	tokenVersion: number;
 	first_login: boolean;
-	surgeries: Array<{
-		id: string;
-		date: Date;
-		name: string;
-		status: STATUS;
-		stars: number;
-		cptCode: string;
-		icdCode: string;
-		patient_id: ObjectId;
-	}>;
 }
 
 export enum STATUS {
@@ -54,10 +43,10 @@ export enum UserLevel {
 }
 
 export enum DISCHARGE_STATUS {
-	DISCHARGED = "Discharged",
-	TRANSFERRED = "Transferred",
-	DECEASED = "Deceased",
-	REHAB = "Rehabilitation",
+	OBSERVATION = "under_observation",
+	DISCHARGED = "discharged",
+	TRANSFERRED = "transferred",
+	DECEASED = "deceased",
 }
 
 export enum NOTIFICATION_STATUS {

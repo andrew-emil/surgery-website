@@ -8,9 +8,6 @@ export class DoctorsTeam {
 	@Column({ type: "int" })
 	roleId: number;
 
-	@Column({ type: "array" })
-	permissions: number[];
-
 	@Column({
 		type: "enum",
 		enum: PARTICIPATION_STATUS,
@@ -24,13 +21,11 @@ export class DoctorsTeam {
 	constructor(
 		doctorId: string,
 		roleId: number,
-		permissions: number[],
 		participationStatus?: PARTICIPATION_STATUS,
 		notes?: string
 	) {
 		this.doctorId = doctorId;
 		this.roleId = roleId;
-		this.permissions = permissions;
 		this.participationStatus = participationStatus
 			? participationStatus
 			: PARTICIPATION_STATUS.PENDING;

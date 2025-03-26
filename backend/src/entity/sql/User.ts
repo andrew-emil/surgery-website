@@ -33,6 +33,12 @@ export class User {
 	@Column({ length: 20, type: "varchar", unique: true })
 	phone_number: string;
 
+	@Column({ type: "blob", nullable: true })
+	picture: Buffer;
+
+	@Column({ type: "int", nullable: true })
+	residencyLevel: number;
+
 	@ManyToOne(() => Role, (role) => role.users, {
 		onDelete: "SET NULL",
 		nullable: true,
@@ -68,6 +74,9 @@ export class User {
 
 	@Column({ type: "boolean", default: false })
 	first_login: boolean;
+
+	@Column({ type: "varchar", nullable: true })
+	rejectionReason: string;
 
 	@Column({ type: "timestamp", nullable: true })
 	lock_until: Date;

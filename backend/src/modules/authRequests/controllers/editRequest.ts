@@ -15,7 +15,7 @@ export const editRequest = async (req: Request, res: Response) => {
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	const { surgeryId, traineeId, roleId, permissions, notes } = validation.data;
+	const { surgeryId, traineeId, roleId, notes } = validation.data;
 
 	const surgery = await surgeryRepo.findOne({
 		where: {
@@ -46,7 +46,7 @@ export const editRequest = async (req: Request, res: Response) => {
 		authRequest.requestedRole = role;
 	}
 
-	if (permissions || typeof notes !== "undefined") {
+	if (typeof notes !== "undefined") {
 		const surgeryLog = await surgeryLogsRepo.findOneBy({
 			surgeryId: surgeryId,
 		});
@@ -56,13 +56,6 @@ export const editRequest = async (req: Request, res: Response) => {
 			(doctor) => doctor.doctorId === traineeId
 		);
 		if (!doctorEntry) throw Error("Doctor Not Found in surgery log");
-
-		if (permissions) {
-			const parsedPermissions = permissions.map((perm: string | number) =>
-				parseInt(perm.toString(), 10)
-			);
-			doctorEntry.permissions = parsedPermissions;
-		}
 
 		if (typeof notes !== "undefined") doctorEntry.notes = notes;
 

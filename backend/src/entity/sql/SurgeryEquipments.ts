@@ -22,5 +22,5 @@ export class SurgeryEquipment {
 	@JoinTable({
 		name: "surgery_equipment_mapping",
 	})
-	surgery: Surgery;
+	surgery: Surgery[];
 }

@@ -8,21 +8,26 @@ import { resetPassword } from "./controllers/resetPassword.js";
 import { updateAccount } from "./controllers/updateAccount.js";
 import { auditLogger } from "../../middlewares/auditLogger.js";
 import { authMiddleware } from "../../middlewares/authMiddleware.js";
+import { validateUserPhoto } from "../../middlewares/filesMiddleware.js";
 
 const usersRoutes = Router();
 
 //user routes...
-usersRoutes.post("/login", auditLogger, login);
-usersRoutes.post("/register", auditLogger, register);
-usersRoutes.post("/verify", auditLogger, verify2FA);
 usersRoutes.post("/forget-password", forgetPassword);
-usersRoutes.post("/reset-password", auditLogger, resetPassword);
 
 // usersRoutes.use(authMiddleware);
-usersRoutes.use(auditLogger);
 
 //protected routes
-usersRoutes.delete("/:id", deleteAccount);
-usersRoutes.patch("/", updateAccount);
+usersRoutes.post("/login", auditLogger("Login"), login);
+usersRoutes.post(
+	"/register",
+	validateUserPhoto,
+	auditLogger("Signup"),
+	register
+);
+usersRoutes.post("/verify", auditLogger("Verify"), verify2FA);
+usersRoutes.post("/reset-password", auditLogger(), resetPassword);
+usersRoutes.delete("/:id", auditLogger(), deleteAccount);
+usersRoutes.patch("/", validateUserPhoto, auditLogger(), updateAccount);
 
 export default usersRoutes;

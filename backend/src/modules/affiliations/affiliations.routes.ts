@@ -9,7 +9,7 @@ const affiliationRoutes = Router();
 
 affiliationRoutes.get("/", getAffiliations);
 
-affiliationRoutes.use(auditLogger);
+affiliationRoutes.use(auditLogger());
 
 affiliationRoutes.post("/", addAffiliation);
 affiliationRoutes.delete("/:id", deleteAffiliation);

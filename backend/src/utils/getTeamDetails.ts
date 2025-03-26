@@ -32,7 +32,6 @@ export const getEnhancedTeamDetails = async (participants: DoctorsTeam[]) => {
 				email: user?.email || "N/A",
 				hospitalRole: user?.role?.name || "N/A",
 				surgicalRole: role?.name || "N/A",
-				permissions: participant.permissions,
 				trainingProgress: {
 					required: trainingProgress.required,
 					completed: trainingProgress.completed,

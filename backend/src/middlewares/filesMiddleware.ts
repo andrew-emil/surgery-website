@@ -1,6 +1,6 @@
 import multer from "multer";
 
-const photosupload = multer({
+const photosUpload = multer({
 	storage: multer.memoryStorage(),
 	limits: {
 		fileSize: 10 * 1024 * 1024, // 5MB limit
@@ -15,4 +15,5 @@ const photosupload = multer({
 	},
 });
 
-export const validateEquipmentPhoto = photosupload.single("photo");
+export const validateEquipmentPhoto = photosUpload.single("photo");
+export const validateUserPhoto = photosUpload.single("picture");

@@ -6,6 +6,7 @@ import {
 	surgeryRepo,
 	userRepo,
 	roleRepo,
+	surgeryEquipmentRepo,
 } from "../../../config/repositories.js";
 import { PatientDetails } from "../../../entity/sub entity/PatientDetails.js";
 import { addSurgerySchema } from "../../../utils/zodSchemas.js";
@@ -30,7 +31,9 @@ export const addSurgery = async (req: Request, res: Response) => {
 		departmentId,
 		name,
 		leadSurgeon,
+		slots,
 		doctorsTeam,
+		surgeryEquipments,
 		date,
 		time,
 		cptCode,
@@ -72,6 +75,22 @@ export const addSurgery = async (req: Request, res: Response) => {
 		if (existingRoles.length !== new Set(roleIds).size)
 			throw new Error(`Invalid roles`);
 
+		const surgeryEquipmentsArray = await Promise.all(
+			surgeryEquipments.map(async (equipment) => {
+				const equip = await surgeryEquipmentRepo.findOneBy({ id: equipment });
+				if (!equip) throw Error(`Invalid equipment ID: ${equipment}`);
+
+				return equip;
+			})
+		);
+
+		if (slots < doctorIds.length) {
+			res.status(400).json({
+				success: false,
+				message: `Surgery slots is ${slots} can not have ${doctorIds.length} doctors`,
+			});
+		}
+
 		await AppDataSource.transaction(async (transactionalEntityManager) => {
 			// Create SQL surgery
 			surgery = transactionalEntityManager.create(Surgery, {
@@ -79,7 +98,9 @@ export const addSurgery = async (req: Request, res: Response) => {
 				hospital,
 				lead_surgeon: leadSurgeonEntity,
 				name,
+				surgeryEquipments: surgeryEquipmentsArray,
 			});
+
 			await transactionalEntityManager.save(surgery);
 
 			// Create MongoDB surgery log
@@ -95,7 +116,6 @@ export const addSurgery = async (req: Request, res: Response) => {
 				return new DoctorsTeam(
 					doctor.doctorId,
 					doctor.roleId,
-					doctor.permissions,
 					doctor.participationStatus,
 					doctor.notes
 				);
@@ -107,17 +127,18 @@ export const addSurgery = async (req: Request, res: Response) => {
 			surgeryLog.icdCode = icdCode;
 			surgeryLog.patient_details = patient;
 
+			// Initialize training records
+			surgeryLog.trainingCredits =
+				await trainingService.initializeSurgeryRecords(
+					surgery.id,
+					doctorsTeam.map((d) => ({
+						userId: d.doctorId,
+						roleId: d.roleId,
+					}))
+				);
+
 			await surgeryLogsRepo.save(surgeryLog);
 		});
-
-		// Initialize training records
-		await trainingService.initializeSurgeryRecords(
-			surgery.id,
-			doctorsTeam.map((d) => ({
-				userId: d.doctorId,
-				roleId: d.roleId,
-			}))
-		);
 
 		res.status(201).json({
 			success: true,

@@ -13,7 +13,6 @@ export const addSurgeryEquipment = async (req: Request, res: Response) => {
 
 	const exisitingEquipment = await surgeryEquipmentRepo.findOneBy({
 		equipment_name: sanitizedName,
-		photo,
 	});
 
 	if (exisitingEquipment) {

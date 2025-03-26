@@ -5,15 +5,14 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { UserService } from "../../../service/UserSevice.js";
 
 export const updateAccount = async (req: Request, res: Response) => {
-	const validation = updateAccountSchema.safeParse(req.body);
+	const userId = req.user?.id;
+	if (!userId) throw Error("Unauthorized");
 
+	const validation = updateAccountSchema.safeParse(req.body);
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const data = validation.data;
-
-	const userId = req.user?.id;
-	if (!userId) throw Error("Unauthorized");
 
 	const user = await userRepo.findOneBy({ id: userId });
 	if (!user) throw Error("User Not Found");
@@ -31,5 +30,6 @@ export const updateAccount = async (req: Request, res: Response) => {
 		success: true,
 		message: "Account updated successfully",
 		token: result.token,
+		surgeries: result.formatedSurgeries,
 	});
 };

@@ -25,6 +25,7 @@ import { seedDatabase } from "./config/databaseSeed.js";
 import adminRoutes from "./modules/admin/admin.routes.js";
 import { intializeServices } from "./config/initializeServices.js";
 import surgeryEquiRoutes from "./modules/surgery equipments/surgeryEquip.routes.js";
+import ratingRoutes from "./modules/rating/rating.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -67,6 +68,7 @@ app.use("/api/auth-requests", authRequestsRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/surgery-equipments", surgeryEquiRoutes);
+app.use("/api/rating", ratingRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

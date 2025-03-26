@@ -3,7 +3,6 @@ import {
 	ObjectIdColumn,
 	ObjectId,
 	Column,
-	Index,
 	CreateDateColumn,
 } from "typeorm";
 import { Min, Max } from "class-validator"; 
@@ -20,13 +19,13 @@ export class Rating {
 	@Column({type: 'string'})
 	userId: string;
 
-	@Column({ type: "int", nullable: true })
+	@Column({ type: "int"})
 	@Min(1)
 	@Max(5)
 	stars: number;
 
 	@Column({ type: "text", default: "" })
-	comments: string;
+	comment: string;
 
 	@CreateDateColumn({ type: "timestamp" })
 	createdAt: Date;

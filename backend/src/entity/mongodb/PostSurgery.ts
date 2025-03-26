@@ -19,7 +19,11 @@ export class PostSurgery {
 	@Column({ type: "string", nullable: true })
 	complications: string;
 
-	@Column({ type: "enum", enum: DISCHARGE_STATUS, nullable: true })
+	@Column({
+		type: "enum",
+		enum: DISCHARGE_STATUS,
+		default: DISCHARGE_STATUS.OBSERVATION,
+	})
 	dischargeStatus: DISCHARGE_STATUS;
 
 	@Column({ type: "string", nullable: true })
@@ -27,4 +31,8 @@ export class PostSurgery {
 
 	@CreateDateColumn({ type: "timestamp" })
 	createdAt: Date;
+
+	@Column({ type: "timestamp", nullable: true })
+	@Index()
+	dischargedAt?: Date;
 }

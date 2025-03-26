@@ -7,7 +7,6 @@ import {
 	Authentication_Request,
 	NOTIFICATION_TYPES,
 } from "../../../utils/dataTypes.js";
-import { NotificationService } from "../../../service/NotificationService.js";
 import { notificationService } from "../../../config/initializeServices.js";
 
 export const deleteRequest = async (req: Request, res: Response) => {

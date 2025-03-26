@@ -21,7 +21,7 @@ export const getSurgery = async (req: Request, res: Response) => {
 	const [surgery, surgeryLog] = await Promise.all([
 		surgeryRepo.findOne({
 			where: { id: surgeryId },
-			relations: ["hospital", "department"],
+			relations: ["hospital", "department", "surgeryEquipments"],
 		}),
 		surgeryLogsRepo.findOne({
 			where: { surgeryId },
@@ -69,10 +69,13 @@ export const getSurgery = async (req: Request, res: Response) => {
 		postSurgery = await postSurgeryRepo.findOneBy({ surgeryId });
 	}
 
+	const formattedRatings = await formatRatings(ratings);
+
 	res.status(200).json({
 		success: true,
 		surgeryId: surgery.id,
 		metadata: {
+			surgeryEquipments: surgery.surgeryEquipments,
 			department: department.name,
 			name: surgery.name,
 			hospital: hospital.name,
@@ -98,6 +101,6 @@ export const getSurgery = async (req: Request, res: Response) => {
 					dischargeStatus: postSurgery.dischargeStatus,
 			  }
 			: null,
-		ratings: formatRatings(ratings),
+		ratings: formattedRatings,
 	});
 };

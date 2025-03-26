@@ -15,7 +15,7 @@ export class AuditTrail {
 	userId: string;
 
 	@Column({ type: "varchar" })
-	action: string; // INSERT, UPDATE, DELETE, LOGIN, LOGOUT
+	action: string;
 
 	@Column({ type: "varchar" })
 	entityName: string;

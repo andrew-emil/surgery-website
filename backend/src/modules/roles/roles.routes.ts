@@ -10,9 +10,9 @@ const rolesRoutes = Router();
 rolesRoutes.get("/", getAllRoles);
 
 //middleware
-rolesRoutes.use(auditLogger);
+rolesRoutes.use(auditLogger());
 
-//routes
+//routes...
 rolesRoutes.post("/", addRole);
 rolesRoutes.delete("/:id", deleteRole);
 rolesRoutes.put("/", updateRole);

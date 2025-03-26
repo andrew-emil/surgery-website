@@ -166,7 +166,7 @@ export const NOTIFICATION_EMAIL = `
 							</div>
 							<div class="content">
 								<p>{message}</p>
-								<a href="#" class="btn">View Notification</a>
+								<a href="${process.env.BASE_URL}\" class="btn">View Notification</a>
 							</div>
 							<div class="footer">
 								<p>This is an automated message. Please do not reply.</p>
@@ -175,3 +175,76 @@ export const NOTIFICATION_EMAIL = `
 					</body>
 					</html>
 				`;
+
+export const ACCOUNT_APPROVED_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Approved</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(to right, #007bff, #0056b3); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Account Approved</h1>
+  </div>
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello,</p>
+    <p>We're excited to let you know that your account has been successfully approved!</p>
+    <p>You can now access all features and services available in your account.</p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="{loginUrl}" 
+                style="background-color: #007bff; color: white; padding: 12px 25px; 
+                text-decoration: none; border-radius: 5px; font-weight: bold;
+                display: inline-block; transition: background-color 0.3s;">
+        Login to Your Account
+      </a>
+    </div>
+
+    <p>If you have any questions or need assistance, please contact our support team.</p>
+    <p>Welcome aboard!<br>Your App Team</p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message, please do not reply to this email.</p>
+  </div>
+</body>
+</html>
+`;
+
+
+export const ACCOUNT_REJECTED_TEMPLATE = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Application Status</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(to right, #dc3545, #c82333); padding: 20px; text-align: center;">
+    <h1 style="color: white; margin: 0;">Account Not Approved</h1>
+  </div>
+  <div style="background-color: #f9f9f9; padding: 20px; border-radius: 0 0 5px 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+    <p>Hello,</p>
+    <p>We regret to inform you that your account application has not been approved at this time.</p>
+    
+    <div style="background-color: #ffeef0; padding: 15px; border-left: 4px solid #dc3545; margin: 20px 0;">
+      <p style="margin: 0; color: #dc3545; font-weight: bold;">Reason for rejection:</p>
+      <p style="margin: 10px 0 0 0;">{rejectionReason}</p>
+    </div>
+
+    <p>You may:</p>
+    <ul style="margin: 15px 0; padding-left: 20px;">
+      <li>Reapply after addressing the above concerns</li>
+    </ul>
+
+    <p>We appreciate your interest and hope to hear from you again.</p>
+    <p>Best regards,<br>Your App Team</p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #888; font-size: 0.8em;">
+    <p>This is an automated message, please do not reply to this email.</p>
+  </div>
+</body>
+</html>
+`;

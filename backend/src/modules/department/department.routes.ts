@@ -12,7 +12,7 @@ departmentRoutes.get("/:id", getDepartments)
 departmentRoutes.get("/get-doctors/:id", getDoctorsDepartment)
 
 //middlewares
-departmentRoutes.use(auditLogger)
+departmentRoutes.use(auditLogger())
 
 //department routes
 departmentRoutes.post("/", addDepartment)

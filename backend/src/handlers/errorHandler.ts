@@ -8,40 +8,87 @@ export const errorHandler: ErrorRequestHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.error(`[ERROR] ${err.name}: ${err.message}`, err); // Log error details
+	console.error(`[ERROR] ${err.name}: ${err.message}`, typeof err);
 
-	if (err instanceof ZodError) {
-		const formattedError = fromZodError(err);
-		sendErrorResponse(res, 400, "Validation error", formattedError.details);
-	} else if (
-		err.message === "access denied" ||
-		err.message === "Unauthorized"
-	) {
-		sendErrorResponse(res, 401, err.message);
-	} else if (
-		err.message.includes("Validation error") ||
-		err.message.includes("Invalid") ||
-		err.message.includes("- Required")
-	) {
-		sendErrorResponse(res, 400, err.message);
-	} else if (err.name === "QueryFailedError") {
-		sendErrorResponse(res, 500, "Database query error", err.message);
-	} else if (err.name === "EntityNotFoundError") {
-		sendErrorResponse(res, 404, "Requested resource not found");
-	} else if (err.message.toLowerCase().includes("not found")) {
-		sendErrorResponse(res, 404, err.message);
-	} else if (
-		err.message.split(" ")[0] === "No" &&
-		err.message.split(" ").at(-1) === "Found"
-	) {
-		sendErrorResponse(res, 404, err.message);
-	} else if (err.message.includes("already exists")) {
-		sendErrorResponse(res, 409, err.message);
-	} else if (err.message === "Internal server error") {
-		sendErrorResponse(res, 500, err.message);
-	} else {
-		sendErrorResponse(res, 500, "Something went wrong", err.message);
+	const errorMessage = err.message;
+	const errorMessageLower = errorMessage.toLowerCase();
+	let statusCode = 500;
+	let message = "Something went wrong";
+	let details: any = undefined;
+
+	switch (true) {
+		// Zod validation errors
+		case err instanceof ZodError: {
+			// const formattedError = fromZodError(err);
+			statusCode = 400;
+			message = errorMessage;
+			break;
+		}
+
+		case errorMessage.includes(" - "): {
+			statusCode = 400;
+			message = errorMessage;
+			break;
+		}
+
+		// Authentication errors
+		case ["access denied", "unauthorized"].includes(errorMessageLower): {
+			statusCode = 401;
+			message = errorMessage;
+			break;
+		}
+
+		// Bad request errors
+		case errorMessageLower.includes("validation error"):
+		case errorMessageLower.includes("invalid"):
+		case errorMessageLower.includes("- required"):
+		case errorMessage === "Only image files are allowed": {
+			statusCode = 400;
+			message = errorMessage;
+			break;
+		}
+
+		// Database errors
+		case err.name === "QueryFailedError": {
+			statusCode = 500;
+			message = "Database query error";
+			details = errorMessage;
+			break;
+		}
+
+		// Not found errors
+		case err.name === "EntityNotFoundError": {
+			statusCode = 404;
+			message = "Requested resource not found";
+			break;
+		}
+		case errorMessageLower.includes("not found"): {
+			statusCode = 404;
+			message = errorMessage;
+			break;
+		}
+		case errorMessage.startsWith("No ") && errorMessage.endsWith(" Found"): {
+			statusCode = 404;
+			message = errorMessage;
+			break;
+		}
+
+		// Conflict errors
+		case errorMessageLower.includes("already exists"): {
+			statusCode = 409;
+			message = errorMessage;
+			break;
+		}
+
+		// Explicit internal server errors
+		case errorMessage === "Internal server error": {
+			statusCode = 500;
+			message = errorMessage;
+			break;
+		}
 	}
+
+	sendErrorResponse(res, statusCode, message, details);
 };
 
 const sendErrorResponse = (

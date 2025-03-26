@@ -21,6 +21,9 @@ export const register = async (req: Request, res: Response) => {
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const data = validation.data;
+	const picture = req.file?.buffer;
+
+	if (!picture) throw Error("Picture - required");
 
 	const existingUser = await userRepo.findOneBy([
 		{ email: data.email },
@@ -39,20 +42,26 @@ export const register = async (req: Request, res: Response) => {
 	}
 
 	const affiliation = await affiliationRepo.findOneBy({
-		id: data.affiliationId,
+		id: parseInt(data.affiliationId),
 	});
 
 	if (!affiliation) throw Error("Affiliation Not Found");
 
 	const department = await departmentRepo.findOneBy({
-		id: data.departmentId,
+		id: parseInt(data.departmentId),
 	});
 	if (!department) throw Error("Department Not Found");
 
 	const role = await roleRepo.findOneBy({
-		id: data.roleId,
+		id: parseInt(data.roleId),
 	});
 	if (!role) throw Error("Role Not Found");
+	if (
+		(role.name === "Resident Doctor" && !data.residencyLevel) ||
+		(role.name !== "Resident Doctor" && data.residencyLevel)
+	) {
+		throw Error("Invalid credentials");
+	}
 
 	const saltRounds = parseInt(process.env.salt_rounds) || 10;
 	const hashedPassword = await bcryptHash(data.password, saltRounds);
@@ -66,9 +75,11 @@ export const register = async (req: Request, res: Response) => {
 		email: data.email,
 		phone_number: data.phone_number,
 		password_hash: hashedPassword,
+		picture,
 		affiliation,
 		department,
 		role,
+		residencyLevel: data.residencyLevel,
 		account_status: USER_STATUS.PENDING,
 		first_login: true,
 		activation_token: activationToken,
@@ -90,7 +101,9 @@ export const register = async (req: Request, res: Response) => {
 	await notificationService.createNotification(
 		adminId.id,
 		NOTIFICATION_TYPES.USER_REGISTRATION,
-		`New user registered: ${newUser.email}. Please review and approve. \\nActivation link: ${activationLink}`
+		`New user registered: ${newUser.email}. 
+		Please review and approve. 
+		Activation link: ${activationLink.split("?")[0]}`
 	);
 
 	res.status(201).json({

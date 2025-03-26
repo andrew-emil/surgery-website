@@ -53,7 +53,7 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 
 	const postSurgery = postSurgeryRepo.create({
 		surgeryId,
-		surgicalTimeMinutes: parseInt(surgicalTimeMinutes),
+		surgicalTimeMinutes,
 		outcome,
 		complications: complications?.trim() || null,
 		dischargeStatus,

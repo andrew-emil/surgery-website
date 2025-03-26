@@ -9,7 +9,6 @@ import {
 import { generateResetToken } from "../utils/generateResetToken.js";
 import { User } from "../entity/sql/User.js";
 import { createJWTtoken } from "../handlers/jwtHandler.js";
-import { JWTPayload } from "../utils/dataTypes.js";
 
 export class UserService {
 	private MAX_FAILED_ATTEMPTS = 5;
@@ -119,10 +118,7 @@ export class UserService {
 		return { success: true, message: "Password reset successful" };
 	}
 
-	async updateAccount(
-		user: User,
-		data: any
-	): Promise<{ success: boolean; message?: string; token?: string }> {
+	async updateAccount(user: User, data: any) {
 		const saltRounds = parseInt(process.env.salt_rounds || "10", 10);
 		let passwordUpdated = false;
 
@@ -151,22 +147,20 @@ export class UserService {
 		if (data.email && data.email !== user.email) updatedUser.email = data.email;
 		if (data.phone_number && data.phone_number !== user.phone_number)
 			updatedUser.phone_number = data.phone_number;
+		if (data.picture) updatedUser.picture = data.picture;
 
 		if (Object.keys(updatedUser).length > 0 || passwordUpdated) {
 			await userRepo.save({ ...user, ...updatedUser });
 		}
 
-		const token = await createJWTtoken(user);
-
 		await sendAccountUpdateEmail(user.email, updatedUser);
 
-		return { success: true, token };
+		const { token, formatedSurgeries } = await createJWTtoken(user);
+
+		return { success: true, token, formatedSurgeries };
 	}
 
-	async verify2FA(
-		email: string,
-		otp: string
-	): Promise<{ success: boolean; message?: string; token?: string }> {
+	async verify2FA(email: string, otp: string) {
 		const user = await userRepo.findOne({
 			where: { email },
 			relations: ["role"],
@@ -208,13 +202,8 @@ export class UserService {
 		user.last_login = new Date();
 		await userRepo.save(user);
 
-		const token = await createJWTtoken(user);
+		const { token, formatedSurgeries } = await createJWTtoken(user);
 
-		return { success: true, token };
-	}
-
-	authUser(userData: JWTPayload, role: string): boolean {
-		if (userData.userRole === role) return true;
-		return false;
+		return { success: true, token, formatedSurgeries };
 	}
 }

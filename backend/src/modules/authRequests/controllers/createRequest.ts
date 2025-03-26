@@ -71,7 +71,7 @@ export const createRequest = async (req: Request, res: Response) => {
 	authRequest.status = Authentication_Request.PENDING;
 
 	// 6. Add to doctors team
-	const doctor = new DoctorsTeam(traineeId, role.id, permissions, null, notes);
+	const doctor = new DoctorsTeam(traineeId, role.id, null, notes);
 
 	const surgeryLog = await surgeryLogsRepo.findOneBy({
 		surgeryId: surgeryId,

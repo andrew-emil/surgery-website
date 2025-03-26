@@ -10,12 +10,12 @@ export const authMiddleware = async (
 	next: NextFunction
 ) => {
 	const token = await getCookie("ACCESS_TOKEN", { req, res });
-	console.log(token)
-
+	
 	if (!token) throw Error("Unauthorized");
-
+	
 	try {
 		const decoded = jwt.verify(token as string, SECRET_KEY);
+		console.log(decoded);
 		(req as any).user = decoded;
 		next();
 	} catch (error) {

@@ -12,11 +12,17 @@ export const getSurgeryEquipments = async (req: Request, res: Response) => {
 	if (!queryResult.success)
 		throw Error(formatErrorMessage(queryResult), { cause: queryResult.error });
 
-	const page = queryResult.data.page;
+	let page = queryResult.data.page;
 	const limit = 20;
+
+	const total = await surgeryEquipmentRepo.count();
+
+	const totalPages = Math.ceil(total / limit);
+	if (page > totalPages) page = totalPages;
+
 	const skip = (page - 1) * limit;
 
-	const [equipments, total] = await surgeryEquipmentRepo.findAndCount({
+	const equipments = await surgeryEquipmentRepo.find({
 		order: { equipment_name: "ASC" },
 		take: limit,
 		skip,
@@ -28,7 +34,7 @@ export const getSurgeryEquipments = async (req: Request, res: Response) => {
 		pagination: {
 			total,
 			page,
-			totalPages: Math.ceil(total / limit),
+			totalPages,
 			limit,
 		},
 	});
