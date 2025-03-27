@@ -26,10 +26,6 @@ export class Surgery {
 	@Column({ type: "enum", enum: SURGERY_TYPE, nullable: true })
 	SurgeryType: SURGERY_TYPE;
 
-	@OneToOne(() => Role)
-	@JoinColumn()
-	minRole: Role;
-
 	@ManyToOne(() => Affiliations, {
 		onDelete: "SET NULL",
 		nullable: true,

@@ -1,10 +1,15 @@
-import { MongoRepository, Repository } from "typeorm";
-import { authenticationRequestRepo } from "../config/repositories.js";
+import { In, MongoRepository, Repository } from "typeorm";
+import {
+	authenticationRequestRepo,
+	roleRepo,
+	userRepo,
+} from "../config/repositories.js";
 import { Authentication_Request } from "../utils/dataTypes.js";
 import { TrainingService } from "./TrainingService.js";
 import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { Surgery } from "../entity/sql/Surgery.js";
+import { DoctorsTeam } from "../entity/sub entity/DoctorsTeam.js";
 
 export class SurgeryAuthService {
 	constructor(
@@ -93,5 +98,44 @@ export class SurgeryAuthService {
 		request.status = Authentication_Request.CANCELLED;
 		request.rejectionReason = reason.substring(0, 255);
 		await this.authRequestRepo.save(request);
+	}
+
+	async getEnhancedTeamDetails(participants: DoctorsTeam[]) {
+		const doctorIds = participants.map((p) => p.doctorId);
+		const roleIds = participants.map((p) => p.roleId);
+
+		const [users, roles] = await Promise.all([
+			userRepo.find({
+				where: { id: In(doctorIds) },
+				select: ["id", "first_name", "last_name", "email", "role"],
+			}),
+			roleRepo.findBy({ id: In(roleIds) }),
+		]);
+
+		return Promise.all(
+			participants.map(async (participant) => {
+				const user = users.find((u) => u.id === participant.doctorId);
+				const role = roles.find((r) => r.id === participant.roleId);
+
+				console.log(user, role);
+
+				const trainingProgress = await this.trainingService.getTrainingProgress(
+					user.id
+				);
+
+				return {
+					id: participant.doctorId,
+					name: user ? `${user.first_name} ${user.last_name}` : "Unknown",
+					email: user?.email || "N/A",
+					hospitalRole: user?.role?.name || "N/A",
+					surgicalRole: role?.name || "N/A",
+					trainingProgress: {
+						required: trainingProgress.required,
+						completed: trainingProgress.completed,
+						progress: `${trainingProgress.completed}/${trainingProgress.required}`,
+					},
+				};
+			})
+		);
 	}
 }

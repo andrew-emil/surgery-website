@@ -10,9 +10,10 @@ import crypto from "crypto";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { NOTIFICATION_TYPES, USER_STATUS } from "../../../utils/dataTypes.js";
 import { NotificationService } from "../../../service/NotificationService.js";
-import { bcryptHash } from "../../../config/hashFunction.js";
+import { HashFunctions } from "../../../utils/hashFunction.js";
 
 const notificationService = new NotificationService();
+const hashFunctions = new HashFunctions()
 
 export const register = async (req: Request, res: Response) => {
 	const validation = registerSchema.safeParse(req.body);
@@ -42,18 +43,18 @@ export const register = async (req: Request, res: Response) => {
 	}
 
 	const affiliation = await affiliationRepo.findOneBy({
-		id: parseInt(data.affiliationId),
+		id: data.affiliationId,
 	});
 
 	if (!affiliation) throw Error("Affiliation Not Found");
 
 	const department = await departmentRepo.findOneBy({
-		id: parseInt(data.departmentId),
+		id: data.departmentId,
 	});
 	if (!department) throw Error("Department Not Found");
 
 	const role = await roleRepo.findOneBy({
-		id: parseInt(data.roleId),
+		id: data.roleId,
 	});
 	if (!role) throw Error("Role Not Found");
 	if (
@@ -63,8 +64,7 @@ export const register = async (req: Request, res: Response) => {
 		throw Error("Invalid credentials");
 	}
 
-	const saltRounds = parseInt(process.env.salt_rounds) || 10;
-	const hashedPassword = await bcryptHash(data.password, saltRounds);
+	const hashedPassword = await hashFunctions.bcryptHash(data.password);
 	const activationToken = crypto.randomBytes(32).toString("hex");
 	const tokenExpiry = new Date();
 	tokenExpiry.setHours(tokenExpiry.getHours() + 48);

@@ -9,9 +9,9 @@ import {
 	userRepo,
 } from "../../../config/repositories.js";
 import { PARTICIPATION_STATUS, STATUS } from "../../../utils/dataTypes.js";
-import { getEnhancedTeamDetails } from "../../../utils/getTeamDetails.js";
 import { formatRatings } from "../../../utils/formatRating.js";
 import { PostSurgery } from "../../../entity/mongodb/PostSurgery.js";
+import { surgeryAuthService } from "../../../config/initializeServices.js";
 
 export const getSurgery = async (req: Request, res: Response) => {
 	const surgeryId = parseInt(req.params.id);
@@ -57,7 +57,7 @@ export const getSurgery = async (req: Request, res: Response) => {
 	);
 
 	const [doctorDetails, leadSurgeon] = await Promise.all([
-		getEnhancedTeamDetails(activeParticipants),
+		surgeryAuthService.getEnhancedTeamDetails(activeParticipants),
 		userRepo.findOne({
 			where: { id: surgeryLog.leadSurgeon },
 			select: ["first_name", "last_name"],

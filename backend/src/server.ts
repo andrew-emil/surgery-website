@@ -26,6 +26,7 @@ import adminRoutes from "./modules/admin/admin.routes.js";
 import { intializeServices } from "./config/initializeServices.js";
 import surgeryEquiRoutes from "./modules/surgery equipments/surgeryEquip.routes.js";
 import ratingRoutes from "./modules/rating/rating.routes.js";
+import scheduleRoutes from "./modules/Scheduling/schedule.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -69,6 +70,7 @@ app.use("/api/notification", notificationRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/surgery-equipments", surgeryEquiRoutes);
 app.use("/api/rating", ratingRoutes);
+app.use("/api/schedule", scheduleRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

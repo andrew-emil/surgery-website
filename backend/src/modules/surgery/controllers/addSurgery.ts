@@ -89,6 +89,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 				success: false,
 				message: `Surgery slots is ${slots} can not have ${doctorIds.length} doctors`,
 			});
+			return;
 		}
 
 		await AppDataSource.transaction(async (transactionalEntityManager) => {

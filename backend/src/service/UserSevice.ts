@@ -1,4 +1,3 @@
-import bcrypt from "bcrypt";
 import { userRepo } from "../config/repositories.js";
 import { createOtp } from "../utils/createOTP.js";
 import {
@@ -6,9 +5,9 @@ import {
 	sendResetEmail,
 	sendVerificationEmails,
 } from "../utils/sendEmails.js";
-import { generateResetToken } from "../utils/generateResetToken.js";
 import { User } from "../entity/sql/User.js";
 import { createJWTtoken } from "../handlers/jwtHandler.js";
+import { HashFunctions } from "../utils/hashFunction.js";
 
 export class UserService {
 	private MAX_FAILED_ATTEMPTS = 5;
@@ -32,8 +31,9 @@ export class UserService {
 			};
 		}
 
+		const hashFunction = new HashFunctions(user.password_hash);
 		// Validate password
-		const isMatched = await bcrypt.compare(password, user.password_hash);
+		const isMatched = await hashFunction.compareBcryptHash(password);
 		if (!isMatched) {
 			user.failed_attempts += 1;
 			if (user.failed_attempts >= this.MAX_FAILED_ATTEMPTS) {
@@ -73,8 +73,10 @@ export class UserService {
 		const user = await userRepo.findOneBy({ email });
 		if (!user) return;
 
+		const hashFunction = new HashFunctions();
+
 		// Generate reset token
-		const { token, hashedToken } = await generateResetToken();
+		const { token, hashedToken } = await hashFunction.generateResetToken();
 		user.reset_token = hashedToken;
 		user.reset_token_expires = new Date(Date.now() + 60 * 60 * 1000);
 		await userRepo.save(user);
@@ -91,10 +93,8 @@ export class UserService {
 		token: string,
 		newPassword: string
 	): Promise<{ success: boolean; message?: string }> {
-		const hashedToken = await bcrypt.hash(
-			token,
-			parseInt(process.env.salt_rounds)
-		);
+		const hashFunction = new HashFunctions();
+		const hashedToken = await hashFunction.bcryptHash(token);
 		const user = await userRepo.findOneBy({ reset_token: hashedToken });
 
 		// Validate token
@@ -106,10 +106,8 @@ export class UserService {
 			return { success: false, message: "Invalid or expired token." };
 		}
 
-		const hashedPassword = await bcrypt.hash(
-			newPassword,
-			parseInt(process.env.salt_rounds)
-		);
+		const hashedPassword = await hashFunction.bcryptHash(newPassword);
+
 		user.password_hash = hashedPassword;
 		user.reset_token = null;
 		user.reset_token_expires = null;
@@ -119,19 +117,16 @@ export class UserService {
 	}
 
 	async updateAccount(user: User, data: any) {
-		const saltRounds = parseInt(process.env.salt_rounds || "10", 10);
+		const hashFunction = new HashFunctions(data.old_password);
 		let passwordUpdated = false;
 
 		// Handle password update securely
 		if (data.old_password && data.new_password) {
-			const isPasswordCorrect = await bcrypt.compare(
-				data.old_password,
-				user.password_hash
-			);
+			const isPasswordCorrect = await hashFunction.compareBcryptHash(data.new_password)
 			if (!isPasswordCorrect)
 				return { success: false, message: "Invalid credentials" };
 
-			user.password_hash = await bcrypt.hash(data.new_password, saltRounds);
+			user.password_hash = await hashFunction.bcryptHash(data.new_password)
 			passwordUpdated = true;
 			user.token_version = (user.token_version || 0) + 1; // Invalidate old tokens
 		} else if (!data.old_password && data.new_password) {
@@ -179,8 +174,9 @@ export class UserService {
 			};
 		}
 
+		const hashFunctions = new HashFunctions(user.otp_secret)
 		// Verify OTP
-		const isOtpValid = await bcrypt.compare(otp, user.otp_secret);
+		const isOtpValid = await hashFunctions.compareBcryptHash(otp);
 		if (!isOtpValid) {
 			user.failed_attempts += 1;
 

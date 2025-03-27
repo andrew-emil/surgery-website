@@ -8,6 +8,9 @@ import { In } from "typeorm";
 import { Affiliations } from "./../../../entity/sql/Affiliations.js";
 import { Department } from "../../../entity/sql/departments.js";
 import { SurgeryEquipment } from "../../../entity/sql/SurgeryEquipments.js";
+import { notificationService } from "../../../config/initializeServices.js";
+import { NOTIFICATION_TYPES } from "../../../utils/dataTypes.js";
+import { DoctorsTeam } from "../../../entity/sub entity/DoctorsTeam.js";
 
 export const updateSurgery = async (req: Request, res: Response) => {
 	const validation = updateSurgerySchema.safeParse(req.body);
@@ -19,6 +22,7 @@ export const updateSurgery = async (req: Request, res: Response) => {
 		hospitalId,
 		departmentId,
 		surgeryEquipments,
+		doctorsTeam,
 		...updateData
 	} = validation.data;
 
@@ -65,22 +69,70 @@ export const updateSurgery = async (req: Request, res: Response) => {
 		return await sqlManager.save(mergedSurgery);
 	});
 
-	const mongoUpdates = [];
 	const changeTimestamp = new Date();
+	const scheduleUpdated = Boolean(updateData.date || updateData.time);
 
-	if (updateData.leadSurgeon || updateData.doctorsTeam) {
-		const logUpdate = {
-			surgeryId: updatedSurgery.id,
-			...updateData,
-			updatedAt: changeTimestamp,
-			updatedBy: req.user?.id || "system",
-		};
+	const previousLog = await surgeryLogsRepo.findOne({
+		where: { surgeryId: updatedSurgery.id },
+	});
+	const previousDoctorsTeam: string[] =
+		previousLog && previousLog.doctorsTeam
+			? previousLog.doctorsTeam.map((doc) => doc.doctorId)
+			: [];
 
-		mongoUpdates.push(
-			surgeryLogsRepo.updateOne(
-				{ surgeryId: updatedSurgery.id },
-				{ $set: logUpdate },
-				{ upsert: true }
+	const logUpdate = {
+		surgeryId: updatedSurgery.id,
+		...updateData,
+		...(doctorsTeam ? { doctorsTeam } : {}),
+		updatedAt: changeTimestamp,
+		updatedBy: req.user?.name || "system",
+	};
+
+	await surgeryLogsRepo.updateOne(
+		{ surgeryId: updatedSurgery.id },
+		{ $set: logUpdate },
+		{ upsert: true }
+	);
+
+	if (scheduleUpdated && doctorsTeam) {
+		const newDate = updateData.date || previousLog.date;
+		const newTime = updateData.time || previousLog.time;
+		const scheduleDateTime = new Date(`${newDate} ${newTime}`);
+		const formattedSchedule = scheduleDateTime.toLocaleString("en-US", {
+			dateStyle: "medium",
+			timeStyle: "short",
+		});
+
+		const updatedAssigned: string[] = [];
+		const newAssigned: string[] = [];
+
+		doctorsTeam.forEach((doctor: { doctorId: string }) => {
+			if (previousDoctorsTeam.includes(doctor.doctorId)) {
+				updatedAssigned.push(doctor.doctorId);
+			} else {
+				newAssigned.push(doctor.doctorId);
+			}
+		});
+
+		await Promise.all(
+			updatedAssigned.map((doctorId) =>
+				notificationService.createNotification(
+					doctorId,
+					NOTIFICATION_TYPES.SCHEDULE_UPDATE,
+					`Surgery: ${updatedSurgery.name} schedule updated to ${formattedSchedule}`
+				)
+			)
+		);
+
+		// Notify newly assigned doctors that they have been added to the surgery with the new schedule
+		await Promise.all(
+			newAssigned.map((doctorId) =>
+				notificationService.createNotification(
+					doctorId,
+					NOTIFICATION_TYPES.INVITE,
+					`You have been assigned to Surgery: ${updatedSurgery.name} scheduled on ${formattedSchedule}<br>
+					Please review the surgery and contact the Consultant for any questions`
+				)
 			)
 		);
 	}

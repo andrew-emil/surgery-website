@@ -99,3 +99,4 @@ export interface EligibilityResult extends TrainingProgress {
 	eligible: boolean;
 	reason: string;
 }
+
