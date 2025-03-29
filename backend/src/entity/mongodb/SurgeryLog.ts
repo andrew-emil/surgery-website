@@ -34,6 +34,9 @@ export class SurgeryLog {
 	@Column({ type: "string" })
 	time: string;
 
+	@Column({ type: "string" })
+	esitmatedEndTime: string;
+
 	@Column({ type: "int", nullable: true })
 	stars: number;
 
@@ -70,6 +73,6 @@ export class SurgeryLog {
 	@VersionColumn()
 	version: number;
 
-	@Column(() => TrainingCredit)
+	@Column({ type: "json" })
 	trainingCredits: TrainingCredit[];
 }

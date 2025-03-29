@@ -1,5 +1,10 @@
 import { Response, Request } from "express";
-import { permissionRepo, roleRepo } from "../../../config/repositories.js";
+import {
+	permissionRepo,
+	roleRepo,
+	procedureTypeRepo,
+	requirementRepo,
+} from "../../../config/repositories.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { addRoleSchema } from "../../../utils/zodSchemas.js";
 
@@ -8,13 +13,8 @@ export const addRole = async (req: Request, res: Response) => {
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	const {
-		name,
-		parentId,
-		permissionActions,
-		requiredSurgeryType,
-		requiredCount,
-	} = validation.data;
+	const { name, parentId, permissionActions, procedureRequirements } =
+		validation.data;
 
 	const existingRole = await roleRepo
 		.createQueryBuilder("role")
@@ -34,7 +34,13 @@ export const addRole = async (req: Request, res: Response) => {
 		relations: ["children"],
 	});
 
-	if (!parentRole) throw Error(`Invalid Parent Name`);
+	if (!parentRole) {
+		res.status(400).json({
+			success: false,
+			message: "Invalid parent role",
+		});
+		return;
+	}
 
 	const permissions = await Promise.all(
 		permissionActions.map(async (actionId) => {
@@ -50,14 +56,53 @@ export const addRole = async (req: Request, res: Response) => {
 		name,
 		parent: parentRole,
 		permissions,
-		requiredCount,
-		requiredSurgeryType,
 	});
 
-	await roleRepo.save(newRole);
+	const queryRunner = roleRepo.manager.connection.createQueryRunner();
+	await queryRunner.connect();
+	await queryRunner.startTransaction();
 
-	res.status(201).json({
-		success: true,
-		message: "Role added successfully",
-	});
+	try {
+		await queryRunner.manager.save(newRole);
+
+		for (const req of procedureRequirements) {
+			const procedureType = await procedureTypeRepo.findOne({
+				where: { id: req.procedureTypeId },
+				relations: ["category"],
+			});
+
+			if (!procedureType) {
+				throw new Error(`Procedure type ${req.procedureTypeId} not found`);
+			}
+
+			if (procedureType.category.code !== req.category) {
+				throw new Error(
+					`Procedure type ${procedureType.name} belongs to category ${procedureType.category.code}, not ${req.category}`
+				);
+			}
+
+			const requirement = requirementRepo.create({
+				role: newRole,
+				procedure: procedureType,
+				requiredCount: req.requiredCount,
+			});
+
+			await queryRunner.manager.save(requirement);
+		}
+
+		await queryRunner.commitTransaction();
+
+		res.status(201).json({
+			success: true,
+			message: "Role added with requirements successfully",
+		});
+	} catch (error) {
+		await queryRunner.rollbackTransaction();
+		res.status(500).json({
+			success: false,
+			message: error instanceof Error ? error.message : "Failed to create role",
+		});
+	} finally {
+		await queryRunner.release();
+	}
 };

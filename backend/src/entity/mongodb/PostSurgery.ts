@@ -6,10 +6,11 @@ export class PostSurgery {
 	@ObjectIdColumn()
 	id: ObjectId;
 
-	@Column({ type: "int" })
 	@Index()
+	@Column({ type: "int" })
 	surgeryId: number;
 
+	@Index()
 	@Column({ type: "int" })
 	surgicalTimeMinutes: number;
 
@@ -29,10 +30,11 @@ export class PostSurgery {
 	@Column({ type: "string", nullable: true })
 	caseNotes: string;
 
+	@Index()
 	@CreateDateColumn({ type: "timestamp" })
 	createdAt: Date;
 
-	@Column({ type: "timestamp", nullable: true })
 	@Index()
+	@Column({ type: "timestamp", nullable: true })
 	dischargedAt?: Date;
 }

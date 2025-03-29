@@ -1,5 +1,9 @@
 import { Request, Response } from "express";
-import { roleRepo } from "../../../config/repositories.js";
+import {
+	roleRepo,
+	requirementRepo,
+	procedureTypeRepo,
+} from "../../../config/repositories.js";
 import { AppDataSource } from "../../../config/data-source.js";
 import { updateRoleSchema } from "../../../utils/zodSchemas.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
@@ -11,34 +15,28 @@ export const updateRole = async (req: Request, res: Response) => {
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	const {
-		id,
-		name,
-		parentId,
-		permissions,
-		requiredSurgeryType,
-		requiredCount,
-	} = validation.data;
+	const { id, name, parentId, permissions, procedureRequirements } =
+		validation.data;
 
 	const role = await roleRepo.findOne({
 		where: { id },
-		relations: ["parent", "permissions"],
+		relations: ["parent", "permissions", "requirements.procedure.category"],
 	});
 
-	if (!role) throw Error("Role not found");
+	if (!role) {
+		res.status(404).json({ success: false, message: "Role not found" });
+		return;
+	}
 
 	await AppDataSource.transaction(async (transactionalEntityManager) => {
 		if (name && name.toLowerCase() !== role.name.toLowerCase()) {
 			const existingRole = await transactionalEntityManager
-				.createQueryBuilder(Role, "role")
+				.createQueryBuilder("Role", "role")
 				.where("LOWER(role.name) = LOWER(:name)", { name })
 				.getOne();
 
 			if (existingRole) {
-				res.status(409).json({
-					message: "Role name already exists",
-				});
-				return;
+				throw new Error("Role name already exists");
 			}
 			role.name = name;
 		}
@@ -46,42 +44,75 @@ export const updateRole = async (req: Request, res: Response) => {
 		if (parentId !== undefined) {
 			if (parentId === role.id) {
 				res.status(400).json({
+					success: false,
 					message: "A role cannot be its own parent",
 				});
 				return;
 			}
-
-			const parentRole = await transactionalEntityManager.findOneBy(Role, {
-				id: parentId,
-			});
-
-			if (!parentRole) {
-				throw new Error("Parent role not found");
-			}
-			role.parent = parentRole;
+			const parentRole = (await transactionalEntityManager.findOne("Role", {
+				where: { id: parentId },
+			})) as Role;
+			role.parent = parentRole || null;
 		}
 
 		if (permissions) {
-			const validPermissions = await transactionalEntityManager
-				.createQueryBuilder(Permission, "permission")
-				.where("permission.id IN (:...id)", { id: permissions })
-				.getMany();
+			const validPermissions = (await transactionalEntityManager
+				.createQueryBuilder("Permission", "permission")
+				.where("permission.id IN (:...ids)", { ids: permissions })
+				.getMany()) as Permission[];
 
-			const foundIds = validPermissions.map((p) => p.id);
-			const invalidIds = permissions.filter((id) => !foundIds.includes(id));
-
-			if (invalidIds.length > 0) {
-				throw Error(`Invalid permission IDs: ${invalidIds.join(", ")}`);
-			}
-
-			role.permissions.push(...validPermissions);
+			role.permissions = validPermissions;
 		}
 
-		if (requiredCount) role.requiredCount = requiredCount;
-		if (requiredSurgeryType) role.requiredSurgeryType;
+		if (procedureRequirements) {
+			const existingReqIds = role.requirements.map((r) => r.id);
+			const newReqIds = procedureRequirements
+				.filter((r) => r.id)
+				.map((r) => r.id!);
+			const toDelete = existingReqIds.filter((id) => !newReqIds.includes(id));
+
+			if (toDelete.length > 0) {
+				await transactionalEntityManager.delete("Requirement", toDelete);
+			}
+
+			for (const req of procedureRequirements) {
+				const procedure = await procedureTypeRepo.findOne({
+					where: { id: req.procedureTypeId },
+					relations: ["category"],
+				});
+
+				if (!procedure) {
+					throw new Error(`Procedure type not found`);
+				}
+
+				if (procedure.category.code !== req.category) {
+					res.status(400).json({
+						success: false,
+						message: `Category mismatch for ${procedure.name}: Expected ${procedure.category.code}, got ${req.category}`,
+					});
+					return;
+				}
+
+				if (req.id) {
+					await transactionalEntityManager.update("Requirement", req.id, {
+						requiredCount: req.requiredCount,
+					});
+				} else {
+					const newReq = requirementRepo.create({
+						role,
+						procedure,
+						requiredCount: req.requiredCount,
+					});
+					await transactionalEntityManager.save(newReq);
+				}
+			}
+		}
 
 		await transactionalEntityManager.save(role);
 	});
 
-	res.status(200).json({ message: "Role updated successfully" });
+	res.status(200).json({
+		success: true,
+		message: "Role Updated successfully",
+	});
 };

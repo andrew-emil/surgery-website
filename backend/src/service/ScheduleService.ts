@@ -1,15 +1,14 @@
-import { Between, MongoRepository, Repository } from "typeorm";
+import { In, MongoRepository, Not, Repository } from "typeorm";
 import { User } from "../entity/sql/User.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { STATUS, USER_STATUS } from "../utils/dataTypes.js";
+import { Affiliations } from "../entity/sql/Affiliations.js";
 
 interface AvailabilityEvent {
 	date: string;
 	time: string;
 	available: boolean;
 	color: string;
-	availableSlots: number;
-	surgeryStatus: string;
 }
 
 interface StaffRecommendation {
@@ -17,7 +16,6 @@ interface StaffRecommendation {
 		id: string;
 		firstName: string;
 		lastName: string;
-		residencyLevel?: number;
 	}>;
 }
 
@@ -54,164 +52,95 @@ export class ScheduleService {
 	): Promise<AvailabilityEvent[]> {
 		const { start, end } = this.getDateRange();
 
-		const timeSlots = [
-			"00:00",
-			"01:00",
-			"02:00",
-			"03:00",
-			"04:00",
-			"05:00",
-			"06:00",
-			"07:00",
-			"08:00",
-			"09:00",
-			"10:00",
-			"11:00",
-			"12:00",
-			"13:00",
-			"14:00",
-			"15:00",
-			"16:00",
-			"17:00",
-			"18:00",
-			"19:00",
-			"20:00",
-			"21:00",
-			"22:00",
-			"23:00",
-		];
-
+		// Query surgeries in the date range for the user.
 		const surgeries = await this.surgeryLogRepo.find({
-			where: { date: Between(start, end) },
-			select: ["date", "time", "doctorsTeam", "slots", "status"],
-		});
-
-		const userSurgeries = await this.surgeryLogRepo.find({
 			where: {
-				date: Between(start, end),
-				doctorsTeam: { $elemMatch: { doctorId: userId } },
+				date: { $gte: start, $lte: end },
+				$or: [{ "doctorsTeam.doctorId": userId }, { leadSurgeon: userId }],
 			},
-			select: ["date", "time"],
+			select: ["date", "time", "doctorsTeam", "slots", "esitmatedEndTime"],
+			order: {
+				date: "ASC",
+				time: "ASC",
+			},
 		});
 
-		const userBusySlots = new Set(
-			userSurgeries.map(
-				(s) => `${s.date.toISOString().split("T")[0]}_${s.time}`
-			)
-		);
-
-		const surgeryLookup: { [key: string]: any } = {};
-		surgeries.forEach((surgery) => {
-			const surgeryDate = surgery.date.toISOString().split("T")[0];
-			const key = `${surgeryDate}_${surgery.time}`;
-			surgeryLookup[key] = surgery;
-		});
-
-		const results: AvailabilityEvent[] = [];
-
-		const current = new Date(start);
-		while (current <= end) {
-			const dayStr = current.toISOString().split("T")[0];
-
-			// For each predefined time slot, create an event.
-			for (const time of timeSlots) {
-				const key = `${dayStr}_${time}`;
-				const surgery = surgeryLookup[key];
-
-				if (surgery) {
-					// Compute available slots based on the surgery record.
-					const assignedDoctors = surgery.doctorsTeam?.length || 0;
-					const availableSlots = surgery.slots - assignedDoctors;
-					const isSurgeryAvailable =
-						availableSlots > 0 && surgery.status === STATUS.ONGOING;
-					const isUserAvailable = !userBusySlots.has(key);
-					const isAvailable = isSurgeryAvailable && isUserAvailable;
-
-					results.push({
-						date: dayStr,
-						time,
-						available: isAvailable,
-						color: isAvailable ? "green" : "red",
-						availableSlots: isAvailable ? availableSlots : 0,
-						surgeryStatus: surgery.status,
-					});
-				} else {
-					// No surgery is scheduled for this time slot.
-					results.push({
-						date: dayStr,
-						time,
-						available: true,
-						color: "green",
-						// Set a default value for availableSlots. Adjust as necessary.
-						availableSlots: 1,
-						surgeryStatus: "AVAILABLE",
-					});
-				}
-			}
-			current.setDate(current.getDate() + 1);
-		}
-
-		return results;
+		const groupedResults = this.groupEventsByDay(surgeries, start, end);
+		return groupedResults;
 	}
 
-	async recommendStaff() {
-		const ongoingSurgeryLogs = await this.surgeryLogRepo.find({
+	async recommendStaff(
+		affiliation: Affiliations,
+		date: Date,
+		time: string
+	): Promise<StaffRecommendation> {
+		// Retrieve ongoing surgeries for the given date and time.
+		const ongoingSurgeries = await this.surgeryLogRepo.find({
 			where: {
-				status: STATUS.ONGOING,
-				doctorsTeam: { $exists: true, $ne: [] },
+				status: { $eq: STATUS.ONGOING },
+				date,
+				time,
 			},
-			projection: { doctorsTeam: 1 },
+			select: {
+				leadSurgeon: true,
+				doctorsTeam: true,
+			},
 		});
 
-		const busyStaffIds = new Set<string>();
-		ongoingSurgeryLogs.forEach((surgery) => {
-			surgery.doctorsTeam?.forEach((doctor) => {
-				if (doctor.doctorId) busyStaffIds.add(doctor.doctorId);
-			});
-		});
-
-		const query = this.userRepo
-			.createQueryBuilder("user")
-			.leftJoinAndSelect("user.role", "role")
-			.where("user.account_status = :active", { active: USER_STATUS.ACTIVE });
-
-		if (busyStaffIds.size > 0) {
-			query.andWhere("user.id NOT IN (:...busyStaffIds)", {
-				busyStaffIds: Array.from(busyStaffIds),
-			});
+		// Build list of users (doctor ids) already in an ongoing surgery.
+		const filteredUsers: string[] = [];
+		for (const surgery of ongoingSurgeries) {
+			filteredUsers.push(surgery.leadSurgeon);
+			const team = surgery.doctorsTeam.map((doctor) => doctor.doctorId);
+			filteredUsers.push(...team);
 		}
 
-		const availableStaff = await query
-			.select([
-				"user.id",
-				"user.first_name",
-				"user.last_name",
-				"user.residencyLevel",
-				"role.name",
-			])
-			.getMany();
+		// Helper to create a base query builder for users.
+		const createBaseQB = () => {
+			const qb = this.userRepo
+				.createQueryBuilder("user")
+				.leftJoin("user.progress", "progress")
+				.leftJoin("user.affiliation", "affiliation")
+				.leftJoin("user.role", "role")
+				.where("user.account_status = :active", { active: USER_STATUS.ACTIVE })
+				.andWhere("role.name != :adminRole", { adminRole: "Admin" })
+				.orderBy("progress.completedCount", "DESC")
+				.select([
+					"user.id",
+					"user.first_name",
+					"user.last_name",
+					"user.picture",
+					"role.name",
+				]);
 
-		const groupedStaff = availableStaff.reduce<StaffRecommendation>(
-			(acc, user) => {
-				const expertise = user.role?.name || "Unknown";
-				const staffInfo = {
-					id: user.id,
-					firstName: user.first_name,
-					lastName: user.last_name,
-					residencyLevel: user.residencyLevel,
-				};
+			if (filteredUsers.length > 0) {
+				qb.andWhere("user.id NOT IN (:...filteredUsers)", { filteredUsers });
+			}
 
-				if (!acc[expertise]) {
-					acc[expertise] = [];
-				}
-				acc[expertise] = acc[expertise] || [];
-				acc[expertise].push(staffInfo);
-				return acc;
-			},
-			{}
+			return qb;
+		};
+
+		// Create separate query builders for related and other users.
+		const qbRelated = createBaseQB().andWhere(
+			"affiliation.id = :affiliationId",
+			{ affiliationId: affiliation.id }
+		);
+		const qbOther = createBaseQB().andWhere(
+			"affiliation.id != :affiliationId",
+			{ affiliationId: affiliation.id }
 		);
 
-		return groupedStaff;
+		// Execute both queries in parallel.
+		const [relatedUsers, otherUsers] = await Promise.all([
+			qbRelated.getMany(),
+			qbOther.getMany(),
+		]);
+
+		const staffRecommendation = this.addUsersToRecommendation(
+			relatedUsers,
+			otherUsers
+		);
+		return staffRecommendation;
 	}
 
 	async getConflictResolutionData() {
@@ -251,5 +180,123 @@ export class ScheduleService {
 					(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
 				),
 			}));
+	}
+
+	private groupEventsByDay(
+		surgeries: SurgeryLog[],
+		current: Date,
+		end: Date
+	): AvailabilityEvent[] {
+		const events: AvailabilityEvent[] = [];
+		let surgeryIndex = 0;
+
+		while (current <= end) {
+			const dayStr = current.toISOString().split("T")[0];
+
+			// Gather surgeries for this day.
+			const daySurgeries: SurgeryLog[] = [];
+			while (
+				surgeryIndex < surgeries.length &&
+				new Date(surgeries[surgeryIndex].date).toISOString().split("T")[0] ===
+					dayStr
+			) {
+				daySurgeries.push(surgeries[surgeryIndex]);
+				surgeryIndex++;
+			}
+
+			// If no surgeries on this day, mark entire day as available.
+			if (daySurgeries.length === 0) {
+				events.push({
+					date: dayStr,
+					time: "00:00 - 24:00",
+					color: "green",
+					available: true,
+				});
+			} else {
+				// If first surgery does not start at midnight, add available period before it.
+				if (daySurgeries[0].time !== "00:00") {
+					events.push({
+						date: dayStr,
+						time: `00:00 - ${daySurgeries[0].time}`,
+						color: "green",
+						available: true,
+					});
+				}
+
+				// For each surgery, add its occupied period and any gap until the next surgery.
+				for (let i = 0; i < daySurgeries.length; i++) {
+					const surgery = daySurgeries[i];
+
+					// Add the surgery period.
+					events.push({
+						date: dayStr,
+						time: `${surgery.time} - ${surgery.esitmatedEndTime}`,
+						color: "red",
+						available: false,
+					});
+
+					// If there is a next surgery, and if there's a gap between the current surgery's estimated end time and the next surgery's start.
+					if (i < daySurgeries.length - 1) {
+						const nextSurgery = daySurgeries[i + 1];
+						if (surgery.esitmatedEndTime < nextSurgery.time) {
+							events.push({
+								date: dayStr,
+								time: `${surgery.esitmatedEndTime} - ${nextSurgery.time}`,
+								color: "green",
+								available: true,
+							});
+						}
+					} else {
+						// For the last surgery, if it doesn't end at the end of the day, add available period until day end.
+						if (
+							surgery.esitmatedEndTime !== "24:00" &&
+							surgery.esitmatedEndTime !== "23:59"
+						) {
+							events.push({
+								date: dayStr,
+								time: `${surgery.esitmatedEndTime} - 24:00`,
+								color: "green",
+								available: true,
+							});
+						}
+					}
+				}
+			}
+			// Move to the next day.
+			current.setDate(current.getDate() + 1);
+		}
+
+		return events;
+	}
+
+	private addUsersToRecommendation(relatedUsers: User[], otherUsers: User[]) {
+		const staffRecommendation: StaffRecommendation = {};
+		console.log(otherUsers);
+		relatedUsers.forEach((user) => {
+			const roleName = user.role?.name || "Unassigned";
+
+			if (!staffRecommendation[roleName]) {
+				staffRecommendation[roleName] = [];
+			}
+			staffRecommendation[roleName].push({
+				id: user.id,
+				firstName: user.first_name,
+				lastName: user.last_name,
+			});
+		});
+
+		otherUsers.forEach((user) => {
+			const roleName = user.role?.name || "Unassigned";
+
+			if (!staffRecommendation[roleName]) {
+				staffRecommendation[roleName] = [];
+			}
+			staffRecommendation[roleName].push({
+				id: user.id,
+				firstName: user.first_name,
+				lastName: user.last_name,
+			});
+		});
+		return staffRecommendation;
 	}
 }

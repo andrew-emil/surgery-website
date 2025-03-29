@@ -13,7 +13,7 @@ export const createNotification = async (req: Request, res: Response) => {
 
 	const notificationService = new NotificationService();
 
-	const notification = await notificationService.createNotification(
+	await notificationService.createNotification(
 		userId,
 		type as NOTIFICATION_TYPES,
 		message
@@ -21,6 +21,6 @@ export const createNotification = async (req: Request, res: Response) => {
 
 	res.status(201).json({
 		success: true,
-		notification,
+		message: "Notification sent successfully",
 	});
 };

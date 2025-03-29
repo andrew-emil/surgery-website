@@ -9,7 +9,7 @@ import {
 } from "typeorm";
 import { User } from "./User.js";
 import { Permission } from "./Permission.js";
-import { SURGERY_TYPE } from "../../utils/dataTypes.js";
+import { Requirement } from "./Requirments.js";
 
 @Entity()
 export class Role {
@@ -19,11 +19,8 @@ export class Role {
 	@Column({ type: "varchar", unique: true })
 	name: string;
 
-	@Column({ type: "enum", enum: SURGERY_TYPE, nullable: true })
-	requiredSurgeryType: SURGERY_TYPE;
-
-	@Column({ type: "int", default: 0 })
-	requiredCount: number;
+	@OneToMany(() => Requirement, (requirement) => requirement.role)
+	requirements: Requirement[];
 
 	@OneToMany(() => User, (user) => user.role)
 	users: User[];
@@ -39,10 +36,4 @@ export class Role {
 		name: "role_permission",
 	})
 	permissions: Permission[];
-
-	static readonly INTERN = "Internship Doctor";
-	static readonly RESIDENT = "Resident Doctor";
-	static readonly SPECIALIST = "Specialist";
-	static readonly CONSULTANT = "Consultant";
-	static readonly DEPARTMENT_HEAD = "Department Head";
 }

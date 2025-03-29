@@ -14,6 +14,10 @@ import { Rating } from "../entity/mongodb/Rating.js";
 import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
 import { Surgery } from "../entity/sql/Surgery.js";
 import { Permission } from "../entity/sql/Permission.js";
+import { ProcedureType } from "../entity/sql/ProcedureType.js";
+import { Requirement } from "../entity/sql/Requirments.js";
+import { UserProgress } from "../entity/sql/UserProgress.js";
+import { ProcedureCategory } from "../entity/sql/ProcedureCategory.js";
 
 // Export repositories for all entities
 export let userRepo: Repository<User>;
@@ -25,6 +29,10 @@ export let surgeryEquipmentRepo: Repository<SurgeryEquipment>;
 export let surgeryRepo: Repository<Surgery>;
 export let notificationRepo: Repository<Notification>;
 export let permissionRepo: Repository<Permission>;
+export let procedureTypeRepo: Repository<ProcedureType>;
+export let requirementRepo: Repository<Requirement>;
+export let userProgressRepo: Repository<UserProgress>;
+export let procedureCategoryRepo: Repository<ProcedureCategory>;
 
 export let auditTrailRepo: MongoRepository<AuditTrail>;
 export let postSurgeryRepo: MongoRepository<PostSurgery>;
@@ -43,6 +51,10 @@ export const initializeSQLRepositories = () => {
 	surgeryRepo = AppDataSource.getRepository(Surgery);
 	notificationRepo = AppDataSource.getRepository(Notification);
 	permissionRepo = AppDataSource.getRepository(Permission);
+	procedureTypeRepo = AppDataSource.getRepository(ProcedureType);
+	requirementRepo = AppDataSource.getRepository(Requirement);
+	userProgressRepo = AppDataSource.getRepository(UserProgress);
+	procedureCategoryRepo = AppDataSource.getRepository(ProcedureCategory);
 };
 
 export const initializeMongoRepositories = () => {

@@ -3,6 +3,7 @@
 ## Base URL: `http://localhost:4000/api/roles`
 
 ## Endpoints
+---
 
 ### 1. Add Role
 **URL:** `POST /`

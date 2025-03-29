@@ -1,96 +1,177 @@
-import { Repository, MongoRepository } from "typeorm";
-import { Authentication_Request, SURGERY_TYPE } from "../utils/dataTypes.js";
+import { Repository, MongoRepository, QueryRunner } from "typeorm";
+import { RequirementProgress, SURGERY_TYPE } from "../utils/dataTypes.js";
 import { User } from "../entity/sql/User.js";
 import { Role } from "../entity/sql/Roles.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
-import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
-import { surgeryRepo } from "../config/repositories.js";
 import { EligibilityResult, TrainingProgress } from "../utils/dataTypes.js";
+import { ProcedureType } from "../entity/sql/ProcedureType.js";
+import { userProgressRepo } from "../config/repositories.js";
+import { Surgery } from "../entity/sql/Surgery.js";
+import { Requirement } from "../entity/sql/Requirments.js";
+import { UserProgress } from "../entity/sql/UserProgress.js";
+import { AppDataSource } from "../config/data-source.js";
 
 export class TrainingService {
 	constructor(
 		private userRepo: Repository<User>,
 		private roleRepo: Repository<Role>,
-		private surgeryLogRepo: MongoRepository<SurgeryLog>,
-		private authRequestRepo: Repository<AuthenticationRequest>
+		private surgeryLogRepo: MongoRepository<SurgeryLog>
 	) {}
 
 	async getTrainingProgress(userId: string): Promise<TrainingProgress> {
-		const [user, role] = await Promise.all([
-			this.userRepo.findOne({
-				where: { id: userId },
-				relations: ["role"],
-			}),
-			this.roleRepo.findOne({
-				where: { users: { id: userId } },
-			}),
-		]);
-
-		if (!user || !role) {
-			throw new Error("User or role not found");
-		}
-
-		const requiredType = role.requiredSurgeryType;
-		const requiredCount = role.requiredCount;
-
-		if (!requiredType || requiredCount === 0) {
-			return {
-				completed: 0,
-				required: 0,
-				remaining: 0,
-				met: true,
-				type: null,
-			};
-		}
-
-		const completedSurgeries = await this.surgeryLogRepo.count({
-			where: {
-				"trainingCredits.userId": userId,
-				"trainingCredits.verified": true,
-				surgeryType: requiredType,
+		const user = await this.userRepo.findOne({
+			where: { id: userId },
+			relations: {
+				role: {
+					requirements: {
+						procedure: {
+							category: true,
+						},
+					},
+				},
 			},
 		});
 
+		if (!user?.role) {
+			throw new Error("User or role not found");
+		}
+
+		// Handle roles with no requirements
+		if (!user.role.requirements?.length) {
+			return {
+				overallStatus: "NOT_REQUIRED",
+				requirements: [],
+				totalCompleted: 0,
+				totalRequired: 0,
+				completionPercentage: 100,
+			};
+		}
+
+		// Get progress for each requirement
+		const requirementsProgress = await Promise.all(
+			user.role.requirements.map(async (requirement) => {
+				const completed = await this.surgeryLogRepo.count({
+					where: {
+						"procedure.id": requirement.procedure.id,
+						trainingCredits: {
+							$elemMatch: {
+								userId: userId,
+								roleId: user.role.id,
+								verified: true,
+							},
+						},
+					},
+				});
+
+				return {
+					procedureId: requirement.procedure.id,
+					procedureName: requirement.procedure.name,
+					category: requirement.procedure.category.code,
+					required: requirement.requiredCount,
+					completed: completed,
+					remaining: Math.max(requirement.requiredCount - completed, 0),
+					met: completed >= requirement.requiredCount,
+				};
+			})
+		);
+
+		// Calculate totals
+		const totalRequired = requirementsProgress.reduce(
+			(sum, r) => sum + r.required,
+			0
+		);
+		const totalCompleted = requirementsProgress.reduce(
+			(sum, r) => sum + r.completed,
+			0
+		);
+		const completionPercentage =
+			totalRequired > 0
+				? Math.round((totalCompleted / totalRequired) * 100)
+				: 100;
+
+		// Determine overall status
+		const overallStatus = requirementsProgress.every((r) => r.met)
+			? "FULLY_QUALIFIED"
+			: requirementsProgress.some((r) => r.met)
+			? "PARTIALLY_QUALIFIED"
+			: "NOT_QUALIFIED";
+
 		return {
-			completed: completedSurgeries,
-			required: requiredCount,
-			remaining: Math.max(requiredCount - completedSurgeries, 0),
-			met: completedSurgeries >= requiredCount,
-			type: requiredType,
+			overallStatus,
+			requirements: requirementsProgress,
+			totalCompleted,
+			totalRequired,
+			completionPercentage,
 		};
 	}
 
-	async recordSurgeryCredit(
+	private async recordSurgeryCredit(
 		userId: string,
 		surgeryId: number,
 		roleId: number
 	): Promise<void> {
-		const [user, role, surgeryLog] = await Promise.all([
-			this.userRepo.findOneBy({ id: userId }),
-			this.roleRepo.findOneBy({ id: roleId }),
-			this.surgeryLogRepo.findOneBy({ surgeryId }),
-		]);
+		const queryRunner = AppDataSource.createQueryRunner();
+		await queryRunner.connect();
+		await queryRunner.startTransaction();
+		try {
+			const surgery = await queryRunner.manager.findOne(Surgery, {
+				where: { id: surgeryId },
+				relations: ["procedure"],
+				lock: { mode: "pessimistic_write" },
+			});
 
-		if (!user) throw Error("User Not Found");
+			if (!surgery?.procedure) {
+				throw new Error(
+					`Surgery ${surgeryId} has no associated procedure type`
+				);
+			}
 
-		if (!surgeryLog?.trainingCredits) {
-			throw new Error("Surgery not found or invalid training credits");
-		}
+			// 2. Verify procedure-role compatibility
+			const requirement = await queryRunner.manager.findOne(Requirement, {
+				where: {
+					role: { id: roleId },
+					procedure: { id: surgery.procedure.id },
+				},
+			});
 
-		const credit = surgeryLog.trainingCredits.find(
-			(tc) => tc.userId === userId && tc.roleId === roleId
-		);
+			if (!requirement) {
+				throw new Error(
+					`Role ${roleId} not authorized for ${surgery.procedure.name}`
+				);
+			}
 
-		if (!credit?.verified) {
-			throw new Error("Unverified surgical participation");
-		}
+			// 3. Update user progress atomically
+			await queryRunner.manager
+				.createQueryBuilder()
+				.insert()
+				.into(UserProgress)
+				.values({
+					user: { id: userId },
+					procedure: { id: surgery.procedure.id },
+					completedCount: 1,
+				})
+				.orUpdate(
+					["completed_count", "last_performed"],
+					["user_id", "procedure_id"],
+					{
+						skipUpdateIfNoValuesChanged: true,
+					}
+				)
+				.execute();
 
-		const surgery = await surgeryRepo.findOne({
-			where: { id: surgeryId },
-		});
-
-		if (role.requiredSurgeryType !== surgery?.SurgeryType) {
-			throw new Error("Surgery type doesn't match role requirements");
+			// 4. Increment completed count safely
+			await queryRunner.manager.increment(
+				UserProgress,
+				{
+					user: { id: userId },
+					procedure: { id: surgery.procedure.id },
+				},
+				"completedCount",
+				1
+			);
+		} catch (error) {
+			console.error(`Credit recording failed for user ${userId}:`, error);
+			throw new Error(`Failed to record surgical credit: ${error.message}`);
 		}
 	}
 
@@ -101,140 +182,213 @@ export class TrainingService {
 		const [currentRole, targetRole] = await Promise.all([
 			this.roleRepo.findOne({
 				where: { users: { id: userId } },
+				relations: ["parent"],
 			}),
-			this.roleRepo.findOneBy({ id: targetRoleId }),
+			this.roleRepo.findOne({
+				where: { id: targetRoleId },
+				relations: ["requirements", "requirements.procedure.category"],
+			}),
 		]);
 
 		if (!currentRole || !targetRole) {
-			throw new Error("Roles not found");
+			throw new Error("Role records not found");
 		}
 
-		const validTransition = this.validateRoleTransition(
-			currentRole,
-			targetRole
-		);
-		if (!validTransition) {
+		// Validate role hierarchy using parent relationships
+		let isValidHierarchy = false;
+		let parentCheck = currentRole.parent;
+
+		while (parentCheck) {
+			if (parentCheck.id === targetRole.id) {
+				isValidHierarchy = true;
+				break;
+			}
+			parentCheck = parentCheck.parent;
+		}
+
+		if (!isValidHierarchy) {
 			return {
+				...this.emptyProgressResponse(),
 				eligible: false,
-				required: 0,
-				completed: 0,
-				remaining: 0,
-				met: false,
-				type: null,
-				reason: "Invalid role progression hierarchy",
+				reason: `Role progression violation: ${targetRole.name} is not a valid successor of ${currentRole.name}`,
 			};
 		}
 
+		// Handle roles with no requirements
+		if (!targetRole.requirements?.length) {
+			return {
+				...this.emptyProgressResponse(),
+				eligible: true,
+				reason: "Target role has no training requirements",
+			};
+		}
+
+		// Get detailed progress against target requirements
 		const progress = await this.getTrainingProgress(userId);
-		if (!progress.met) {
-			return {
-				eligible: false,
-				required: progress.required,
-				completed: progress.completed,
-				remaining: progress.remaining,
-				met: progress.met,
-				type: progress.type,
-				reason: `Need ${progress.remaining} more ${progress.type} surgeries`,
-			};
-		}
+		const targetRequirements = new Map(
+			targetRole.requirements.map((req) => [
+				req.procedure.id,
+				{ required: req.requiredCount, category: req.procedure.category.code },
+			])
+		);
+
+		const unmetRequirements = progress.requirements.filter((p) => {
+			const req = targetRequirements.get(p.procedureId);
+			return req && p.completed < req.required;
+		});
+
+		const eligible = unmetRequirements.length === 0;
 
 		return {
-			eligible: true,
-			required: progress.required,
-			completed: progress.completed,
-			remaining: 0,
-			met: true,
-			type: progress.type,
-			reason: "",
+			...progress,
+			eligible,
+			reason: eligible ? "" : this.formatUnmetRequirements(unmetRequirements),
 		};
-	}
-
-	validateRoleTransition(currentRole: Role, targetRole: Role): boolean {
-		const validTransitions = {
-			[Role.INTERN]: [Role.RESIDENT],
-			[Role.RESIDENT]: [Role.SPECIALIST],
-			[Role.SPECIALIST]: [Role.CONSULTANT],
-			[Role.CONSULTANT]: [Role.DEPARTMENT_HEAD],
-		};
-
-		return (
-			validTransitions[currentRole.name]?.includes(targetRole.name) ?? false
-		);
 	}
 
 	async handleSurgeryCompletion(surgeryId: number): Promise<void> {
-		const surgery = await this.surgeryLogRepo.findOneBy({ surgeryId });
+		try {
+			const surgery = await this.surgeryLogRepo.findOne({
+				where: { surgeryId: { $eq: surgeryId } },
+			});
 
-		if (!surgery?.trainingCredits) {
-			throw new Error("Invalid surgery record");
+			if (!surgery?.trainingCredits?.length) {
+				console.warn(`No training credits found for surgery: ${surgeryId}`);
+				return;
+			}
+
+			await Promise.all(
+				surgery.trainingCredits.map(async (credit) => {
+					try {
+						if (credit.verified) {
+							await this.recordSurgeryCredit(
+								credit.userId,
+								surgeryId,
+								credit.roleId
+							);
+						}
+					} catch (creditError) {
+						console.error(
+							`Failed to record credit for user ${credit.userId}:`,
+							creditError
+						);
+					}
+				})
+			);
+		} catch (error) {
+			console.error(
+				`Failed to process training credits for surgery ${surgeryId}:`,
+				error
+			);
+			throw new Error("Failed to update training records");
 		}
-
-		await Promise.all(
-			surgery.trainingCredits.map(async (credit) => {
-				if (credit.verified) {
-					await this.recordSurgeryCredit(
-						credit.userId,
-						surgeryId,
-						credit.roleId
-					);
-				}
-			})
-		);
-
-		await this.authRequestRepo.update(
-			{ surgery: { id: surgeryId } },
-			{ status: Authentication_Request.APPROVED }
-		);
 	}
 
-	async getRequiredSurgeries(roleId: number): Promise<{
-		type: SURGERY_TYPE;
-		count: number;
-		description: string;
-	}> {
-		const role = await this.roleRepo.findOneBy({ id: roleId });
+	async getRequiredSurgeries(roleId: number): Promise<
+		Array<{
+			category: SURGERY_TYPE;
+			count: number;
+		}>
+	> {
+		const role = await this.roleRepo.findOne({
+			where: { id: roleId },
+			relations: [
+				"requirements",
+				"requirements.procedure",
+				"requirements.procedure.category",
+			],
+		});
 
 		if (!role) {
-			throw new Error("Role not found");
+			throw new Error("Role not found in system");
 		}
 
-		return {
-			type: role.requiredSurgeryType,
-			count: role.requiredCount,
-			description: this.getRequirementDescription(role.name),
-		};
-	}
+		if (!role.requirements?.length) {
+			return [];
+		}
 
-	private getRequirementDescription(roleName: string): string {
-		const descriptions = {
-			[Role.INTERN]: "20+ observed procedures under supervision",
-			[Role.RESIDENT]: "150+ supervised surgeries",
-			[Role.SPECIALIST]: "100+ specialized procedures",
-			[Role.CONSULTANT]: "50+ complex surgeries as lead",
-		};
+		// Group requirements by category
+		const categoryRequirements = role.requirements.reduce(
+			(acc, requirement) => {
+				const category = requirement.procedure.category.code;
+				acc[category] = (acc[category] || 0) + requirement.requiredCount;
+				return acc;
+			},
+			{} as Record<SURGERY_TYPE, number>
+		);
 
-		return descriptions[roleName] || "No specific surgery requirements";
+		return Object.entries(categoryRequirements).map(([category, count]) => ({
+			category: category as SURGERY_TYPE,
+			count,
+		}));
 	}
 
 	async initializeSurgeryRecords(
-		surgeryId: number,
-		participants: Array<{ userId: string; roleId: number }>
+		participants: Array<{ userId: string; roleId: number }>,
+		leadSurgeonId: string
 	) {
-		const surgeryLog = await this.surgeryLogRepo.findOneBy({ surgeryId });
-		if (!surgeryLog) return;
-
-		surgeryLog.trainingCredits = participants.map((p) => ({
+		const trainingCredits = participants.map((p) => ({
 			userId: p.userId,
 			roleId: p.roleId,
-			verified: false,
-			verifiedBy: null,
-			verifiedAt: null,
+			verified: true,
+			verifiedBy: leadSurgeonId,
+			verifiedAt: new Date(),
 		}));
 
-		return surgeryLog.trainingCredits;
+		return trainingCredits;
 	}
 
 	async removeSurgeryRecords(surgeryId: number) {
-		await this.surgeryLogRepo.update({ surgeryId }, { trainingCredits: [] });
+		await this.surgeryLogRepo.updateMany(
+			{ surgeryId },
+			{ $set: { trainingCredits: [] } }
+		);
+	}
+
+	async adjustProgress(
+		queryRunner: QueryRunner,
+		userIds: string[],
+		procedureType: ProcedureType,
+		delta: number
+	) {
+		for (const userId of userIds) {
+			const progress = await userProgressRepo.findOne({
+				where: {
+					user: { id: userId },
+					procedure: { id: procedureType.id },
+				},
+			});
+
+			if (progress) {
+				progress.completedCount = Math.max(0, progress.completedCount + delta);
+				await queryRunner.manager.save(progress);
+			} else if (delta > 0) {
+				const newProgress = userProgressRepo.create({
+					user: { id: userId },
+					procedure: procedureType,
+					completedCount: delta,
+				});
+				await queryRunner.manager.save(newProgress);
+			}
+		}
+	}
+
+	private emptyProgressResponse(): TrainingProgress {
+		return {
+			overallStatus: "NOT_REQUIRED",
+			requirements: [],
+			totalCompleted: 0,
+			totalRequired: 0,
+			completionPercentage: 100,
+		};
+	}
+
+	private formatUnmetRequirements(unmet: RequirementProgress[]): string {
+		return unmet
+			.map(
+				(req) =>
+					`${req.remaining} more ${req.category} procedures needed for ${req.procedureName}`
+			)
+			.join(", ");
 	}
 }

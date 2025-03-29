@@ -1,10 +1,13 @@
 import { Request, Response } from "express";
 import {
+	authenticationRequestRepo,
 	postSurgeryRepo,
 	surgeryLogsRepo,
-	surgeryRepo,
-	authenticationRequestRepo,
+	userProgressRepo,
 } from "../../../config/repositories.js";
+import { AppDataSource } from "../../../config/data-source.js";
+import { Surgery } from "../../../entity/sql/Surgery.js";
+import { In } from "typeorm";
 import { trainingService } from "../../../config/initializeServices.js";
 
 export const deleteSurgery = async (req: Request, res: Response) => {
@@ -12,56 +15,59 @@ export const deleteSurgery = async (req: Request, res: Response) => {
 
 	if (isNaN(surgeryId)) throw Error("Invalid surgery ID format");
 
-	const surgery = await surgeryRepo.findOne({
-		where: { id: surgeryId },
-		relations: ["hospital", "department"],
-	});
+	const queryRunner = AppDataSource.createQueryRunner();
+	await queryRunner.connect();
+	await queryRunner.startTransaction();
 
-	if (!surgery) {
-		res.status(404).json({
-			success: false,
-			message: "Surgery record not found",
+	try {
+		const surgery = await queryRunner.manager.findOne(Surgery, {
+			where: { id: surgeryId },
+			relations: ["procedure"],
 		});
-		return;
+
+		if (!surgery) {
+			throw Error("Surgery record not found");
+		}
+
+		const surgeryLog = await surgeryLogsRepo.findOneBy({ surgeryId });
+
+		if (surgeryLog && surgery.procedure) {
+			const participantIds = surgeryLog.doctorsTeam.map((d) => d.doctorId);
+
+			const progressEntries = await userProgressRepo.find({
+				where: {
+					user: { id: In(participantIds) },
+					procedure: { id: surgery.procedure.id },
+				},
+			});
+
+			for (const entry of progressEntries) {
+				if (entry.completedCount > 0) {
+					entry.completedCount -= 1;
+					await queryRunner.manager.save(entry);
+				} else {
+					await queryRunner.manager.remove(entry);
+				}
+			}
+		}
+
+		await Promise.all([
+			queryRunner.manager.delete(Surgery, surgeryId),
+			surgeryLogsRepo.delete({ surgeryId }),
+			postSurgeryRepo.delete({ surgeryId }),
+			authenticationRequestRepo.delete({ surgery: { id: surgeryId } }),
+			trainingService.removeSurgeryRecords(surgeryId),
+		]);
+		await queryRunner.commitTransaction();
+
+		res.status(204).end();
+	} catch (error) {
+		await queryRunner.rollbackTransaction();
+		res.status(500).json({
+			success: false,
+			message: error instanceof Error ? error.message : "something went wrong",
+		});
+	} finally {
+		await queryRunner.release();
 	}
-
-	const relatedIds = {
-		surgeryLogId: null,
-		postSurgeryId: null,
-		authRequestIds: [],
-	};
-
-	// MongoDB cleanup first
-	const [surgeryLog, postSurgery] = await Promise.all([
-		surgeryLogsRepo.findOneBy({ surgeryId }),
-		postSurgeryRepo.findOneBy({ surgeryId }),
-	]);
-
-	if (surgeryLog) {
-		relatedIds.surgeryLogId = surgeryLog.id;
-		await surgeryLogsRepo.delete(surgeryLog.id);
-	}
-
-	if (postSurgery) {
-		relatedIds.postSurgeryId = postSurgery.id;
-		await postSurgeryRepo.delete(postSurgery.id);
-	}
-
-	// Cleanup training data
-	await trainingService.removeSurgeryRecords(surgeryId);
-
-	// Cleanup authentication requests
-	const authRequests = await authenticationRequestRepo.find({
-		where: { surgery: { id: surgeryId } },
-	});
-	relatedIds.authRequestIds = authRequests.map((r) => r.id);
-	await authenticationRequestRepo.remove(authRequests);
-
-	// Finally delete main surgery record
-	await surgeryRepo.delete(surgeryId);
-
-	res.status(204).json({
-		success: true,
-		message: "Surgery and all related records deleted",
-	});
 };

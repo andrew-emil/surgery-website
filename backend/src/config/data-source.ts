@@ -14,6 +14,10 @@ import { Rating } from "../entity/mongodb/Rating.js";
 import { AuditTrail } from "../entity/mongodb/AuditTrail.js";
 import { Notification } from "../entity/sql/Notification.js";
 import { Permission } from "../entity/sql/Permission.js";
+import { ProcedureType } from "../entity/sql/ProcedureType.js";
+import { Requirement } from "../entity/sql/Requirments.js";
+import { UserProgress } from "../entity/sql/UserProgress.js";
+import { ProcedureCategory } from "../entity/sql/ProcedureCategory.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -34,6 +38,10 @@ export const AppDataSource = new DataSource({
 		Surgery,
 		Notification,
 		Permission,
+		ProcedureType,
+		Requirement,
+		UserProgress,
+		ProcedureCategory
 	],
 	subscribers: [],
 });
