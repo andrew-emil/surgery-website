@@ -8,6 +8,8 @@ import Home from "./views/home";
 import ForgoPassword from "./views/forgot_password";
 import ResetPassword from "./views/reset_password";
 import NotFoundPage from "./views/not_found";
+import Dashboard from "./views/dashboard";
+import AdminLayout from "./components/adminLayout";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +31,11 @@ const router = createBrowserRouter([
       { path: "/otp", element: <OTP_auth /> },
       { path: "/not-found", element: <NotFoundPage /> },
     ],
+  },
+  {
+    path: "/",
+    element: <AdminLayout />,
+    children: [{ path: "/admin", element: <Dashboard /> }],
   },
 ]);
 

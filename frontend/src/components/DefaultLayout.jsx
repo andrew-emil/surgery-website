@@ -7,17 +7,6 @@ import { Box, Container } from "@mui/material";
 import MiniDrawer from "../components/Drawer";
 
 export default function DefaultLayout() {
-  // eslint-disable-next-line no-unused-vars
-  const { user, token, setUser, setToken } = useStateContext();
-  if (!token || !user) {
-    return <Navigate to="/login" />;
-  }
-
-  // useEffect(() => {
-  //   axiosClient.get("/user").then(({ data }) => {
-  //     setUser(data);
-  //   });
-  // }, []);
   return (
     <Box id="defaultLayout" sx={{ display: "block" }}>
       <div className="content">
