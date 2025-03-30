@@ -50,9 +50,7 @@ export const seedDatabase = async () => {
 	const existingRoles = await roleRepo.find();
 	const rolesToSeed = [
 		{ name: "Admin", parent: null },
-		{ name: "Hospital Director", parent: "Admin" },
-		{ name: "Department Head", parent: "Hospital Director" },
-		{ name: "Consultant", parent: "Department Head" },
+		{ name: "Consultant", parent: "Admin" },
 		{ name: "Specialist", parent: "Consultant" },
 		{ name: "R1", parent: "Specialist" },
 		{ name: "R2", parent: "R1" },

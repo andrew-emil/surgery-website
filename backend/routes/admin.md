@@ -414,7 +414,7 @@ None.
 If an error occurs during data retrieval or processing, an appropriate error response should be returned (to be handled by error middleware).
 
 ---
-## Get Team Performance Metrics
+##6. Get Team Performance Metrics
 
 ### **Endpoint**  
 `GET /dashboard/team-performance/:affiliationId`

@@ -11,7 +11,8 @@ export const deleteRole = async (req: Request, res: Response) => {
 	const roleId = parseInt(id);
 
 	if (isNaN(roleId)) {
-		return res.status(400).json({ error: "Invalid role ID format" });
+		res.status(400).json({ error: "Invalid role ID format" });
+		return;
 	}
 
 	const role = await roleRepo.findOne({
@@ -20,7 +21,8 @@ export const deleteRole = async (req: Request, res: Response) => {
 	});
 
 	if (!role) {
-		return res.status(404).json({ error: "Role not found" });
+		res.status(404).json({ error: "Role not found" });
+		return;
 	}
 
 	await AppDataSource.transaction(async (transactionalEntityManager) => {

@@ -42,9 +42,6 @@ export const auditLogger = (action?: string) => {
 
 			const entityRepo = entityRepoMap[entityName];
 			if (!entityRepo) {
-				console.warn(
-					`Audit log: Unknown entity '${entityName}', skipping logging.`
-				);
 				next();
 			}
 

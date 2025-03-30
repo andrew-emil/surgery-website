@@ -26,7 +26,8 @@ const jwtHandler = (payload: JWTPayload): string => {
 };
 
 export const createJWTtoken = async (
-	user: User
+	user: User,
+	firstLogin: boolean
 ): Promise<{ token: string; formatedSurgeries: SurgeryInterface[] }> => {
 	const surgeries = await surgeryLogsRepo.find({
 		where: {
@@ -68,7 +69,7 @@ export const createJWTtoken = async (
 		picture: user.picture,
 		name: `${user.first_name} ${user.last_name}`,
 		tokenVersion: user.token_version,
-		first_login: user.first_login,
+		first_login: firstLogin,
 	};
 
 	const token = jwtHandler(jwtPayload);

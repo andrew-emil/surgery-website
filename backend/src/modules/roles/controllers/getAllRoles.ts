@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { roleRepo } from "../../../config/repositories.js";
 import { Not } from "typeorm";
-import { triggerAsyncId } from "async_hooks";
 
 export const getAllRoles = async (req: Request, res: Response) => {
 	const [roles, total] = await Promise.all([

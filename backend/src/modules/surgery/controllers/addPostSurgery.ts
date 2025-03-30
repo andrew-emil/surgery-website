@@ -43,7 +43,7 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 		// Check for existing post-surgery record
 		const existingPost = await postSurgeryRepo.findOneBy({ surgeryId });
 		if (existingPost) {
-			 res.status(409).json({
+			res.status(409).json({
 				success: false,
 				message:
 					"Post-surgery documentation already completed for this procedure",

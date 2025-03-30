@@ -11,15 +11,15 @@ import { notificationService } from "../../../config/initializeServices.js";
 
 export const deleteRequest = async (req: Request, res: Response) => {
 	const requestId = parseInt(req.params.id);
-
 	if (isNaN(requestId)) throw Error("Invalid request ID");
 
 	const authRequest = await authenticationRequestRepo.findOne({
 		where: { id: requestId },
 		relations: ["trainee", "surgery", "consultant"],
 	});
-
 	if (!authRequest) throw Error("Authentication request Not Found");
+
+	if (req.user.id !== authRequest.trainee.id) throw Error("Unauthorized");
 
 	// Validate request state
 	if (authRequest.status === Authentication_Request.APPROVED) {

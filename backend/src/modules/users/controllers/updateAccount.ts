@@ -6,7 +6,7 @@ import { UserService } from "../../../service/UserSevice.js";
 
 export const updateAccount = async (req: Request, res: Response) => {
 	const userId = req.user?.id;
-	if (!userId) throw Error("Unauthorized");
+	if (!userId) throw Error("unauthorized");
 
 	const validation = updateAccountSchema.safeParse(req.body);
 	if (!validation.success)

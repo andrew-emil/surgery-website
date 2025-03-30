@@ -9,11 +9,10 @@ import {
 import crypto from "crypto";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { NOTIFICATION_TYPES, USER_STATUS } from "../../../utils/dataTypes.js";
-import { NotificationService } from "../../../service/NotificationService.js";
 import { HashFunctions } from "../../../utils/hashFunction.js";
+import { notificationService } from "../../../config/initializeServices.js";
 
-const notificationService = new NotificationService();
-const hashFunctions = new HashFunctions()
+const hashFunctions = new HashFunctions();
 
 export const register = async (req: Request, res: Response) => {
 	const validation = registerSchema.safeParse(req.body);
@@ -79,9 +78,7 @@ export const register = async (req: Request, res: Response) => {
 		affiliation,
 		department,
 		role,
-		residencyLevel: data.residencyLevel,
 		account_status: USER_STATUS.PENDING,
-		first_login: true,
 		activation_token: activationToken,
 		token_expiry: tokenExpiry,
 	});

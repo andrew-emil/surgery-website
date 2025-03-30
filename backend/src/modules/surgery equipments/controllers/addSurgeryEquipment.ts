@@ -25,7 +25,7 @@ export const addSurgeryEquipment = async (req: Request, res: Response) => {
 
 	const newEquipment = surgeryEquipmentRepo.create({
 		equipment_name: sanitizedName,
-		photo
+		photo,
 	});
 
 	await surgeryEquipmentRepo.save(newEquipment);

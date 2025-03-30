@@ -3,9 +3,6 @@ import { postSurgeryRepo } from "../../../config/repositories.js";
 import { OUTCOME } from "../../../utils/dataTypes.js";
 
 export const getSuccessRates = async (req: Request, res: Response) => {
-	// TODO: Add authentication/authorization middleware
-
-	// Execute parallel count queries
 	const [total, totalSuccess] = await Promise.all([
 		postSurgeryRepo.count(),
 		postSurgeryRepo.count({

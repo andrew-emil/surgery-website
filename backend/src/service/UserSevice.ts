@@ -122,11 +122,13 @@ export class UserService {
 
 		// Handle password update securely
 		if (data.old_password && data.new_password) {
-			const isPasswordCorrect = await hashFunction.compareBcryptHash(data.new_password)
+			const isPasswordCorrect = await hashFunction.compareBcryptHash(
+				data.new_password
+			);
 			if (!isPasswordCorrect)
 				return { success: false, message: "Invalid credentials" };
 
-			user.password_hash = await hashFunction.bcryptHash(data.new_password)
+			user.password_hash = await hashFunction.bcryptHash(data.new_password);
 			passwordUpdated = true;
 			user.token_version = (user.token_version || 0) + 1; // Invalidate old tokens
 		} else if (!data.old_password && data.new_password) {
@@ -150,7 +152,7 @@ export class UserService {
 
 		await sendAccountUpdateEmail(user.email, updatedUser);
 
-		const { token, formatedSurgeries } = await createJWTtoken(user);
+		const { token, formatedSurgeries } = await createJWTtoken(user, false);
 
 		return { success: true, token, formatedSurgeries };
 	}
@@ -174,7 +176,7 @@ export class UserService {
 			};
 		}
 
-		const hashFunctions = new HashFunctions(user.otp_secret)
+		const hashFunctions = new HashFunctions(user.otp_secret);
 		// Verify OTP
 		const isOtpValid = await hashFunctions.compareBcryptHash(otp);
 		if (!isOtpValid) {
@@ -191,6 +193,8 @@ export class UserService {
 			return { success: false, message: "Invalid credentials" };
 		}
 
+		const firstLogin = user.last_login === null ? true : false;
+
 		// Reset failed attempts and clear OTP after successful verification
 		user.failed_attempts = 0;
 		user.lock_until = null;
@@ -198,7 +202,7 @@ export class UserService {
 		user.last_login = new Date();
 		await userRepo.save(user);
 
-		const { token, formatedSurgeries } = await createJWTtoken(user);
+		const { token, formatedSurgeries } = await createJWTtoken(user, firstLogin);
 
 		return { success: true, token, formatedSurgeries };
 	}

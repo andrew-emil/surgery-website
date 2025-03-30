@@ -5,8 +5,6 @@ export const getConflictResolutionData = async (
 	req: Request,
 	res: Response
 ) => {
-	//TODO: ADD authentication Process
-
 	const conflicationData = await scheduleService.getConflictResolutionData();
 
 	res.status(200).json({

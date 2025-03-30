@@ -15,7 +15,6 @@ export const addRating = async (req: Request, res: Response) => {
 
 	const { surgeryId, stars, comment } = validation.data;
 	const userId = req.user?.id;
-
 	if (!userId) throw Error("Unauthorized");
 
 	const [user, surgery, surgeryLog] = await Promise.all([

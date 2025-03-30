@@ -284,25 +284,12 @@ export class TrainingService {
 		}
 	}
 
-	async getRequiredSurgeries(roleId: number): Promise<
+	async getRequiredSurgeries(role: Role): Promise<
 		Array<{
 			category: SURGERY_TYPE;
 			count: number;
 		}>
 	> {
-		const role = await this.roleRepo.findOne({
-			where: { id: roleId },
-			relations: [
-				"requirements",
-				"requirements.procedure",
-				"requirements.procedure.category",
-			],
-		});
-
-		if (!role) {
-			throw new Error("Role not found in system");
-		}
-
 		if (!role.requirements?.length) {
 			return [];
 		}

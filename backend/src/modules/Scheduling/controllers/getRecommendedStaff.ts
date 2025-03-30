@@ -6,7 +6,6 @@ import { affiliationRepo } from "../../../config/repositories.js";
 
 export const getRecommendedStaff = async (req: Request, res: Response) => {
 	const validation = recommendStaffSchema.safeParse(req.body);
-
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 

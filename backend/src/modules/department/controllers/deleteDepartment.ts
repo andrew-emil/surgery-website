@@ -4,11 +4,9 @@ import { AppDataSource } from "../../../config/data-source.js";
 
 export const deleteDepartment = async (req: Request, res: Response) => {
 	const { id } = req.params;
-
 	if (!id || isNaN(parseInt(id))) throw Error("Invalid department ID");
 
 	const departmentId = parseInt(id);
-
 	const department = await departmentRepo.findOne({
 		where: { id: departmentId },
 		relations: ["surgeryEquipment", "users"],

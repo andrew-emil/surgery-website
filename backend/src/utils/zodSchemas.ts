@@ -330,3 +330,13 @@ export const recommendStaffSchema = z.object({
 	}),
 	time: z.string(),
 });
+
+export const exportLogSchema = z.object({
+	format: z.string(),
+	startDate: z.string().refine((d) => !isNaN(Date.parse(d)), {
+		message: "Invalid date format",
+	}),
+	endDate: z.string().refine((d) => !isNaN(Date.parse(d)), {
+		message: "Invalid date format",
+	}),
+});

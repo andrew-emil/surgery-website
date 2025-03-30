@@ -12,7 +12,6 @@ import { trainingService } from "../../../config/initializeServices.js";
 
 export const deleteSurgery = async (req: Request, res: Response) => {
 	const surgeryId = parseInt(req.params.id);
-
 	if (isNaN(surgeryId)) throw Error("Invalid surgery ID format");
 
 	const queryRunner = AppDataSource.createQueryRunner();

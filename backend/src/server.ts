@@ -27,6 +27,7 @@ import { intializeServices } from "./config/initializeServices.js";
 import surgeryEquiRoutes from "./modules/surgery equipments/surgeryEquip.routes.js";
 import ratingRoutes from "./modules/rating/rating.routes.js";
 import scheduleRoutes from "./modules/Scheduling/schedule.routes.js";
+import { authMiddleware } from "./middlewares/authMiddleware.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -61,6 +62,8 @@ app.use(
 
 //routes
 app.use("/api/users", usersRoutes);
+
+app.use(authMiddleware);
 app.use("/api/roles", rolesRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/surgery", surgeryRoutes);

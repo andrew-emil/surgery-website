@@ -67,11 +67,8 @@ export class User {
 	@OneToMany(() => UserProgress, (progress) => progress.user)
 	progress: UserProgress[];
 
-	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+	@Column({ type: "timestamp", nullable: true })
 	last_login: Date;
-
-	@Column({ type: "boolean", default: false })
-	first_login: boolean;
 
 	@Column({ type: "varchar", nullable: true })
 	rejectionReason: string;

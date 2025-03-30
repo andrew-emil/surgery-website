@@ -17,6 +17,8 @@ export const editRequest = async (req: Request, res: Response) => {
 
 	const { surgeryId, traineeId, roleId, notes } = validation.data;
 
+	if (req.user.id !== traineeId) throw Error("Unauthorized");
+
 	const surgery = await surgeryRepo.findOne({
 		where: {
 			id: surgeryId,
