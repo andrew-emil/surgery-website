@@ -7,9 +7,10 @@ import {
 	surgeryLogsRepo,
 	authenticationRequestRepo,
 } from "../../../config/repositories.js";
-import { Authentication_Request } from "../../../utils/dataTypes.js";
+import { Authentication_Request, STATUS } from "../../../utils/dataTypes.js";
 import { trainingService } from "../../../config/initializeServices.js";
 import { AppDataSource } from "../../../config/data-source.js";
+import { SurgeryLog } from "../../../entity/mongodb/SurgeryLog.js";
 
 export const addPostSurgery = async (req: Request, res: Response) => {
 	const validation = addPostSurgerySchema.safeParse(req.body);
@@ -68,6 +69,9 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 				{ surgery: { id: surgeryId } },
 				{ status: Authentication_Request.APPROVED }
 			),
+			queryRunner.manager.update(SurgeryLog, surgeryLog, {
+				status: STATUS.COMPLETED,
+			}),
 		]);
 
 		await queryRunner.commitTransaction();

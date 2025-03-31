@@ -459,3 +459,85 @@ This route retrieves performance metrics for doctors based on their affiliation.
 ### **Error Handling**
 
 If `affiliationId` is missing or invalid, an appropriate error response should be returned (to be handled by error middleware).
+
+---
+## Export Logs
+
+### Endpoint
+`GET /export`
+
+### Description
+Exports surgery logs within a specified date range in CSV, PDF, or Excel format.
+
+### Query Parameters
+| Parameter   | Type   | Required | Description |
+|------------|--------|----------|-------------|
+| format     | string | Yes      | The format of the export file (`csv`, `pdf`, or `excel`). |
+| startDate  | string | Yes      | The start date for filtering logs (ISO 8601 format). |
+| endDate    | string | Yes      | The end date for filtering logs (ISO 8601 format). |
+
+### Responses
+- **200 OK**: Returns the exported file in the requested format.
+- **400 Bad Request**: If the format is invalid.
+- **404 Not Found**: If no logs exist in the given date range.
+
+---
+
+## Get Audit Trail
+
+### Endpoint
+`GET /audit`
+
+### Description
+Retrieves audit trail logs based on action type and date range.
+
+### Query Parameters
+| Parameter  | Type   | Required | Description |
+|-----------|--------|----------|-------------|
+| action    | string | Yes      | The type of action (e.g., `Login`, `Signup`, `UPDATE`). |
+| startDate | string | No       | Start date for filtering logs. |
+| endDate   | string | No       | End date for filtering logs. |
+| page      | number | No       | Page number for pagination. Defaults to `1`. |
+
+### Responses
+- **200 OK**: Returns a list of audit logs with pagination info.
+- **400 Bad Request**: If the action type is invalid or startDate is after endDate.
+
+---
+
+## Get Users
+
+### Endpoint
+`GET /users`
+
+### Description
+Retrieves a paginated list of active users who are not consultants.
+
+### Query Parameters
+| Parameter | Type   | Required | Description |
+|----------|--------|----------|-------------|
+| page     | number | No       | The page number for pagination. Defaults to `1`. |
+
+### Responses
+- **200 OK**: Returns a list of users with role, affiliation, and department details.
+
+---
+
+## Promote User
+
+### Endpoint
+`GET /promote/:userId`
+
+### Description
+Promotes a user to a higher role in the hierarchy.
+
+### Path Parameters
+| Parameter | Type   | Required | Description |
+|----------|--------|----------|-------------|
+| userId   | string | Yes      | The ID of the user to promote. |
+
+### Responses
+- **200 OK**: If the user was successfully promoted.
+- **400 Bad Request**: If the user is already at the highest role.
+- **404 Not Found**: If the user does not exist.
+

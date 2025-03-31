@@ -1,4 +1,4 @@
-import { In, MongoRepository, Not, Repository } from "typeorm";
+import { MongoRepository, Repository } from "typeorm";
 import { User } from "../entity/sql/User.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { STATUS, USER_STATUS } from "../utils/dataTypes.js";
@@ -143,24 +143,34 @@ export class ScheduleService {
 		return staffRecommendation;
 	}
 
-	async getConflictResolutionData() {
+	async getConflictResolutionData(): Promise<DoctorConflict[]> {
 		const surgeries = await this.surgeryLogRepo.find({
 			where: { status: STATUS.ONGOING },
 			select: ["surgeryId", "doctorsTeam", "date", "time", "status"],
 		});
 
+		// Map to group conflicts by doctorId
 		const doctorMap = new Map<string, DoctorConflict>();
 
-		surgeries.forEach((surgery) => {
-			surgery.doctorsTeam?.forEach((doctor) => {
-				if (!doctor.doctorId) return;
+		for (const surgery of surgeries) {
+			// Ensure doctorsTeam is available
+			if (!surgery.doctorsTeam) continue;
 
-				const conflictEntry = doctorMap.get(doctor.doctorId) || {
-					doctorId: doctor.doctorId,
-					doctorName: "", // Would need additional data to populate names
-					conflicts: [],
-				};
+			for (const doctor of surgery.doctorsTeam) {
+				// Skip if doctorId is missing
+				if (!doctor.doctorId) continue;
 
+				// Retrieve the existing conflict entry or initialize a new one
+				let conflictEntry = doctorMap.get(doctor.doctorId);
+				if (!conflictEntry) {
+					conflictEntry = {
+						doctorId: doctor.doctorId,
+						doctorName: "", // Use doctor's name if available
+						conflicts: [],
+					};
+				}
+
+				// Add the current surgery conflict details
 				conflictEntry.conflicts.push({
 					surgeryId: surgery.surgeryId,
 					date: surgery.date,
@@ -169,9 +179,10 @@ export class ScheduleService {
 				});
 
 				doctorMap.set(doctor.doctorId, conflictEntry);
-			});
-		});
+			}
+		}
 
+		// Filter to only include doctors with multiple conflicts and sort each conflict by date
 		return Array.from(doctorMap.values())
 			.filter((entry) => entry.conflicts.length > 1)
 			.map((entry) => ({

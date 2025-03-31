@@ -540,18 +540,84 @@ This endpoint allows an authenticated user to update their account details, incl
 	"error": "User not found"
 }
 ```
+---
 
-## Additional Notes
+## Get User Data
+**Endpoint:** `GET /`
 
-- The request must be authenticated.
-- If the email is updated, future authentication attempts will require the new email.
-- If a password update occurs, all previous tokens are invalidated.
-- An email notification will be sent upon a successful account update.
+**Description:**
+Retrieves the logged-in user's data, including email, department, affiliation, and phone number.
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "user": {
+    "email": "user@example.com",
+    "department": { "name": "Surgery" },
+    "affiliation": {
+      "name": "General Hospital",
+      "address": "123 Main St",
+      "city": "New York"
+    },
+    "phone_number": "123-456-7890"
+  }
+}
+```
 
 ---
 
-## Notes
+## Get Training Progress
+**Endpoint:** `GET /training/progress`
 
-- All requests should be sent with `Content-Type: application/json`.
-- Protected routes require authentication via JWT tokens.
-- Modify the base URL according to your deployment environment.
+**Description:**
+Retrieves the training progress of the logged-in user.
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "progress": {
+    "overallStatus": "PARTIALLY_QUALIFIED",
+    "requirements": [
+      {
+        "procedureId": "proc_001",
+        "procedureName": "Appendectomy",
+        "category": "General Surgery",
+        "required": 10,
+        "completed": 7,
+        "remaining": 3,
+        "met": false
+      }
+    ],
+    "totalCompleted": 7,
+    "totalRequired": 10,
+    "completionPercentage": 70
+  }
+}
+```
+
+---
+
+## Get Role Requirements
+**Endpoint:** `GET /roles/requirements`
+
+**Description:**
+Retrieves the surgery requirements for the user's role.
+
+**Response Example:**
+```json
+{
+  "success": true,
+  "requirements": [
+    {
+      "category": "Neurosurgery",
+      "count": 5
+    },
+    {
+      "category": "Cardiac Surgery",
+      "count": 3
+    }
+  ]
+}
+```

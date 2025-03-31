@@ -3,7 +3,6 @@ import { AppDataSource } from "../../../config/data-source.js";
 import { SurgeryEquipment } from "../../../entity/sql/SurgeryEquipments.js";
 
 export const deleteEquipment = async (req: Request, res: Response) => {
-
 	const id = parseInt(req.params.id);
 	if (isNaN(id) || id < 1) throw new Error("Invalid equipment ID");
 
