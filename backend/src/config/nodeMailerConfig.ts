@@ -1,14 +1,11 @@
-import { MailtrapTransport } from "mailtrap";
-import nodeMailer from "nodemailer";
+import nodemailer from "nodemailer";
 
-export const mail = nodeMailer.createTransport(
-	MailtrapTransport({
-		token: process.env.NODEMAILER_TOKEN,
-		testInboxId: 3479614,
-	})
-);
-
-export const sender = {
-	address: "andrewemil343@example.com",
-	name: "Mailtrap Test",
-};
+export const transporter = nodemailer.createTransport({
+	host: "live.smtp.mailtrap.io",
+	port: 587,
+	secure: false,
+	auth: {
+		user: "api",
+		pass: process.env.NODEMAILER_PASS as string,
+	},
+});

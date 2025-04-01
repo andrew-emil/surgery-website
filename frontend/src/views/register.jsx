@@ -57,7 +57,7 @@ export default function Register() {
     axiosClient
       .get("/roles")
       .then(({ data }) => {
-        setRoleData(data.roles);
+        setRoleData(data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -91,6 +91,7 @@ export default function Register() {
 
   const submit = (ev) => {
     ev.preventDefault();
+    setErr("");
     if (passwordRef.current.value == confirmPasswordRef.current.value) {
       const payload = {
         first_name: firstnameRef.current.value,
@@ -250,11 +251,11 @@ export default function Register() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {departmentData.map((department) => (
+                  {departmentData.length > 0 ?  departmentData.map((department) => (
                     <MenuItem key={department.id} value={department.id}>
                       {department.name}
                     </MenuItem>
-                  ))}
+                  )) : <MenuItem></MenuItem>}
                 </Select>
               </FormControl>
               <FormControl

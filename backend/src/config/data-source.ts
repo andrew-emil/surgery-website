@@ -17,7 +17,6 @@ import { Permission } from "../entity/sql/Permission.js";
 import { ProcedureType } from "../entity/sql/ProcedureType.js";
 import { Requirement } from "../entity/sql/Requirments.js";
 import { UserProgress } from "../entity/sql/UserProgress.js";
-import { ProcedureCategory } from "../entity/sql/ProcedureCategory.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -27,7 +26,7 @@ export const AppDataSource = new DataSource({
 	password: "",
 	database: process.env.DB_NAME,
 	synchronize: true,
-	logging: true,
+	logging: false,
 	entities: [
 		User,
 		Role,
@@ -41,7 +40,6 @@ export const AppDataSource = new DataSource({
 		ProcedureType,
 		Requirement,
 		UserProgress,
-		ProcedureCategory
 	],
 	subscribers: [],
 });

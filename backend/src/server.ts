@@ -30,6 +30,7 @@ import scheduleRoutes from "./modules/Scheduling/schedule.routes.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import logger from "./config/loggerConfig.js";
 import { initializeCronJobs } from "./utils/cronJobs.js";
+import procedureTypeRoutes from "./modules/procedureType.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -70,18 +71,19 @@ app.use(
 
 //routes
 app.use("/api/users", usersRoutes);
-
-app.use(authMiddleware);
 app.use("/api/roles", rolesRoutes);
 app.use("/api/departments", departmentRoutes);
-app.use("/api/surgery", surgeryRoutes);
 app.use("/api/affiliation", affiliationRoutes);
+
+app.use(authMiddleware);
+app.use("/api/surgery", surgeryRoutes);
 app.use("/api/auth-requests", authRequestsRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/surgery-equipments", surgeryEquiRoutes);
 app.use("/api/rating", ratingRoutes);
 app.use("/api/schedule", scheduleRoutes);
+app.use("/api/procedure-types", procedureTypeRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

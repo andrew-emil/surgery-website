@@ -10,9 +10,8 @@ export const getAllRoles = async (req: Request, res: Response) => {
 				parent: true,
 				permissions: true,
 				requirements: {
-					procedure: {
-						category: true,
-					},
+					procedure: true,
+					
 				},
 			},
 			select: {
@@ -29,9 +28,7 @@ export const getAllRoles = async (req: Request, res: Response) => {
 					procedure: {
 						id: true,
 						name: true,
-						category: {
-							code: true,
-						},
+						category: true
 					},
 				},
 			},

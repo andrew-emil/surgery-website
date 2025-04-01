@@ -1,14 +1,8 @@
-import {
-	Column,
-	Entity,
-	ManyToOne,
-	OneToMany,
-	PrimaryGeneratedColumn,
-} from "typeorm";
-import { ProcedureCategory } from "./ProcedureCategory.js";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Requirement } from "./Requirments.js";
 import { Surgery } from "./Surgery.js";
 import { UserProgress } from "./UserProgress.js";
+import { SURGERY_TYPE } from "../../utils/dataTypes.js";
 
 @Entity()
 export class ProcedureType {
@@ -16,10 +10,13 @@ export class ProcedureType {
 	id: number;
 
 	@Column({ type: "varchar" })
-	name: string; // مثال: "Lumbar puncture"
+	name: string;
 
-	@ManyToOne(() => ProcedureCategory, (category) => category.procedures)
-	category: ProcedureCategory;
+	@Column({
+		type: "enum",
+		enum: SURGERY_TYPE,
+	})
+	category: SURGERY_TYPE;
 
 	@OneToMany(() => Requirement, (requirement) => requirement.procedure)
 	requirements: Requirement[];

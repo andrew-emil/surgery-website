@@ -146,51 +146,22 @@ export class ScheduleService {
 	async getConflictResolutionData(): Promise<DoctorConflict[]> {
 		const surgeries = await this.surgeryLogRepo.find({
 			where: { status: STATUS.ONGOING },
-			select: ["surgeryId", "doctorsTeam", "date", "time", "status"],
+			select: [
+				"surgeryId",
+				"doctorsTeam",
+				"date",
+				"time",
+				"status",
+				"leadSurgeon",
+			],
 		});
 
-		// Map to group conflicts by doctorId
-		const doctorMap = new Map<string, DoctorConflict>();
-
-		for (const surgery of surgeries) {
-			// Ensure doctorsTeam is available
-			if (!surgery.doctorsTeam) continue;
-
-			for (const doctor of surgery.doctorsTeam) {
-				// Skip if doctorId is missing
-				if (!doctor.doctorId) continue;
-
-				// Retrieve the existing conflict entry or initialize a new one
-				let conflictEntry = doctorMap.get(doctor.doctorId);
-				if (!conflictEntry) {
-					conflictEntry = {
-						doctorId: doctor.doctorId,
-						doctorName: "", // Use doctor's name if available
-						conflicts: [],
-					};
-				}
-
-				// Add the current surgery conflict details
-				conflictEntry.conflicts.push({
-					surgeryId: surgery.surgeryId,
-					date: surgery.date,
-					time: surgery.time,
-					status: surgery.status,
-				});
-
-				doctorMap.set(doctor.doctorId, conflictEntry);
-			}
-		}
+		const doctorMap = this.getDoctorMap(surgeries);
+		const filteredDoctorsMap = this.filterDoctorsMap(doctorMap);
+		const doctorsMapWithNames = await this.getDoctorsName(filteredDoctorsMap);
 
 		// Filter to only include doctors with multiple conflicts and sort each conflict by date
-		return Array.from(doctorMap.values())
-			.filter((entry) => entry.conflicts.length > 1)
-			.map((entry) => ({
-				...entry,
-				conflicts: entry.conflicts.sort(
-					(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-				),
-			}));
+		return doctorsMapWithNames;
 	}
 
 	private groupEventsByDay(
@@ -309,5 +280,89 @@ export class ScheduleService {
 			});
 		});
 		return staffRecommendation;
+	}
+
+	private getDoctorMap(surgeries: SurgeryLog[]): Map<string, DoctorConflict> {
+		const doctorMap = new Map<string, DoctorConflict>();
+
+		surgeries.forEach((surgery) => {
+			const conflictDetail = {
+				surgeryId: surgery.surgeryId,
+				date: surgery.date,
+				time: surgery.time,
+				status: surgery.status,
+			};
+
+			if (surgery.doctorsTeam) {
+				surgery.doctorsTeam.forEach((doctor) => {
+					if (!doctor.doctorId) return;
+
+					const existingEntry = doctorMap.get(doctor.doctorId) || {
+						doctorId: doctor.doctorId,
+						doctorName: "", // This will be updated later via getDoctorsName
+						conflicts: [] as DoctorConflict["conflicts"],
+					};
+
+					existingEntry.conflicts.push(conflictDetail);
+					doctorMap.set(doctor.doctorId, existingEntry);
+				});
+			}
+
+			if (surgery.leadSurgeon) {
+				const leadId = surgery.leadSurgeon;
+
+				const existingEntry = doctorMap.get(leadId) || {
+					doctorId: leadId,
+					doctorName: "",
+					conflicts: [] as DoctorConflict["conflicts"],
+				};
+
+				existingEntry.conflicts.push(conflictDetail);
+				doctorMap.set(leadId, existingEntry);
+			}
+		});
+
+		return doctorMap;
+	}
+
+	private filterDoctorsMap(
+		doctorMap: Map<string, DoctorConflict>
+	): DoctorConflict[] {
+		const filteredDoctorsMap = Array.from(doctorMap.values())
+			.filter((entry) => entry.conflicts.length > 1)
+			.map((entry) => ({
+				...entry,
+				conflicts: entry.conflicts.sort((a, b) => {
+					// Combine date and time for more accurate sorting
+					const dateTimeA = new Date(`${a.date.toISOString()} ${a.time}`);
+					const dateTimeB = new Date(`${b.date.toISOString()} ${b.time}`);
+					return dateTimeA.getTime() - dateTimeB.getTime();
+				}),
+			}));
+
+		return filteredDoctorsMap;
+	}
+
+	private async getDoctorsName(
+		doctorConflicts: DoctorConflict[]
+	): Promise<DoctorConflict[]> {
+		return Promise.all(
+			doctorConflicts.map(async (entry) => {
+				const doctorId = entry.doctorId;
+				const doctor = await this.userRepo.findOne({
+					where: { id: doctorId },
+					select: ["first_name", "last_name"],
+				});
+
+				const doctorName = doctor
+					? `Dr. ${doctor.first_name} ${doctor.last_name}`
+					: "";
+
+				return {
+					...entry,
+					doctorName,
+				};
+			})
+		);
 	}
 }

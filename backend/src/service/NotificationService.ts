@@ -3,18 +3,18 @@ import { NOTIFICATION_TYPES } from "../utils/dataTypes.js";
 import { userRepo } from "../config/repositories.js";
 import { Notification } from "../entity/sql/Notification.js";
 import { io } from "../server.js";
-import { mail, sender } from "../config/nodeMailerConfig.js";
+import { transporter } from "../config/nodeMailerConfig.js";
 import { NOTIFICATION_EMAIL } from "../utils/emailTemplate.js";
 
 export class NotificationService {
+	private sender = process.env.SENDER_EMAILS as string;
 
 	private async sendNotificationEmail(to: string, message: string) {
-		const response = await mail.sendMail({
-			from: sender,
+		const response = await transporter.sendMail({
+			from: this.sender,
 			to,
 			subject: "New Notification",
 			html: NOTIFICATION_EMAIL.replace("{message}", message),
-			sandbox: true,
 		});
 		console.log("Notification email sent successfully", response);
 	}

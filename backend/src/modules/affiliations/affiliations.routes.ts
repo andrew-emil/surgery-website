@@ -4,13 +4,14 @@ import { addAffiliation } from "./controllers/addAffiliation.js";
 import { getAffiliations } from "./controllers/getAffiliations.js";
 import { deleteAffiliation } from "./controllers/deleteAffiliation.js";
 import { updateAffiliation } from "./controllers/updateAffiliation.js";
-import { authUser } from "../../middlewares/authMiddleware.js";
+import { authMiddleware, authUser } from "../../middlewares/authMiddleware.js";
 
 const affiliationRoutes = Router();
 
 affiliationRoutes.get("/", getAffiliations);
 
 affiliationRoutes.use(auditLogger());
+affiliationRoutes.use(authMiddleware);
 
 affiliationRoutes.post("/", authUser(["Admin"]), addAffiliation);
 affiliationRoutes.delete("/:id", authUser(["Admin"]), deleteAffiliation);

@@ -24,9 +24,7 @@ export class TrainingService {
 			relations: {
 				role: {
 					requirements: {
-						procedure: {
-							category: true,
-						},
+						procedure: true,
 					},
 				},
 			},
@@ -66,7 +64,7 @@ export class TrainingService {
 				return {
 					procedureId: requirement.procedure.id,
 					procedureName: requirement.procedure.name,
-					category: requirement.procedure.category.code,
+					category: requirement.procedure.category,
 					required: requirement.requiredCount,
 					completed: completed,
 					remaining: Math.max(requirement.requiredCount - completed, 0),
@@ -105,7 +103,7 @@ export class TrainingService {
 		};
 	}
 
-	private async recordSurgeryCredit(
+	async recordSurgeryCredit(
 		userId: string,
 		surgeryId: number,
 		roleId: number
@@ -228,7 +226,7 @@ export class TrainingService {
 		const targetRequirements = new Map(
 			targetRole.requirements.map((req) => [
 				req.procedure.id,
-				{ required: req.requiredCount, category: req.procedure.category.code },
+				{ required: req.requiredCount, category: req.procedure.category },
 			])
 		);
 
@@ -297,7 +295,7 @@ export class TrainingService {
 		// Group requirements by category
 		const categoryRequirements = role.requirements.reduce(
 			(acc, requirement) => {
-				const category = requirement.procedure.category.code;
+				const category = requirement.procedure.category;
 				acc[category] = (acc[category] || 0) + requirement.requiredCount;
 				return acc;
 			},

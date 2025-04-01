@@ -3,91 +3,92 @@ import { Role } from "../entity/sql/Roles.js";
 import { SURGERY_TYPE } from "../utils/dataTypes.js";
 import {
 	permissionRepo,
-	procedureCategoryRepo,
 	procedureTypeRepo,
 	requirementRepo,
 	roleRepo,
-	userProgressRepo,
-	userRepo,
 } from "./repositories.js";
 
-export const seedDatabase = async () => {
-	// Check and seed Procedure Categories
-	const existingCategories = await procedureCategoryRepo.find();
-	if (existingCategories.length === 0) {
-		const procedureCategories = [
-			{ code: SURGERY_TYPE.O, description: "Observation" },
-			{ code: SURGERY_TYPE.AS, description: "Assisted Surgery" },
-			{ code: SURGERY_TYPE.PS, description: "Supervised Surgery" },
-			{ code: SURGERY_TYPE.PI, description: "Independent Surgery" },
-		];
-		await procedureCategoryRepo.save(procedureCategories);
-	}
-
-	// Check and seed Procedure Types
-	const existingProcedures = await procedureTypeRepo.find();
-	if (existingProcedures.length === 0) {
-		const categories = await procedureCategoryRepo.find();
-		const procedureTypes = [
-			{
-				name: "Craniotomy for Tumor",
-				category: categories.find((c) => c.code === SURGERY_TYPE.PI),
-			},
-			{
-				name: "Lumbar Puncture",
-				category: categories.find((c) => c.code === SURGERY_TYPE.PS),
-			},
-			{
-				name: "Burr Hole Drainage",
-				category: categories.find((c) => c.code === SURGERY_TYPE.AS),
-			},
-		].filter((p) => p.category) as Partial<ProcedureType>[];
-
-		await procedureTypeRepo.save(procedureTypes);
-	}
-
-	// Check and seed Roles
-	const existingRoles = await roleRepo.find();
-	const rolesToSeed = [
-		{ name: "Admin", parent: null },
-		{ name: "Consultant", parent: "Admin" },
-		{ name: "Specialist", parent: "Consultant" },
-		{ name: "R1", parent: "Specialist" },
-		{ name: "R2", parent: "R1" },
-		{ name: "R3", parent: "R2" },
-		{ name: "R4", parent: "R3" },
-		{ name: "R5", parent: "R4" },
-		{ name: "R6", parent: "R5" },
-		{ name: "Internship Doctor", parent: "R6" },
-	];
-
-	const savedRoles: Role[] = [];
-	for (const roleData of rolesToSeed) {
-		const exists = existingRoles.find((r) => r.name === roleData.name);
-		if (exists) {
-			savedRoles.push(exists);
-			continue;
+async function seedProcedureTypes() {
+	try {
+		const existingCount = await procedureTypeRepo.count();
+		if (existingCount > 0) {
+			console.log("Procedure types already exist, skipping seeding.");
+			return;
 		}
 
-		const parent = savedRoles.find((r) => r.name === roleData.parent) || null;
-		const role = roleRepo.create({
-			name: roleData.name,
-			parent: parent,
-		});
-		const savedRole = await roleRepo.save(role);
-		savedRoles.push(savedRole);
-	}
+		const procedureTypes = [
+			{ name: "Craniotomy for Tumor", category: SURGERY_TYPE.PI },
+			{ name: "Lumbar Puncture", category: SURGERY_TYPE.PS },
+			{ name: "Burr Hole Drainage", category: SURGERY_TYPE.AS },
+			{ name: "VP Shunt Placement", category: SURGERY_TYPE.PS },
+		] as Partial<ProcedureType>[];
 
-	// Check and seed Requirements
-	const existingRequirements = await requirementRepo.find();
-	if (existingRequirements.length === 0) {
+		await procedureTypeRepo.save(procedureTypes);
+		console.log("Successfully seeded procedure types.");
+	} catch (error) {
+		console.error("Error seeding procedure types:", error);
+		throw error;
+	}
+}
+
+async function seedRoles() {
+	try {
+		const roleHierarchy = [
+			{ name: "Admin", parent: null },
+			{ name: "Consultant", parent: "Admin" },
+			{ name: "Specialist", parent: "Consultant" },
+			{ name: "R1", parent: "Specialist" },
+			{ name: "R2", parent: "R1" },
+			{ name: "R3", parent: "R2" },
+			{ name: "R4", parent: "R3" },
+			{ name: "R5", parent: "R4" },
+			{ name: "R6", parent: "R5" },
+			{ name: "Internship Doctor", parent: "R6" },
+		];
+
+		const existingRoles = await roleRepo.find();
+		const roleMap = new Map<string, Role>();
+
+		// Create or update roles with proper parent relationships
+		for (const { name, parent } of roleHierarchy) {
+			let role = existingRoles.find((r) => r.name === name);
+			const parentRole = parent ? roleMap.get(parent) : null;
+
+			if (!role) {
+				role = roleRepo.create({ name, parent: parentRole || null });
+				await roleRepo.save(role);
+			} else if (role.parent?.name !== parent) {
+				role.parent = parentRole || null;
+				await roleRepo.save(role);
+			}
+
+			roleMap.set(name, role);
+		}
+
+		console.log("Successfully processed roles.");
+		return Array.from(roleMap.values());
+	} catch (error) {
+		console.error("Error seeding roles:", error);
+		throw error;
+	}
+}
+
+async function seedRequirements(savedRoles: Role[]) {
+	try {
+		const existingCount = await requirementRepo.count();
+		if (existingCount > 0) {
+			console.log("Requirements already exist, skipping seeding.");
+			return;
+		}
+
 		const requirements = [
 			{ role: "Consultant", procedure: "Craniotomy for Tumor", count: 50 },
 			{ role: "Specialist", procedure: "VP Shunt Placement", count: 30 },
-			{ role: "Resident Doctor", procedure: "Lumbar Puncture", count: 20 },
-			{ role: "Resident Doctor", procedure: "Burr Hole Drainage", count: 15 },
+			{ role: "R1", procedure: "Lumbar Puncture", count: 20 },
+			{ role: "R1", procedure: "Burr Hole Drainage", count: 15 },
 		];
 
+		const requirementEntities = [];
 		for (const req of requirements) {
 			const role = savedRoles.find((r) => r.name === req.role);
 			const procedure = await procedureTypeRepo.findOneBy({
@@ -95,65 +96,104 @@ export const seedDatabase = async () => {
 			});
 
 			if (role && procedure) {
-				await requirementRepo.save({
-					role,
-					procedure,
-					requiredCount: req.count,
-				});
+				requirementEntities.push(
+					requirementRepo.create({
+						role,
+						procedure,
+						requiredCount: req.count,
+					})
+				);
 			}
 		}
-	}
 
-	// Check and seed Permissions
-	const existingPermissions = await permissionRepo.find();
-	if (existingPermissions.length === 0) {
+		await requirementRepo.save(requirementEntities);
+		console.log("Successfully seeded requirements.");
+	} catch (error) {
+		console.error("Error seeding requirements:", error);
+		throw error;
+	}
+}
+
+async function seedPermissions() {
+	try {
+		const existingCount = await permissionRepo.count();
+		if (existingCount > 0) {
+			console.log("Permissions already exist, skipping seeding.");
+			return;
+		}
+
 		const permissions = [
-			{ action: "surgery:create:PI" },
-			{ action: "surgery:supervise:PS" },
-			{ action: "surgery:assist:AS" },
-			{ action: "surgery:observe:O" },
-			{ action: "patient:discharge" },
-			{ action: "record:complications" },
+			{ action: "create surgery" },
+			{ action: "delete surgery" },
+			{ action: "update surgery" },
+			{ action: "perform surgery" },
+			{ action: "access admin dashboard" },
+			{ action: "access consultant tools" },
+			{ action: "create request" },
+			{ action: "approve request" },
+			{ action: "reject request" },
 		];
+
 		await permissionRepo.save(permissions);
+		console.log("Successfully seeded permissions.");
+	} catch (error) {
+		console.error("Error seeding permissions:", error);
+		throw error;
 	}
+}
 
-	// Update role permissions if not set
-	const allPermissions = await permissionRepo.find();
-	const rolePermissions = {
-		Consultant: ["surgery:create:PI", "surgery:supervise:PS"],
-		Specialist: ["surgery:create:PI", "surgery:supervise:PS"],
-		"Resident Doctor": ["surgery:assist:AS", "surgery:observe:O"],
-		"Internship Doctor": ["surgery:observe:O"],
-	};
+async function assignRolePermissions(savedRoles: Role[]) {
+	try {
+		const allPermissions = await permissionRepo.find();
+		const permissionActions = allPermissions.map((p) => p.action);
 
-	for (const [roleName, permActions] of Object.entries(rolePermissions)) {
-		const role = savedRoles.find((r) => r.name === roleName);
-		if (role && (!role.permissions || role.permissions.length === 0)) {
-			role.permissions = allPermissions.filter((p) =>
-				permActions.includes(p.action)
+		const rolePermissions = {
+			Admin: permissionActions,
+			Consultant: [
+				"create surgery",
+				"delete surgery",
+				"update surgery",
+				"perform surgery",
+				"access consultant tools",
+				"create request",
+				"approve request",
+				"reject request",
+			],
+			Specialist: ["perform surgery", "create request"],
+		};
+
+		for (const [roleName, requiredActions] of Object.entries(rolePermissions)) {
+			const role = savedRoles.find((r) => r.name === roleName);
+			if (!role) continue;
+
+			const permissionsToAssign = allPermissions.filter((p) =>
+				requiredActions.includes(p.action)
 			);
-			await roleRepo.save(role);
+
+			if (permissionsToAssign.length > 0) {
+				role.permissions = permissionsToAssign;
+				await roleRepo.save(role);
+			}
 		}
+
+		console.log("Successfully assigned role permissions.");
+	} catch (error) {
+		console.error("Error assigning role permissions:", error);
+		throw error;
 	}
+}
 
-	// Seed Training Progress only if empty
-	const existingProgress = await userProgressRepo.count();
-	if (existingProgress === 0) {
-		const users = await userRepo.find();
-		const procedures = await procedureTypeRepo.find();
+export const seedDatabase = async () => {
+	try {
+		await seedProcedureTypes();
+		const savedRoles = await seedRoles();
+		await seedRequirements(savedRoles);
+		await seedPermissions();
+		await assignRolePermissions(savedRoles);
 
-		for (const user of users) {
-			await userProgressRepo.save(
-				procedures.map((p) => ({
-					user,
-					procedure: p,
-					completedCount: Math.floor(Math.random() * 10),
-					lastPerformed: new Date(),
-				}))
-			);
-		}
+		console.log("Database seeding completed successfully!");
+	} catch (error) {
+		console.error("Database seeding failed:", error);
+		process.exit(1);
 	}
-
-	console.log("Database seeding completed!");
 };

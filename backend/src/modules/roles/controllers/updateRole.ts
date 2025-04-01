@@ -85,10 +85,10 @@ export const updateRole = async (req: Request, res: Response) => {
 					throw new Error(`Procedure type not found`);
 				}
 
-				if (procedure.category.code !== req.category) {
+				if (procedure.category !== req.category) {
 					res.status(400).json({
 						success: false,
-						message: `Category mismatch for ${procedure.name}: Expected ${procedure.category.code}, got ${req.category}`,
+						message: `Category mismatch for ${procedure.name}: Expected ${procedure.category}, got ${req.category}`,
 					});
 					return;
 				}

@@ -1,12 +1,10 @@
 import { Request, Response } from "express";
-import { UserService } from "../../../service/UserSevice.js";
+import { userService } from "../../../config/initializeServices.js";
 
 export const forgetPassword = async (req: Request, res: Response) => {
 	const { email } = req.body;
 
 	if (!email) throw Error("Invalid credentials");
-
-	const userService = new UserService();
 
 	await userService.forgetPassword(email);
 

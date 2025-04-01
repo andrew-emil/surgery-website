@@ -79,13 +79,6 @@ export enum SURGERY_TYPE {
 	O = "observation",
 }
 
-export enum SurgeryRole {
-	LEAD_SURGEON = "lead_surgeon",
-	ASSISTANT = "assistant",
-	OBSERVER = "observer",
-	TRAINEE = "trainee",
-}
-
 export interface TrainingProgress {
 	overallStatus:
 		| "FULLY_QUALIFIED"

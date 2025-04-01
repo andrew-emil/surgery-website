@@ -75,9 +75,9 @@ export const addRole = async (req: Request, res: Response) => {
 				throw new Error(`Procedure type ${req.procedureTypeId} not found`);
 			}
 
-			if (procedureType.category.code !== req.category) {
+			if (procedureType.category !== req.category) {
 				throw new Error(
-					`Procedure type ${procedureType.name} belongs to category ${procedureType.category.code}, not ${req.category}`
+					`Procedure type ${procedureType.name} belongs to category ${procedureType.category}, not ${req.category}`
 				);
 			}
 
