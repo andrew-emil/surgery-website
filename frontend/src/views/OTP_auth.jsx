@@ -24,37 +24,43 @@ export default function OTP_auth() {
 		boxShadow: theme.shadows[2],
 		marginBottom: ".5rem",
 	}));
-	const { setUser, setToken, message } = useStateContext();
+	const { setUser, setToken, user } = useStateContext();
 
-	if (!message) {
+	if (!user) {
 		return <Navigate to="/login" />;
 	}
 
-	const secretKey = import.meta.env.VITE_JWT_SECRET;
-	const secret = new TextEncoder().encode(secretKey);
+	// const secretKey = import.meta.env.VITE_JWT_SECRET;
+	const secret = new TextEncoder().encode("mySecret1243");
 	const submit = (ev) => {
 		ev.preventDefault();
 		setIsLoading(true);
-    setErr("")
+		setErr("");
 		const payload = {
-			email: message,
+			email: user,
 			otp: otp,
 		};
+
 		axiosClient
 			.post("/users/verify", payload)
 			.then(({ data }) => {
+				console.log(data);
+
 				const token = data.token;
 				jose
 					.jwtVerify(token, secret, { algorithms: ["HS256"] })
 					.then((result) => {
 						setUser(result.payload);
+						console.log(user)
 						setToken(token);
 						setRediredtToHome(true);
+					})
+					.catch((err) => {
+						console.log(err);
 					});
 			})
 			.catch((err) => {
 				const response = err.response;
-				console.log(err);
 				if (response) {
 					setErr(response.data.message);
 				}
@@ -65,20 +71,21 @@ export default function OTP_auth() {
 	};
 
 	if (redirectToHome) {
-		return <Navigate to="/" />;
+		return <Navigate to="/home" />;
 	}
 
 	return (
 		<FormContainer>
-			<FormCard sx={{
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				padding: '3rem',
-				width: '28rem'
-			}}>
+			<FormCard
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					alignItems: "center",
+					padding: "3rem",
+					width: "28rem",
+				}}>
 				{err && (
-					<Alert severity="error" sx={{ marginBottom: "1rem", width: '26rem' }}>
+					<Alert severity="error" sx={{ marginBottom: "1rem", width: "26rem" }}>
 						<AlertTitle>Error</AlertTitle>
 						{err}
 					</Alert>

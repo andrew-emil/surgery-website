@@ -32,6 +32,7 @@ export default function Register() {
   const [err, setErr] = useState(null);
   const [redirectToOTP, setRedirectToOTP] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isButtonloading, setIsButtonLoading] = useState(false);
   const [affiliation, setAffiliation] = useState(null);
   const [department, setDepartment] = useState("");
   const [role, setRole] = useState("");
@@ -91,6 +92,7 @@ export default function Register() {
 
   const submit = (ev) => {
     ev.preventDefault();
+    setIsButtonLoading(true)
     setErr("");
     if (passwordRef.current.value == confirmPasswordRef.current.value) {
       const payload = {
@@ -118,9 +120,10 @@ export default function Register() {
           if (response) {
             setErr(response.data.message);
           }
-        });
+        }).finally(() => setIsButtonLoading(false))
     } else {
       setErr("Passwords do not match.");
+      setIsButtonLoading(false);
       console.log(err);
     }
   };
@@ -288,6 +291,7 @@ export default function Register() {
             variant="contained"
             className="btn btn-black"
             type="submit"
+            loading={isButtonloading}
           >
             Sign-Up
           </FormButton>

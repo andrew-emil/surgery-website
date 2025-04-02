@@ -15,7 +15,7 @@ export default function Login() {
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const [redirectToOTP, setRedirectToOTP] = useState(false);
-	const { setMessage } = useStateContext();
+	const { setUser } = useStateContext();
 	const [err, setErr] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -31,7 +31,7 @@ export default function Login() {
 			.post("/users/login", payload)
 			.then(({ data }) => {
 				if (data.message === "OTP sent. Please verify to complete login.") {
-					setMessage(payload.email);
+					setUser(payload.email);
 					setRedirectToOTP(true);
 				}
 			})

@@ -23,8 +23,6 @@ export const register = async (req: Request, res: Response) => {
 	const data = validation.data;
 	const picture = req.file?.buffer;
 
-	if (!picture) throw Error("Picture - required");
-
 	const existingUser = await userRepo.findOneBy([
 		{ email: data.email },
 		{ phone_number: data.phone_number },
@@ -56,12 +54,6 @@ export const register = async (req: Request, res: Response) => {
 		id: data.roleId,
 	});
 	if (!role) throw Error("Role Not Found");
-	if (
-		(role.name === "Resident Doctor" && !data.residencyLevel) ||
-		(role.name !== "Resident Doctor" && data.residencyLevel)
-	) {
-		throw Error("Invalid credentials");
-	}
 
 	const hashedPassword = await hashFunctions.bcryptHash(data.password);
 	const activationToken = crypto.randomBytes(32).toString("hex");
@@ -74,7 +66,7 @@ export const register = async (req: Request, res: Response) => {
 		email: data.email,
 		phone_number: data.phone_number,
 		password_hash: hashedPassword,
-		picture,
+		picture: picture ? picture : null,
 		affiliation,
 		department,
 		role,

@@ -1,38 +1,63 @@
-import { useContext, useState, createContext } from "react";
+import {
+	useContext,
+	useState,
+	createContext,
+	useCallback,
+} from "react";
 import Cookies from "js-cookie";
 
 const StateContext = createContext({
 	user: null,
 	token: null,
-	message: null,
+	settings: { theme: "light", language: "en" },
 	setUser: () => {},
 	setToken: () => {},
-	setMessage: () => {},
+	setSettings: () => {},
 });
+
 
 // eslint-disable-next-line react/prop-types
 export const ContextProvider = ({ children }) => {
 	const [user, setUser] = useState();
-	const [message, setMessage] = useState();
 	const [token, _setToken] = useState(Cookies.get("ACCESS_TOKEN") || null);
+	const [settings, _setSettings] = useState(() => {
+		const savedSettings = localStorage.getItem("user_settings");
+		return savedSettings
+			? JSON.parse(savedSettings)
+			: { theme: "light", language: "en" };
+	});
 
-	const setToken = (token) => {
+	const setToken = useCallback((token) => {
 		_setToken(token);
 		if (token) {
 			Cookies.set("ACCESS_TOKEN", token, {
-				expires: 7,
+				expires: 30,
 				secure: false, //only for production == true
-				sameSite: "Strict",
+				// sameSite: "Strict",
 			});
 		} else {
 			Cookies.remove("ACCESS_TOKEN");
 		}
-		console.log(token);
-	};
+	}, []);
+
+	const setSettings = useCallback((newSettings) => {
+		_setSettings((prev) => {
+			const updatedSettings = { ...prev, ...newSettings };
+			localStorage.setItem("user_settings", JSON.stringify(updatedSettings));
+			return updatedSettings;
+		});
+	}, []);
 
 	return (
 		<StateContext.Provider
-			value={{ user, token, message, setUser, setToken, setMessage }}>
+			value={{
+				user,
+				token,
+				settings,
+				setUser,
+				setToken,
+				setSettings,
+			}}>
 			{children}
 		</StateContext.Provider>
 	);

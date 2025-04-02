@@ -7,6 +7,7 @@ const axiosClient = axios.create({
     "Content-Type": "application/json",
     Authorization: `Bearer ${Cookies.get("ACCESS_TOKEN")}`,
   },
+  // withCredentials: true
 });
 axiosClient.interceptors.request.use((config) => {
   const token = Cookies.get("ACCESS_TOKEN");
