@@ -9,7 +9,7 @@ import { useStateContext } from "../context/contextprovider";
 
 export default function Home() {
   const { user } = useStateContext();
-  console.log(user.name);
+  console.log(user);
   return (
     <Container>
       <Card variant="outlined">

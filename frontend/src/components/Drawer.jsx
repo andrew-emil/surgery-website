@@ -27,6 +27,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useStateContext } from "../context/contextprovider";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({

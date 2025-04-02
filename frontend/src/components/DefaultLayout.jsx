@@ -1,12 +1,14 @@
-// eslint-disable-next-line no-unused-vars
 import { Navigate, Outlet } from "react-router-dom";
-import { useStateContext } from "../context/contextprovider";
-// import axiosClient from "../axiosClient";
-// import { useEffect } from "react";
+import { useStateContext } from "../context/contextprovider"; // Adjust the path as needed
+
 import { Box, Container } from "@mui/material";
 import MiniDrawer from "../components/Drawer";
 
 export default function DefaultLayout() {
+  const { token } = useStateContext();
+  if (!token) {
+    return <Navigate to="/login" />;
+  }
   return (
     <Box id="defaultLayout" sx={{ display: "block" }}>
       <div className="content">
