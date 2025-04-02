@@ -24,8 +24,6 @@ export const rejectUserAccount = async (req: Request, res: Response) => {
 		return;
 	}
 
-	if (req.user.userRole !== "Admin") throw new Error("Unauthorized");
-
 	// Find user
 	const user = await userRepo.findOneBy({ id: userId });
 	if (!user) throw Error("User not found");

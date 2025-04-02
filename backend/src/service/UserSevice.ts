@@ -1,4 +1,3 @@
-import { userRepo } from "../config/repositories.js";
 import { createOtp } from "../utils/createOTP.js";
 import {
 	sendAccountUpdateEmail,
@@ -8,16 +7,21 @@ import {
 import { User } from "../entity/sql/User.js";
 import { createJWTtoken } from "../handlers/jwtHandler.js";
 import { HashFunctions } from "../utils/hashFunction.js";
+import { Repository } from "typeorm";
 
 export class UserService {
 	private MAX_FAILED_ATTEMPTS = 5;
 	private LOCK_TIME_MINUTES = 60;
 
+	constructor(
+		private userRepo: Repository<User>
+	){}
+
 	async login(
 		email: string,
 		password: string
 	): Promise<{ success: boolean; user?: User; message?: string }> {
-		const user = await userRepo.findOneBy({ email });
+		const user = await this.userRepo.findOneBy({ email });
 
 		if (!user) return { success: false, message: "Invalid credentials" };
 
@@ -41,14 +45,14 @@ export class UserService {
 					Date.now() + this.LOCK_TIME_MINUTES * 60 * 1000
 				);
 			}
-			await userRepo.save(user);
+			await this.userRepo.save(user);
 			return { success: false, message: "Invalid credentials" };
 		}
 
 		// Reset failed attempts
 		user.failed_attempts = 0;
 		user.lock_until = null;
-		await userRepo.save(user);
+		await this.userRepo.save(user);
 
 		return { success: true, user };
 	}
@@ -60,7 +64,7 @@ export class UserService {
 		console.log("Generated OTP:", otp);
 
 		user.otp_secret = hashedOtp;
-		await userRepo.save(user);
+		await this.userRepo.save(user);
 		await sendVerificationEmails(user.email, otp);
 
 		return {
@@ -70,7 +74,7 @@ export class UserService {
 	}
 
 	async forgetPassword(email: string): Promise<void> {
-		const user = await userRepo.findOneBy({ email });
+		const user = await this.userRepo.findOneBy({ email });
 		if (!user) return;
 
 		const hashFunction = new HashFunctions();
@@ -79,7 +83,7 @@ export class UserService {
 		const { token, hashedToken } = await hashFunction.generateResetToken();
 		user.reset_token = hashedToken;
 		user.reset_token_expires = new Date(Date.now() + 60 * 60 * 1000);
-		await userRepo.save(user);
+		await this.userRepo.save(user);
 
 		const resetURL = `${process.env.BASE_URL}/reset-password?token=${token}`;
 
@@ -95,7 +99,7 @@ export class UserService {
 	): Promise<{ success: boolean; message?: string }> {
 		const hashFunction = new HashFunctions();
 		const hashedToken = await hashFunction.bcryptHash(token);
-		const user = await userRepo.findOneBy({ reset_token: hashedToken });
+		const user = await this.userRepo.findOneBy({ reset_token: hashedToken });
 
 		// Validate token
 		if (
@@ -111,7 +115,7 @@ export class UserService {
 		user.password_hash = hashedPassword;
 		user.reset_token = null;
 		user.reset_token_expires = null;
-		await userRepo.save(user);
+		await this.userRepo.save(user);
 
 		return { success: true, message: "Password reset successful" };
 	}
@@ -122,11 +126,13 @@ export class UserService {
 
 		// Handle password update securely
 		if (data.old_password && data.new_password) {
-			const isPasswordCorrect = await hashFunction.compareBcryptHash(data.new_password)
+			const isPasswordCorrect = await hashFunction.compareBcryptHash(
+				data.new_password
+			);
 			if (!isPasswordCorrect)
 				return { success: false, message: "Invalid credentials" };
 
-			user.password_hash = await hashFunction.bcryptHash(data.new_password)
+			user.password_hash = await hashFunction.bcryptHash(data.new_password);
 			passwordUpdated = true;
 			user.token_version = (user.token_version || 0) + 1; // Invalidate old tokens
 		} else if (!data.old_password && data.new_password) {
@@ -145,18 +151,18 @@ export class UserService {
 		if (data.picture) updatedUser.picture = data.picture;
 
 		if (Object.keys(updatedUser).length > 0 || passwordUpdated) {
-			await userRepo.save({ ...user, ...updatedUser });
+			await this.userRepo.save({ ...user, ...updatedUser });
 		}
 
 		await sendAccountUpdateEmail(user.email, updatedUser);
 
-		const { token, formatedSurgeries } = await createJWTtoken(user);
+		const { token, formatedSurgeries } = await createJWTtoken(user, false);
 
 		return { success: true, token, formatedSurgeries };
 	}
 
 	async verify2FA(email: string, otp: string) {
-		const user = await userRepo.findOne({
+		const user = await this.userRepo.findOne({
 			where: { email },
 			relations: ["role"],
 		});
@@ -174,7 +180,7 @@ export class UserService {
 			};
 		}
 
-		const hashFunctions = new HashFunctions(user.otp_secret)
+		const hashFunctions = new HashFunctions(user.otp_secret);
 		// Verify OTP
 		const isOtpValid = await hashFunctions.compareBcryptHash(otp);
 		if (!isOtpValid) {
@@ -187,18 +193,20 @@ export class UserService {
 				);
 			}
 
-			await userRepo.save(user);
+			await this.userRepo.save(user);
 			return { success: false, message: "Invalid credentials" };
 		}
+
+		const firstLogin = user.last_login === null ? true : false;
 
 		// Reset failed attempts and clear OTP after successful verification
 		user.failed_attempts = 0;
 		user.lock_until = null;
 		user.otp_secret = null;
 		user.last_login = new Date();
-		await userRepo.save(user);
+		await this.userRepo.save(user);
 
-		const { token, formatedSurgeries } = await createJWTtoken(user);
+		const { token, formatedSurgeries } = await createJWTtoken(user, firstLogin);
 
 		return { success: true, token, formatedSurgeries };
 	}

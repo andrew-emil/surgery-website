@@ -5,19 +5,24 @@ import { getDepartments } from "./controllers/getDepartments.js";
 import { updateDepartment } from "./controllers/updateDepartment.js";
 import { getDoctorsDepartment } from "./controllers/getDoctorsDepartment.js";
 import { auditLogger } from "../../middlewares/auditLogger.js";
+import { authMiddleware, authUser } from "../../middlewares/authMiddleware.js";
 
 const departmentRoutes = Router();
 
-departmentRoutes.get("/:id", getDepartments)
-departmentRoutes.get("/get-doctors/:id", getDoctorsDepartment)
+departmentRoutes.get("/:id", getDepartments);
 
 //middlewares
-departmentRoutes.use(auditLogger())
+departmentRoutes.use(auditLogger());
+departmentRoutes.use(authMiddleware);
 
 //department routes
-departmentRoutes.post("/", addDepartment)
-departmentRoutes.delete("/:id", deleteDepartment)
-departmentRoutes.put("/", updateDepartment)
-
+departmentRoutes.post("/", authUser(["Admin"]), addDepartment);
+departmentRoutes.delete("/:id", authUser(["Admin"]), deleteDepartment);
+departmentRoutes.put("/", authUser(["Admin"]), updateDepartment);
+departmentRoutes.get(
+	"/get-doctors/:id",
+	authUser(["Admin"]),
+	getDoctorsDepartment
+);
 
 export default departmentRoutes;

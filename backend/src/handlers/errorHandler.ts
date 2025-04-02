@@ -1,5 +1,4 @@
 import { NextFunction, Response, Request, ErrorRequestHandler } from "express";
-import { fromZodError } from "zod-validation-error";
 import { ZodError } from "zod";
 
 export const errorHandler: ErrorRequestHandler = (
@@ -8,7 +7,7 @@ export const errorHandler: ErrorRequestHandler = (
 	res: Response,
 	next: NextFunction
 ) => {
-	console.error(`[ERROR] ${err.name}: ${err.message}`, typeof err);
+	console.error(err);
 
 	const errorMessage = err.message;
 	const errorMessageLower = errorMessage.toLowerCase();

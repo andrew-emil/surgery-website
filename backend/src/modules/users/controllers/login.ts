@@ -1,7 +1,7 @@
 import { Response, Request } from "express";
 import { loginSchema } from "../../../utils/zodSchemas.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
-import { UserService } from "../../../service/UserSevice.js";
+import { userService } from "../../../config/initializeServices.js";
 
 export const login = async (req: Request, res: Response): Promise<void> => {
 	const validation = loginSchema.safeParse(req.body);
@@ -10,7 +10,6 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
 	const { email, password } = validation.data;
 
-	const userService = new UserService();
 
 	const authResult = await userService.login(email, password);
 

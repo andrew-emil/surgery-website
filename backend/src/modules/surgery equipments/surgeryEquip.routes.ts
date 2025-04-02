@@ -4,13 +4,31 @@ import { addSurgeryEquipment } from "./controllers/addSurgeryEquipment.js";
 import { getSurgeryEquipments } from "./controllers/getSurgeryEquipments.js";
 import { deleteEquipment } from "./controllers/deleteEquipment.js";
 import { updateEquipment } from "./controllers/updateEquipment.js";
+import { authUser } from "../../middlewares/authMiddleware.js";
+import { auditLogger } from "../../middlewares/auditLogger.js";
 
-const surgeryEquiRoutes = Router()
+const surgeryEquiRoutes = Router();
 
-surgeryEquiRoutes.get("/", getSurgeryEquipments)
-surgeryEquiRoutes.post("/", validateEquipmentPhoto, addSurgeryEquipment)
-surgeryEquiRoutes.delete("/:id", deleteEquipment)
-surgeryEquiRoutes.put("/:id", validateEquipmentPhoto, updateEquipment);
+surgeryEquiRoutes.get(
+	"/",
+	authUser(["Admin", "Consultant"]),
+	getSurgeryEquipments
+);
 
+surgeryEquiRoutes.use(auditLogger());
+
+surgeryEquiRoutes.post(
+	"/",
+	authUser(["Admin"]),
+	validateEquipmentPhoto,
+	addSurgeryEquipment
+);
+surgeryEquiRoutes.delete("/:id", authUser(["Admin"]), deleteEquipment);
+surgeryEquiRoutes.put(
+	"/:id",
+	authUser(["Admin"]),
+	validateEquipmentPhoto,
+	updateEquipment
+);
 
 export default surgeryEquiRoutes;

@@ -12,6 +12,7 @@ import { Department } from "./departments.js";
 import { Affiliations } from "./Affiliations.js";
 import { Notification } from "./Notification.js";
 import { USER_STATUS } from "../../utils/dataTypes.js";
+import { UserProgress } from "./UserProgress.js";
 
 @Entity()
 export class User {
@@ -35,9 +36,6 @@ export class User {
 
 	@Column({ type: "blob", nullable: true })
 	picture: Buffer;
-
-	@Column({ type: "int", nullable: true })
-	residencyLevel: number;
 
 	@ManyToOne(() => Role, (role) => role.users, {
 		onDelete: "SET NULL",
@@ -66,14 +64,11 @@ export class User {
 	@Column({ type: "enum", enum: USER_STATUS, default: USER_STATUS.PENDING })
 	account_status: USER_STATUS;
 
-	@Column({ type: "int", default: 0 })
-	surgeryCount: number;
+	@OneToMany(() => UserProgress, (progress) => progress.user)
+	progress: UserProgress[];
 
-	@Column({ type: "timestamp", default: () => "CURRENT_TIMESTAMP" })
+	@Column({ type: "timestamp", nullable: true })
 	last_login: Date;
-
-	@Column({ type: "boolean", default: false })
-	first_login: boolean;
 
 	@Column({ type: "varchar", nullable: true })
 	rejectionReason: string;

@@ -7,28 +7,65 @@ export const getAllRoles = async (req: Request, res: Response) => {
 		roleRepo.find({
 			where: { name: Not("Admin") },
 			relations: {
-				parent: true, // Maintain the relation
+				parent: true,
 				permissions: true,
+				requirements: {
+					procedure: true,
+					
+				},
 			},
 			select: {
 				id: true,
 				name: true,
 				permissions: true,
-				requiredCount: true,
-				requiredSurgeryType: true,
 				parent: {
-					name: true, // Only select name from parent
+					id: true,
+					name: true,
 				},
-				// Add other fields you want to select from the main role
+				requirements: {
+					id: true,
+					requiredCount: true,
+					procedure: {
+						id: true,
+						name: true,
+						category: true
+					},
+				},
+			},
+			order: {
+				requirements: {
+					procedure: {
+						name: "ASC",
+					},
+				},
 			},
 		}),
-		roleRepo.count(),
+		roleRepo.count({ where: { name: Not("Admin") } }),
 	]);
 
-	if (roles.length === 0) throw Error("No roles Found");
+	if (roles.length === 0) {
+		res.status(404).json({ message: "No roles found" });
+		return;
+	}
 
 	res.status(200).json({
-		roles,
+		success: true,
+		count: roles.length,
 		total,
+		data: roles.map((role) => ({
+			id: role.id,
+			name: role.name,
+			parent: role.parent,
+			permissions: role.permissions,
+			requirements: role.requirements?.map((req) => ({
+				id: req.id,
+				requiredCount: req.requiredCount,
+				procedure: {
+					id: req.procedure.id,
+					name: req.procedure.name,
+					category: req.procedure.category,
+				},
+			})),
+		})),
 	});
 };

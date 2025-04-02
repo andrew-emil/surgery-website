@@ -8,7 +8,6 @@ import { Authentication_Request } from "../utils/dataTypes.js";
 import { TrainingService } from "./TrainingService.js";
 import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
-import { Surgery } from "../entity/sql/Surgery.js";
 import { DoctorsTeam } from "../entity/sub entity/DoctorsTeam.js";
 
 export class SurgeryAuthService {
@@ -16,7 +15,6 @@ export class SurgeryAuthService {
 		private trainingService: TrainingService,
 		private authRequestRepo: Repository<AuthenticationRequest>,
 		private surgeryLogRepo: MongoRepository<SurgeryLog>,
-		private surgeryRepo: Repository<Surgery>
 	) {}
 
 	async handleRequestApproval(requestId: number) {
@@ -35,18 +33,6 @@ export class SurgeryAuthService {
 			);
 			if (!eligibility.eligible) {
 				await this.rejectRequest(request, eligibility.reason);
-				return;
-			}
-
-			const surgery = await this.surgeryRepo.findOne({
-				where: { id: request.surgery.id },
-			});
-
-			if (surgery?.SurgeryType !== request.requestedRole.requiredSurgeryType) {
-				await this.rejectRequest(
-					request,
-					`Surgery type ${surgery?.SurgeryType} doesn't match role requirement ${request.requestedRole.requiredSurgeryType}`
-				);
 				return;
 			}
 
@@ -130,9 +116,9 @@ export class SurgeryAuthService {
 					hospitalRole: user?.role?.name || "N/A",
 					surgicalRole: role?.name || "N/A",
 					trainingProgress: {
-						required: trainingProgress.required,
-						completed: trainingProgress.completed,
-						progress: `${trainingProgress.completed}/${trainingProgress.required}`,
+						required: trainingProgress.totalRequired,
+						completed: trainingProgress.totalCompleted,
+						progress: trainingProgress.completionPercentage,
 					},
 				};
 			})

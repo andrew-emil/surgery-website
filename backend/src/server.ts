@@ -27,6 +27,10 @@ import { intializeServices } from "./config/initializeServices.js";
 import surgeryEquiRoutes from "./modules/surgery equipments/surgeryEquip.routes.js";
 import ratingRoutes from "./modules/rating/rating.routes.js";
 import scheduleRoutes from "./modules/Scheduling/schedule.routes.js";
+import { authMiddleware } from "./middlewares/authMiddleware.js";
+import logger from "./config/loggerConfig.js";
+import { initializeCronJobs } from "./utils/cronJobs.js";
+import procedureTypeRoutes from "./modules/procedureType.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -40,7 +44,7 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-	console.log(`User connected: ${socket.id}`);
+	logger.info(`User connected: ${socket.id}`);
 
 	socket.on("disconnect", () => {
 		console.log(`User disconnected: ${socket.id}`);
@@ -49,7 +53,13 @@ io.on("connection", (socket) => {
 
 //middlewares
 app.use(express.json());
-app.use(morgan("dev"));
+app.use(
+	morgan("dev", {
+		stream: {
+			write: (message: string) => logger.info(message.trim()),
+		},
+	})
+);
 app.use(cookieParser());
 app.use(
 	cors({
@@ -63,14 +73,17 @@ app.use(
 app.use("/api/users", usersRoutes);
 app.use("/api/roles", rolesRoutes);
 app.use("/api/departments", departmentRoutes);
-app.use("/api/surgery", surgeryRoutes);
 app.use("/api/affiliation", affiliationRoutes);
+
+app.use(authMiddleware);
+app.use("/api/surgery", surgeryRoutes);
 app.use("/api/auth-requests", authRequestsRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/surgery-equipments", surgeryEquiRoutes);
 app.use("/api/rating", ratingRoutes);
 app.use("/api/schedule", scheduleRoutes);
+app.use("/api/procedure-types", procedureTypeRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
@@ -83,19 +96,22 @@ const startServer = async () => {
 		await AppDataSource.initialize();
 		await AppDataSource.synchronize(); // Force sync
 		initializeSQLRepositories();
-		console.log("connected to mysql database");
+		logger.info("Connected to MySQL database");
 
 		await MongoDataSource.initialize();
 		initializeMongoRepositories();
-		console.log("Connected to MongoDB database successfully");
+		logger.info("Connected to MongoDB database successfully");
 
 		intializeServices();
 
+		initializeCronJobs();
+		logger.info("Cron jobs initialized");
+
 		server.listen(port, () => {
-			console.log(`app listening on port: ${port}`);
+			logger.info(`app listening on port: ${port}`);
 		});
 	} catch (error) {
-		console.error("Error during data source initialization:", error);
+		logger.error("Server initialization failed:", error);
 		process.exit(1);
 	}
 };
@@ -103,7 +119,7 @@ const startServer = async () => {
 export { io, server };
 startServer().then(() =>
 	seedDatabase().catch((error) => {
-		console.error("Error seeding database:", error);
+		logger.error("Error seeding database:", error);
 		process.exit(1);
 	})
 );

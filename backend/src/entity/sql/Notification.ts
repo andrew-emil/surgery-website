@@ -7,7 +7,6 @@ import {
     UpdateDateColumn,
 } from "typeorm";
 import {
-	NOTIFICATION_STATUS,
 	NOTIFICATION_TYPES,
 } from "../../utils/dataTypes.js";
 import { User } from "./User.js";

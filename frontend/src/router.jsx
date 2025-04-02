@@ -10,6 +10,7 @@ import ResetPassword from "./views/reset_password";
 import NotFoundPage from "./views/not_found";
 import Dashboard from "./views/dashboard";
 import AdminLayout from "./components/adminLayout";
+import MyAccount from "./views/myAccount";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,7 @@ const router = createBrowserRouter([
     children: [
       { path: "/", element: <Home /> },
       { path: "/home", element: <Home /> },
+      { path: "/account", element: <MyAccount /> },
     ],
   },
   {
@@ -29,7 +31,7 @@ const router = createBrowserRouter([
       { path: "/forgot-password", element: <ForgoPassword /> },
       { path: "/reset-password", element: <ResetPassword /> },
       { path: "/otp", element: <OTP_auth /> },
-      { path: "/not-found", element: <NotFoundPage /> },
+      { path: "/not-found", element: <NotFoundPage /> } /* not working */,
     ],
   },
   {

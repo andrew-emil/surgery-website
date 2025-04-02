@@ -73,26 +73,30 @@ export enum PARTICIPATION_STATUS {
 }
 
 export enum SURGERY_TYPE {
-	COMPLEX = "complex",
-	SPECIALIZED = "specialized",
-	SUPERVISED = "supervised",
-	OBSERVED = "observed",
-	SHADOWING = "shadowing",
-}
-
-export enum SurgeryRole {
-	LEAD_SURGEON = "lead_surgeon",
-	ASSISTANT = "assistant",
-	OBSERVER = "observer",
-	TRAINEE = "trainee",
+	PS = "supervised",
+	AS = "assistance",
+	PI = "independent",
+	O = "observation",
 }
 
 export interface TrainingProgress {
-	completed: number;
-	required: number;
-	remaining: number;
-	met: boolean;
-	type: SURGERY_TYPE | null;
+	overallStatus:
+		| "FULLY_QUALIFIED"
+		| "PARTIALLY_QUALIFIED"
+		| "NOT_QUALIFIED"
+		| "NOT_REQUIRED";
+	requirements: Array<{
+		procedureId: number;
+		procedureName: string;
+		category: string;
+		required: number;
+		completed: number;
+		remaining: number;
+		met: boolean;
+	}>;
+	totalCompleted: number;
+	totalRequired: number;
+	completionPercentage: number;
 }
 
 export interface EligibilityResult extends TrainingProgress {
@@ -100,3 +104,12 @@ export interface EligibilityResult extends TrainingProgress {
 	reason: string;
 }
 
+export type RequirementProgress = {
+	procedureId: number;
+	procedureName: string;
+	category: string;
+	required: number;
+	completed: number;
+	remaining: number;
+	met: boolean;
+};

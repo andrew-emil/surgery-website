@@ -2,11 +2,11 @@ import { Request, Response } from "express";
 import { updateAccountSchema } from "../../../utils/zodSchemas.js";
 import { userRepo } from "../../../config/repositories.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
-import { UserService } from "../../../service/UserSevice.js";
+import { userService } from "../../../config/initializeServices.js";
 
 export const updateAccount = async (req: Request, res: Response) => {
 	const userId = req.user?.id;
-	if (!userId) throw Error("Unauthorized");
+	if (!userId) throw Error("unauthorized");
 
 	const validation = updateAccountSchema.safeParse(req.body);
 	if (!validation.success)
@@ -16,8 +16,6 @@ export const updateAccount = async (req: Request, res: Response) => {
 
 	const user = await userRepo.findOneBy({ id: userId });
 	if (!user) throw Error("User Not Found");
-
-	const userService = new UserService();
 
 	const result = await userService.updateAccount(user, data);
 

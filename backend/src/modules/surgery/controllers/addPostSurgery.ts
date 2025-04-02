@@ -7,80 +7,106 @@ import {
 	surgeryLogsRepo,
 	authenticationRequestRepo,
 } from "../../../config/repositories.js";
-import { Authentication_Request } from "../../../utils/dataTypes.js";
+import { Authentication_Request, STATUS } from "../../../utils/dataTypes.js";
 import { trainingService } from "../../../config/initializeServices.js";
+import { AppDataSource } from "../../../config/data-source.js";
+import { SurgeryLog } from "../../../entity/mongodb/SurgeryLog.js";
 
 export const addPostSurgery = async (req: Request, res: Response) => {
 	const validation = addPostSurgerySchema.safeParse(req.body);
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	const {
-		surgeryId,
-		surgicalTimeMinutes,
-		outcome,
-		complications,
-		dischargeStatus,
-		caseNotes,
-	} = validation.data;
+	const { surgeryId, ...postData } = validation.data;
+	const queryRunner = AppDataSource.createQueryRunner();
 
-	const [surgery, surgeryLog] = await Promise.all([
-		surgeryRepo.findOne({
-			where: { id: surgeryId },
-			relations: ["leadSurgeon"],
-		}),
-		surgeryLogsRepo.findOneBy({ surgeryId }),
-	]);
+	try {
+		await queryRunner.connect();
+		await queryRunner.startTransaction();
 
-	if (!surgery || !surgeryLog) {
-		res.status(404).json({
-			success: false,
-			message: "Surgery record not found in system",
+		// Verify surgery existence
+		const [surgery, surgeryLog] = await Promise.all([
+			surgeryRepo.findOne({ where: { id: surgeryId } }),
+			surgeryLogsRepo.findOneBy({ surgeryId }),
+		]);
+
+		if (!surgery || !surgeryLog) {
+			const missing = [];
+			if (!surgery) missing.push("surgery");
+			if (!surgeryLog) missing.push("surgery log");
+			res.status(404).json({
+				success: false,
+				message: `Surgery records not found: Missing ${missing.join(" and ")}`,
+			});
+			return;
+		}
+
+		// Check for existing post-surgery record
+		const existingPost = await postSurgeryRepo.findOneBy({ surgeryId });
+		if (existingPost) {
+			res.status(409).json({
+				success: false,
+				message:
+					"Post-surgery documentation already completed for this procedure",
+				documentationId: existingPost.id,
+			});
+			return;
+		}
+
+		// Create and save post-surgery record
+		const postSurgery = postSurgeryRepo.create({
+			...postData,
+			complications: postData.complications?.trim() || null,
+			caseNotes: postData.caseNotes?.trim() || null,
+			surgeryId,
 		});
-		return;
-	}
 
-	const existingPostSurgery = await postSurgeryRepo.findOneBy({
-		surgeryId,
-	});
-	if (existingPostSurgery) {
-		res.status(409).json({
-			success: false,
-			message: "Post-surgery record already exists",
-		});
-		return;
-	}
+		// Execute all updates in transaction
+		await Promise.all([
+			queryRunner.manager.save(postSurgery),
+			trainingService.handleSurgeryCompletion(surgeryId),
+			authenticationRequestRepo.update(
+				{ surgery: { id: surgeryId } },
+				{ status: Authentication_Request.APPROVED }
+			),
+			queryRunner.manager.update(SurgeryLog, surgeryLog, {
+				status: STATUS.COMPLETED,
+			}),
+		]);
 
-	const postSurgery = postSurgeryRepo.create({
-		surgeryId,
-		surgicalTimeMinutes,
-		outcome,
-		complications: complications?.trim() || null,
-		dischargeStatus,
-		caseNotes: caseNotes?.trim() || null,
-	});
+		await queryRunner.commitTransaction();
 
-	await Promise.all([
-		postSurgeryRepo.save(postSurgery),
-		trainingService.handleSurgeryCompletion(surgeryId),
-		authenticationRequestRepo.update(
-			{ surgery: { id: surgeryId } },
-			{ status: Authentication_Request.APPROVED }
-		),
-	]);
-
-	res.status(201).json({
-		success: true,
-		message: "Surgery details added and training records updated",
-		data: {
-			postSurgeryId: postSurgery.id,
-			surgeryDetails: {
-				id: surgery.id,
-				name: surgery.name,
+		res.status(201).json({
+			success: true,
+			message: "Post-operative documentation completed successfully",
+			documentation: {
+				id: postSurgery.id,
+				surgeryId: surgery.id,
+				procedureName: surgery.name,
 				duration: postSurgery.surgicalTimeMinutes,
 				outcome: postSurgery.outcome,
+				dischargeStatus: postSurgery.dischargeStatus,
+				recordedAt: new Date().toISOString(),
 			},
-			trainingUpdated: surgeryLog.doctorsTeam.length,
-		},
-	});
+			participants: {
+				total: surgeryLog.doctorsTeam.length,
+				credited: surgeryLog.trainingCredits.filter((d) => d.verified).length,
+			},
+		});
+	} catch (error) {
+		await queryRunner.rollbackTransaction();
+		const errorMessage =
+			error instanceof Error
+				? error.message
+				: "Failed to complete post-surgery documentation";
+
+		res.status(500).json({
+			success: false,
+			message: errorMessage,
+			errorCode: "POST_OP_DOCUMENTATION_FAILURE",
+			referenceId: surgeryId,
+		});
+	} finally {
+		await queryRunner.release();
+	}
 };

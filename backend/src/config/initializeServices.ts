@@ -3,34 +3,34 @@ import {
 	userRepo,
 	surgeryLogsRepo,
 	authenticationRequestRepo,
-	surgeryRepo,
+	procedureTypeRepo,
 } from "../config/repositories.js";
 import { NotificationService } from "../service/NotificationService.js";
+import { ProcedureTypeService } from "../service/ProcedureTypeService.js";
 import { ScheduleService } from "../service/ScheduleService.js";
 import { SurgeryAuthService } from "../service/SurgeryAuthService.js";
 import { TrainingService } from "../service/TrainingService.js";
+import { UserService } from "../service/UserSevice.js";
 
 export let trainingService: TrainingService;
 export let surgeryAuthService: SurgeryAuthService;
 export let notificationService: NotificationService;
 export let scheduleService: ScheduleService;
+export let procedureTypeService: ProcedureTypeService;
+export let userService: UserService;
 
 export const intializeServices = () => {
-	trainingService = new TrainingService(
-		userRepo,
-		roleRepo,
-		surgeryLogsRepo,
-		authenticationRequestRepo
-	);
+	trainingService = new TrainingService(userRepo, roleRepo, surgeryLogsRepo);
 
 	surgeryAuthService = new SurgeryAuthService(
 		trainingService,
 		authenticationRequestRepo,
-		surgeryLogsRepo,
-		surgeryRepo
+		surgeryLogsRepo
 	);
 
 	notificationService = new NotificationService();
 
 	scheduleService = new ScheduleService(userRepo, surgeryLogsRepo);
+	procedureTypeService = new ProcedureTypeService(procedureTypeRepo);
+	userService = new UserService(userRepo);
 };

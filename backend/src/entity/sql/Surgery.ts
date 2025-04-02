@@ -1,19 +1,17 @@
 import {
 	Column,
 	Entity,
-	JoinColumn,
 	ManyToMany,
 	ManyToOne,
 	OneToMany,
-	OneToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
 import { Affiliations } from "./Affiliations.js";
 import { AuthenticationRequest } from "./AuthenticationRequests.js";
-import { Role } from "./Roles.js";
 import { Department } from "./departments.js";
 import { SURGERY_TYPE } from "../../utils/dataTypes.js";
 import { SurgeryEquipment } from "./SurgeryEquipments.js";
+import { ProcedureType } from "./ProcedureType.js";
 
 @Entity()
 export class Surgery {
@@ -45,4 +43,10 @@ export class Surgery {
 
 	@ManyToMany(() => SurgeryEquipment, (equipment) => equipment.surgery)
 	surgeryEquipments: SurgeryEquipment[];
+
+	@ManyToOne(() => ProcedureType, (procedure) => procedure.surgeries)
+	procedure: ProcedureType;
+
+	@Column({ type: "enum", enum: SURGERY_TYPE, default: SURGERY_TYPE.O })
+	type: SURGERY_TYPE;
 }

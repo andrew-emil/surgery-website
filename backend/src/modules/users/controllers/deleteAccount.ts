@@ -1,21 +1,73 @@
 import { Request, Response } from "express";
-import { userRepo } from "../../../config/repositories.js";
+import {
+	notificationRepo,
+	ratingRepo,
+	surgeryLogsRepo,
+} from "../../../config/repositories.js";
+import { AppDataSource } from "../../../config/data-source.js";
+import { User } from "../../../entity/sql/User.js";
+import { USER_STATUS } from "../../../utils/dataTypes.js";
+import { AuthenticationRequest } from "../../../entity/sql/AuthenticationRequests.js";
+import { UserProgress } from "../../../entity/sql/UserProgress.js";
 
 export const deleteAccount = async (req: Request, res: Response) => {
 	const { id } = req.params;
 
 	// Validate userId
 	if (!id) throw Error("Invalid user ID");
+	if (req.user.id !== id) throw Error("Unauthorized");
 
-	// Delete user
-	const result = await userRepo.delete(id);
-
-	if (result.affected && result.affected > 0) {
-		res.status(204).end();
-	} else {
-		res.status(404).json({
-			success: false,
-			message: "User not found",
+	await AppDataSource.transaction(async (sqlManager) => {
+		const user = await sqlManager.findOne(User, {
+			where: {
+				account_status: USER_STATUS.ACTIVE,
+				id,
+			},
 		});
-	}
+
+		if (!user) throw Error("User not found");
+
+		const [authRequests, notifications, userProgress] = await Promise.all([
+			sqlManager.find(AuthenticationRequest, {
+				where: [{ trainee: user }, { consultant: user }],
+			}),
+			notificationRepo.find({ where: { user } }),
+			sqlManager.find(UserProgress, { where: { user } }),
+		]);
+
+		await Promise.all([
+			sqlManager.remove(AuthenticationRequest, authRequests),
+			sqlManager.remove(notificationRepo.metadata.target, notifications),
+			sqlManager.remove(UserProgress, userProgress),
+		]);
+
+		await sqlManager.delete(User, id);
+	});
+
+	await ratingRepo.deleteMany({ userId: id });
+	// Update surgery logs with proper typing
+	await surgeryLogsRepo.bulkWrite([
+		// Remove lead surgeon
+		{
+			updateMany: {
+				filter: { leadSurgeon: id },
+				update: { $unset: { leadSurgeon: "" } } as any,
+			},
+		},
+		// Remove from doctorsTeam array
+		{
+			updateMany: {
+				filter: { "doctorsTeam.doctorId": id },
+				update: {
+					$pull: {
+						doctorsTeam: {
+							doctorId: id,
+						} as never,
+					},
+				},
+			},
+		},
+	]);
+
+	res.status(204).end();
 };

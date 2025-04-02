@@ -3,11 +3,9 @@ import { departmentRepo, userRepo } from "../../../config/repositories.js";
 
 export const getDoctorsDepartment = async (req: Request, res: Response) => {
 	const { id } = req.params;
-
 	if (!id || isNaN(parseInt(id))) throw Error("Invalid department Id");
 
 	const departmentId = parseInt(id);
-
 	const department = await departmentRepo.findOneBy({ id: departmentId });
 
 	if (!department) throw Error("No department Found");

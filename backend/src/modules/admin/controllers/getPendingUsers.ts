@@ -3,10 +3,6 @@ import { USER_STATUS } from "../../../utils/dataTypes.js";
 import { userRepo } from "../../../config/repositories.js";
 
 export const getPendingUsers = async (req: Request, res: Response) => {
-	const currentUserRole = req.user?.userRole;
-	if (!currentUserRole || currentUserRole !== "Admin")
-		throw new Error("access denied");
-
 	const users = await userRepo
 		.createQueryBuilder("user")
 		.leftJoinAndSelect("user.role", "role")

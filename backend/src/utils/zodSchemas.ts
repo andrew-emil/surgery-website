@@ -174,6 +174,7 @@ export const addSurgerySchema = z.object({
 	name: z.string(),
 	leadSurgeon: z.string(),
 	slots: z.number(),
+	procedureTypeId: z.number().positive(),
 	doctorsTeam: z
 		.array(
 			z.object({
@@ -190,8 +191,9 @@ export const addSurgerySchema = z.object({
 	date: z.string().refine((d) => !isNaN(Date.parse(d)), {
 		message: "Invalid date format",
 	}),
-	surgeryEquipments: z.array(z.number()),
 	time: z.string(),
+	estimatedEndTime: z.string(),
+	surgeryEquipments: z.array(z.number()),
 	cptCode: z.string(),
 	icdCode: z.string(),
 	patientBmi: z.number().optional(),
@@ -205,6 +207,7 @@ export const updateSurgerySchema = z.object({
 	departmentId: z.number().optional(),
 	name: z.string().optional(),
 	leadSurgeon: z.string().optional(),
+	procedureTypeId: z.number().positive().optional(),
 	doctorsTeam: z
 		.array(
 			z.object({
@@ -223,6 +226,7 @@ export const updateSurgerySchema = z.object({
 		})
 		.optional(),
 	time: z.string().optional(),
+	estimatedEndTime: z.string().optional(),
 	surgeryEquipments: z.array(z.number()).optional(),
 	cptCode: z.string().optional(),
 	icdCode: z.string().optional(),
@@ -284,8 +288,15 @@ export const addRoleSchema = z.object({
 	name: z.string(),
 	parentId: z.number(),
 	permissionActions: z.array(z.number()).min(1),
-	requiredSurgeryType: z.nativeEnum(SURGERY_TYPE),
-	requiredCount: z.number(),
+	procedureRequirements: z
+		.array(
+			z.object({
+				procedureTypeId: z.number(),
+				requiredCount: z.number().min(1),
+				category: z.nativeEnum(SURGERY_TYPE),
+			})
+		)
+		.min(1),
 });
 
 export const updateRoleSchema = z.object({
@@ -293,12 +304,39 @@ export const updateRoleSchema = z.object({
 	name: z.string().min(2).max(50).optional(),
 	parentId: z.number().positive().optional().nullable(),
 	permissions: z.array(z.number().positive()).optional(),
-	requiredSurgeryType: z.nativeEnum(SURGERY_TYPE).optional(),
-	requiredCount: z.number().optional(),
+	procedureRequirements: z
+		.array(
+			z.object({
+				id: z.number().positive().optional(),
+				procedureTypeId: z.number().positive(),
+				requiredCount: z.number().min(1),
+				category: z.nativeEnum(SURGERY_TYPE),
+			})
+		)
+		.optional(),
 });
 
 export const addRatingSchema = z.object({
 	surgeryId: z.number(),
 	stars: z.number().min(1).max(5),
 	comment: z.string().optional(),
+});
+
+export const recommendStaffSchema = z.object({
+	affiliationId: z.number().positive(),
+	departmentId: z.number().positive(),
+	date: z.string().refine((d) => !isNaN(Date.parse(d)), {
+		message: "Invalid date format",
+	}),
+	time: z.string(),
+});
+
+export const exportLogSchema = z.object({
+	format: z.string(),
+	startDate: z.string().refine((d) => !isNaN(Date.parse(d)), {
+		message: "Invalid date format",
+	}),
+	endDate: z.string().refine((d) => !isNaN(Date.parse(d)), {
+		message: "Invalid date format",
+	}),
 });

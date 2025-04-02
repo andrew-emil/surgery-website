@@ -1,15 +1,17 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-// import App from "./App.jsx";
-// import "./index.css";
-import { RouterProvider } from "react-router-dom";
-import router from "./router";
-import { ContextProvider } from "./context/contextprovider";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import "./index.css";
+// import { RouterProvider } from "react-router-dom";
+// import router from "./router";
+// import { ContextProvider } from "./context/contextprovider";
+// import {  ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@mui/material";
+import App from "./App";
+
 
 const theme = createTheme({
   palette: {
+    
     primary: {
       main: "#3674B5",
     },
@@ -34,7 +36,7 @@ const darkTheme = createTheme({
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ThemeProvider
+    {/* <ThemeProvider
       theme={theme}
       sx={{ height: "100%", bgColor: "secondary.main" }}
     >
@@ -42,6 +44,7 @@ createRoot(document.getElementById("root")).render(
       <ContextProvider>
         <RouterProvider router={router} />
       </ContextProvider>
-    </ThemeProvider>
+    </ThemeProvider> */}
+    <App/>
   </StrictMode>
 );

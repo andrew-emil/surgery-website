@@ -32,6 +32,7 @@ export default function Register() {
   const [err, setErr] = useState(null);
   const [redirectToOTP, setRedirectToOTP] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [isButtonloading, setIsButtonLoading] = useState(false);
   const [affiliation, setAffiliation] = useState(null);
   const [department, setDepartment] = useState("");
   const [role, setRole] = useState("");
@@ -57,7 +58,7 @@ export default function Register() {
     axiosClient
       .get("/roles")
       .then(({ data }) => {
-        setRoleData(data.roles);
+        setRoleData(data.data);
         setLoading(false);
       })
       .catch((err) => {
@@ -91,6 +92,8 @@ export default function Register() {
 
   const submit = (ev) => {
     ev.preventDefault();
+    setIsButtonLoading(true)
+    setErr("");
     if (passwordRef.current.value == confirmPasswordRef.current.value) {
       const payload = {
         first_name: firstnameRef.current.value,
@@ -117,9 +120,10 @@ export default function Register() {
           if (response) {
             setErr(response.data.message);
           }
-        });
+        }).finally(() => setIsButtonLoading(false))
     } else {
       setErr("Passwords do not match.");
+      setIsButtonLoading(false);
       console.log(err);
     }
   };
@@ -250,11 +254,11 @@ export default function Register() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {departmentData.map((department) => (
+                  {departmentData.length > 0 ?  departmentData.map((department) => (
                     <MenuItem key={department.id} value={department.id}>
                       {department.name}
                     </MenuItem>
-                  ))}
+                  )) : <MenuItem></MenuItem>}
                 </Select>
               </FormControl>
               <FormControl
@@ -287,6 +291,7 @@ export default function Register() {
             variant="contained"
             className="btn btn-black"
             type="submit"
+            loading={isButtonloading}
           >
             Sign-Up
           </FormButton>

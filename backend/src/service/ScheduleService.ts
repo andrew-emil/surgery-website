@@ -1,15 +1,14 @@
-import { Between, MongoRepository, Repository } from "typeorm";
+import { MongoRepository, Repository } from "typeorm";
 import { User } from "../entity/sql/User.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { STATUS, USER_STATUS } from "../utils/dataTypes.js";
+import { Affiliations } from "../entity/sql/Affiliations.js";
 
 interface AvailabilityEvent {
 	date: string;
 	time: string;
 	available: boolean;
 	color: string;
-	availableSlots: number;
-	surgeryStatus: string;
 }
 
 interface StaffRecommendation {
@@ -17,7 +16,6 @@ interface StaffRecommendation {
 		id: string;
 		firstName: string;
 		lastName: string;
-		residencyLevel?: number;
 	}>;
 }
 
@@ -54,202 +52,317 @@ export class ScheduleService {
 	): Promise<AvailabilityEvent[]> {
 		const { start, end } = this.getDateRange();
 
-		const timeSlots = [
-			"00:00",
-			"01:00",
-			"02:00",
-			"03:00",
-			"04:00",
-			"05:00",
-			"06:00",
-			"07:00",
-			"08:00",
-			"09:00",
-			"10:00",
-			"11:00",
-			"12:00",
-			"13:00",
-			"14:00",
-			"15:00",
-			"16:00",
-			"17:00",
-			"18:00",
-			"19:00",
-			"20:00",
-			"21:00",
-			"22:00",
-			"23:00",
-		];
-
+		// Query surgeries in the date range for the user.
 		const surgeries = await this.surgeryLogRepo.find({
-			where: { date: Between(start, end) },
-			select: ["date", "time", "doctorsTeam", "slots", "status"],
-		});
-
-		const userSurgeries = await this.surgeryLogRepo.find({
 			where: {
-				date: Between(start, end),
-				doctorsTeam: { $elemMatch: { doctorId: userId } },
+				date: { $gte: start, $lte: end },
+				$or: [{ "doctorsTeam.doctorId": userId }, { leadSurgeon: userId }],
 			},
-			select: ["date", "time"],
+			select: ["date", "time", "doctorsTeam", "slots", "esitmatedEndTime"],
+			order: {
+				date: "ASC",
+				time: "ASC",
+			},
 		});
 
-		const userBusySlots = new Set(
-			userSurgeries.map(
-				(s) => `${s.date.toISOString().split("T")[0]}_${s.time}`
-			)
+		const groupedResults = this.groupEventsByDay(surgeries, start, end);
+		return groupedResults;
+	}
+
+	async recommendStaff(
+		affiliation: Affiliations,
+		date: Date,
+		time: string
+	): Promise<StaffRecommendation> {
+		// Retrieve ongoing surgeries for the given date and time.
+		const ongoingSurgeries = await this.surgeryLogRepo.find({
+			where: {
+				status: { $eq: STATUS.ONGOING },
+				date,
+				time,
+			},
+			select: {
+				leadSurgeon: true,
+				doctorsTeam: true,
+			},
+		});
+
+		// Build list of users (doctor ids) already in an ongoing surgery.
+		const filteredUsers: string[] = [];
+		for (const surgery of ongoingSurgeries) {
+			filteredUsers.push(surgery.leadSurgeon);
+			const team = surgery.doctorsTeam.map((doctor) => doctor.doctorId);
+			filteredUsers.push(...team);
+		}
+
+		// Helper to create a base query builder for users.
+		const createBaseQB = () => {
+			const qb = this.userRepo
+				.createQueryBuilder("user")
+				.leftJoin("user.progress", "progress")
+				.leftJoin("user.affiliation", "affiliation")
+				.leftJoin("user.role", "role")
+				.where("user.account_status = :active", { active: USER_STATUS.ACTIVE })
+				.andWhere("role.name != :adminRole", { adminRole: "Admin" })
+				.orderBy("progress.completedCount", "DESC")
+				.select([
+					"user.id",
+					"user.first_name",
+					"user.last_name",
+					"user.picture",
+					"role.name",
+				]);
+
+			if (filteredUsers.length > 0) {
+				qb.andWhere("user.id NOT IN (:...filteredUsers)", { filteredUsers });
+			}
+
+			return qb;
+		};
+
+		// Create separate query builders for related and other users.
+		const qbRelated = createBaseQB().andWhere(
+			"affiliation.id = :affiliationId",
+			{ affiliationId: affiliation.id }
+		);
+		const qbOther = createBaseQB().andWhere(
+			"affiliation.id != :affiliationId",
+			{ affiliationId: affiliation.id }
 		);
 
-		const surgeryLookup: { [key: string]: any } = {};
-		surgeries.forEach((surgery) => {
-			const surgeryDate = surgery.date.toISOString().split("T")[0];
-			const key = `${surgeryDate}_${surgery.time}`;
-			surgeryLookup[key] = surgery;
+		// Execute both queries in parallel.
+		const [relatedUsers, otherUsers] = await Promise.all([
+			qbRelated.getMany(),
+			qbOther.getMany(),
+		]);
+
+		const staffRecommendation = this.addUsersToRecommendation(
+			relatedUsers,
+			otherUsers
+		);
+		return staffRecommendation;
+	}
+
+	async getConflictResolutionData(): Promise<DoctorConflict[]> {
+		const surgeries = await this.surgeryLogRepo.find({
+			where: { status: STATUS.ONGOING },
+			select: [
+				"surgeryId",
+				"doctorsTeam",
+				"date",
+				"time",
+				"status",
+				"leadSurgeon",
+			],
 		});
 
-		const results: AvailabilityEvent[] = [];
+		const doctorMap = this.getDoctorMap(surgeries);
+		const filteredDoctorsMap = this.filterDoctorsMap(doctorMap);
+		const doctorsMapWithNames = await this.getDoctorsName(filteredDoctorsMap);
 
-		const current = new Date(start);
+		// Filter to only include doctors with multiple conflicts and sort each conflict by date
+		return doctorsMapWithNames;
+	}
+
+	private groupEventsByDay(
+		surgeries: SurgeryLog[],
+		current: Date,
+		end: Date
+	): AvailabilityEvent[] {
+		const events: AvailabilityEvent[] = [];
+		let surgeryIndex = 0;
+
 		while (current <= end) {
 			const dayStr = current.toISOString().split("T")[0];
 
-			// For each predefined time slot, create an event.
-			for (const time of timeSlots) {
-				const key = `${dayStr}_${time}`;
-				const surgery = surgeryLookup[key];
+			// Gather surgeries for this day.
+			const daySurgeries: SurgeryLog[] = [];
+			while (
+				surgeryIndex < surgeries.length &&
+				new Date(surgeries[surgeryIndex].date).toISOString().split("T")[0] ===
+					dayStr
+			) {
+				daySurgeries.push(surgeries[surgeryIndex]);
+				surgeryIndex++;
+			}
 
-				if (surgery) {
-					// Compute available slots based on the surgery record.
-					const assignedDoctors = surgery.doctorsTeam?.length || 0;
-					const availableSlots = surgery.slots - assignedDoctors;
-					const isSurgeryAvailable =
-						availableSlots > 0 && surgery.status === STATUS.ONGOING;
-					const isUserAvailable = !userBusySlots.has(key);
-					const isAvailable = isSurgeryAvailable && isUserAvailable;
-
-					results.push({
+			// If no surgeries on this day, mark entire day as available.
+			if (daySurgeries.length === 0) {
+				events.push({
+					date: dayStr,
+					time: "00:00 - 24:00",
+					color: "green",
+					available: true,
+				});
+			} else {
+				// If first surgery does not start at midnight, add available period before it.
+				if (daySurgeries[0].time !== "00:00") {
+					events.push({
 						date: dayStr,
-						time,
-						available: isAvailable,
-						color: isAvailable ? "green" : "red",
-						availableSlots: isAvailable ? availableSlots : 0,
-						surgeryStatus: surgery.status,
-					});
-				} else {
-					// No surgery is scheduled for this time slot.
-					results.push({
-						date: dayStr,
-						time,
-						available: true,
+						time: `00:00 - ${daySurgeries[0].time}`,
 						color: "green",
-						// Set a default value for availableSlots. Adjust as necessary.
-						availableSlots: 1,
-						surgeryStatus: "AVAILABLE",
+						available: true,
 					});
 				}
+
+				// For each surgery, add its occupied period and any gap until the next surgery.
+				for (let i = 0; i < daySurgeries.length; i++) {
+					const surgery = daySurgeries[i];
+
+					// Add the surgery period.
+					events.push({
+						date: dayStr,
+						time: `${surgery.time} - ${surgery.esitmatedEndTime}`,
+						color: "red",
+						available: false,
+					});
+
+					// If there is a next surgery, and if there's a gap between the current surgery's estimated end time and the next surgery's start.
+					if (i < daySurgeries.length - 1) {
+						const nextSurgery = daySurgeries[i + 1];
+						if (surgery.esitmatedEndTime < nextSurgery.time) {
+							events.push({
+								date: dayStr,
+								time: `${surgery.esitmatedEndTime} - ${nextSurgery.time}`,
+								color: "green",
+								available: true,
+							});
+						}
+					} else {
+						// For the last surgery, if it doesn't end at the end of the day, add available period until day end.
+						if (
+							surgery.esitmatedEndTime !== "24:00" &&
+							surgery.esitmatedEndTime !== "23:59"
+						) {
+							events.push({
+								date: dayStr,
+								time: `${surgery.esitmatedEndTime} - 24:00`,
+								color: "green",
+								available: true,
+							});
+						}
+					}
+				}
 			}
+			// Move to the next day.
 			current.setDate(current.getDate() + 1);
 		}
 
-		return results;
+		return events;
 	}
 
-	async recommendStaff() {
-		const ongoingSurgeryLogs = await this.surgeryLogRepo.find({
-			where: {
-				status: STATUS.ONGOING,
-				doctorsTeam: { $exists: true, $ne: [] },
-			},
-			projection: { doctorsTeam: 1 },
-		});
+	private addUsersToRecommendation(relatedUsers: User[], otherUsers: User[]) {
+		const staffRecommendation: StaffRecommendation = {};
+		console.log(otherUsers);
+		relatedUsers.forEach((user) => {
+			const roleName = user.role?.name || "Unassigned";
 
-		const busyStaffIds = new Set<string>();
-		ongoingSurgeryLogs.forEach((surgery) => {
-			surgery.doctorsTeam?.forEach((doctor) => {
-				if (doctor.doctorId) busyStaffIds.add(doctor.doctorId);
+			if (!staffRecommendation[roleName]) {
+				staffRecommendation[roleName] = [];
+			}
+			staffRecommendation[roleName].push({
+				id: user.id,
+				firstName: user.first_name,
+				lastName: user.last_name,
 			});
 		});
 
-		const query = this.userRepo
-			.createQueryBuilder("user")
-			.leftJoinAndSelect("user.role", "role")
-			.where("user.account_status = :active", { active: USER_STATUS.ACTIVE });
+		otherUsers.forEach((user) => {
+			const roleName = user.role?.name || "Unassigned";
 
-		if (busyStaffIds.size > 0) {
-			query.andWhere("user.id NOT IN (:...busyStaffIds)", {
-				busyStaffIds: Array.from(busyStaffIds),
+			if (!staffRecommendation[roleName]) {
+				staffRecommendation[roleName] = [];
+			}
+			staffRecommendation[roleName].push({
+				id: user.id,
+				firstName: user.first_name,
+				lastName: user.last_name,
 			});
-		}
-
-		const availableStaff = await query
-			.select([
-				"user.id",
-				"user.first_name",
-				"user.last_name",
-				"user.residencyLevel",
-				"role.name",
-			])
-			.getMany();
-
-		const groupedStaff = availableStaff.reduce<StaffRecommendation>(
-			(acc, user) => {
-				const expertise = user.role?.name || "Unknown";
-				const staffInfo = {
-					id: user.id,
-					firstName: user.first_name,
-					lastName: user.last_name,
-					residencyLevel: user.residencyLevel,
-				};
-
-				if (!acc[expertise]) {
-					acc[expertise] = [];
-				}
-				acc[expertise] = acc[expertise] || [];
-				acc[expertise].push(staffInfo);
-				return acc;
-			},
-			{}
-		);
-
-		return groupedStaff;
+		});
+		return staffRecommendation;
 	}
 
-	async getConflictResolutionData() {
-		const surgeries = await this.surgeryLogRepo.find({
-			where: { status: STATUS.ONGOING },
-			select: ["surgeryId", "doctorsTeam", "date", "time", "status"],
-		});
-
+	private getDoctorMap(surgeries: SurgeryLog[]): Map<string, DoctorConflict> {
 		const doctorMap = new Map<string, DoctorConflict>();
 
 		surgeries.forEach((surgery) => {
-			surgery.doctorsTeam?.forEach((doctor) => {
-				if (!doctor.doctorId) return;
+			const conflictDetail = {
+				surgeryId: surgery.surgeryId,
+				date: surgery.date,
+				time: surgery.time,
+				status: surgery.status,
+			};
 
-				const conflictEntry = doctorMap.get(doctor.doctorId) || {
-					doctorId: doctor.doctorId,
-					doctorName: "", // Would need additional data to populate names
-					conflicts: [],
+			if (surgery.doctorsTeam) {
+				surgery.doctorsTeam.forEach((doctor) => {
+					if (!doctor.doctorId) return;
+
+					const existingEntry = doctorMap.get(doctor.doctorId) || {
+						doctorId: doctor.doctorId,
+						doctorName: "", // This will be updated later via getDoctorsName
+						conflicts: [] as DoctorConflict["conflicts"],
+					};
+
+					existingEntry.conflicts.push(conflictDetail);
+					doctorMap.set(doctor.doctorId, existingEntry);
+				});
+			}
+
+			if (surgery.leadSurgeon) {
+				const leadId = surgery.leadSurgeon;
+
+				const existingEntry = doctorMap.get(leadId) || {
+					doctorId: leadId,
+					doctorName: "",
+					conflicts: [] as DoctorConflict["conflicts"],
 				};
 
-				conflictEntry.conflicts.push({
-					surgeryId: surgery.surgeryId,
-					date: surgery.date,
-					time: surgery.time,
-					status: surgery.status,
-				});
-
-				doctorMap.set(doctor.doctorId, conflictEntry);
-			});
+				existingEntry.conflicts.push(conflictDetail);
+				doctorMap.set(leadId, existingEntry);
+			}
 		});
 
-		return Array.from(doctorMap.values())
+		return doctorMap;
+	}
+
+	private filterDoctorsMap(
+		doctorMap: Map<string, DoctorConflict>
+	): DoctorConflict[] {
+		const filteredDoctorsMap = Array.from(doctorMap.values())
 			.filter((entry) => entry.conflicts.length > 1)
 			.map((entry) => ({
 				...entry,
-				conflicts: entry.conflicts.sort(
-					(a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-				),
+				conflicts: entry.conflicts.sort((a, b) => {
+					// Combine date and time for more accurate sorting
+					const dateTimeA = new Date(`${a.date.toISOString()} ${a.time}`);
+					const dateTimeB = new Date(`${b.date.toISOString()} ${b.time}`);
+					return dateTimeA.getTime() - dateTimeB.getTime();
+				}),
 			}));
+
+		return filteredDoctorsMap;
+	}
+
+	private async getDoctorsName(
+		doctorConflicts: DoctorConflict[]
+	): Promise<DoctorConflict[]> {
+		return Promise.all(
+			doctorConflicts.map(async (entry) => {
+				const doctorId = entry.doctorId;
+				const doctor = await this.userRepo.findOne({
+					where: { id: doctorId },
+					select: ["first_name", "last_name"],
+				});
+
+				const doctorName = doctor
+					? `Dr. ${doctor.first_name} ${doctor.last_name}`
+					: "";
+
+				return {
+					...entry,
+					doctorName,
+				};
+			})
+		);
 	}
 }

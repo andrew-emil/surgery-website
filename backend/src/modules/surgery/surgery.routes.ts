@@ -7,20 +7,29 @@ import { searchSurgery } from "./controllers/searchSurgery.js";
 import { deleteSurgery } from "./controllers/deleteSurgery.js";
 import { updateSurgery } from "./controllers/updateSurgery.js";
 import { getSurgeriesWithOpenSlots } from "./controllers/getSurgeriesWithOpenSlots.js";
+import { authUser } from "../../middlewares/authMiddleware.js";
 
 const surgeryRoutes = Router();
 
 surgeryRoutes.get("/get-surgrey/:id", getSurgery);
 surgeryRoutes.get("/search", searchSurgery);
-surgeryRoutes.get("/open-slots", getSurgeriesWithOpenSlots);
+surgeryRoutes.get(
+	"/open-slots",
+	authUser(["Admin", "Consultant"]),
+	getSurgeriesWithOpenSlots
+);
 
 //middleware
 surgeryRoutes.use(auditLogger());
 
 //routes
-surgeryRoutes.post("/", addSurgery);
-surgeryRoutes.post("/post-surgery", addPostSurgery);
-surgeryRoutes.delete("/:id", deleteSurgery);
-surgeryRoutes.put("/", updateSurgery);
+surgeryRoutes.post("/", authUser(["Admin", "Consultant"]), addSurgery);
+surgeryRoutes.post(
+	"/post-surgery",
+	authUser(["Admin", "Consultant"]),
+	addPostSurgery
+);
+surgeryRoutes.delete("/:id", authUser(["Admin", "Consultant"]), deleteSurgery);
+surgeryRoutes.put("/", authUser(["Admin", "Consultant"]), updateSurgery);
 
 export default surgeryRoutes;
