@@ -27,6 +27,8 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useStateContext } from "../context/contextprovider";
+import DarkModeButton from "./darkmodeButton";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -320,6 +322,8 @@ export default function MiniDrawer() {
                 <NotificationsIcon />
               </Badge>
             </IconButton>
+            <DarkModeButton></DarkModeButton>
+            {/* here is the profile icon you need to replace it with the profile photo */}
             <IconButton
               size="large"
               edge="end"
