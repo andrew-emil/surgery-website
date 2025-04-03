@@ -10,6 +10,7 @@ import {
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../context/contextprovider";
 import { Typography, Alert, AlertTitle } from "@mui/material";
+import DarkModeButton from "./../components/darkmodeButton";
 
 export default function Login() {
   const emailRef = useRef();
@@ -50,7 +51,7 @@ export default function Login() {
     return <Navigate to="/otp" />;
   }
   return (
-    <FormContainer>
+    <FormContainer sx={{ display: "flex", flexDirection: "column" }}>
       <FormCard>
         {err && (
           <Alert severity="error" sx={{ marginBottom: "1rem" }}>
@@ -100,6 +101,7 @@ export default function Login() {
           </Typography>
         </form>
       </FormCard>
+      <DarkModeButton></DarkModeButton>
     </FormContainer>
   );
 }

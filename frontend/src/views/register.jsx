@@ -20,6 +20,7 @@ import {
   Skeleton,
 } from "@mui/material";
 import { useStateContext } from "../context/contextprovider";
+import DarkModeButton from "./../components/darkmodeButton";
 
 export default function Register() {
   const firstnameRef = useRef();
@@ -92,7 +93,7 @@ export default function Register() {
 
   const submit = (ev) => {
     ev.preventDefault();
-    setIsButtonLoading(true)
+    setIsButtonLoading(true);
     setErr("");
     if (passwordRef.current.value == confirmPasswordRef.current.value) {
       const payload = {
@@ -120,7 +121,8 @@ export default function Register() {
           if (response) {
             setErr(response.data.message);
           }
-        }).finally(() => setIsButtonLoading(false))
+        })
+        .finally(() => setIsButtonLoading(false));
     } else {
       setErr("Passwords do not match.");
       setIsButtonLoading(false);
@@ -142,7 +144,7 @@ export default function Register() {
     return <Navigate to="/otp" />;
   }
   return (
-    <FormContainer className="login-signup-form animated fadinDown">
+    <FormContainer sx={{ display: "flex", flexDirection: "column" }}>
       <FormCard variant={"register"} className="form">
         {err && (
           <Alert severity="error" sx={{ marginBottom: "1rem" }}>
@@ -254,11 +256,15 @@ export default function Register() {
                   <MenuItem value="">
                     <em>None</em>
                   </MenuItem>
-                  {departmentData.length > 0 ?  departmentData.map((department) => (
-                    <MenuItem key={department.id} value={department.id}>
-                      {department.name}
-                    </MenuItem>
-                  )) : <MenuItem></MenuItem>}
+                  {departmentData.length > 0 ? (
+                    departmentData.map((department) => (
+                      <MenuItem key={department.id} value={department.id}>
+                        {department.name}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem></MenuItem>
+                  )}
                 </Select>
               </FormControl>
               <FormControl
@@ -304,6 +310,7 @@ export default function Register() {
           Already Have An Account? <Link to="/login">Login</Link>
         </Typography>
       </FormCard>
+      <DarkModeButton></DarkModeButton>
     </FormContainer>
   );
 }
