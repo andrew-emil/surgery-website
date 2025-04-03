@@ -58,15 +58,9 @@ export const registerSchema = z.object({
 			/[^a-zA-Z0-9]/,
 			"Password must contain at least one special character"
 		),
-	roleId: z.number().positive(),
-	residencyLevel: z
-		.number()
-		.int("Residency level must be an integer")
-		.min(1, "Residency level must be between 1-6")
-		.max(6, "Residency level must be between 1-6")
-		.optional(),
-	affiliationId: z.number().positive(),
-	departmentId: z.number().positive(),
+	roleId: z.string(),
+	affiliationId: z.string(),
+	departmentId: z.string(),
 });
 
 export const updateAccountSchema = z

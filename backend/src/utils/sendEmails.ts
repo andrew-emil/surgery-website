@@ -1,4 +1,4 @@
-import { transporter } from "../config/nodeMailerConfig.js";
+// import { transporter } from "../config/nodeMailerConfig.js";
 import {
 	ACCOUNT_UPDATE_TEMPLATE,
 	PASSWORD_RESET_REQUEST_TEMPLATE,
@@ -6,37 +6,51 @@ import {
 	ACCOUNT_APPROVED_TEMPLATE,
 	ACCOUNT_REJECTED_TEMPLATE,
 } from "./emailTemplate.js";
+import { mail, sender } from "../config/nodeMailerConfig.js";
+import logger from "../config/loggerConfig.js";
 
-const sender = process.env.SENDER_EMAILS 
+const senderEmail = process.env.SENDER_EMAILS;
 
 export const sendVerificationEmails = async (to: string, otp: string) => {
 	try {
-		const response = await transporter.sendMail({
+		//await transporter.sendMail({
+		// 	from: senderEmail,
+		// 	to,
+		// 	subject: "Verify your email",
+		// 	html: VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", otp),
+		// });
+
+		await mail.sendMail({
 			from: sender,
 			to,
 			subject: "Verify your email",
 			html: VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", otp),
+			// sandbox: true,
 		});
-
-		console.log("Email sent successfully", response);
 	} catch (error) {
-		console.error(error);
+		logger.error("Error sending email: ", error);
 		throw Error(error.message);
 	}
 };
 
 export const sendResetEmail = async (to: string, resetLink: string) => {
 	try {
-		const response = await transporter.sendMail({
+		// await transporter.sendMail({
+		// 	from: senderEmail,
+		// 	to,
+		// 	subject: "Reset password request",
+		// 	html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetLink),
+		// });
+
+		await mail.sendMail({
 			from: sender,
 			to,
 			subject: "Reset password request",
 			html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetLink),
+			// sandbox: true,
 		});
-
-		console.log("Email sent successfully", response);
 	} catch (error) {
-		console.error(error);
+		logger.error("Error sending email: ", error);
 		throw Error(error.message);
 	}
 };
@@ -53,7 +67,6 @@ export const sendAccountUpdateEmail = async (
 	try {
 		let emailContent = ACCOUNT_UPDATE_TEMPLATE;
 
-		// Replace only the placeholders that have updated values
 		if (updatedFields.firstName) {
 			emailContent = emailContent.replace(
 				"{{firstName}}",
@@ -78,23 +91,38 @@ export const sendAccountUpdateEmail = async (
 
 		emailContent = emailContent.replace(/{{\w+}}/g, "Not updated");
 
-		const response = await transporter.sendMail({
+		// await transporter.sendMail({
+		// 	from: senderEmail,
+		// 	to,
+		// 	subject: "Your Account Has Been Updated",
+		// 	html: emailContent,
+		// });
+
+		await mail.sendMail({
 			from: sender,
 			to,
 			subject: "Your Account Has Been Updated",
 			html: emailContent,
+			// sandbox: true,
 		});
-
-		console.log("Account update email sent successfully", response);
 	} catch (error) {
-		console.error("Error sending account update email:", error);
+		logger.error("Error sending email: ", error);
 		throw Error(error.message);
 	}
 };
 
 export const sendAccountApprovalEmails = async (to: string) => {
 	try {
-		await transporter.sendMail({
+		// await transporter.sendMail({
+		// 	from: senderEmail,
+		// 	to,
+		// 	subject: "Your Account Has Been Approved",
+		// 	html: ACCOUNT_APPROVED_TEMPLATE.replace(
+		// 		"{loginUrl}",
+		// 		`${process.env.BASE_URL}/login`
+		// 	),
+		// });
+		await mail.sendMail({
 			from: sender,
 			to,
 			subject: "Your Account Has Been Approved",
@@ -102,9 +130,10 @@ export const sendAccountApprovalEmails = async (to: string) => {
 				"{loginUrl}",
 				`${process.env.BASE_URL}/login`
 			),
+			// sandbox: true,
 		});
 	} catch (error) {
-		console.error("Error sending account update email:", error);
+		logger.error("Error sending account update email:", error);
 		throw Error(error.message);
 	}
 };
@@ -114,7 +143,16 @@ export const sendAccountRejectionEmails = async (
 	rejectionReason: string
 ) => {
 	try {
-		await transporter.sendMail({
+		// await transporter.sendMail({
+		// 	from: senderEmail,
+		// 	to,
+		// 	subject: "Your Account Has Been Rejected",
+		// 	html: ACCOUNT_REJECTED_TEMPLATE.replace(
+		// 		"{rejectionReason}",
+		// 		rejectionReason
+		// 	),
+		// });
+		await mail.sendMail({
 			from: sender,
 			to,
 			subject: "Your Account Has Been Rejected",
@@ -122,9 +160,10 @@ export const sendAccountRejectionEmails = async (
 				"{rejectionReason}",
 				rejectionReason
 			),
+			// sandbox: true,
 		});
 	} catch (error) {
-		console.error("Error sending account update email:", error);
+		logger.error("Error sending email: ", error);
 		throw Error(error.message);
 	}
 };

@@ -23,6 +23,10 @@ export const register = async (req: Request, res: Response) => {
 	const data = validation.data;
 	const picture = req.file?.buffer;
 
+	const roleId = Number(data.roleId);
+	const affiliationId = Number(data.affiliationId);
+	const departmentId = Number(data.departmentId);
+
 	const existingUser = await userRepo.findOneBy([
 		{ email: data.email },
 		{ phone_number: data.phone_number },
@@ -40,18 +44,18 @@ export const register = async (req: Request, res: Response) => {
 	}
 
 	const affiliation = await affiliationRepo.findOneBy({
-		id: data.affiliationId,
+		id: affiliationId,
 	});
 
 	if (!affiliation) throw Error("Affiliation Not Found");
 
 	const department = await departmentRepo.findOneBy({
-		id: data.departmentId,
+		id: departmentId,
 	});
 	if (!department) throw Error("Department Not Found");
 
 	const role = await roleRepo.findOneBy({
-		id: data.roleId,
+		id: roleId,
 	});
 	if (!role) throw Error("Role Not Found");
 

@@ -13,7 +13,6 @@ export const getRoleRequirment = async (req: Request, res: Response) => {
 			"parent",
 			"parent.requirements",
 			"parent.requirements.procedure",
-			"parent.requirements.procedure.category",
 		],
 	});
 

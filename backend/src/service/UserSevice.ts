@@ -64,8 +64,10 @@ export class UserService {
 		console.log("Generated OTP:", otp);
 
 		user.otp_secret = hashedOtp;
-		await this.userRepo.save(user);
-		await sendVerificationEmails(user.email, otp);
+		
+		await	this.userRepo.save(user);
+			await sendVerificationEmails(user.email, otp);
+		
 
 		return {
 			success: true,

@@ -7,24 +7,25 @@ export const getUserData = async (req: Request, res: Response) => {
 	const userId = req.user?.id;
 
 	const user = await userRepo.findOne({
-		where: {
-			id: userId,
-		},
+		where: { id: userId },
 		relations: {
 			department: true,
 			affiliation: true,
 		},
 		select: {
+			id: true,
 			email: true,
+			phone_number: true,
 			department: {
+				id: true,
 				name: true,
 			},
 			affiliation: {
+				id: true,
 				name: true,
 				address: true,
 				city: true,
 			},
-			phone_number: true,
 		},
 	});
 

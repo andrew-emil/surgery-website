@@ -2,19 +2,19 @@ import { useState, useEffect } from "react";
 import { FormCard, FormContainer } from "../components/StyledComponents";
 import axiosClient from "../axiosClient";
 import { useStateContext } from "../context/contextprovider";
-import { Skeleton } from "@mui/material";
+import { Avatar, Skeleton } from "@mui/material";
 
 export default function MyAccount() {
 	const [userData, setUserData] = useState(null);
 	const [userProgress, setUserProgress] = useState(null);
 	const [userRoleRequirment, setUserRoleRequirment] = useState(null);
 	const [isPageLoading, setIsPageLoading] = useState(true);
-	const { user } = useStateContext();
+	const { token, user } = useStateContext();
 
 	useEffect(() => {
 		setIsPageLoading(true);
 		axiosClient
-			.get("/users/")
+			.get("/users/", { withCredentials: true })
 			.then(({ data }) => {
 				setUserData(data.user);
 			})
@@ -26,7 +26,7 @@ export default function MyAccount() {
 	useEffect(() => {
 		setIsPageLoading(true);
 		axiosClient
-			.get("/users/training/progress")
+			.get("/users/training/progress", { withCredentials: true })
 			.then(({ data }) => {
 				setUserProgress(data.progress);
 			})
@@ -38,7 +38,7 @@ export default function MyAccount() {
 	useEffect(() => {
 		setIsPageLoading(true);
 		axiosClient
-			.get("/roles/requirements")
+			.get("/users/roles/requirements", { withCredentials: true })
 			.then(({ data }) => {
 				setUserRoleRequirment(data.requirements);
 			})
@@ -47,6 +47,13 @@ export default function MyAccount() {
 			})
 			.finally(() => setIsPageLoading(false));
 	}, []);
+
+	const convertUserImage = (pic) => {
+		// eslint-disable-next-line no-undef
+		const base64String = Buffer.from(pic).toString("base64");
+		const imageUrl = `data:image/jpeg;base64,${base64String}`;
+		return imageUrl;
+	};
 
 	if (isPageLoading) {
 		return (
@@ -57,10 +64,14 @@ export default function MyAccount() {
 	}
 	return (
 		<FormContainer>
-			<FormCard>{user}</FormCard>
-			<FormCard>{userData}</FormCard>
-			<FormCard>{userProgress}</FormCard>
-			<FormCard>{userRoleRequirment}</FormCard>
+			{
+				<Avatar
+					alt={`${userData.first_name}`}
+					src={convertUserImage(user.picture.data)}
+					sx={{ width: 60, height: 60 }}
+				/>
+			}
+			
 		</FormContainer>
 	);
 }
