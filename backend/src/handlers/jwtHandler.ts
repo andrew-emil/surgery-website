@@ -34,7 +34,7 @@ export const createJWTtoken = async (
 			$or: [{ "doctorsTeam.doctorId": user.id }, { leadSurgeon: user.id }],
 		},
 	});
-	const permissions = user.role?.permissions?.map((perm) => perm.action) || null;
+	const permissions = user.role.permissions?.map((perm) => perm.action) || null;
 
 	let names: Promise<string>[];
 	if (surgeries.length > 0) {
