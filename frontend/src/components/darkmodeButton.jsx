@@ -61,13 +61,13 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   },
 }));
 export default function DarkModeButton() {
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const { setSettings } = useStateContext();
+  const { setSettings, settings } = useStateContext();
+  const [isDarkMode, setIsDarkMode] = useState(settings.theme === "dark");
   const handleToggle = () => {
     const newMode = isDarkMode ? "light" : "dark";
     setSettings(newMode);
     setIsDarkMode(!isDarkMode);
-    console.log("Dark mode is now", newMode);
+    // console.log("Dark mode is now", newMode);
   };
 
   return (
