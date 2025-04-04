@@ -1,5 +1,6 @@
 import { useContext, useState, createContext, useCallback } from "react";
 import Cookies from "js-cookie";
+// import * as jose from "jose";
 
 const StateContext = createContext({
   user: null,
@@ -12,7 +13,15 @@ const StateContext = createContext({
 
 // eslint-disable-next-line react/prop-types
 export const ContextProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, _setUser] = useState(() => {
+    const cookieValue = Cookies.get("USER");
+    try {
+      return cookieValue ? JSON.parse(cookieValue) : null;
+    } catch (err) {
+      console.error("Failed to parse user cookie", err);
+      return null;
+    }
+  });
   const [token, _setToken] = useState(Cookies.get("ACCESS_TOKEN") || null);
   const [settings, _setSettings] = useState(() => {
     const savedSettings = localStorage.getItem("user_settings");
@@ -20,6 +29,18 @@ export const ContextProvider = ({ children }) => {
       ? JSON.parse(savedSettings)
       : { theme: "light", language: "en" };
   });
+  const setUser = (user) => {
+    _setUser(user);
+    if (user) {
+      Cookies.set("USER", JSON.stringify(user), {
+        expires: 30,
+        secure: false,
+        path: "/",
+      });
+    } else {
+      Cookies.remove("USER");
+    }
+  };
 
   const setToken = (token) => {
     _setToken(token);

@@ -1514,3 +1514,74 @@
 {"level":"info","message":"\u001b[0mGET /api/users/ \u001b[36m304\u001b[0m 35.031 ms - -\u001b[0m","timestamp":"2025-04-03T18:38:58.424Z"}
 {"level":"info","message":"\u001b[0mGET /api/users/training/progress \u001b[36m304\u001b[0m 17.090 ms - -\u001b[0m","timestamp":"2025-04-03T18:38:58.672Z"}
 {"level":"info","message":"\u001b[0mGET /api/users/roles/requirements \u001b[36m304\u001b[0m 16.065 ms - -\u001b[0m","timestamp":"2025-04-03T18:38:58.708Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-03T21:46:10.596Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-03T21:46:10.667Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-03T21:46:10.718Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-03T21:46:10.727Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 2.118 ms - 0\u001b[0m","timestamp":"2025-04-03T21:48:53.232Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 3093.125 ms - 71\u001b[0m","timestamp":"2025-04-03T21:48:56.352Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.391 ms - 0\u001b[0m","timestamp":"2025-04-03T21:49:07.903Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 117.174 ms - 50\u001b[0m","timestamp":"2025-04-03T21:49:08.027Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.389 ms - 0\u001b[0m","timestamp":"2025-04-03T21:49:31.773Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 19.398 ms - 50\u001b[0m","timestamp":"2025-04-03T21:49:31.802Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 13.815 ms - 50\u001b[0m","timestamp":"2025-04-03T21:49:32.728Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.325 ms - 0\u001b[0m","timestamp":"2025-04-03T21:50:26.210Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 6577.308 ms - 71\u001b[0m","timestamp":"2025-04-03T21:50:32.794Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.344 ms - 0\u001b[0m","timestamp":"2025-04-03T21:51:15.089Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 106.429 ms - 50\u001b[0m","timestamp":"2025-04-03T21:51:15.200Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.409 ms - 0\u001b[0m","timestamp":"2025-04-03T22:03:37.142Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 3565.495 ms - 71\u001b[0m","timestamp":"2025-04-03T22:03:40.712Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.204 ms - 0\u001b[0m","timestamp":"2025-04-03T22:03:54.496Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 106.248 ms - 50\u001b[0m","timestamp":"2025-04-03T22:03:54.607Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.231 ms - 0\u001b[0m","timestamp":"2025-04-03T22:06:01.950Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 3055.124 ms - 71\u001b[0m","timestamp":"2025-04-03T22:06:05.010Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.334 ms - 0\u001b[0m","timestamp":"2025-04-03T22:06:12.268Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 117.238 ms - 50\u001b[0m","timestamp":"2025-04-03T22:06:12.390Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.333 ms - 0\u001b[0m","timestamp":"2025-04-03T22:07:28.440Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 2730.617 ms - 71\u001b[0m","timestamp":"2025-04-03T22:07:31.177Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.299 ms - 0\u001b[0m","timestamp":"2025-04-03T22:07:36.346Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[32m200\u001b[0m 116.993 ms - 417\u001b[0m","timestamp":"2025-04-03T22:07:36.467Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.491 ms - 0\u001b[0m","timestamp":"2025-04-03T22:17:49.350Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 4013.502 ms - 71\u001b[0m","timestamp":"2025-04-03T22:17:53.370Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.232 ms - 0\u001b[0m","timestamp":"2025-04-03T22:18:00.761Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[32m200\u001b[0m 109.610 ms - 417\u001b[0m","timestamp":"2025-04-03T22:18:00.876Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.304 ms - 0\u001b[0m","timestamp":"2025-04-03T22:18:25.825Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 4344.616 ms - 71\u001b[0m","timestamp":"2025-04-03T22:18:30.174Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.566 ms - 0\u001b[0m","timestamp":"2025-04-03T22:18:34.977Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[32m200\u001b[0m 108.157 ms - 417\u001b[0m","timestamp":"2025-04-03T22:18:35.090Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.410 ms - 0\u001b[0m","timestamp":"2025-04-03T22:22:50.320Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 15256.317 ms - 71\u001b[0m","timestamp":"2025-04-03T22:23:05.581Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.232 ms - 0\u001b[0m","timestamp":"2025-04-03T22:23:08.577Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[32m200\u001b[0m 103.485 ms - 417\u001b[0m","timestamp":"2025-04-03T22:23:08.685Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.181 ms - 0\u001b[0m","timestamp":"2025-04-03T22:26:49.834Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 4490.771 ms - 71\u001b[0m","timestamp":"2025-04-03T22:26:54.329Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.190 ms - 0\u001b[0m","timestamp":"2025-04-03T22:27:00.584Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[32m200\u001b[0m 103.984 ms - 417\u001b[0m","timestamp":"2025-04-03T22:27:00.692Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.478 ms - 0\u001b[0m","timestamp":"2025-04-03T22:30:08.322Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 3694.434 ms - 71\u001b[0m","timestamp":"2025-04-03T22:30:12.021Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 1.039 ms - 0\u001b[0m","timestamp":"2025-04-03T22:30:23.242Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[32m200\u001b[0m 122.234 ms - 417\u001b[0m","timestamp":"2025-04-03T22:30:23.372Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.369 ms - 0\u001b[0m","timestamp":"2025-04-03T22:38:45.934Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 3079.108 ms - 71\u001b[0m","timestamp":"2025-04-03T22:38:49.018Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.159 ms - 0\u001b[0m","timestamp":"2025-04-03T22:42:46.043Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 2598.428 ms - 71\u001b[0m","timestamp":"2025-04-03T22:42:48.645Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.219 ms - 0\u001b[0m","timestamp":"2025-04-03T22:42:53.818Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 49.630 ms - 259\u001b[0m","timestamp":"2025-04-03T22:42:53.872Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.347 ms - 0\u001b[0m","timestamp":"2025-04-03T22:47:36.300Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 3842.532 ms - 71\u001b[0m","timestamp":"2025-04-03T22:47:40.148Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.305 ms - 0\u001b[0m","timestamp":"2025-04-03T22:47:45.219Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 51.682 ms - 259\u001b[0m","timestamp":"2025-04-03T22:47:45.276Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-03T22:49:12.203Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-03T22:49:12.297Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-03T22:49:12.355Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-03T22:49:12.368Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 10.009 ms - 0\u001b[0m","timestamp":"2025-04-03T22:49:53.264Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 2822.447 ms - 71\u001b[0m","timestamp":"2025-04-03T22:49:56.162Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-03T22:52:44.136Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-03T22:52:44.289Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-03T22:52:44.393Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-03T22:52:44.441Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 2.315 ms - 0\u001b[0m","timestamp":"2025-04-03T22:52:55.772Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 3645.583 ms - 71\u001b[0m","timestamp":"2025-04-03T22:52:59.444Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/verify \u001b[32m204\u001b[0m 0.276 ms - 0\u001b[0m","timestamp":"2025-04-03T22:53:07.564Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/verify \u001b[31m500\u001b[0m 87.456 ms - 259\u001b[0m","timestamp":"2025-04-03T22:53:07.658Z"}
