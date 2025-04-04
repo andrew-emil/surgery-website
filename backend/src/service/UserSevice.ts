@@ -8,20 +8,22 @@ import { User } from "../entity/sql/User.js";
 import { createJWTtoken } from "../handlers/jwtHandler.js";
 import { HashFunctions } from "../utils/hashFunction.js";
 import { Repository } from "typeorm";
+import { USER_STATUS } from "../utils/dataTypes.js";
 
 export class UserService {
 	private MAX_FAILED_ATTEMPTS = 5;
 	private LOCK_TIME_MINUTES = 60;
 
-	constructor(
-		private userRepo: Repository<User>
-	){}
+	constructor(private userRepo: Repository<User>) {}
 
 	async login(
 		email: string,
 		password: string
 	): Promise<{ success: boolean; user?: User; message?: string }> {
-		const user = await this.userRepo.findOneBy({ email });
+		const user = await this.userRepo.findOneBy({
+			email,
+			account_status: USER_STATUS.ACTIVE,
+		});
 
 		if (!user) return { success: false, message: "Invalid credentials" };
 
@@ -64,10 +66,9 @@ export class UserService {
 		console.log("Generated OTP:", otp);
 
 		user.otp_secret = hashedOtp;
-		
-		await	this.userRepo.save(user);
-			await sendVerificationEmails(user.email, otp);
-		
+
+		await this.userRepo.save(user);
+		// await sendVerificationEmails(user.email, otp);
 
 		return {
 			success: true,
@@ -156,17 +157,17 @@ export class UserService {
 			await this.userRepo.save({ ...user, ...updatedUser });
 		}
 
-		await sendAccountUpdateEmail(user.email, updatedUser);
+		// await sendAccountUpdateEmail(user.email, updatedUser);
 
-		const { token, formatedSurgeries } = await createJWTtoken(user, false);
+		const token = await createJWTtoken(user, false);
 
-		return { success: true, token, formatedSurgeries };
+		return { success: true, token };
 	}
 
 	async verify2FA(email: string, otp: string) {
 		const user = await this.userRepo.findOne({
 			where: { email },
-			relations: ["role"],
+			relations: ["role", "role.permissions"],
 		});
 		if (!user) {
 			return { success: false, message: "User Not Found" };
@@ -208,8 +209,8 @@ export class UserService {
 		user.last_login = new Date();
 		await this.userRepo.save(user);
 
-		const { token, formatedSurgeries } = await createJWTtoken(user, firstLogin);
+		const token = await createJWTtoken(user, firstLogin);
 
-		return { success: true, token, formatedSurgeries };
+		return { success: true, token };
 	}
 }

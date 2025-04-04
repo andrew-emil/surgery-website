@@ -14,9 +14,8 @@ export const verify2FA = async (req: Request, res: Response) => {
 	}
 
 	res.status(200).json({
-		success: true,
+		success: result.success,
 		message: "Verification successful",
 		token: result.token,
-		surgeries: result.formatedSurgeries,
 	});
 };

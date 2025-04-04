@@ -28,6 +28,5 @@ export const updateAccount = async (req: Request, res: Response) => {
 		success: true,
 		message: "Account updated successfully",
 		token: result.token,
-		surgeries: result.formatedSurgeries,
 	});
 };

@@ -48,7 +48,7 @@ export const ContextProvider = ({ children }) => {
       Cookies.set("ACCESS_TOKEN", token, {
         expires: 30,
         secure: false, //only for production == true
-        // sameSite: "Strict",
+        sameSite: "Lax",
         path: "/",
       });
     } else {
