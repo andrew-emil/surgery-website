@@ -37,7 +37,7 @@ export class TrainingService {
 		// Handle roles with no requirements
 		if (!user.role.requirements?.length) {
 			return {
-				overallStatus: "NOT_REQUIRED",
+				overallStatus: "Fully Qualified",
 				requirements: [],
 				totalCompleted: 0,
 				totalRequired: 0,
@@ -89,10 +89,10 @@ export class TrainingService {
 
 		// Determine overall status
 		const overallStatus = requirementsProgress.every((r) => r.met)
-			? "FULLY_QUALIFIED"
+			? "Fully Qualified"
 			: requirementsProgress.some((r) => r.met)
-			? "PARTIALLY_QUALIFIED"
-			: "NOT_QUALIFIED";
+			? "Partially Qualified"
+			: "Not Qualified";
 
 		return {
 			overallStatus,
@@ -360,7 +360,7 @@ export class TrainingService {
 
 	private emptyProgressResponse(): TrainingProgress {
 		return {
-			overallStatus: "NOT_REQUIRED",
+			overallStatus: "Fully Qualified",
 			requirements: [],
 			totalCompleted: 0,
 			totalRequired: 0,

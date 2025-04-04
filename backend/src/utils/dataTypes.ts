@@ -3,7 +3,6 @@ export interface JWTPayload {
 	userRole: string;
 	permissions: string[];
 	name: string;
-	picture: Buffer;
 	tokenVersion: number;
 	first_login: boolean;
 }
@@ -81,10 +80,9 @@ export enum SURGERY_TYPE {
 
 export interface TrainingProgress {
 	overallStatus:
-		| "FULLY_QUALIFIED"
-		| "PARTIALLY_QUALIFIED"
-		| "NOT_QUALIFIED"
-		| "NOT_REQUIRED";
+		| "Fully Qualified"
+		| "Partially Qualified"
+		| "Not Qualified"
 	requirements: Array<{
 		procedureId: number;
 		procedureName: string;

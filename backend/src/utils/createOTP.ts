@@ -11,8 +11,6 @@ export const createOtp = async (
 	const otp = Math.floor(100000 + Math.random() * 900000).toString();
 	const secret_otp = await bcrypt.hash(otp, saltRounds);
 
-	console.log(otp);
-
 	return {
 		otp,
 		hashedOtp: secret_otp,

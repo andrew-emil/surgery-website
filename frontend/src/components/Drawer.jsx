@@ -193,26 +193,27 @@ export default function MiniDrawer() {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-    <Menu
-      anchorEl={anchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id={menuId}
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMenuOpen}
-      onClose={handleMenuClose}
-    >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={handlelogout}>Log Out</MenuItem>
-    </Menu>
-  );
+		<Menu
+			anchorEl={anchorEl}
+			anchorOrigin={{
+				vertical: "top",
+				horizontal: "right",
+			}}
+			id={menuId}
+			keepMounted
+			transformOrigin={{
+				vertical: "top",
+				horizontal: "right",
+			}}
+			open={isMenuOpen}
+			onClose={handleMenuClose}>
+			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+			<MenuItem onClick={handleMenuClose}>
+				My account
+			</MenuItem>
+			<MenuItem onClick={handlelogout}>Log Out</MenuItem>
+		</Menu>
+	);
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (

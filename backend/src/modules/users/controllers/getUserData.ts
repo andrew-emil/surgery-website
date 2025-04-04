@@ -16,6 +16,7 @@ export const getUserData = async (req: Request, res: Response) => {
 			id: true,
 			email: true,
 			phone_number: true,
+			picture: true,
 			department: {
 				id: true,
 				name: true,

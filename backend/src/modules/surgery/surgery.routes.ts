@@ -8,6 +8,7 @@ import { deleteSurgery } from "./controllers/deleteSurgery.js";
 import { updateSurgery } from "./controllers/updateSurgery.js";
 import { getSurgeriesWithOpenSlots } from "./controllers/getSurgeriesWithOpenSlots.js";
 import { authUser } from "../../middlewares/authMiddleware.js";
+import { getUserSurgeries } from "./controllers/getUserSurgeries.js";
 
 const surgeryRoutes = Router();
 
@@ -18,6 +19,7 @@ surgeryRoutes.get(
 	authUser(["Admin", "Consultant"]),
 	getSurgeriesWithOpenSlots
 );
+surgeryRoutes.get("/surgeries", getUserSurgeries);
 
 //middleware
 surgeryRoutes.use(auditLogger());
