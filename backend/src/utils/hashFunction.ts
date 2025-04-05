@@ -27,7 +27,7 @@ export class HashFunctions {
 		const token = crypto.randomBytes(32).toString("hex");
 		const hashedToken = await bcrypt.hash(
 			token,
-			parseInt(process.env.salt_rounds)
+			this.saltRounds
 		);
 		return { token, hashedToken };
 	}

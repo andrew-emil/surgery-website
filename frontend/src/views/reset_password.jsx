@@ -14,6 +14,7 @@ import { Link as RouterLink } from "react-router-dom";
 export default function ResetPassword() {
 	const urlParams = new URLSearchParams(window.location.search);
 	const token = urlParams.get("token");
+	const email = urlParams.get("email");
 	const passwordRef = useRef();
 	const confirmPasswordRef = useRef();
 	const [message, setMessage] = useState();
@@ -27,11 +28,14 @@ export default function ResetPassword() {
 			setErr("Passwords do not match.");
 			return;
 		}
+		
 		setIsLoading(true);
 		const payload = {
-			token: token,
+			email,
+			token,
 			newPassword: passwordRef.current.value,
 		};
+		
 		axiosClient
 			.post("/users/reset-password", payload)
 			.then(({ data }) => {

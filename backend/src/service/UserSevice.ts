@@ -84,11 +84,14 @@ export class UserService {
 
 		// Generate reset token
 		const { token, hashedToken } = await hashFunction.generateResetToken();
+		const todaysDate = Date.now();
+		const expiryDate = todaysDate + 60 * 60 * 1000;
+
 		user.reset_token = hashedToken;
-		user.reset_token_expires = new Date(Date.now() + 60 * 60 * 1000);
+		user.reset_token_expires = new Date(expiryDate);
 		await this.userRepo.save(user);
 
-		const resetURL = `${process.env.BASE_URL}/reset-password?token=${token}`;
+		const resetURL = `${process.env.BASE_URL}/reset-password?token=${token}&email=${user.email}`;
 
 		// Send reset email
 		await sendResetEmail(email, resetURL);
@@ -97,21 +100,26 @@ export class UserService {
 	}
 
 	async resetPassword(
+		email: string,
 		token: string,
 		newPassword: string
 	): Promise<{ success: boolean; message?: string }> {
-		const hashFunction = new HashFunctions();
-		const hashedToken = await hashFunction.bcryptHash(token);
-		const user = await this.userRepo.findOneBy({ reset_token: hashedToken });
+		const user = await this.userRepo.findOne({
+			where: { email },
+		});
 
-		// Validate token
 		if (
 			!user ||
 			!user.reset_token_expires ||
-			new Date(user.reset_token_expires) < new Date()
+			Date.now() > new Date(user.reset_token_expires).getTime()
 		) {
 			return { success: false, message: "Invalid or expired token." };
 		}
+		const hashFunction = new HashFunctions(user.reset_token);
+		const isMatched = hashFunction.compareBcryptHash(token);
+
+		if (!isMatched)
+			return { success: false, message: "Invalid or expired token." };
 
 		const hashedPassword = await hashFunction.bcryptHash(newPassword);
 

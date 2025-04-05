@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { getCookie } from "cookies-next";
 import jwt from "jsonwebtoken";
-import { JWTPayload } from "./../utils/dataTypes.js";
 
 const SECRET_KEY = process.env.JWT_SECRET as string;
 
@@ -11,8 +10,6 @@ export const authMiddleware = async (
 	next: NextFunction
 ) => {
 	const token = await getCookie("ACCESS_TOKEN", { req, res });
-
-	console.log(token)
 
 	if (!token) throw Error("Unauthorized");
 

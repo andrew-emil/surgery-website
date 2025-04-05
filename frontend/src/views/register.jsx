@@ -43,29 +43,50 @@ export default function Register() {
 	const [picture, setPicture] = useState(null);
 
 	useEffect(() => {
-		setLoading(true);
-		axiosClient
-			.get("/affiliation")
-			.then(({ data }) => {
-				setAffiliationData(data.affiliations);
-				setLoading(false);
-			})
-			.catch((err) => {
+		const fetchAffiliationAndRoles = async () => {
+			setLoading(true);
+			try{
+				const [{ affiliationData }, { roleData }] = await Promise.all([
+					axiosClient.get("/affiliation"),
+					axiosClient.get("/roles"),
+				]);
+				setAffiliationData(affiliationData.affiliations);
+				setRoleData(roleData.data);
+			}catch(err){
 				console.log(err);
-			});
-	}, []);
-	useEffect(() => {
-		setLoading(true);
-		axiosClient
-			.get("/roles")
-			.then(({ data }) => {
-				setRoleData(data.data);
-				setLoading(false);
-			})
-			.catch((err) => {
-				console.log(err);
-			});
-	}, []);
+			}finally {
+				setLoading(false)
+			}
+			
+		}
+
+		fetchAffiliationAndRoles();
+	}, [])
+
+	// useEffect(() => {
+	// 	setLoading(true);
+	// 	axiosClient
+	// 		.get("/affiliation")
+	// 		.then(({ data }) => {
+	// 			setAffiliationData(data.affiliations);
+	// 			setLoading(false);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }, []);
+	// useEffect(() => {
+	// 	setLoading(true);
+	// 	axiosClient
+	// 		.get("/roles")
+	// 		.then(({ data }) => {
+	// 			setRoleData(data.data);
+	// 			setLoading(false);
+	// 		})
+	// 		.catch((err) => {
+	// 			console.log(err);
+	// 		});
+	// }, []);
 	useEffect(() => {
 		if (affiliation) {
 			console.log(affiliation);
@@ -90,7 +111,7 @@ export default function Register() {
 		);
 	}
 
-	const submit = (ev) => {
+	const submit = async (ev) => {
 		ev.preventDefault();
 		setIsButtonLoading(true);
 		setErr("");
@@ -99,22 +120,28 @@ export default function Register() {
 			formData.append("first_name", firstnameRef.current.value);
 			formData.append("last_name", lastnameRef.current.value);
 			formData.append("email", emailRef.current.value);
-			formData.append("phone_number", `+${phoneRef.current.value}`);
+			formData.append("phone_number", phoneRef.current.value);
 			formData.append("password", passwordRef.current.value);
 			formData.append("roleId", parseInt(role));
 			formData.append("affiliationId", parseInt(affiliation));
 			formData.append("departmentId", parseInt(department));
+
 			if (picture) {
-				formData.append("picture", picture);
+				const base64Image = await new Promise((resolve, reject) => {
+					const reader = new FileReader();
+					reader.onload = () => resolve(reader.result);
+					reader.onerror = (error) => reject(error);
+					reader.readAsDataURL(picture);
+				});
+
+				formData.append("picture", base64Image);
 			}
 
 			axiosClient
 				.post("/users/register", formData)
 				.then(({ data }) => {
-					if (data.message === "OTP sent. Please verify to complete login.") {
-						setMsg(data.message);
-						setRedirectToOTP(true);
-					}
+					setMsg(data.message);
+					setRedirectToOTP(true);
 				})
 				.catch((err) => {
 					console.log(formData);

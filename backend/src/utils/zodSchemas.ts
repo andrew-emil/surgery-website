@@ -95,10 +95,7 @@ export const updateAccountSchema = z
 			)
 			.optional(),
 
-		old_password: z
-			.string()
-			.min(8, "Old password must be at least 8 characters")
-			.optional(),
+		old_password: z.string().optional(),
 
 		new_password: z
 			.string()
@@ -137,6 +134,22 @@ export const updateAccountSchema = z
 			path: ["new_password"],
 		}
 	);
+
+export const resetPasswordSchema = z.object({
+	email: z.string().email(),
+	token: z.string(),
+	newPassword: z
+		.string()
+		.min(8, "New password must be at least 8 characters")
+		.max(50, "Password cannot exceed 50 characters")
+		.regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+		.regex(/[a-z]/, "Password must contain at least one lowercase letter")
+		.regex(/[0-9]/, "Password must contain at least one number")
+		.regex(
+			/[^a-zA-Z0-9]/,
+			"Password must contain at least one special character"
+		),
+});
 
 export const updateDepartmentSchema = z.object({
 	id: z.string(),
