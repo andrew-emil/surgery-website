@@ -3,109 +3,96 @@ import { postSurgeryRepo } from "../../../config/repositories.js";
 import { OUTCOME } from "../../../utils/dataTypes.js";
 
 export const getComplications = async (req: Request, res: Response) => {
-	// Build match stage
-	const matchStage: any = {
-		complications: { $exists: true, $ne: null, $not: /^\s*$/ },
-	};
-
-	const analysis = (await postSurgeryRepo
-		.aggregate([
-			{ $match: matchStage },
-			{
-				$addFields: {
-					complicationsArray: {
-						$filter: {
-							input: {
-								$map: {
-									input: { $split: ["$complications", ","] },
-									in: { $trim: { input: "$$this" } },
-								},
-							},
-							as: "comp",
-							cond: {
-								$and: [
-									{ $ne: ["$$comp", ""] },
-									{ $ne: [{ $toLower: "$$comp" }, "none"] },
-								],
+	const pipeline = [
+		{
+			$match: {
+				complications: { $exists: true, $ne: null, $not: /^\s*$/ },
+				createdAt: { $exists: true, $ne: null },
+			},
+		},
+		{
+			$addFields: {
+				complicationsArray: {
+					$filter: {
+						input: {
+							$map: {
+								input: { $split: ["$complications", ","] },
+								in: { $trim: { input: "$$this" } },
 							},
 						},
-					},
-				},
-			},
-			{ $unwind: "$complicationsArray" },
-			{
-				$group: {
-					_id: {
-						dischargeStatus: "$dischargeStatus",
-						complication: { $toLower: "$complicationsArray" },
-					},
-					totalCases: { $sum: 1 },
-					avgDuration: { $avg: "$surgicalTimeMinutes" },
-					outcomes: {
-						$push: {
-							$cond: [
-								{ $eq: ["$outcome", OUTCOME.SUCCESS] },
-								"success",
-								"failure",
+						as: "comp",
+						cond: {
+							$and: [
+								{ $ne: ["$$comp", ""] },
+								{ $ne: [{ $toLower: "$$comp" }, "none"] },
 							],
 						},
 					},
 				},
+				monthYear: {
+					$dateToString: {
+						format: "%Y-%m",
+						date: "$createdAt",
+					},
+				},
 			},
-			{
-				$group: {
-					_id: "$_id.dischargeStatus",
-					complications: {
-						$push: {
-							complication: "$_id.complication",
-							count: "$totalCases",
-							successRate: {
-								$divide: [
-									{
-										$size: {
-											$filter: {
-												input: "$outcomes",
-												as: "o",
-												cond: { $eq: ["$$o", "success"] },
-											},
-										},
-									},
-									{ $size: "$outcomes" },
-								],
-							},
-							avgDuration: "$avgDuration",
+		},
+		{ $unwind: "$complicationsArray" },
+		{
+			$group: {
+				_id: {
+					date: "$monthYear",
+					complication: { $toLower: "$complicationsArray" },
+					dischargeStatus: "$dischargeStatus",
+				},
+				totalCases: { $sum: 1 },
+				successfulCases: {
+					$sum: {
+						$cond: [{ $eq: ["$outcome", OUTCOME.SUCCESS] }, 1, 0],
+					},
+				},
+			},
+		},
+		{
+			$project: {
+				_id: 0,
+				date: "$_id.date",
+				complication: "$_id.complication",
+				dischargeStatus: "$_id.dischargeStatus",
+				count: "$totalCases",
+				successRate: {
+					$round: [
+						{
+							$multiply: [
+								{ $divide: ["$successfulCases", "$totalCases"] },
+								100,
+							],
 						},
-					},
-					totalComplications: { $sum: "$totalCases" },
+						2,
+					],
 				},
 			},
-			{
-				$project: {
-					dischargeStatus: "$_id",
-					totalComplications: 1,
-					complications: {
-						$slice: [
-							{
-								$sortArray: {
-									input: "$complications",
-									sortBy: { count: -1 },
-								},
-							},
-							10,
-						],
-					},
-					_id: 0,
-				},
-			},
-			{ $sort: { dischargeStatus: 1 } },
-		])
-		.toArray()) as any[];
+		},
+		{ $sort: { date: 1 } },
+	];
+
+	const timeSeriesData: any[] = await postSurgeryRepo
+		.aggregate(pipeline)
+		.toArray();
 
 	res.status(200).json({
-		analysis,
-		analyzedRecords: analysis.reduce(
-			(sum, item) => sum + item.totalComplications,
-			0
-		),
+		success: true,
+		data: {
+			timeSeries: timeSeriesData,
+			summary: {
+				totalComplications: timeSeriesData.reduce(
+					(sum, item) => sum + item.count,
+					0
+				),
+				uniqueComplications: [
+					...new Set(timeSeriesData.map((item) => item.complication)),
+				].length,
+			},
+		},
 	});
 };

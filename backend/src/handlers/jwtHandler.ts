@@ -16,7 +16,7 @@ export const createJWTtoken = async (
 	user: User,
 	firstLogin: boolean
 ): Promise<string> => {
-	const permissions = user.role.permissions?.map((perm) => perm.action) || null;
+	const permissions = user.role?.permissions?.map((perm) => perm.action) || null;
 
 	const jwtPayload: JWTPayload = {
 		id: user.id,

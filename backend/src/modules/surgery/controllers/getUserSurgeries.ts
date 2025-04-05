@@ -16,7 +16,6 @@ interface SurgeryInterface {
 
 export const getUserSurgeries = async (req: Request, res: Response) => {
 	if (!req.user) throw Error("unauthorized");
-
 	const userId = req.user.id;
 
 	const surgeries = await surgeryLogsRepo.find({
