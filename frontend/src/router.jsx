@@ -11,36 +11,36 @@ import NotFoundPage from "./views/not_found";
 import Dashboard from "./views/dashboard";
 import AdminLayout from "./components/adminLayout";
 import MyAccount from "./views/myAccount";
+import CreateSurgery from "./views/createSurgery";
 
 const router = createBrowserRouter([
-	{
-		path: "/",
-		element: <DefaultLayout />,
-		children: [
-			{ path: "/", element: <Home /> },
-			{ path: "/home", element: <Home /> },
-			{ path: "/account", element: <MyAccount /> },
-		],
-	},
-	{
-		path: "/",
-		element: <GuestLayout />,
-		children: [
-			{ path: "/login", element: <Login /> },
-			{ path: "/register", element: <Register /> },
-			{ path: "/forgot-password", element: <ForgoPassword /> },
-			{ path: "/reset-password", element: <ResetPassword /> },
-			{ path: "/otp", element: <OTP_auth /> },
-			{ path: "/not-found", element: <NotFoundPage /> } /* not working */,
-		],
-	},
-	{
-		path: "/",
-		element: <AdminLayout />,
-		children: [
-			{ path: "/admin", element: <Dashboard /> },
-		],
-	},
+  {
+    path: "/",
+    element: <DefaultLayout />,
+    children: [
+      { path: "/", element: <Home /> },
+      { path: "/home", element: <Home /> },
+      { path: "/account", element: <MyAccount /> },
+      { path: "/create_surgery", element: <CreateSurgery /> },
+    ],
+  },
+  {
+    path: "/",
+    element: <GuestLayout />,
+    children: [
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <Register /> },
+      { path: "/forgot-password", element: <ForgoPassword /> },
+      { path: "/reset-password", element: <ResetPassword /> },
+      { path: "/otp", element: <OTP_auth /> },
+      { path: "/not-found", element: <NotFoundPage /> } /* not working */,
+    ],
+  },
+  {
+    path: "/",
+    element: <AdminLayout />,
+    children: [{ path: "/admin", element: <Dashboard /> }],
+  },
 ]);
 
 export default router;

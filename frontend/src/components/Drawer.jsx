@@ -6,7 +6,7 @@ import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
-import Typography from "@mui/material/Typography";
+// import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -28,7 +28,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useStateContext } from "../context/contextprovider";
 import DarkModeButton from "./darkmodeButton";
-import { Navigate, redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Link } from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 
 const drawerWidth = 240;
 
@@ -268,6 +271,9 @@ export default function MiniDrawer() {
         </IconButton>
         <p>Profile</p>
       </MenuItem>
+      <MenuItem>
+        <DarkModeButton></DarkModeButton>
+      </MenuItem>
     </Menu>
   );
 
@@ -290,14 +296,17 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
+
+          <Link
+            href="/home"
             variant="h6"
             noWrap
-            component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            sx={{ display: { xs: "none", sm: "block", fontWeight: "bold" } }}
+            underline="none"
+            color="inherit"
           >
             Surgical Web
-          </Typography>
+          </Link>
           <Search>
             <SearchIconWrapper>
               <SearchIcon />
@@ -367,55 +376,132 @@ export default function MiniDrawer() {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
+          <ListItem
+            key={"home"}
+            component="a"
+            href="/home"
+            disablePadding
+            sx={{
+              display: "block",
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+              "&:visited": {
+                color: theme.palette.text.primary,
+              },
+              "&:hover": {
+                textDecoration: "none",
+              },
+            }}
+          >
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
+                      justifyContent: "center",
+                    },
+              ]}
+            >
+              <ListItemIcon
                 sx={[
                   {
-                    minHeight: 48,
-                    px: 2.5,
+                    minWidth: 0,
+                    justifyContent: "center",
                   },
                   open
                     ? {
-                        justifyContent: "initial",
+                        mr: 3,
                       }
                     : {
-                        justifyContent: "center",
+                        mr: "auto",
                       },
                 ]}
               >
-                <ListItemIcon
-                  sx={[
-                    {
-                      minWidth: 0,
+                <HomeIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Home"}
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            key={"Surgery"}
+            component="a"
+            href="/create_surgery"
+            disablePadding
+            sx={{
+              display: "block",
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+              "&:visited": {
+                color: theme.palette.text.primary,
+              },
+              "&:hover": {
+                textDecoration: "none",
+              },
+            }}
+          >
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
                       justifyContent: "center",
                     },
-                    open
-                      ? {
-                          mr: 3,
-                        }
-                      : {
-                          mr: "auto",
-                        },
-                  ]}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText
-                  primary={text}
-                  sx={[
-                    open
-                      ? {
-                          opacity: 1,
-                        }
-                      : {
-                          opacity: 0,
-                        },
-                  ]}
-                />
-              </ListItemButton>
-            </ListItem>
-          ))}
+              ]}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: "center",
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: "auto",
+                      },
+                ]}
+              >
+                <LocalHospitalIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Surgery"}
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
         </List>
         <Divider />
         <List>
