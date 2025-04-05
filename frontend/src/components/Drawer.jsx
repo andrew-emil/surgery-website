@@ -28,6 +28,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useStateContext } from "../context/contextprovider";
 import DarkModeButton from "./darkmodeButton";
+import { Navigate, redirect, useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -151,6 +152,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function MiniDrawer() {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -180,6 +182,9 @@ export default function MiniDrawer() {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
+  const handleMyAccont = () => {
+    navigate("/account");
+  };
 
   const handleMobileMenuOpen = (event) => {
     setMobileMoreAnchorEl(event.currentTarget);
@@ -193,27 +198,26 @@ export default function MiniDrawer() {
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
-		<Menu
-			anchorEl={anchorEl}
-			anchorOrigin={{
-				vertical: "top",
-				horizontal: "right",
-			}}
-			id={menuId}
-			keepMounted
-			transformOrigin={{
-				vertical: "top",
-				horizontal: "right",
-			}}
-			open={isMenuOpen}
-			onClose={handleMenuClose}>
-			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-			<MenuItem onClick={handleMenuClose}>
-				My account
-			</MenuItem>
-			<MenuItem onClick={handlelogout}>Log Out</MenuItem>
-		</Menu>
-	);
+    <Menu
+      anchorEl={anchorEl}
+      anchorOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      id={menuId}
+      keepMounted
+      transformOrigin={{
+        vertical: "top",
+        horizontal: "right",
+      }}
+      open={isMenuOpen}
+      onClose={handleMenuClose}
+    >
+      {/* <MenuItem onClick={hand}>Profile</MenuItem> */}
+      <MenuItem onClick={handleMyAccont}>My account</MenuItem>
+      <MenuItem onClick={handlelogout}>Log Out</MenuItem>
+    </Menu>
+  );
 
   const mobileMenuId = "primary-search-account-menu-mobile";
   const renderMobileMenu = (
