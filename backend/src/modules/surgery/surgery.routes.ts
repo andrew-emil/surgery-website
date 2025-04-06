@@ -12,7 +12,7 @@ import { getUserSurgeries } from "./controllers/getUserSurgeries.js";
 
 const surgeryRoutes = Router();
 
-surgeryRoutes.get("/get-surgrey/:id", getSurgery);
+surgeryRoutes.get("/get-surgrey/:surgeryId", getSurgery);
 surgeryRoutes.get("/search", searchSurgery);
 surgeryRoutes.get(
 	"/open-slots",

@@ -14,7 +14,7 @@ import { PostSurgery } from "../../../entity/mongodb/PostSurgery.js";
 import { surgeryAuthService } from "../../../config/initializeServices.js";
 
 export const getSurgery = async (req: Request, res: Response) => {
-	const surgeryId = parseInt(req.params.id);
+	const surgeryId = parseInt(req.params.surgeryId);
 	if (isNaN(surgeryId)) throw Error("Invalid surgery ID format");
 
 	const [surgery, surgeryLog] = await Promise.all([

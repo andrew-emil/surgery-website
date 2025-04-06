@@ -14,7 +14,7 @@ export class SurgeryAuthService {
 	constructor(
 		private trainingService: TrainingService,
 		private authRequestRepo: Repository<AuthenticationRequest>,
-		private surgeryLogRepo: MongoRepository<SurgeryLog>,
+		private surgeryLogRepo: MongoRepository<SurgeryLog>
 	) {}
 
 	async handleRequestApproval(requestId: number) {
@@ -103,23 +103,12 @@ export class SurgeryAuthService {
 				const user = users.find((u) => u.id === participant.doctorId);
 				const role = roles.find((r) => r.id === participant.roleId);
 
-				console.log(user, role);
-
-				const trainingProgress = await this.trainingService.getTrainingProgress(
-					user.id
-				);
-
 				return {
 					id: participant.doctorId,
 					name: user ? `${user.first_name} ${user.last_name}` : "Unknown",
 					email: user?.email || "N/A",
 					hospitalRole: user?.role?.name || "N/A",
 					surgicalRole: role?.name || "N/A",
-					trainingProgress: {
-						required: trainingProgress.totalRequired,
-						completed: trainingProgress.totalCompleted,
-						progress: trainingProgress.completionPercentage,
-					},
 				};
 			})
 		);

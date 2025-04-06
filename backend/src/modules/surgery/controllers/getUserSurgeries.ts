@@ -1,17 +1,21 @@
 import { Request, Response } from "express";
-import { surgeryLogsRepo, surgeryRepo } from "../../../config/repositories.js";
+import {
+	ratingRepo,
+	surgeryLogsRepo,
+	surgeryRepo,
+} from "../../../config/repositories.js";
 import { STATUS } from "../../../utils/dataTypes.js";
-import { ObjectId } from "mongodb";
+import { formatRatings } from "../../../utils/formatRating.js";
 
 interface SurgeryInterface {
-	id: string;
+	id: number;
 	name: string;
 	date: Date;
+	time: string;
 	status: STATUS;
 	stars: number;
 	icdCode: string;
 	cptCode: string;
-	patient_id: ObjectId;
 }
 
 export const getUserSurgeries = async (req: Request, res: Response) => {
@@ -22,10 +26,23 @@ export const getUserSurgeries = async (req: Request, res: Response) => {
 		where: {
 			$or: [{ "doctorsTeam.doctorId": userId }, { leadSurgeon: userId }],
 		},
+		select: [
+			"id",
+			"surgeryId",
+			"doctorsTeam",
+			"leadSurgeon",
+			"icdCode",
+			"cptCode",
+			"date",
+			"time",
+		],
 	});
-	let names: Promise<string>[];
-	if (surgeries.length > 0) {
-		names = surgeries.map(async (sur) => {
+
+	if (surgeries.length === 0) {
+		throw Error("No Surgeries was found");
+	}
+	const names = await Promise.all(
+		surgeries.map(async (sur) => {
 			const surgeriesName = await surgeryRepo.findOne({
 				where: {
 					id: sur.surgeryId,
@@ -33,19 +50,40 @@ export const getUserSurgeries = async (req: Request, res: Response) => {
 				select: ["id", "name"],
 			});
 			return surgeriesName.name;
-		});
-	}
-	const resolvedNames = surgeries.length > 0 ? await Promise.all(names) : [];
+		})
+	);
+
+	const ratings = await Promise.all(
+		surgeries.map(async (sur) => {
+			const rating = await ratingRepo.find({
+				where: {
+					surgeryId: { $eq: sur.surgeryId },
+				},
+			});
+
+			return rating;
+		})
+	);
+
+	const formatedRating = await Promise.all(
+		ratings.map(async (rating) => {
+			if (rating.length > 0) {
+				const { average } = await formatRatings(rating);
+				return average;
+			}
+			return null;
+		})
+	);
 	const formatedSurgeries: SurgeryInterface[] = surgeries.map(
 		(surgery, index) => ({
-			id: surgery.id.toString(),
-			name: resolvedNames[index],
+			id: surgery.surgeryId,
+			name: names[index],
 			date: surgery.date,
+			time: surgery.time,
 			status: surgery.status,
-			stars: surgery.stars,
+			stars: formatedRating[index] ? formatedRating[index] : 0,
 			icdCode: surgery.icdCode,
 			cptCode: surgery.cptCode,
-			patient_id: new ObjectId(surgery.patient_details.patient_id),
 		})
 	);
 
