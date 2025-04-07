@@ -13,6 +13,7 @@ import AdminLayout from "./components/adminLayout";
 import MyAccount from "./views/myAccount";
 import CreateSurgery from "./views/createSurgery";
 import SurgeryDetails from "./views/SurgeryDetails";
+import TestPage from "./views/Test";
 
 const router = createBrowserRouter([
 	{
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
 			{ path: "/account", element: <MyAccount /> },
 			{ path: "/surgeryDetails", element: <SurgeryDetails /> },
 			{ path: "/create_surgery", element: <CreateSurgery /> },
+			{ path: "/test", element: <TestPage /> },
 		],
 	},
 	{

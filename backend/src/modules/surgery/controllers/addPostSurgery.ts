@@ -7,10 +7,16 @@ import {
 	surgeryLogsRepo,
 	authenticationRequestRepo,
 } from "../../../config/repositories.js";
-import { Authentication_Request, STATUS } from "../../../utils/dataTypes.js";
+import {
+	Authentication_Request,
+	NOTIFICATION_STATUS,
+	STATUS,
+} from "../../../utils/dataTypes.js";
 import { trainingService } from "../../../config/initializeServices.js";
-import { AppDataSource } from "../../../config/data-source.js";
+import { ObjectId } from "typeorm";
+import logger from "../../../config/loggerConfig.js";
 import { SurgeryLog } from "../../../entity/mongodb/SurgeryLog.js";
+import { Surgery } from "../../../entity/sql/Surgery.js";
 
 export const addPostSurgery = async (req: Request, res: Response) => {
 	const validation = addPostSurgerySchema.safeParse(req.body);
@@ -18,14 +24,18 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const { surgeryId, ...postData } = validation.data;
-	const queryRunner = AppDataSource.createQueryRunner();
+	let savedPostSurgeryId: ObjectId | null = null;
+	let originalSurgeryLogStatus: STATUS | null = null;
+	let originalAuthStatuses: Array<{
+		id: number;
+		status: Authentication_Request;
+	}> = [];
+	let surgeryLog: SurgeryLog;
+	let surgery: Surgery;
 
 	try {
-		await queryRunner.connect();
-		await queryRunner.startTransaction();
-
 		// Verify surgery existence
-		const [surgery, surgeryLog] = await Promise.all([
+		[surgery, surgeryLog] = await Promise.all([
 			surgeryRepo.findOne({ where: { id: surgeryId } }),
 			surgeryLogsRepo.findOneBy({ surgeryId }),
 		]);
@@ -52,61 +62,65 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 			});
 			return;
 		}
+		const authRequests = await authenticationRequestRepo.find({
+			where: { surgery: { id: surgeryId } },
+		});
+		originalAuthStatuses = authRequests.map((a) => ({
+			id: a.id,
+			status: a.status,
+		}));
 
 		// Create and save post-surgery record
 		const postSurgery = postSurgeryRepo.create({
+			surgeryId,
 			...postData,
 			complications: postData.complications?.trim() || null,
 			caseNotes: postData.caseNotes?.trim() || null,
-			surgeryId,
 		});
+		await postSurgeryRepo.save(postSurgery);
+		savedPostSurgeryId = postSurgery.id;
+
+		originalSurgeryLogStatus = surgeryLog.status;
+		surgeryLog.status = STATUS.COMPLETED;
 
 		// Execute all updates in transaction
 		await Promise.all([
-			queryRunner.manager.save(postSurgery),
-			trainingService.handleSurgeryCompletion(surgeryId),
+			surgeryLogsRepo.save(surgeryLog),
 			authenticationRequestRepo.update(
 				{ surgery: { id: surgeryId } },
 				{ status: Authentication_Request.APPROVED }
 			),
-			queryRunner.manager.update(SurgeryLog, surgeryLog, {
-				status: STATUS.COMPLETED,
-			}),
+			trainingService.handleSurgeryCompletion(surgeryId),
 		]);
-
-		await queryRunner.commitTransaction();
 
 		res.status(201).json({
 			success: true,
 			message: "Post-operative documentation completed successfully",
-			documentation: {
-				id: postSurgery.id,
-				surgeryId: surgery.id,
-				procedureName: surgery.name,
-				duration: postSurgery.surgicalTimeMinutes,
-				outcome: postSurgery.outcome,
-				dischargeStatus: postSurgery.dischargeStatus,
-				recordedAt: new Date().toISOString(),
-			},
-			participants: {
-				total: surgeryLog.doctorsTeam.length,
-				credited: surgeryLog.trainingCredits.filter((d) => d.verified).length,
-			},
 		});
 	} catch (error) {
-		await queryRunner.rollbackTransaction();
-		const errorMessage =
-			error instanceof Error
-				? error.message
-				: "Failed to complete post-surgery documentation";
+		try {
+			if (savedPostSurgeryId) {
+				await postSurgeryRepo.delete(savedPostSurgeryId);
+			}
+			if (originalSurgeryLogStatus && surgeryLog) {
+				surgeryLog.status = originalSurgeryLogStatus;
+				await surgeryLogsRepo.save(surgeryLog);
+			}
+			if (originalAuthStatuses.length > 0) {
+				await Promise.all(
+					originalAuthStatuses.map(async ({ id, status }) =>
+						authenticationRequestRepo.update({ id }, { status })
+					)
+				);
+			}
+			await trainingService.revertSurgeryCompletion(surgeryId);
+		} catch (rollBackError) {
+			logger.error("Post-surgery rollback failed");
+		}
 
 		res.status(500).json({
 			success: false,
-			message: errorMessage,
-			errorCode: "POST_OP_DOCUMENTATION_FAILURE",
-			referenceId: surgeryId,
+			message: "Failed to complete post-surgery documentation",
 		});
-	} finally {
-		await queryRunner.release();
 	}
 };

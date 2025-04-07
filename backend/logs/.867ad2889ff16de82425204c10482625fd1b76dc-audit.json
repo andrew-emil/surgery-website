@@ -11,15 +11,9 @@
             "hash": "83cda2efe464ea8d66421ec51b4d20cd018bfa81c04df4c16ac4e1c0cb527f76"
         },
         {
-<<<<<<< HEAD
-            "date": 1743741077572,
-            "name": "logs/error-2025-04-04.log",
-            "hash": "636b71a04915288a7a77805be6476589630f1e6565aae68a3af48ee450856b6a"
-=======
-            "date": 1743762419544,
-            "name": "logs/error-2025-04-04.log",
-            "hash": "1b63b1096758e09e7f4c9012f8148780831bc5f47039739cf55e94d6eb8d046f"
->>>>>>> 6cc7e43764d6111afd6f337bfaf84104dffaf427
+            "date": 1744033530867,
+            "name": "logs/error-2025-04-07.log",
+            "hash": "325a87f48d6b528e8938a50c545073f1b3499dc95f9d611ede6adbb8a11446e7"
         }
     ],
     "hashType": "sha256"

@@ -5,8 +5,7 @@ import {
 	Column,
 	CreateDateColumn,
 } from "typeorm";
-import { Min, Max } from "class-validator"; 
-
+import { Min, Max } from "class-validator";
 
 @Entity()
 export class Rating {
@@ -16,10 +15,10 @@ export class Rating {
 	@Column({ type: "int" })
 	surgeryId: number;
 
-	@Column({type: 'string'})
+	@Column({ type: "string" })
 	userId: string;
 
-	@Column({ type: "int"})
+	@Column({ type: "int" })
 	@Min(1)
 	@Max(5)
 	stars: number;

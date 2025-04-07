@@ -80,19 +80,21 @@ export const getComplications = async (req: Request, res: Response) => {
 		.aggregate(pipeline)
 		.toArray();
 
+	const summary = {
+		totalComplications: timeSeriesData.reduce(
+			(sum, item) => sum + item.count,
+			0
+		),
+		uniqueComplications: [
+			...new Set(timeSeriesData.map((item) => item.complication)),
+		].length,
+	};
+
 	res.status(200).json({
 		success: true,
 		data: {
 			timeSeries: timeSeriesData,
-			summary: {
-				totalComplications: timeSeriesData.reduce(
-					(sum, item) => sum + item.count,
-					0
-				),
-				uniqueComplications: [
-					...new Set(timeSeriesData.map((item) => item.complication)),
-				].length,
-			},
+			summary,
 		},
 	});
 };

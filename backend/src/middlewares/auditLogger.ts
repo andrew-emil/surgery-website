@@ -87,6 +87,7 @@ export const auditLogger = (action?: string) => {
 				entityId,
 				oldValue,
 				newValue,
+
 				ipAddress,
 				userAgent,
 			});

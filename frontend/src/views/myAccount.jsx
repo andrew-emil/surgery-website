@@ -23,6 +23,7 @@ import {
 import RequirementProgress from "../components/RequirmentProgress";
 import Requirments from "../components/Requirment";
 import * as jose from "jose";
+import { convertImage } from './../utils/convertImage';
 
 export default function MyAccount() {
 	const firstnameRef = useRef();
@@ -66,14 +67,6 @@ export default function MyAccount() {
 
 		fetchUserData();
 	}, []);
-
-	const convertUserImage = (pic) => {
-		const bytes = new Uint8Array(pic);
-		const binaryString = String.fromCharCode(...bytes);
-		const base64String = btoa(binaryString);
-		const imageUrl = `data:image/jpeg;base64,${base64String}`;
-		return imageUrl;
-	};
 
 	const onSubmit = async (ev) => {
 		ev.preventDefault();
@@ -171,7 +164,7 @@ export default function MyAccount() {
 								picture
 									? URL.createObjectURL(picture)
 									: userData?.picture?.data
-										? convertUserImage(userData.picture.data)
+										? convertImage(userData.picture.data)
 										: null
 							}
 						/>

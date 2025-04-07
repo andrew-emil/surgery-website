@@ -135,6 +135,7 @@ export default function Home() {
 					No surgeries found!
 				</Typography>
 			)}
+			
 		</Container>
 	);
 }

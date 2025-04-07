@@ -1,0 +1,942 @@
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T07:42:18.798Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T07:42:19.162Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T07:42:19.534Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T07:42:19.567Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 3.538 ms - 0\u001b[0m","timestamp":"2025-04-07T07:42:58.784Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.770 ms - 0\u001b[0m","timestamp":"2025-04-07T07:42:58.800Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 202.415 ms - -\u001b[0m","timestamp":"2025-04-07T07:42:59.052Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 82.571 ms - -\u001b[0m","timestamp":"2025-04-07T07:42:59.150Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.384 ms - 0\u001b[0m","timestamp":"2025-04-07T07:43:03.332Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.323 ms - 0\u001b[0m","timestamp":"2025-04-07T07:43:03.335Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 121.614 ms - -\u001b[0m","timestamp":"2025-04-07T07:43:03.469Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 64.565 ms - -\u001b[0m","timestamp":"2025-04-07T07:43:03.559Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.417 ms - 0\u001b[0m","timestamp":"2025-04-07T07:44:26.024Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.328 ms - 0\u001b[0m","timestamp":"2025-04-07T07:44:26.031Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 107.454 ms - -\u001b[0m","timestamp":"2025-04-07T07:44:26.279Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 106.732 ms - -\u001b[0m","timestamp":"2025-04-07T07:44:26.393Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.407 ms - 0\u001b[0m","timestamp":"2025-04-07T07:45:26.089Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.361 ms - 0\u001b[0m","timestamp":"2025-04-07T07:45:26.215Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 96.356 ms - -\u001b[0m","timestamp":"2025-04-07T07:45:26.331Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 89.516 ms - -\u001b[0m","timestamp":"2025-04-07T07:45:26.440Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.449 ms - 0\u001b[0m","timestamp":"2025-04-07T07:49:30.519Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.416 ms - 0\u001b[0m","timestamp":"2025-04-07T07:49:30.533Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 97.016 ms - -\u001b[0m","timestamp":"2025-04-07T07:49:30.784Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 111.080 ms - -\u001b[0m","timestamp":"2025-04-07T07:49:30.898Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.379 ms - 0\u001b[0m","timestamp":"2025-04-07T07:50:11.929Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.496 ms - 0\u001b[0m","timestamp":"2025-04-07T07:50:11.942Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 98.465 ms - -\u001b[0m","timestamp":"2025-04-07T07:50:12.072Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 128.410 ms - -\u001b[0m","timestamp":"2025-04-07T07:50:12.241Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.308 ms - 0\u001b[0m","timestamp":"2025-04-07T07:50:52.342Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 58.622 ms - -\u001b[0m","timestamp":"2025-04-07T07:50:52.444Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.234 ms - -\u001b[0m","timestamp":"2025-04-07T07:50:53.411Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 57.547 ms - -\u001b[0m","timestamp":"2025-04-07T07:50:55.435Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.323 ms - 0\u001b[0m","timestamp":"2025-04-07T07:53:07.562Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.945 ms - -\u001b[0m","timestamp":"2025-04-07T07:53:07.661Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.278 ms - 0\u001b[0m","timestamp":"2025-04-07T07:53:14.313Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 76.837 ms - 146396\u001b[0m","timestamp":"2025-04-07T07:53:15.769Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.243 ms - -\u001b[0m","timestamp":"2025-04-07T07:53:15.899Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.272 ms - 0\u001b[0m","timestamp":"2025-04-07T07:53:58.455Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 42.049 ms - -\u001b[0m","timestamp":"2025-04-07T07:53:58.512Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 30.613 ms - -\u001b[0m","timestamp":"2025-04-07T07:54:02.448Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.371 ms - 0\u001b[0m","timestamp":"2025-04-07T07:54:09.433Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 91.676 ms - -\u001b[0m","timestamp":"2025-04-07T07:54:09.597Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 45.237 ms - -\u001b[0m","timestamp":"2025-04-07T07:54:13.983Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.260 ms - 0\u001b[0m","timestamp":"2025-04-07T07:54:34.236Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.818 ms - -\u001b[0m","timestamp":"2025-04-07T07:54:34.315Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.239 ms - 0\u001b[0m","timestamp":"2025-04-07T07:55:04.756Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.416 ms - -\u001b[0m","timestamp":"2025-04-07T07:55:04.879Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 86.183 ms - -\u001b[0m","timestamp":"2025-04-07T07:55:08.314Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.409 ms - 0\u001b[0m","timestamp":"2025-04-07T07:55:10.117Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 73.367 ms - -\u001b[0m","timestamp":"2025-04-07T07:55:10.206Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 58.309 ms - -\u001b[0m","timestamp":"2025-04-07T07:55:13.201Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.277 ms - 0\u001b[0m","timestamp":"2025-04-07T07:57:28.183Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.757 ms - -\u001b[0m","timestamp":"2025-04-07T07:57:28.357Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.228 ms - 0\u001b[0m","timestamp":"2025-04-07T07:58:47.557Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 72.101 ms - -\u001b[0m","timestamp":"2025-04-07T07:58:47.654Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 1.845 ms - 0\u001b[0m","timestamp":"2025-04-07T08:00:14.785Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.327 ms - 0\u001b[0m","timestamp":"2025-04-07T08:00:14.787Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 41.629 ms - -\u001b[0m","timestamp":"2025-04-07T08:00:14.840Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 60.134 ms - -\u001b[0m","timestamp":"2025-04-07T08:00:14.902Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.359 ms - 0\u001b[0m","timestamp":"2025-04-07T08:00:25.296Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 40.825 ms - -\u001b[0m","timestamp":"2025-04-07T08:00:25.347Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 55.264 ms - -\u001b[0m","timestamp":"2025-04-07T08:00:25.407Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.273 ms - 0\u001b[0m","timestamp":"2025-04-07T08:00:41.955Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.306 ms - 0\u001b[0m","timestamp":"2025-04-07T08:00:41.969Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.953 ms - -\u001b[0m","timestamp":"2025-04-07T08:00:42.098Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.033 ms - -\u001b[0m","timestamp":"2025-04-07T08:00:42.182Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.304 ms - 0\u001b[0m","timestamp":"2025-04-07T08:01:17.742Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 77.710 ms - -\u001b[0m","timestamp":"2025-04-07T08:01:17.867Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.307 ms - 0\u001b[0m","timestamp":"2025-04-07T08:02:56.469Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.330 ms - 0\u001b[0m","timestamp":"2025-04-07T08:02:56.473Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 93.166 ms - 146497\u001b[0m","timestamp":"2025-04-07T08:02:56.578Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 82.175 ms - -\u001b[0m","timestamp":"2025-04-07T08:02:56.706Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.328 ms - 0\u001b[0m","timestamp":"2025-04-07T08:03:08.341Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 53.009 ms - -\u001b[0m","timestamp":"2025-04-07T08:03:08.404Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.789 ms - -\u001b[0m","timestamp":"2025-04-07T08:03:11.657Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 87.248 ms - -\u001b[0m","timestamp":"2025-04-07T08:03:11.794Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.411 ms - 0\u001b[0m","timestamp":"2025-04-07T08:03:59.411Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.260 ms - 0\u001b[0m","timestamp":"2025-04-07T08:03:59.424Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 96.852 ms - -\u001b[0m","timestamp":"2025-04-07T08:03:59.526Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.519 ms - -\u001b[0m","timestamp":"2025-04-07T08:03:59.609Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T08:05:48.333Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T08:05:48.437Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T08:05:48.500Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T08:05:48.518Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T08:06:44.764Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T08:06:44.875Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T08:06:44.933Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T08:06:44.950Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 13.262 ms - 0\u001b[0m","timestamp":"2025-04-07T08:06:49.921Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 10.433 ms - 0\u001b[0m","timestamp":"2025-04-07T08:06:49.936Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 181.581 ms - 146503\u001b[0m","timestamp":"2025-04-07T08:06:50.165Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 79.686 ms - -\u001b[0m","timestamp":"2025-04-07T08:06:50.258Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.364 ms - 0\u001b[0m","timestamp":"2025-04-07T08:07:48.733Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.398 ms - 0\u001b[0m","timestamp":"2025-04-07T08:07:48.739Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 91.399 ms - -\u001b[0m","timestamp":"2025-04-07T08:07:48.846Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 95.395 ms - -\u001b[0m","timestamp":"2025-04-07T08:07:48.952Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.299 ms - 0\u001b[0m","timestamp":"2025-04-07T08:08:06.326Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 77.612 ms - -\u001b[0m","timestamp":"2025-04-07T08:08:06.422Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.180 ms - -\u001b[0m","timestamp":"2025-04-07T08:08:11.074Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.556 ms - -\u001b[0m","timestamp":"2025-04-07T08:08:11.157Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.557 ms - 0\u001b[0m","timestamp":"2025-04-07T08:08:19.001Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 76.011 ms - -\u001b[0m","timestamp":"2025-04-07T08:08:19.089Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.639 ms - 0\u001b[0m","timestamp":"2025-04-07T08:08:40.623Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.541 ms - 0\u001b[0m","timestamp":"2025-04-07T08:08:40.631Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 86.765 ms - -\u001b[0m","timestamp":"2025-04-07T08:08:40.747Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 97.360 ms - -\u001b[0m","timestamp":"2025-04-07T08:08:40.858Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.389 ms - 0\u001b[0m","timestamp":"2025-04-07T08:09:21.331Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.643 ms - 0\u001b[0m","timestamp":"2025-04-07T08:09:21.341Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 49.756 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:21.409Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 86.252 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:21.497Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.412 ms - 0\u001b[0m","timestamp":"2025-04-07T08:09:26.492Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.667 ms - 0\u001b[0m","timestamp":"2025-04-07T08:09:26.503Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.749 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:26.610Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.994 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:26.723Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.832 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:28.258Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 85.332 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:28.373Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.310 ms - 0\u001b[0m","timestamp":"2025-04-07T08:09:37.857Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.992 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:37.964Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.496 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:39.765Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 56.374 ms - -\u001b[0m","timestamp":"2025-04-07T08:09:42.901Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.253 ms - 0\u001b[0m","timestamp":"2025-04-07T08:10:37.713Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 53.453 ms - -\u001b[0m","timestamp":"2025-04-07T08:10:37.820Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.297 ms - 0\u001b[0m","timestamp":"2025-04-07T08:10:58.688Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 34.204 ms - -\u001b[0m","timestamp":"2025-04-07T08:10:58.729Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.291 ms - 0\u001b[0m","timestamp":"2025-04-07T08:12:01.448Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 55.927 ms - -\u001b[0m","timestamp":"2025-04-07T08:12:01.516Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.427 ms - 0\u001b[0m","timestamp":"2025-04-07T08:12:42.459Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.321 ms - 0\u001b[0m","timestamp":"2025-04-07T08:12:42.461Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.361 ms - -\u001b[0m","timestamp":"2025-04-07T08:12:42.665Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 91.911 ms - -\u001b[0m","timestamp":"2025-04-07T08:12:42.762Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.222 ms - 0\u001b[0m","timestamp":"2025-04-07T08:13:41.580Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.372 ms - 0\u001b[0m","timestamp":"2025-04-07T08:13:41.612Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 113.673 ms - -\u001b[0m","timestamp":"2025-04-07T08:13:41.842Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 129.262 ms - -\u001b[0m","timestamp":"2025-04-07T08:13:41.988Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.303 ms - 0\u001b[0m","timestamp":"2025-04-07T08:14:53.425Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 76.623 ms - -\u001b[0m","timestamp":"2025-04-07T08:14:53.522Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.268 ms - 0\u001b[0m","timestamp":"2025-04-07T08:15:13.850Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 56.840 ms - -\u001b[0m","timestamp":"2025-04-07T08:15:13.934Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 1.671 ms - 0\u001b[0m","timestamp":"2025-04-07T08:45:53.349Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 45.664 ms - -\u001b[0m","timestamp":"2025-04-07T08:45:53.408Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.385 ms - 0\u001b[0m","timestamp":"2025-04-07T08:47:33.451Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.437 ms - 0\u001b[0m","timestamp":"2025-04-07T08:47:33.458Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 37.818 ms - -\u001b[0m","timestamp":"2025-04-07T08:47:33.504Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 47.425 ms - -\u001b[0m","timestamp":"2025-04-07T08:47:33.560Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.253 ms - 0\u001b[0m","timestamp":"2025-04-07T08:55:08.270Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.267 ms - 0\u001b[0m","timestamp":"2025-04-07T08:55:08.275Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.767 ms - -\u001b[0m","timestamp":"2025-04-07T08:55:08.451Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 87.937 ms - -\u001b[0m","timestamp":"2025-04-07T08:55:08.548Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.340 ms - 0\u001b[0m","timestamp":"2025-04-07T08:55:58.653Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 78.509 ms - -\u001b[0m","timestamp":"2025-04-07T08:55:58.746Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.325 ms - 0\u001b[0m","timestamp":"2025-04-07T08:56:13.450Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 48.254 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:13.509Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 40.245 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:15.306Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.232 ms - 0\u001b[0m","timestamp":"2025-04-07T08:56:26.487Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 65.600 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:26.658Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 47.019 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:28.184Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.213 ms - 0\u001b[0m","timestamp":"2025-04-07T08:56:32.236Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 131.795 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:32.423Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 93.579 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:33.599Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.696 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:33.799Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.827 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:35.518Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.460 ms - 0\u001b[0m","timestamp":"2025-04-07T08:56:38.204Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.245 ms - 0\u001b[0m","timestamp":"2025-04-07T08:56:38.208Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 76.140 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:38.304Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 78.611 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:38.385Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.270 ms - 0\u001b[0m","timestamp":"2025-04-07T08:56:50.519Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 66.452 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:50.594Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 47.252 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:53.447Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.229 ms - 0\u001b[0m","timestamp":"2025-04-07T08:56:59.293Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 77.335 ms - -\u001b[0m","timestamp":"2025-04-07T08:56:59.391Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.321 ms - 0\u001b[0m","timestamp":"2025-04-07T08:57:33.648Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.262 ms - 0\u001b[0m","timestamp":"2025-04-07T08:57:33.652Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 54.059 ms - -\u001b[0m","timestamp":"2025-04-07T08:57:33.724Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.034 ms - -\u001b[0m","timestamp":"2025-04-07T08:57:33.860Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.277 ms - 0\u001b[0m","timestamp":"2025-04-07T08:57:55.339Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.196 ms - -\u001b[0m","timestamp":"2025-04-07T08:57:56.165Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 42.911 ms - -\u001b[0m","timestamp":"2025-04-07T08:57:57.695Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.273 ms - 0\u001b[0m","timestamp":"2025-04-07T08:58:03.571Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.709 ms - -\u001b[0m","timestamp":"2025-04-07T08:58:03.704Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 66.546 ms - -\u001b[0m","timestamp":"2025-04-07T08:58:05.406Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.310 ms - 0\u001b[0m","timestamp":"2025-04-07T08:58:12.727Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 81.957 ms - -\u001b[0m","timestamp":"2025-04-07T08:58:12.888Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.456 ms - 0\u001b[0m","timestamp":"2025-04-07T08:58:23.979Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.978 ms - -\u001b[0m","timestamp":"2025-04-07T08:58:24.157Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.302 ms - 0\u001b[0m","timestamp":"2025-04-07T08:58:39.957Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 85.454 ms - -\u001b[0m","timestamp":"2025-04-07T08:58:40.100Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-07T08:58:48.253Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.416 ms - 0\u001b[0m","timestamp":"2025-04-07T08:58:48.258Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.258 ms - -\u001b[0m","timestamp":"2025-04-07T08:58:48.347Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.952 ms - -\u001b[0m","timestamp":"2025-04-07T08:58:48.436Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.375 ms - 0\u001b[0m","timestamp":"2025-04-07T08:59:28.000Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 65.736 ms - -\u001b[0m","timestamp":"2025-04-07T08:59:28.130Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 36.595 ms - -\u001b[0m","timestamp":"2025-04-07T08:59:29.472Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.270 ms - 0\u001b[0m","timestamp":"2025-04-07T08:59:37.513Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 54.482 ms - -\u001b[0m","timestamp":"2025-04-07T08:59:37.586Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.359 ms - 0\u001b[0m","timestamp":"2025-04-07T08:59:43.356Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 65.486 ms - -\u001b[0m","timestamp":"2025-04-07T08:59:43.438Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.339 ms - 0\u001b[0m","timestamp":"2025-04-07T09:00:05.740Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.484 ms - -\u001b[0m","timestamp":"2025-04-07T09:00:05.845Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 82.600 ms - -\u001b[0m","timestamp":"2025-04-07T09:00:08.692Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.397 ms - -\u001b[0m","timestamp":"2025-04-07T09:00:08.812Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.259 ms - 0\u001b[0m","timestamp":"2025-04-07T09:00:17.355Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.863 ms - -\u001b[0m","timestamp":"2025-04-07T09:00:17.440Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.284 ms - 0\u001b[0m","timestamp":"2025-04-07T09:00:51.936Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 32.777 ms - -\u001b[0m","timestamp":"2025-04-07T09:00:51.985Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 44.875 ms - -\u001b[0m","timestamp":"2025-04-07T09:00:56.435Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 73.090 ms - -\u001b[0m","timestamp":"2025-04-07T09:00:56.537Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.218 ms - 0\u001b[0m","timestamp":"2025-04-07T09:01:07.978Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 58.386 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:08.052Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 60.135 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:09.818Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.002 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:12.838Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.266 ms - 0\u001b[0m","timestamp":"2025-04-07T09:01:17.113Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.260 ms - 0\u001b[0m","timestamp":"2025-04-07T09:01:17.123Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.650 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:17.234Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.988 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:17.317Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.285 ms - 0\u001b[0m","timestamp":"2025-04-07T09:01:36.774Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 58.231 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:36.859Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 47.468 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:39.809Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.279 ms - 0\u001b[0m","timestamp":"2025-04-07T09:01:57.534Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.298 ms - 0\u001b[0m","timestamp":"2025-04-07T09:01:57.537Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 79.707 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:57.639Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 86.047 ms - -\u001b[0m","timestamp":"2025-04-07T09:01:57.741Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.299 ms - 0\u001b[0m","timestamp":"2025-04-07T09:02:17.546Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.325 ms - -\u001b[0m","timestamp":"2025-04-07T09:02:17.742Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 82.167 ms - -\u001b[0m","timestamp":"2025-04-07T09:02:22.702Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.409 ms - 0\u001b[0m","timestamp":"2025-04-07T09:02:46.373Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.921 ms - -\u001b[0m","timestamp":"2025-04-07T09:02:46.485Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.261 ms - 0\u001b[0m","timestamp":"2025-04-07T09:02:59.813Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.216 ms - -\u001b[0m","timestamp":"2025-04-07T09:03:00.332Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.297 ms - 0\u001b[0m","timestamp":"2025-04-07T09:04:02.106Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.369 ms - 0\u001b[0m","timestamp":"2025-04-07T09:04:02.113Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 42.313 ms - -\u001b[0m","timestamp":"2025-04-07T09:04:02.208Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 35.268 ms - -\u001b[0m","timestamp":"2025-04-07T09:04:02.270Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.316 ms - 0\u001b[0m","timestamp":"2025-04-07T09:05:03.349Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.261 ms - 0\u001b[0m","timestamp":"2025-04-07T09:05:03.352Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 57.765 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:03.445Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 63.389 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:03.514Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.211 ms - 0\u001b[0m","timestamp":"2025-04-07T09:05:20.598Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 59.150 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:20.729Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 53.444 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:22.816Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.252 ms - 0\u001b[0m","timestamp":"2025-04-07T09:05:27.641Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 55.467 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:27.702Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.606 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:30.358Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.334 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:31.275Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.267 ms - 0\u001b[0m","timestamp":"2025-04-07T09:05:34.461Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 66.590 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:34.561Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 29.588 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:36.928Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.285 ms - 0\u001b[0m","timestamp":"2025-04-07T09:05:40.352Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 49.210 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:40.405Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 57.950 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:41.779Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.230 ms - 0\u001b[0m","timestamp":"2025-04-07T09:05:59.533Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 48.182 ms - -\u001b[0m","timestamp":"2025-04-07T09:05:59.600Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.391 ms - 0\u001b[0m","timestamp":"2025-04-07T09:06:11.905Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.575 ms - -\u001b[0m","timestamp":"2025-04-07T09:06:11.999Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 49.581 ms - -\u001b[0m","timestamp":"2025-04-07T09:06:13.679Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 82.980 ms - -\u001b[0m","timestamp":"2025-04-07T09:06:15.279Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.288 ms - 0\u001b[0m","timestamp":"2025-04-07T09:07:36.315Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.119 ms - -\u001b[0m","timestamp":"2025-04-07T09:07:36.441Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.264 ms - 0\u001b[0m","timestamp":"2025-04-07T09:08:22.548Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 36.783 ms - -\u001b[0m","timestamp":"2025-04-07T09:08:22.594Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.346 ms - 0\u001b[0m","timestamp":"2025-04-07T09:08:41.839Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.105 ms - -\u001b[0m","timestamp":"2025-04-07T09:08:41.931Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.227 ms - 0\u001b[0m","timestamp":"2025-04-07T09:09:45.651Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 52.724 ms - -\u001b[0m","timestamp":"2025-04-07T09:09:45.712Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.255 ms - 0\u001b[0m","timestamp":"2025-04-07T09:10:20.591Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 41.535 ms - -\u001b[0m","timestamp":"2025-04-07T09:10:20.639Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.332 ms - 0\u001b[0m","timestamp":"2025-04-07T09:10:40.009Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 24.924 ms - -\u001b[0m","timestamp":"2025-04-07T09:10:40.041Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.264 ms - 0\u001b[0m","timestamp":"2025-04-07T09:11:06.427Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 25.274 ms - -\u001b[0m","timestamp":"2025-04-07T09:11:06.463Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.211 ms - 0\u001b[0m","timestamp":"2025-04-07T09:11:20.634Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 41.505 ms - -\u001b[0m","timestamp":"2025-04-07T09:11:20.683Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.495 ms - 0\u001b[0m","timestamp":"2025-04-07T09:11:36.328Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 72.075 ms - -\u001b[0m","timestamp":"2025-04-07T09:11:36.443Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.262 ms - 0\u001b[0m","timestamp":"2025-04-07T09:12:05.380Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.286 ms - 0\u001b[0m","timestamp":"2025-04-07T09:12:05.384Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 65.805 ms - -\u001b[0m","timestamp":"2025-04-07T09:12:05.471Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 65.792 ms - -\u001b[0m","timestamp":"2025-04-07T09:12:05.550Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.251 ms - 0\u001b[0m","timestamp":"2025-04-07T09:12:19.782Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[32m201\u001b[0m 42.043 ms - 229\u001b[0m","timestamp":"2025-04-07T09:12:19.869Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.326 ms - 0\u001b[0m","timestamp":"2025-04-07T09:12:31.892Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.300 ms - 0\u001b[0m","timestamp":"2025-04-07T09:12:31.929Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 91.336 ms - 157147\u001b[0m","timestamp":"2025-04-07T09:12:32.035Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 86.743 ms - -\u001b[0m","timestamp":"2025-04-07T09:12:32.136Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T09:21:40.118Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T09:21:40.228Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T09:21:40.306Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T09:21:40.322Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 13.441 ms - 0\u001b[0m","timestamp":"2025-04-07T09:22:19.828Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.801 ms - 0\u001b[0m","timestamp":"2025-04-07T09:22:19.843Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 273.003 ms - 146503\u001b[0m","timestamp":"2025-04-07T09:22:20.190Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 131.685 ms - -\u001b[0m","timestamp":"2025-04-07T09:22:20.343Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.277 ms - 0\u001b[0m","timestamp":"2025-04-07T09:22:38.061Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 98.013 ms - 48\u001b[0m","timestamp":"2025-04-07T09:22:38.224Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.734 ms - 0\u001b[0m","timestamp":"2025-04-07T09:23:46.433Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.375 ms - 0\u001b[0m","timestamp":"2025-04-07T09:23:46.445Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 115.009 ms - 157147\u001b[0m","timestamp":"2025-04-07T09:23:46.621Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 115.683 ms - -\u001b[0m","timestamp":"2025-04-07T09:23:46.748Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.362 ms - 0\u001b[0m","timestamp":"2025-04-07T09:24:07.613Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 57.047 ms - -\u001b[0m","timestamp":"2025-04-07T09:24:07.680Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T09:26:26.365Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T09:26:26.463Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T09:26:26.519Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T09:26:26.538Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 3.869 ms - 0\u001b[0m","timestamp":"2025-04-07T09:26:32.675Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.427 ms - 0\u001b[0m","timestamp":"2025-04-07T09:26:32.681Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 250.263 ms - 146503\u001b[0m","timestamp":"2025-04-07T09:26:32.964Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 145.467 ms - -\u001b[0m","timestamp":"2025-04-07T09:26:33.125Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.628 ms - 0\u001b[0m","timestamp":"2025-04-07T09:26:41.212Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 30.495 ms - 48\u001b[0m","timestamp":"2025-04-07T09:26:41.280Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.714 ms - 0\u001b[0m","timestamp":"2025-04-07T09:27:24.128Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.267 ms - 0\u001b[0m","timestamp":"2025-04-07T09:27:24.140Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 118.416 ms - 157147\u001b[0m","timestamp":"2025-04-07T09:27:24.263Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.166 ms - -\u001b[0m","timestamp":"2025-04-07T09:27:24.407Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T09:29:23.173Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T09:29:23.262Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T09:29:23.319Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T09:29:23.333Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 4.010 ms - 0\u001b[0m","timestamp":"2025-04-07T09:29:25.383Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.626 ms - 0\u001b[0m","timestamp":"2025-04-07T09:29:25.388Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 197.991 ms - 146503\u001b[0m","timestamp":"2025-04-07T09:29:25.607Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.099 ms - -\u001b[0m","timestamp":"2025-04-07T09:29:25.693Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.513 ms - 0\u001b[0m","timestamp":"2025-04-07T09:29:41.450Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 83.921 ms - 48\u001b[0m","timestamp":"2025-04-07T09:29:41.597Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T09:32:43.941Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T09:32:44.053Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T09:32:44.119Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T09:32:44.132Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 13.317 ms - 0\u001b[0m","timestamp":"2025-04-07T09:32:50.507Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.425 ms - 0\u001b[0m","timestamp":"2025-04-07T09:32:50.512Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 249.256 ms - -\u001b[0m","timestamp":"2025-04-07T09:32:50.773Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 156.148 ms - -\u001b[0m","timestamp":"2025-04-07T09:32:50.934Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.320 ms - 0\u001b[0m","timestamp":"2025-04-07T09:33:03.188Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 42.550 ms - 48\u001b[0m","timestamp":"2025-04-07T09:33:03.265Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.622 ms - 0\u001b[0m","timestamp":"2025-04-07T09:33:18.993Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 61.399 ms - 157147\u001b[0m","timestamp":"2025-04-07T09:33:19.073Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T09:36:37.426Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T09:36:37.535Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T09:36:37.604Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T09:36:37.619Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 12.954 ms - 0\u001b[0m","timestamp":"2025-04-07T09:36:40.093Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.590 ms - 0\u001b[0m","timestamp":"2025-04-07T09:36:40.107Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 247.114 ms - -\u001b[0m","timestamp":"2025-04-07T09:36:40.383Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 100.366 ms - -\u001b[0m","timestamp":"2025-04-07T09:36:40.521Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.188 ms - 0\u001b[0m","timestamp":"2025-04-07T09:36:55.320Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 23.161 ms - 48\u001b[0m","timestamp":"2025-04-07T09:36:55.374Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T09:37:27.892Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T09:37:28.001Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T09:37:28.124Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T09:37:28.144Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 12.315 ms - 0\u001b[0m","timestamp":"2025-04-07T09:37:37.147Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.448 ms - 0\u001b[0m","timestamp":"2025-04-07T09:37:37.163Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 249.488 ms - 167791\u001b[0m","timestamp":"2025-04-07T09:37:37.435Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 127.103 ms - -\u001b[0m","timestamp":"2025-04-07T09:37:37.590Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.420 ms - 0\u001b[0m","timestamp":"2025-04-07T09:38:11.519Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 49.430 ms - 48\u001b[0m","timestamp":"2025-04-07T09:38:11.601Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.722 ms - 0\u001b[0m","timestamp":"2025-04-07T09:38:26.086Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 29.412 ms - 48\u001b[0m","timestamp":"2025-04-07T09:38:26.132Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 1.386 ms - 0\u001b[0m","timestamp":"2025-04-07T09:38:55.883Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 103.020 ms - 189075\u001b[0m","timestamp":"2025-04-07T09:38:56.068Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.423 ms - 0\u001b[0m","timestamp":"2025-04-07T09:38:59.981Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.364 ms - 0\u001b[0m","timestamp":"2025-04-07T09:39:33.521Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 19.776 ms - 48\u001b[0m","timestamp":"2025-04-07T09:39:33.566Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.392 ms - 0\u001b[0m","timestamp":"2025-04-07T09:40:09.875Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 74.455 ms - 199717\u001b[0m","timestamp":"2025-04-07T09:40:10.056Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.442 ms - 0\u001b[0m","timestamp":"2025-04-07T09:40:17.623Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 32.702 ms - 48\u001b[0m","timestamp":"2025-04-07T09:40:17.713Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.437 ms - 0\u001b[0m","timestamp":"2025-04-07T09:40:29.499Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 25.088 ms - 48\u001b[0m","timestamp":"2025-04-07T09:40:29.545Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.412 ms - 0\u001b[0m","timestamp":"2025-04-07T09:40:48.741Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 76.966 ms - 221002\u001b[0m","timestamp":"2025-04-07T09:40:48.846Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 0.449 ms - 0\u001b[0m","timestamp":"2025-04-07T09:40:57.219Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 32.244 ms - 48\u001b[0m","timestamp":"2025-04-07T09:40:57.305Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:10:23.055Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:10:23.202Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:10:23.280Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:10:23.298Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 11.806 ms - 0\u001b[0m","timestamp":"2025-04-07T10:11:16.296Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 110.180 ms - 48\u001b[0m","timestamp":"2025-04-07T10:11:16.471Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:13:11.577Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:13:11.685Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:13:11.760Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:13:11.772Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 4.271 ms - 0\u001b[0m","timestamp":"2025-04-07T10:13:34.187Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 60.853 ms - 48\u001b[0m","timestamp":"2025-04-07T10:13:34.294Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:14:40.995Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:14:41.151Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:14:41.259Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:14:41.278Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 12.408 ms - 0\u001b[0m","timestamp":"2025-04-07T10:14:43.241Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 89.836 ms - 48\u001b[0m","timestamp":"2025-04-07T10:14:43.369Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:22:47.022Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:22:47.142Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:22:47.216Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:22:47.231Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/ \u001b[32m204\u001b[0m 3.146 ms - 0\u001b[0m","timestamp":"2025-04-07T10:22:52.277Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating/ \u001b[33m404\u001b[0m 50.966 ms - 48\u001b[0m","timestamp":"2025-04-07T10:22:52.356Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.456 ms - 0\u001b[0m","timestamp":"2025-04-07T10:24:08.545Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 203.004 ms - 274218\u001b[0m","timestamp":"2025-04-07T10:24:08.828Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.494 ms - 0\u001b[0m","timestamp":"2025-04-07T10:24:15.305Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 37.715 ms - 48\u001b[0m","timestamp":"2025-04-07T10:24:15.359Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.661 ms - 0\u001b[0m","timestamp":"2025-04-07T10:25:37.109Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 108.427 ms - 284862\u001b[0m","timestamp":"2025-04-07T10:25:37.266Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 116.534 ms - -\u001b[0m","timestamp":"2025-04-07T10:25:41.415Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.306 ms - 0\u001b[0m","timestamp":"2025-04-07T10:25:45.908Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 113.363 ms - -\u001b[0m","timestamp":"2025-04-07T10:25:46.069Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.591 ms - 0\u001b[0m","timestamp":"2025-04-07T10:25:52.733Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 103.378 ms - -\u001b[0m","timestamp":"2025-04-07T10:25:52.893Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 123.648 ms - -\u001b[0m","timestamp":"2025-04-07T10:25:56.167Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.353 ms - 0\u001b[0m","timestamp":"2025-04-07T10:25:59.061Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 48.085 ms - 48\u001b[0m","timestamp":"2025-04-07T10:25:59.113Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 26.985 ms - 48\u001b[0m","timestamp":"2025-04-07T10:28:01.064Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 2.361 ms - 0\u001b[0m","timestamp":"2025-04-07T10:29:02.557Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.512 ms - 0\u001b[0m","timestamp":"2025-04-07T10:29:02.560Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 118.721 ms - 306159\u001b[0m","timestamp":"2025-04-07T10:29:02.703Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 135.620 ms - -\u001b[0m","timestamp":"2025-04-07T10:29:02.901Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 33.648 ms - 48\u001b[0m","timestamp":"2025-04-07T10:31:20.354Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:31:41.867Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:31:42.044Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:31:42.151Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:31:42.168Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 2.419 ms - 0\u001b[0m","timestamp":"2025-04-07T10:31:50.750Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 66.521 ms - 48\u001b[0m","timestamp":"2025-04-07T10:31:50.841Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:33:32.372Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:33:32.514Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:33:32.580Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:33:32.596Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 46.946 ms - 48\u001b[0m","timestamp":"2025-04-07T10:33:37.813Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:35:49.260Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:35:49.406Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:35:49.465Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:35:49.477Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[0m-\u001b[0m - ms - -\u001b[0m","timestamp":"2025-04-07T10:36:01.850Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[0m-\u001b[0m - ms - -\u001b[0m","timestamp":"2025-04-07T10:36:14.515Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T10:37:03.542Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T10:37:03.648Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T10:37:03.705Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T10:37:03.721Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[0m-\u001b[0m - ms - -\u001b[0m","timestamp":"2025-04-07T10:37:35.115Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[0m-\u001b[0m - ms - -\u001b[0m","timestamp":"2025-04-07T10:37:48.164Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 1.682 ms - 0\u001b[0m","timestamp":"2025-04-07T10:39:23.251Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.409 ms - 0\u001b[0m","timestamp":"2025-04-07T10:39:23.350Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 178.793 ms - 145863\u001b[0m","timestamp":"2025-04-07T10:39:23.540Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 52.115 ms - -\u001b[0m","timestamp":"2025-04-07T10:39:23.602Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T11:37:21.821Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T11:37:21.964Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T11:37:22.424Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T11:37:22.467Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[0m-\u001b[0m - ms - -\u001b[0m","timestamp":"2025-04-07T11:37:56.486Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[0m-\u001b[0m - ms - -\u001b[0m","timestamp":"2025-04-07T11:38:26.081Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T11:38:53.030Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T11:38:53.254Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T11:38:53.393Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T11:38:53.421Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[32m201\u001b[0m 98.060 ms - 10748\u001b[0m","timestamp":"2025-04-07T11:39:00.544Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 1.331 ms - 0\u001b[0m","timestamp":"2025-04-07T11:39:53.783Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.431 ms - 0\u001b[0m","timestamp":"2025-04-07T11:39:53.797Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[32m200\u001b[0m 136.068 ms - 440\u001b[0m","timestamp":"2025-04-07T11:39:53.937Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 67.793 ms - -\u001b[0m","timestamp":"2025-04-07T11:39:54.027Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.540 ms - 0\u001b[0m","timestamp":"2025-04-07T11:39:55.514Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.738 ms - 0\u001b[0m","timestamp":"2025-04-07T11:39:55.517Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 100.634 ms - 156553\u001b[0m","timestamp":"2025-04-07T11:39:55.627Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.720 ms - -\u001b[0m","timestamp":"2025-04-07T11:39:55.708Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.400 ms - 0\u001b[0m","timestamp":"2025-04-07T11:41:52.469Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 66.217 ms - -\u001b[0m","timestamp":"2025-04-07T11:41:52.556Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 133.874 ms - -\u001b[0m","timestamp":"2025-04-07T11:41:56.930Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.307 ms - 0\u001b[0m","timestamp":"2025-04-07T11:42:26.702Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.801 ms - -\u001b[0m","timestamp":"2025-04-07T11:42:26.780Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.634 ms - 0\u001b[0m","timestamp":"2025-04-07T11:43:48.703Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.694 ms - -\u001b[0m","timestamp":"2025-04-07T11:43:48.833Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.441 ms - 0\u001b[0m","timestamp":"2025-04-07T11:44:07.410Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 64.492 ms - -\u001b[0m","timestamp":"2025-04-07T11:44:07.490Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.888 ms - -\u001b[0m","timestamp":"2025-04-07T11:44:10.392Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.467 ms - 0\u001b[0m","timestamp":"2025-04-07T11:44:26.886Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 74.541 ms - -\u001b[0m","timestamp":"2025-04-07T11:44:27.008Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.358 ms - 0\u001b[0m","timestamp":"2025-04-07T11:44:36.192Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 62.428 ms - -\u001b[0m","timestamp":"2025-04-07T11:44:36.275Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.471 ms - 0\u001b[0m","timestamp":"2025-04-07T11:44:51.156Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 114.062 ms - -\u001b[0m","timestamp":"2025-04-07T11:44:51.356Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 49.451 ms - -\u001b[0m","timestamp":"2025-04-07T11:44:56.038Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.283 ms - 0\u001b[0m","timestamp":"2025-04-07T11:45:07.852Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[32m201\u001b[0m 19.926 ms - 10735\u001b[0m","timestamp":"2025-04-07T11:45:07.888Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.720 ms - 0\u001b[0m","timestamp":"2025-04-07T11:45:14.303Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.262 ms - 0\u001b[0m","timestamp":"2025-04-07T11:45:14.316Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 91.936 ms - 167193\u001b[0m","timestamp":"2025-04-07T11:45:14.476Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 90.404 ms - -\u001b[0m","timestamp":"2025-04-07T11:45:14.602Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.291 ms - 0\u001b[0m","timestamp":"2025-04-07T11:46:38.568Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 53.863 ms - 156553\u001b[0m","timestamp":"2025-04-07T11:46:38.634Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.244 ms - 0\u001b[0m","timestamp":"2025-04-07T11:47:34.801Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 40.136 ms - -\u001b[0m","timestamp":"2025-04-07T11:47:34.848Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.272 ms - 0\u001b[0m","timestamp":"2025-04-07T11:48:21.476Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.008 ms - -\u001b[0m","timestamp":"2025-04-07T11:48:21.563Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.266 ms - 0\u001b[0m","timestamp":"2025-04-07T11:48:29.894Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 63.281 ms - -\u001b[0m","timestamp":"2025-04-07T11:48:30.088Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.331 ms - 0\u001b[0m","timestamp":"2025-04-07T11:48:35.759Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 89.344 ms - -\u001b[0m","timestamp":"2025-04-07T11:48:35.882Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 60.974 ms - -\u001b[0m","timestamp":"2025-04-07T11:48:36.750Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 78.048 ms - -\u001b[0m","timestamp":"2025-04-07T11:48:39.358Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.318 ms - 0\u001b[0m","timestamp":"2025-04-07T11:48:51.810Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.425 ms - 0\u001b[0m","timestamp":"2025-04-07T11:48:51.822Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.458 ms - -\u001b[0m","timestamp":"2025-04-07T11:48:51.896Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 155.915 ms - -\u001b[0m","timestamp":"2025-04-07T11:48:52.063Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.344 ms - 0\u001b[0m","timestamp":"2025-04-07T11:49:01.653Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 58.214 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:01.733Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 74.332 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:03.379Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.748 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:05.835Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.468 ms - 0\u001b[0m","timestamp":"2025-04-07T11:49:11.737Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.346 ms - 0\u001b[0m","timestamp":"2025-04-07T11:49:11.740Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 108.587 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:11.874Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 82.385 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:11.960Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.240 ms - 0\u001b[0m","timestamp":"2025-04-07T11:49:22.999Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 62.379 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:23.107Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 65.966 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:24.200Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.302 ms - 0\u001b[0m","timestamp":"2025-04-07T11:49:33.383Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 62.003 ms - -\u001b[0m","timestamp":"2025-04-07T11:49:33.457Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.402 ms - 0\u001b[0m","timestamp":"2025-04-07T11:50:45.838Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.505 ms - -\u001b[0m","timestamp":"2025-04-07T11:50:46.220Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 74.030 ms - -\u001b[0m","timestamp":"2025-04-07T11:50:50.038Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-07T11:51:04.694Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 79.005 ms - -\u001b[0m","timestamp":"2025-04-07T11:51:04.784Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.274 ms - 0\u001b[0m","timestamp":"2025-04-07T11:51:12.700Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.413 ms - -\u001b[0m","timestamp":"2025-04-07T11:51:12.809Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.367 ms - 0\u001b[0m","timestamp":"2025-04-07T11:51:19.941Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.172 ms - -\u001b[0m","timestamp":"2025-04-07T11:51:20.023Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.390 ms - 0\u001b[0m","timestamp":"2025-04-07T11:51:26.093Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 89.875 ms - -\u001b[0m","timestamp":"2025-04-07T11:51:26.212Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.298 ms - 0\u001b[0m","timestamp":"2025-04-07T11:51:33.326Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 73.441 ms - -\u001b[0m","timestamp":"2025-04-07T11:51:33.417Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.318 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:01.530Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.280 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:01.535Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 85.993 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:02.233Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 99.039 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:02.523Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 79.016 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:04.515Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.340 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:09.390Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 52.395 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:09.474Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.330 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:21.281Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 65.995 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:21.663Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 54.240 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:23.089Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.301 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:29.775Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.648 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:29.873Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.296 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:43.759Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.870 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:43.887Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.265 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:49.669Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 95.121 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:49.834Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.295 ms - 0\u001b[0m","timestamp":"2025-04-07T11:52:59.018Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 40.709 ms - -\u001b[0m","timestamp":"2025-04-07T11:52:59.095Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.268 ms - 0\u001b[0m","timestamp":"2025-04-07T11:54:16.430Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 46.092 ms - -\u001b[0m","timestamp":"2025-04-07T11:54:16.485Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.330 ms - 0\u001b[0m","timestamp":"2025-04-07T11:54:42.729Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.346 ms - 0\u001b[0m","timestamp":"2025-04-07T11:54:42.733Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 54.405 ms - -\u001b[0m","timestamp":"2025-04-07T11:54:42.793Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 54.150 ms - -\u001b[0m","timestamp":"2025-04-07T11:54:42.861Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.374 ms - 0\u001b[0m","timestamp":"2025-04-07T11:55:05.258Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 61.403 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:05.352Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 64.131 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:05.433Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 53.012 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:06.955Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 66.241 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:07.028Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.306 ms - 0\u001b[0m","timestamp":"2025-04-07T11:55:12.927Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.310 ms - 0\u001b[0m","timestamp":"2025-04-07T11:55:12.930Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 72.493 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:13.027Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.832 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:13.111Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.308 ms - 0\u001b[0m","timestamp":"2025-04-07T11:55:32.263Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.356 ms - 0\u001b[0m","timestamp":"2025-04-07T11:55:32.267Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 44.684 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:32.330Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 37.194 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:32.377Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 9.731 ms - 0\u001b[0m","timestamp":"2025-04-07T11:55:50.848Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.230 ms - 0\u001b[0m","timestamp":"2025-04-07T11:55:50.861Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 108.486 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:51.097Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 115.704 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:51.330Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 58.980 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:53.616Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.375 ms - -\u001b[0m","timestamp":"2025-04-07T11:55:53.713Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.213 ms - 0\u001b[0m","timestamp":"2025-04-07T11:56:02.889Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 72.972 ms - -\u001b[0m","timestamp":"2025-04-07T11:56:03.006Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.312 ms - 0\u001b[0m","timestamp":"2025-04-07T11:56:15.764Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 52.891 ms - -\u001b[0m","timestamp":"2025-04-07T11:56:15.901Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.366 ms - -\u001b[0m","timestamp":"2025-04-07T11:56:19.148Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.224 ms - 0\u001b[0m","timestamp":"2025-04-07T11:56:48.231Z"}
+{"level":"info","message":"\u001b[0mPUT /api/rating \u001b[33m404\u001b[0m 4.902 ms - 48\u001b[0m","timestamp":"2025-04-07T11:56:48.247Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.301 ms - 0\u001b[0m","timestamp":"2025-04-07T11:57:13.641Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.278 ms - -\u001b[0m","timestamp":"2025-04-07T11:57:13.751Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 44.918 ms - -\u001b[0m","timestamp":"2025-04-07T11:57:14.885Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.265 ms - 0\u001b[0m","timestamp":"2025-04-07T11:57:41.110Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.978 ms - -\u001b[0m","timestamp":"2025-04-07T11:57:41.245Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.243 ms - 0\u001b[0m","timestamp":"2025-04-07T11:57:46.989Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 69.644 ms - -\u001b[0m","timestamp":"2025-04-07T11:57:47.160Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.240 ms - 0\u001b[0m","timestamp":"2025-04-07T11:57:53.860Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 86.923 ms - -\u001b[0m","timestamp":"2025-04-07T11:57:54.228Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 55.359 ms - -\u001b[0m","timestamp":"2025-04-07T11:57:56.459Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/undefined \u001b[32m204\u001b[0m 0.326 ms - 0\u001b[0m","timestamp":"2025-04-07T11:57:58.145Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.239 ms - 0\u001b[0m","timestamp":"2025-04-07T11:58:49.463Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.817 ms - -\u001b[0m","timestamp":"2025-04-07T11:58:49.562Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.312 ms - 0\u001b[0m","timestamp":"2025-04-07T11:59:25.587Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 99.718 ms - -\u001b[0m","timestamp":"2025-04-07T11:59:25.726Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.851 ms - -\u001b[0m","timestamp":"2025-04-07T11:59:29.152Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 73.755 ms - -\u001b[0m","timestamp":"2025-04-07T11:59:29.410Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.511 ms - -\u001b[0m","timestamp":"2025-04-07T11:59:30.508Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/undefined \u001b[32m204\u001b[0m 0.344 ms - 0\u001b[0m","timestamp":"2025-04-07T11:59:34.575Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/rating/undefined \u001b[31m500\u001b[0m 542.575 ms - 50\u001b[0m","timestamp":"2025-04-07T11:59:35.178Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.332 ms - 0\u001b[0m","timestamp":"2025-04-07T12:00:23.609Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 85.078 ms - -\u001b[0m","timestamp":"2025-04-07T12:00:23.783Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 71.245 ms - -\u001b[0m","timestamp":"2025-04-07T12:00:26.285Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.953 ms - -\u001b[0m","timestamp":"2025-04-07T12:00:27.713Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.278 ms - 0\u001b[0m","timestamp":"2025-04-07T12:00:32.021Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 80.993 ms - -\u001b[0m","timestamp":"2025-04-07T12:00:32.108Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 66.098 ms - -\u001b[0m","timestamp":"2025-04-07T12:00:34.575Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 91.795 ms - -\u001b[0m","timestamp":"2025-04-07T12:00:36.659Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.298 ms - 0\u001b[0m","timestamp":"2025-04-07T12:00:39.965Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.294 ms - -\u001b[0m","timestamp":"2025-04-07T12:00:40.049Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/undefined \u001b[32m204\u001b[0m 0.323 ms - 0\u001b[0m","timestamp":"2025-04-07T12:00:46.768Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/rating/undefined \u001b[31m500\u001b[0m 169.793 ms - 50\u001b[0m","timestamp":"2025-04-07T12:00:46.994Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.360 ms - 0\u001b[0m","timestamp":"2025-04-07T12:01:13.604Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 102.030 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:13.735Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 47.685 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:17.887Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.281 ms - 0\u001b[0m","timestamp":"2025-04-07T12:01:21.913Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.716 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:21.995Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.251 ms - 0\u001b[0m","timestamp":"2025-04-07T12:01:33.034Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 61.158 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:33.145Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.250 ms - 0\u001b[0m","timestamp":"2025-04-07T12:01:42.616Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.486 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:42.801Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 66.286 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:44.295Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.266 ms - 0\u001b[0m","timestamp":"2025-04-07T12:01:48.313Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 57.346 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:48.430Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 33.926 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:52.701Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.338 ms - 0\u001b[0m","timestamp":"2025-04-07T12:01:55.164Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 44.218 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:55.222Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 47.601 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:56.966Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 62.087 ms - -\u001b[0m","timestamp":"2025-04-07T12:01:59.965Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/undefined \u001b[32m204\u001b[0m 0.287 ms - 0\u001b[0m","timestamp":"2025-04-07T12:02:16.567Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/rating/undefined \u001b[31m500\u001b[0m 134.435 ms - 50\u001b[0m","timestamp":"2025-04-07T12:02:16.719Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.275 ms - 0\u001b[0m","timestamp":"2025-04-07T12:03:08.148Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.353 ms - -\u001b[0m","timestamp":"2025-04-07T12:03:08.267Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 70.750 ms - -\u001b[0m","timestamp":"2025-04-07T12:03:11.388Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.317 ms - 0\u001b[0m","timestamp":"2025-04-07T12:03:16.930Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 50.363 ms - -\u001b[0m","timestamp":"2025-04-07T12:03:16.999Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 37.278 ms - -\u001b[0m","timestamp":"2025-04-07T12:03:21.662Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/rating/67f3b954b5a5df1543603e18 \u001b[32m202\u001b[0m 13.357 ms - 56\u001b[0m","timestamp":"2025-04-07T12:09:04.842Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T12:11:24.209Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T12:11:24.311Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T12:11:24.380Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T12:11:24.394Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 3.164 ms - 0\u001b[0m","timestamp":"2025-04-07T12:11:30.052Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.786 ms - 0\u001b[0m","timestamp":"2025-04-07T12:11:30.057Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 177.134 ms - 156581\u001b[0m","timestamp":"2025-04-07T12:11:30.295Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 105.661 ms - -\u001b[0m","timestamp":"2025-04-07T12:11:30.411Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/67f3b954b5a5df1543603e18 \u001b[32m204\u001b[0m 0.360 ms - 0\u001b[0m","timestamp":"2025-04-07T12:11:44.031Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/rating/67f3b954b5a5df1543603e18 \u001b[32m202\u001b[0m 43.612 ms - 10754\u001b[0m","timestamp":"2025-04-07T12:11:44.107Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.745 ms - 0\u001b[0m","timestamp":"2025-04-07T12:11:53.088Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.452 ms - 0\u001b[0m","timestamp":"2025-04-07T12:11:53.093Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 79.269 ms - 156579\u001b[0m","timestamp":"2025-04-07T12:11:53.205Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 76.360 ms - -\u001b[0m","timestamp":"2025-04-07T12:11:53.294Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating \u001b[32m204\u001b[0m 0.384 ms - 0\u001b[0m","timestamp":"2025-04-07T12:12:12.299Z"}
+{"level":"info","message":"\u001b[0mPOST /api/rating \u001b[33m404\u001b[0m 50.793 ms - 48\u001b[0m","timestamp":"2025-04-07T12:12:12.419Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.496 ms - 0\u001b[0m","timestamp":"2025-04-07T12:12:15.681Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.485 ms - 0\u001b[0m","timestamp":"2025-04-07T12:12:15.771Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 103.937 ms - 167255\u001b[0m","timestamp":"2025-04-07T12:12:15.923Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.279 ms - -\u001b[0m","timestamp":"2025-04-07T12:12:16.010Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.490 ms - 0\u001b[0m","timestamp":"2025-04-07T12:12:41.835Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.221 ms - -\u001b[0m","timestamp":"2025-04-07T12:12:42.024Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.655 ms - 0\u001b[0m","timestamp":"2025-04-07T12:13:01.052Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.169 ms - -\u001b[0m","timestamp":"2025-04-07T12:13:01.133Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.398 ms - 0\u001b[0m","timestamp":"2025-04-07T12:13:06.977Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 84.586 ms - -\u001b[0m","timestamp":"2025-04-07T12:13:07.128Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/rating/67f3c11c888c302f9042f21a \u001b[32m204\u001b[0m 0.487 ms - 0\u001b[0m","timestamp":"2025-04-07T12:13:09.294Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/rating/67f3c11c888c302f9042f21a \u001b[33m404\u001b[0m 26.425 ms - 48\u001b[0m","timestamp":"2025-04-07T12:13:09.369Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.522 ms - 0\u001b[0m","timestamp":"2025-04-07T12:13:23.552Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.321 ms - 0\u001b[0m","timestamp":"2025-04-07T12:13:23.557Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 74.234 ms - 156579\u001b[0m","timestamp":"2025-04-07T12:13:23.659Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 103.070 ms - -\u001b[0m","timestamp":"2025-04-07T12:13:23.823Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.329 ms - 0\u001b[0m","timestamp":"2025-04-07T12:19:00.829Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 98.199 ms - -\u001b[0m","timestamp":"2025-04-07T12:19:00.939Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 75.255 ms - -\u001b[0m","timestamp":"2025-04-07T12:19:01.254Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.275 ms - 0\u001b[0m","timestamp":"2025-04-07T12:19:06.711Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 55.166 ms - -\u001b[0m","timestamp":"2025-04-07T12:19:06.776Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.290 ms - 0\u001b[0m","timestamp":"2025-04-07T12:20:16.925Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 53.874 ms - -\u001b[0m","timestamp":"2025-04-07T12:20:16.986Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.348 ms - 0\u001b[0m","timestamp":"2025-04-07T12:20:23.189Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.273 ms - 0\u001b[0m","timestamp":"2025-04-07T12:20:23.192Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 37.870 ms - -\u001b[0m","timestamp":"2025-04-07T12:20:23.239Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 62.421 ms - -\u001b[0m","timestamp":"2025-04-07T12:20:23.317Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.315 ms - 0\u001b[0m","timestamp":"2025-04-07T12:21:37.204Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.345 ms - 0\u001b[0m","timestamp":"2025-04-07T12:21:37.208Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 34.617 ms - -\u001b[0m","timestamp":"2025-04-07T12:21:37.256Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 39.901 ms - -\u001b[0m","timestamp":"2025-04-07T12:21:37.298Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.320 ms - 0\u001b[0m","timestamp":"2025-04-07T12:22:51.225Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.266 ms - 0\u001b[0m","timestamp":"2025-04-07T12:22:51.232Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.167 ms - -\u001b[0m","timestamp":"2025-04-07T12:22:51.333Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.665 ms - -\u001b[0m","timestamp":"2025-04-07T12:22:51.428Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.254 ms - 0\u001b[0m","timestamp":"2025-04-07T12:23:50.610Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 88.043 ms - -\u001b[0m","timestamp":"2025-04-07T12:23:50.742Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 68.072 ms - -\u001b[0m","timestamp":"2025-04-07T12:23:54.450Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 74.380 ms - -\u001b[0m","timestamp":"2025-04-07T12:23:54.587Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.337 ms - 0\u001b[0m","timestamp":"2025-04-07T12:24:04.092Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.337 ms - 0\u001b[0m","timestamp":"2025-04-07T12:24:04.102Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[32m200\u001b[0m 43.721 ms - 438\u001b[0m","timestamp":"2025-04-07T12:24:04.159Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 43.024 ms - -\u001b[0m","timestamp":"2025-04-07T12:24:04.217Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.448 ms - 0\u001b[0m","timestamp":"2025-04-07T12:24:05.453Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.278 ms - 0\u001b[0m","timestamp":"2025-04-07T12:24:05.455Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[32m200\u001b[0m 30.675 ms - 544\u001b[0m","timestamp":"2025-04-07T12:24:05.494Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 57.783 ms - -\u001b[0m","timestamp":"2025-04-07T12:24:05.563Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.365 ms - 0\u001b[0m","timestamp":"2025-04-07T12:29:12.169Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.300 ms - 0\u001b[0m","timestamp":"2025-04-07T12:29:12.177Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 53.898 ms - -\u001b[0m","timestamp":"2025-04-07T12:29:12.245Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 60.903 ms - -\u001b[0m","timestamp":"2025-04-07T12:29:12.337Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.351 ms - 0\u001b[0m","timestamp":"2025-04-07T12:34:26.163Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.326 ms - 0\u001b[0m","timestamp":"2025-04-07T12:34:26.200Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 49.420 ms - -\u001b[0m","timestamp":"2025-04-07T12:34:26.292Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 47.168 ms - -\u001b[0m","timestamp":"2025-04-07T12:34:26.345Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.275 ms - 0\u001b[0m","timestamp":"2025-04-07T12:35:16.895Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.314 ms - 0\u001b[0m","timestamp":"2025-04-07T12:35:16.901Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 52.990 ms - -\u001b[0m","timestamp":"2025-04-07T12:35:16.976Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 43.554 ms - -\u001b[0m","timestamp":"2025-04-07T12:35:17.030Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-07T12:35:26.359Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 1.448 ms - 0\u001b[0m","timestamp":"2025-04-07T12:35:26.363Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 14.656 ms - -\u001b[0m","timestamp":"2025-04-07T12:35:26.386Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 28.993 ms - -\u001b[0m","timestamp":"2025-04-07T12:35:26.421Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.331 ms - 0\u001b[0m","timestamp":"2025-04-07T12:35:28.259Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.381 ms - 0\u001b[0m","timestamp":"2025-04-07T12:35:28.261Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 45.268 ms - -\u001b[0m","timestamp":"2025-04-07T12:35:28.353Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 49.540 ms - -\u001b[0m","timestamp":"2025-04-07T12:35:28.406Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.247 ms - 0\u001b[0m","timestamp":"2025-04-07T12:35:57.817Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 45.739 ms - -\u001b[0m","timestamp":"2025-04-07T12:35:57.887Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.133 ms - -\u001b[0m","timestamp":"2025-04-07T12:36:01.968Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 67.662 ms - -\u001b[0m","timestamp":"2025-04-07T12:36:02.113Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.237 ms - 0\u001b[0m","timestamp":"2025-04-07T12:36:09.386Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 43.616 ms - -\u001b[0m","timestamp":"2025-04-07T12:36:09.437Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.213 ms - 0\u001b[0m","timestamp":"2025-04-07T12:36:24.878Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 54.496 ms - -\u001b[0m","timestamp":"2025-04-07T12:36:25.004Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.301 ms - 0\u001b[0m","timestamp":"2025-04-07T12:36:27.879Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 1.767 ms - 0\u001b[0m","timestamp":"2025-04-07T12:36:27.899Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 21.056 ms - -\u001b[0m","timestamp":"2025-04-07T12:36:27.932Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 27.253 ms - -\u001b[0m","timestamp":"2025-04-07T12:36:27.965Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.451 ms - 0\u001b[0m","timestamp":"2025-04-07T12:36:29.173Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.285 ms - 0\u001b[0m","timestamp":"2025-04-07T12:36:29.177Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.296 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:03.745Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/26 \u001b[32m204\u001b[0m 0.328 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:03.750Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 64.279 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:03.821Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/26 \u001b[36m304\u001b[0m 62.704 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:03.908Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.286 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:07.952Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.326 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:07.955Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 33.691 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:07.998Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 39.287 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:08.044Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.304 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:08.949Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/28 \u001b[32m204\u001b[0m 0.350 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:08.952Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 45.432 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:09.014Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 59.773 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:12.756Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[36m304\u001b[0m 196.708 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:12.969Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.436 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:15.908Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 1.276 ms - 0\u001b[0m","timestamp":"2025-04-07T12:37:15.913Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 62.407 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:15.977Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 33.869 ms - -\u001b[0m","timestamp":"2025-04-07T12:37:16.016Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T13:33:29.189Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T13:33:29.520Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T13:33:29.729Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T13:33:29.767Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users \u001b[32m204\u001b[0m 13.787 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:25.062Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/training/progress \u001b[32m204\u001b[0m 0.419 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:25.068Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users \u001b[32m204\u001b[0m 0.467 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:25.072Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/training/progress \u001b[32m204\u001b[0m 0.321 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:25.075Z"}
+{"level":"info","message":"\u001b[0mGET /api/users/training/progress \u001b[36m304\u001b[0m 94.749 ms - -\u001b[0m","timestamp":"2025-04-07T13:36:25.266Z"}
+{"level":"info","message":"\u001b[0mGET /api/users \u001b[36m304\u001b[0m 193.890 ms - -\u001b[0m","timestamp":"2025-04-07T13:36:25.298Z"}
+{"level":"info","message":"\u001b[0mGET /api/users/training/progress \u001b[36m304\u001b[0m 62.281 ms - -\u001b[0m","timestamp":"2025-04-07T13:36:25.363Z"}
+{"level":"info","message":"\u001b[0mGET /api/users \u001b[36m304\u001b[0m 79.137 ms - -\u001b[0m","timestamp":"2025-04-07T13:36:25.410Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.344 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:32.553Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.444 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:32.567Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 218.114 ms - -\u001b[0m","timestamp":"2025-04-07T13:36:32.799Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 54.583 ms - -\u001b[0m","timestamp":"2025-04-07T13:36:32.917Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.316 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:42.678Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.397 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:42.685Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[32m200\u001b[0m 35.414 ms - 104\u001b[0m","timestamp":"2025-04-07T13:36:42.845Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 10.515 ms - -\u001b[0m","timestamp":"2025-04-07T13:36:42.872Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.318 ms - 0\u001b[0m","timestamp":"2025-04-07T13:36:59.996Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.708 ms - 0\u001b[0m","timestamp":"2025-04-07T13:37:00.018Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 11.830 ms - -\u001b[0m","timestamp":"2025-04-07T13:37:00.094Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 9.660 ms - -\u001b[0m","timestamp":"2025-04-07T13:37:00.134Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 113.878 ms - 151\u001b[0m","timestamp":"2025-04-07T13:39:27.215Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T13:42:00.167Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T13:42:00.310Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T13:42:00.394Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T13:42:00.410Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 103.879 ms - 151\u001b[0m","timestamp":"2025-04-07T13:42:06.554Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T13:45:32.844Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T13:45:33.050Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T13:45:33.143Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T13:45:33.160Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 96.718 ms - 151\u001b[0m","timestamp":"2025-04-07T13:45:36.686Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T13:47:13.286Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T13:47:13.369Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T13:47:13.457Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T13:47:13.474Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 71.152 ms - 151\u001b[0m","timestamp":"2025-04-07T13:47:18.160Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T13:48:45.578Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T13:48:45.695Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T13:48:45.779Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T13:48:45.797Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 125.372 ms - 151\u001b[0m","timestamp":"2025-04-07T13:48:48.916Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T13:56:42.789Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T13:56:42.908Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T13:56:42.976Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T13:56:42.987Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 129.939 ms - 151\u001b[0m","timestamp":"2025-04-07T13:56:50.944Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T13:58:01.190Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T13:58:01.293Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T13:58:01.351Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T13:58:01.364Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 128.907 ms - 151\u001b[0m","timestamp":"2025-04-07T13:58:59.008Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T14:02:24.806Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T14:02:24.896Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T14:02:24.952Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T14:02:24.963Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 139.542 ms - 133\u001b[0m","timestamp":"2025-04-07T14:03:33.054Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T14:05:11.590Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T14:05:11.685Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T14:05:11.764Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T14:05:11.783Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 106.817 ms - 133\u001b[0m","timestamp":"2025-04-07T14:05:16.248Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T14:06:46.376Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T14:06:46.562Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T14:06:46.673Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T14:06:46.683Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 139.624 ms - 133\u001b[0m","timestamp":"2025-04-07T14:06:53.712Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T14:10:45.047Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T14:10:45.139Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T14:10:45.196Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T14:10:45.208Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 90.199 ms - 133\u001b[0m","timestamp":"2025-04-07T14:11:00.772Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 62.949 ms - 133\u001b[0m","timestamp":"2025-04-07T14:11:17.262Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T14:14:20.166Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T14:14:20.343Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T14:14:20.423Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T14:14:20.443Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[31m500\u001b[0m 141.268 ms - 132\u001b[0m","timestamp":"2025-04-07T14:14:23.114Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T14:14:58.814Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T14:14:58.906Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T14:14:58.964Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T14:14:58.976Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[33m409\u001b[0m 70.926 ms - 138\u001b[0m","timestamp":"2025-04-07T14:15:02.659Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[33m409\u001b[0m 26.131 ms - 138\u001b[0m","timestamp":"2025-04-07T14:15:28.837Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery/post-surgery \u001b[32m201\u001b[0m 70.915 ms - 330\u001b[0m","timestamp":"2025-04-07T14:15:36.489Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.641 ms - 0\u001b[0m","timestamp":"2025-04-07T14:15:52.129Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.331 ms - 0\u001b[0m","timestamp":"2025-04-07T14:15:52.139Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[32m200\u001b[0m 26.695 ms - 182\u001b[0m","timestamp":"2025-04-07T14:15:52.220Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 22.701 ms - -\u001b[0m","timestamp":"2025-04-07T14:15:52.298Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.622 ms - 0\u001b[0m","timestamp":"2025-04-07T14:16:53.441Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.401 ms - 0\u001b[0m","timestamp":"2025-04-07T14:16:53.447Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[32m200\u001b[0m 20.439 ms - 189\u001b[0m","timestamp":"2025-04-07T14:16:53.535Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 20.379 ms - -\u001b[0m","timestamp":"2025-04-07T14:16:53.567Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.420 ms - 0\u001b[0m","timestamp":"2025-04-07T14:17:29.613Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.470 ms - 0\u001b[0m","timestamp":"2025-04-07T14:17:29.617Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[32m200\u001b[0m 10.777 ms - 265\u001b[0m","timestamp":"2025-04-07T14:17:29.642Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 10.641 ms - -\u001b[0m","timestamp":"2025-04-07T14:17:29.685Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.704 ms - 0\u001b[0m","timestamp":"2025-04-07T14:38:36.375Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.380 ms - 0\u001b[0m","timestamp":"2025-04-07T14:38:36.379Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 18.621 ms - -\u001b[0m","timestamp":"2025-04-07T14:38:36.415Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 20.370 ms - -\u001b[0m","timestamp":"2025-04-07T14:38:36.441Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.322 ms - 0\u001b[0m","timestamp":"2025-04-07T14:40:04.570Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 16.748 ms - -\u001b[0m","timestamp":"2025-04-07T14:40:04.618Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 9.791 ms - -\u001b[0m","timestamp":"2025-04-07T14:40:07.854Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 10.740 ms - -\u001b[0m","timestamp":"2025-04-07T14:40:07.933Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.435 ms - 0\u001b[0m","timestamp":"2025-04-07T14:40:14.103Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 18.828 ms - -\u001b[0m","timestamp":"2025-04-07T14:40:14.138Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.357 ms - 0\u001b[0m","timestamp":"2025-04-07T14:46:50.926Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 8.195 ms - -\u001b[0m","timestamp":"2025-04-07T14:46:50.947Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 10.485 ms - -\u001b[0m","timestamp":"2025-04-07T14:46:54.675Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.389 ms - 0\u001b[0m","timestamp":"2025-04-07T14:46:57.513Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 9.949 ms - -\u001b[0m","timestamp":"2025-04-07T14:46:57.532Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 8.759 ms - -\u001b[0m","timestamp":"2025-04-07T14:46:59.519Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.285 ms - 0\u001b[0m","timestamp":"2025-04-07T14:47:03.372Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 8.209 ms - -\u001b[0m","timestamp":"2025-04-07T14:47:03.391Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.179 ms - 0\u001b[0m","timestamp":"2025-04-07T14:50:20.638Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.329 ms - 0\u001b[0m","timestamp":"2025-04-07T14:50:20.651Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 8.841 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:20.662Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 11.977 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:20.680Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[32m200\u001b[0m 14.973 ms - 333\u001b[0m","timestamp":"2025-04-07T14:50:20.684Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 11.885 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:20.701Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.422 ms - 0\u001b[0m","timestamp":"2025-04-07T14:50:28.695Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 7.789 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:28.730Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 6.181 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:29.269Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.312 ms - 0\u001b[0m","timestamp":"2025-04-07T14:50:47.488Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.384 ms - 0\u001b[0m","timestamp":"2025-04-07T14:50:47.511Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.383 ms - 0\u001b[0m","timestamp":"2025-04-07T14:50:47.513Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.346 ms - 0\u001b[0m","timestamp":"2025-04-07T14:50:47.525Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 19.910 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:47.562Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 17.456 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:47.565Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 22.494 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:47.611Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 19.163 ms - -\u001b[0m","timestamp":"2025-04-07T14:50:47.613Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.226 ms - 0\u001b[0m","timestamp":"2025-04-07T14:51:33.976Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 7.538 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:33.995Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 7.690 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:37.712Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.252 ms - 0\u001b[0m","timestamp":"2025-04-07T14:51:42.106Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 7.402 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:42.169Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.297 ms - 0\u001b[0m","timestamp":"2025-04-07T14:51:45.595Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.318 ms - 0\u001b[0m","timestamp":"2025-04-07T14:51:45.618Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 17.831 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:45.620Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 18.572 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:45.650Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 20.384 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:45.673Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 16.487 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:45.700Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.298 ms - 0\u001b[0m","timestamp":"2025-04-07T14:51:51.049Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 8.000 ms - -\u001b[0m","timestamp":"2025-04-07T14:51:51.071Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.384 ms - 0\u001b[0m","timestamp":"2025-04-07T14:52:48.087Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 6.038 ms - -\u001b[0m","timestamp":"2025-04-07T14:52:48.102Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 7.844 ms - -\u001b[0m","timestamp":"2025-04-07T14:52:50.058Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.260 ms - 0\u001b[0m","timestamp":"2025-04-07T14:52:55.820Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 7.195 ms - -\u001b[0m","timestamp":"2025-04-07T14:52:55.836Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 10.785 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:00.181Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.386 ms - 0\u001b[0m","timestamp":"2025-04-07T14:53:05.475Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 15.317 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:05.505Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 8.030 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:07.993Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.232 ms - 0\u001b[0m","timestamp":"2025-04-07T14:53:14.244Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 8.241 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:14.260Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 6.715 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:16.830Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.234 ms - 0\u001b[0m","timestamp":"2025-04-07T14:53:24.697Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 10.291 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:24.733Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.283 ms - 0\u001b[0m","timestamp":"2025-04-07T14:53:28.993Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-07T14:53:29.013Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 27.727 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:29.029Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 16.698 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:29.032Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 13.736 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:29.079Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 22.279 ms - -\u001b[0m","timestamp":"2025-04-07T14:53:29.116Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T14:59:05.641Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T14:59:05.747Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T14:59:05.803Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T14:59:05.816Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 4.135 ms - 0\u001b[0m","timestamp":"2025-04-07T14:59:30.311Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.466 ms - 0\u001b[0m","timestamp":"2025-04-07T14:59:30.318Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 31.512 ms - -\u001b[0m","timestamp":"2025-04-07T14:59:30.358Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 20.592 ms - -\u001b[0m","timestamp":"2025-04-07T14:59:30.396Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.377 ms - 0\u001b[0m","timestamp":"2025-04-07T14:59:37.291Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.385 ms - 0\u001b[0m","timestamp":"2025-04-07T14:59:37.295Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 8.645 ms - -\u001b[0m","timestamp":"2025-04-07T14:59:37.311Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 9.343 ms - -\u001b[0m","timestamp":"2025-04-07T14:59:37.324Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-07T15:08:27.956Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-07T15:08:28.079Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-07T15:08:28.155Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-07T15:08:28.172Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 13.072 ms - 0\u001b[0m","timestamp":"2025-04-07T15:09:28.195Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.516 ms - 0\u001b[0m","timestamp":"2025-04-07T15:09:28.216Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.777 ms - 0\u001b[0m","timestamp":"2025-04-07T15:09:28.230Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.792 ms - 0\u001b[0m","timestamp":"2025-04-07T15:09:28.234Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 66.689 ms - -\u001b[0m","timestamp":"2025-04-07T15:09:28.329Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 50.618 ms - -\u001b[0m","timestamp":"2025-04-07T15:09:28.393Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 48.505 ms - -\u001b[0m","timestamp":"2025-04-07T15:09:28.421Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 19.669 ms - -\u001b[0m","timestamp":"2025-04-07T15:09:28.522Z"}

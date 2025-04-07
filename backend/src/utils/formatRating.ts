@@ -9,14 +9,14 @@ export const formatRatings = async (ratings: Rating[]) => {
 
 	const users = await userRepo.find({
 		where: { id: In(userIds) },
-		select: ["id", "first_name", "last_name", "email"],
+		select: ["id", "first_name", "last_name", "picture"],
 	});
 
 	const userMap = users.reduce((acc, user) => {
 		acc[user.id] = {
 			id: user.id,
-			name: `${user.first_name} ${user.last_name}`,
-			email: user.email,
+			name: `Dr. ${user.first_name} ${user.last_name}`,
+			picture: user.picture,
 		};
 		return acc;
 	}, {});
@@ -25,6 +25,7 @@ export const formatRatings = async (ratings: Rating[]) => {
 		ratings.reduce((sum, r) => sum + (r.stars || 0), 0) / ratings.length;
 
 	const breakdown = ratings.map((r) => ({
+		id: r.id,
 		stars: r.stars,
 		user: userMap[r.userId] || null,
 		comment: r.comment?.trim() || null,

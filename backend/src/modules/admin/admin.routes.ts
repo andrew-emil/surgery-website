@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { getPendingUsers } from "./controllers/getPendingUsers.js";
-import { authMiddleware, authUser } from "../../middlewares/authMiddleware.js";
+import { authUser } from "../../middlewares/authMiddleware.js";
 import { approveUserAccount } from "./controllers/aprroveUserAccount.js";
 import { rejectUserAccount } from "./controllers/rejectUserAcount.js";
 import { getSuccessRates } from "./controllers/getSuccessRates.js";
@@ -14,7 +14,7 @@ import { getDataCount } from "./controllers/getDataCount.js";
 
 const adminRoutes = Router();
 
-adminRoutes.use(authMiddleware);
+
 adminRoutes.use(authUser(["Admin"]));
 
 adminRoutes.get("/pending-users", getPendingUsers);

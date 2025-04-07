@@ -47,7 +47,6 @@ export const AppDataSource = new DataSource({
 export const MongoDataSource = new DataSource({
 	type: "mongodb",
 	url: process.env.MONGO_URI as string,
-	useNewUrlParser: true,
 	database: "surgical_logbook",
 	entities: [PostSurgery, SurgeryLog, Rating, AuditTrail],
 	synchronize: true,

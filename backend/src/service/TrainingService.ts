@@ -10,6 +10,7 @@ import { Surgery } from "../entity/sql/Surgery.js";
 import { Requirement } from "../entity/sql/Requirments.js";
 import { UserProgress } from "../entity/sql/UserProgress.js";
 import { AppDataSource } from "../config/data-source.js";
+import logger from "../config/loggerConfig.js";
 
 export class TrainingService {
 	constructor(
@@ -119,9 +120,7 @@ export class TrainingService {
 			});
 
 			if (!surgery?.procedure) {
-				throw new Error(
-					`Surgery ${surgeryId} has no associated procedure type`
-				);
+				throw Error(`Surgery ${surgeryId} has no associated procedure type`);
 			}
 
 			// 2. Verify procedure-role compatibility
@@ -133,7 +132,7 @@ export class TrainingService {
 			});
 
 			if (!requirement) {
-				throw new Error(
+				throw Error(
 					`Role ${roleId} not authorized for ${surgery.procedure.name}`
 				);
 			}
@@ -169,7 +168,7 @@ export class TrainingService {
 			);
 		} catch (error) {
 			console.error(`Credit recording failed for user ${userId}:`, error);
-			throw new Error(`Failed to record surgical credit: ${error.message}`);
+			throw Error(`Failed to record surgical credit: ${error.message}`);
 		}
 	}
 
@@ -345,15 +344,11 @@ export class TrainingService {
 			});
 
 			if (progress) {
-				progress.completedCount = Math.max(0, progress.completedCount + delta);
-				await queryRunner.manager.save(progress);
-			} else if (delta > 0) {
-				const newProgress = userProgressRepo.create({
-					user: { id: userId },
-					procedure: procedureType,
-					completedCount: delta,
-				});
-				await queryRunner.manager.save(newProgress);
+				const newCount = Math.max(0, progress.completedCount + delta);
+				if (newCount !== progress.completedCount) {
+					progress.completedCount = newCount;
+					await queryRunner.manager.save(progress);
+				}
 			}
 		}
 	}
@@ -375,5 +370,62 @@ export class TrainingService {
 					`${req.remaining} more ${req.category} procedures needed for ${req.procedureName}`
 			)
 			.join(", ");
+	}
+
+	// Add to TrainingService class
+	async revertSurgeryCompletion(surgeryId: number): Promise<void> {
+		const queryRunner = AppDataSource.createQueryRunner();
+		await queryRunner.connect();
+		await queryRunner.startTransaction();
+
+		try {
+			// 1. Get surgery log with training credits
+			const surgeryLog = await this.surgeryLogRepo.findOne({
+				where: { surgeryId: { $eq: surgeryId } },
+			});
+
+			if (!surgeryLog?.trainingCredits?.length) {
+				console.warn(`No training credits to revert for surgery: ${surgeryId}`);
+				return;
+			}
+
+			// 2. Get associated surgery to find procedure
+			const surgery = await queryRunner.manager.findOne(Surgery, {
+				where: { id: surgeryId },
+				relations: ["procedure"],
+				lock: { mode: "pessimistic_write" },
+			});
+
+			if (!surgery?.procedure) {
+				throw new Error(`Surgery ${surgeryId} has no associated procedure`);
+			}
+
+			// 3. Collect all user IDs from verified credits (keep duplicates)
+			const verifiedUserIds = surgeryLog.trainingCredits
+				.filter((credit) => credit.verified)
+				.map((credit) => credit.userId);
+
+			// 4. Decrement progress for each credit entry
+			await this.adjustProgress(
+				queryRunner,
+				verifiedUserIds,
+				surgery.procedure,
+				-1
+			);
+
+			await queryRunner.commitTransaction();
+			console.log(
+				`Successfully reverted training credits for surgery: ${surgeryId}`
+			);
+		} catch (error) {
+			await queryRunner.rollbackTransaction();
+			logger.error(
+				`Failed to revert training credits for surgery ${surgeryId}:`,
+				error
+			);
+			throw new Error(`Training credit reversal failed: ${error.message}`);
+		} finally {
+			await queryRunner.release();
+		}
 	}
 }
