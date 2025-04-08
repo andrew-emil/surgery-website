@@ -3,7 +3,7 @@ import { surgeryEquipmentRepo } from "../../../config/repositories.js";
 import { sanitizeString } from "../../../utils/sanitizeString.js";
 
 export const addSurgeryEquipment = async (req: Request, res: Response) => {
-	if (!req.file) throw Error("Invalid credentails");
+	//if (!req.file) throw Error("Invalid credentails");
 
 	const name = req.body.name;
 	const photo = req.file?.buffer;
