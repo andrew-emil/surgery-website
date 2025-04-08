@@ -32,6 +32,7 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import VaccinesIcon from "@mui/icons-material/Vaccines";
 
 const drawerWidth = 240;
 
@@ -490,6 +491,69 @@ export default function MiniDrawer() {
               </ListItemIcon>
               <ListItemText
                 primary={"Surgery"}
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            key={"ُEquipments"}
+            component="a"
+            href="/equipments"
+            disablePadding
+            sx={{
+              display: "block",
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+              "&:visited": {
+                color: theme.palette.text.primary,
+              },
+              "&:hover": {
+                textDecoration: "none",
+              },
+            }}
+          >
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
+                      justifyContent: "center",
+                    },
+              ]}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: "center",
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: "auto",
+                      },
+                ]}
+              >
+                <VaccinesIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Equipments"}
                 sx={[
                   open
                     ? {
