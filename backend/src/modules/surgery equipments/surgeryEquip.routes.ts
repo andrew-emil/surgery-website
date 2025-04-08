@@ -19,8 +19,7 @@ surgeryEquiRoutes.use(auditLogger());
 
 surgeryEquiRoutes.post(
 	"/",
-	authUser(["Admin"]),
-	validateEquipmentPhoto,
+	authUser(["Admin", "Consultant"]),
 	addSurgeryEquipment
 );
 surgeryEquiRoutes.delete("/:id", authUser(["Admin"]), deleteEquipment);
