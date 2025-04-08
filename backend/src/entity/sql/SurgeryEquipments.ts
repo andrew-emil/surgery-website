@@ -15,7 +15,7 @@ export class SurgeryEquipment {
 	@Column({ length: 255, type: "varchar" })
 	equipment_name: string;
 
-	@Column({ type: "blob" })
+	@Column({ type: "blob", nullable: true })
 	photo: Buffer;
 
 	@ManyToMany(() => Surgery, (surgery) => surgery.surgeryEquipments)
