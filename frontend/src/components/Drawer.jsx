@@ -443,7 +443,7 @@ export default function MiniDrawer() {
           <ListItem
             key={"Surgery"}
             component="a"
-            href="/create_surgery"
+            href="/surgeries"
             disablePadding
             sx={{
               display: "block",

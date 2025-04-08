@@ -32,7 +32,8 @@ export default function CreateEquipments() {
 
       formData.append("photo", picture);
     }
-
+    console.log(formData.get("photo"));
+    console.log(formData.get("name"));
     axiosClient
       .post("/surgery-equipments", formData, { withCredentials: true })
       .then(({ data }) => {

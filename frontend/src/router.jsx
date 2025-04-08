@@ -16,6 +16,7 @@ import SurgeryDetails from "./views/SurgeryDetails";
 import TestPage from "./views/Test";
 import Equipments from "./views/equipments";
 import CreateEquipments from "./views/createEquipment";
+import Surgeries from "./views/surgeries";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ const router = createBrowserRouter([
       { path: "/create_surgery", element: <CreateSurgery /> },
       { path: "/equipments", element: <Equipments /> },
       { path: "/add-equipment", element: <CreateEquipments /> },
+      { path: "/surgeries", element: <Surgeries /> },
       { path: "/test", element: <TestPage /> },
       { path: "*", element: <NotFoundPage /> },
     ],
