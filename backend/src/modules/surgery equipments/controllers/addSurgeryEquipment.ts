@@ -6,8 +6,8 @@ export const addSurgeryEquipment = async (req: Request, res: Response) => {
 	if (!req.file) throw Error("Invalid credentails");
 
 	const name = req.body.name;
-	const photo = req.file.buffer;
-	if (!name || !photo) throw Error("Invalid credentails");
+	const photo = req.file?.buffer;
+	if (!name) throw Error("Invalid credentails");
 
 	const sanitizedName = sanitizeString(name);
 
@@ -25,7 +25,7 @@ export const addSurgeryEquipment = async (req: Request, res: Response) => {
 
 	const newEquipment = surgeryEquipmentRepo.create({
 		equipment_name: sanitizedName,
-		photo,
+		photo: photo ? photo : null,
 	});
 
 	await surgeryEquipmentRepo.save(newEquipment);
