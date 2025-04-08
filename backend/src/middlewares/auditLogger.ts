@@ -8,6 +8,7 @@ import {
 	userRepo,
 } from "./../config/repositories.js";
 import { Repository } from "typeorm";
+import logger from "../config/loggerConfig.js";
 
 export const auditLogger = (action?: string) => {
 	return async (req: Request, res: Response, next: NextFunction) => {
@@ -42,7 +43,7 @@ export const auditLogger = (action?: string) => {
 
 			const entityRepo = entityRepoMap[entityName];
 			if (!entityRepo) {
-				next();
+				return next();
 			}
 
 			const entityIdParsed = entityId ? parseInt(entityId) : null;
@@ -91,10 +92,9 @@ export const auditLogger = (action?: string) => {
 				ipAddress,
 				userAgent,
 			});
-
 			next();
 		} catch (error) {
-			console.error("Audit Logger Error:", error);
+			logger.error("Audit Logger Error:", error);
 			next(error);
 		}
 	};

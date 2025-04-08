@@ -62,7 +62,6 @@ export const addSurgery = async (req: Request, res: Response) => {
 			}),
 			procedureTypeRepo.findOne({
 				where: { id: procedureTypeId },
-				relations: ["category"],
 			}),
 			requirementRepo.find({
 				where: {
@@ -115,15 +114,13 @@ export const addSurgery = async (req: Request, res: Response) => {
 
 		const invalidRoles = doctorsTeam.filter((t) => {
 			const req = roleRequirements.find((r) => r.role.id === t.roleId);
-			return (
-				!req || req.procedure.category.code !== procedureType.category.code
-			);
+			return !req || req.procedure.category !== procedureType.category;
 		});
 
 		let warning: string;
 
 		if (invalidRoles.length > 0) {
-			warning = `some Team members roles not qualified for ${procedureType.category.code} procedures`;
+			warning = `some Team members roles not qualified for ${procedureType.category} procedures`;
 		}
 
 		await AppDataSource.transaction(async (transactionalEntityManager) => {
@@ -134,6 +131,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 				lead_surgeon: leadSurgeonEntity,
 				name,
 				surgeryEquipments: surgeryEquipmentsArray,
+				procedure: procedureType,
 			});
 
 			await transactionalEntityManager.save(surgery);

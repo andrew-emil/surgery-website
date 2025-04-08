@@ -294,3 +294,496 @@
 {"level":"info","message":"\u001b[0mGET /api/departments/null \u001b[33m400\u001b[0m 2.706 ms - 52\u001b[0m","timestamp":"2025-04-08T05:47:29.730Z"}
 {"level":"info","message":"\u001b[0mGET /api/roles \u001b[36m304\u001b[0m 19.624 ms - -\u001b[0m","timestamp":"2025-04-08T05:47:29.741Z"}
 {"level":"info","message":"\u001b[0mGET /api/affiliation \u001b[36m304\u001b[0m 18.495 ms - -\u001b[0m","timestamp":"2025-04-08T05:47:29.752Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T16:53:29.252Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T16:53:29.592Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T16:53:30.091Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T16:53:30.128Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 15.068 ms - 0\u001b[0m","timestamp":"2025-04-08T17:09:56.978Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 1.822 ms - 0\u001b[0m","timestamp":"2025-04-08T17:09:56.984Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[32m200\u001b[0m 249.864 ms - 564\u001b[0m","timestamp":"2025-04-08T17:09:57.253Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 89.750 ms - -\u001b[0m","timestamp":"2025-04-08T17:09:57.610Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.453 ms - 0\u001b[0m","timestamp":"2025-04-08T17:11:15.208Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.302 ms - 0\u001b[0m","timestamp":"2025-04-08T17:11:15.234Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[32m200\u001b[0m 51.719 ms - 438\u001b[0m","timestamp":"2025-04-08T17:11:15.404Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 52.213 ms - -\u001b[0m","timestamp":"2025-04-08T17:11:15.612Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.466 ms - 0\u001b[0m","timestamp":"2025-04-08T17:11:20.609Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.465 ms - 0\u001b[0m","timestamp":"2025-04-08T17:11:20.614Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[32m200\u001b[0m 71.498 ms - 144980\u001b[0m","timestamp":"2025-04-08T17:11:20.761Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 25.694 ms - -\u001b[0m","timestamp":"2025-04-08T17:11:20.838Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.287 ms - 0\u001b[0m","timestamp":"2025-04-08T17:12:34.989Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[32m201\u001b[0m 118.075 ms - 57\u001b[0m","timestamp":"2025-04-08T17:12:35.242Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T17:15:33.384Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T17:15:33.529Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T17:15:33.633Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T17:15:33.650Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 12.878 ms - 0\u001b[0m","timestamp":"2025-04-08T17:16:07.166Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 107.892 ms - 48\u001b[0m","timestamp":"2025-04-08T17:16:07.326Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T17:17:27.777Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T17:17:27.900Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T17:17:27.982Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T17:17:28.017Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 2.574 ms - 0\u001b[0m","timestamp":"2025-04-08T17:17:35.343Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m409\u001b[0m 108.336 ms - 54\u001b[0m","timestamp":"2025-04-08T17:17:35.506Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T17:19:01.710Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T17:19:01.872Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T17:19:01.988Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T17:19:02.007Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 12.198 ms - 0\u001b[0m","timestamp":"2025-04-08T17:19:06.098Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 60.794 ms - 48\u001b[0m","timestamp":"2025-04-08T17:19:06.205Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T17:30:09.021Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T17:30:09.188Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T17:30:09.398Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T17:30:09.434Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 15.111 ms - 0\u001b[0m","timestamp":"2025-04-08T17:57:40.187Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.741 ms - 0\u001b[0m","timestamp":"2025-04-08T17:57:40.200Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 200.508 ms - -\u001b[0m","timestamp":"2025-04-08T17:57:40.405Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 65.931 ms - -\u001b[0m","timestamp":"2025-04-08T17:57:40.758Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.380 ms - 0\u001b[0m","timestamp":"2025-04-08T17:57:45.793Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.800 ms - 0\u001b[0m","timestamp":"2025-04-08T17:57:45.799Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[32m200\u001b[0m 75.107 ms - 145029\u001b[0m","timestamp":"2025-04-08T17:57:45.890Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 37.080 ms - -\u001b[0m","timestamp":"2025-04-08T17:57:46.083Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-08T17:58:03.500Z"}
+{"level":"error","message":"photo - Image must be in JPEG or PNG formatundefined","timestamp":"2025-04-08T17:58:03.620Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m400\u001b[0m 52.376 ms - 73\u001b[0m","timestamp":"2025-04-08T17:58:03.651Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.344 ms - 0\u001b[0m","timestamp":"2025-04-08T17:59:05.006Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m409\u001b[0m 19.238 ms - 54\u001b[0m","timestamp":"2025-04-08T17:59:05.041Z"}
+{"level":"error","message":"Something went wrongundefined","timestamp":"2025-04-08T17:59:05.058Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.391 ms - 0\u001b[0m","timestamp":"2025-04-08T17:59:15.514Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 25.832 ms - 48\u001b[0m","timestamp":"2025-04-08T17:59:15.559Z"}
+{"level":"error","message":"Something went wrongundefined","timestamp":"2025-04-08T17:59:15.716Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:02:38.709Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:02:38.933Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:02:39.181Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:02:39.228Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:03:36.666Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:03:36.839Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:03:36.902Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:03:36.916Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 12.932 ms - 0\u001b[0m","timestamp":"2025-04-08T18:03:55.575Z"}
+{"level":"error","message":"Equipment already exists undefined","timestamp":"2025-04-08T18:03:55.742Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m409\u001b[0m 114.635 ms - 54\u001b[0m","timestamp":"2025-04-08T18:03:55.758Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.265 ms - 0\u001b[0m","timestamp":"2025-04-08T18:04:11.378Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 18.655 ms - 48\u001b[0m","timestamp":"2025-04-08T18:04:11.412Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.693 ms - 0\u001b[0m","timestamp":"2025-04-08T18:04:22.416Z"}
+{"level":"error","message":"Equipment already exists undefined","timestamp":"2025-04-08T18:04:22.461Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m409\u001b[0m 33.546 ms - 54\u001b[0m","timestamp":"2025-04-08T18:04:22.464Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.531 ms - 0\u001b[0m","timestamp":"2025-04-08T18:04:42.905Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 32.344 ms - 48\u001b[0m","timestamp":"2025-04-08T18:04:43.004Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:09:57.078Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:09:57.328Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:09:57.472Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:09:57.510Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 2.570 ms - 0\u001b[0m","timestamp":"2025-04-08T18:10:32.703Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 40.858 ms - 48\u001b[0m","timestamp":"2025-04-08T18:10:32.779Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T18:10:32.934Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:12:12.826Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:12:12.936Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:12:12.995Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:12:13.012Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:13:24.277Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:13:24.463Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:13:24.526Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:13:24.540Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 4.954 ms - 0\u001b[0m","timestamp":"2025-04-08T18:13:34.621Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 77.015 ms - 48\u001b[0m","timestamp":"2025-04-08T18:13:34.748Z"}
+{"code":"ERR_HTTP_HEADERS_SENT","level":"error","timestamp":"2025-04-08T18:13:34.797Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:14:11.950Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:14:12.077Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:14:12.142Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:14:12.158Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 2.901 ms - 0\u001b[0m","timestamp":"2025-04-08T18:14:15.157Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 34.078 ms - 48\u001b[0m","timestamp":"2025-04-08T18:14:15.218Z"}
+{"level":"error","message":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","timestamp":"2025-04-08T18:14:15.260Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:18:52.246Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:18:52.369Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:18:52.474Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:18:52.488Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 9.158 ms - 0\u001b[0m","timestamp":"2025-04-08T18:18:54.560Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 68.184 ms - 48\u001b[0m","timestamp":"2025-04-08T18:18:54.666Z"}
+{"level":"error","message":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","timestamp":"2025-04-08T18:18:54.815Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:21:47.198Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:21:47.382Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:21:47.526Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:21:47.552Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 7.448 ms - 0\u001b[0m","timestamp":"2025-04-08T18:22:40.777Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 54.625 ms - 48\u001b[0m","timestamp":"2025-04-08T18:22:40.873Z"}
+{"level":"error","message":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","timestamp":"2025-04-08T18:22:40.939Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments/ \u001b[33m404\u001b[0m 86.474 ms - 48\u001b[0m","timestamp":"2025-04-08T18:24:26.092Z"}
+{"level":"error","message":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","timestamp":"2025-04-08T18:24:26.150Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:26:12.384Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:26:12.493Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:26:12.568Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:26:12.591Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments/ \u001b[33m404\u001b[0m 52.439 ms - 48\u001b[0m","timestamp":"2025-04-08T18:26:29.113Z"}
+{"level":"error","message":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","timestamp":"2025-04-08T18:26:29.144Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T18:26:29.163Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:29:26.871Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:29:26.986Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:29:27.050Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:29:27.063Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:31:43.553Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:31:43.644Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:31:43.714Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:31:43.725Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 11.764 ms - 0\u001b[0m","timestamp":"2025-04-08T18:32:06.323Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 100.278 ms - 48\u001b[0m","timestamp":"2025-04-08T18:32:06.452Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T18:32:06.590Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:32:51.419Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:32:51.497Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:32:51.567Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:32:51.583Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 2.604 ms - 0\u001b[0m","timestamp":"2025-04-08T18:32:56.697Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[33m404\u001b[0m 52.549 ms - 162\u001b[0m","timestamp":"2025-04-08T18:32:56.790Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:34:48.529Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:34:48.650Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:34:48.715Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:34:48.735Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 7.339 ms - 0\u001b[0m","timestamp":"2025-04-08T18:34:50.287Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[32m201\u001b[0m 60.574 ms - 57\u001b[0m","timestamp":"2025-04-08T18:34:50.402Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T18:40:14.852Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T18:40:14.969Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T18:40:15.072Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T18:40:15.088Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 12.031 ms - 0\u001b[0m","timestamp":"2025-04-08T18:40:42.614Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery-equipments \u001b[32m201\u001b[0m 203.772 ms - 57\u001b[0m","timestamp":"2025-04-08T18:40:42.883Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.496 ms - 0\u001b[0m","timestamp":"2025-04-08T18:40:58.375Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.462 ms - 0\u001b[0m","timestamp":"2025-04-08T18:40:58.382Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.411 ms - 0\u001b[0m","timestamp":"2025-04-08T18:40:58.393Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.589 ms - 0\u001b[0m","timestamp":"2025-04-08T18:40:58.441Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.438 ms - 0\u001b[0m","timestamp":"2025-04-08T18:40:58.446Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.358 ms - 0\u001b[0m","timestamp":"2025-04-08T18:40:58.474Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 71.103 ms - -\u001b[0m","timestamp":"2025-04-08T18:40:58.595Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[32m200\u001b[0m 145.392 ms - 59\u001b[0m","timestamp":"2025-04-08T18:40:58.598Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 61.594 ms - -\u001b[0m","timestamp":"2025-04-08T18:40:58.613Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 61.045 ms - -\u001b[0m","timestamp":"2025-04-08T18:40:58.678Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 26.689 ms - -\u001b[0m","timestamp":"2025-04-08T18:40:58.687Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 56.914 ms - -\u001b[0m","timestamp":"2025-04-08T18:40:58.702Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.421 ms - 0\u001b[0m","timestamp":"2025-04-08T18:41:47.182Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.392 ms - 0\u001b[0m","timestamp":"2025-04-08T18:41:47.187Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.478 ms - 0\u001b[0m","timestamp":"2025-04-08T18:41:47.204Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.446 ms - 0\u001b[0m","timestamp":"2025-04-08T18:41:47.210Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.428 ms - 0\u001b[0m","timestamp":"2025-04-08T18:41:47.225Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.361 ms - 0\u001b[0m","timestamp":"2025-04-08T18:41:47.228Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 59.454 ms - -\u001b[0m","timestamp":"2025-04-08T18:41:47.317Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 36.726 ms - -\u001b[0m","timestamp":"2025-04-08T18:41:47.333Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 113.040 ms - -\u001b[0m","timestamp":"2025-04-08T18:41:47.366Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 62.675 ms - -\u001b[0m","timestamp":"2025-04-08T18:41:47.400Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 46.565 ms - -\u001b[0m","timestamp":"2025-04-08T18:41:47.428Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 47.455 ms - -\u001b[0m","timestamp":"2025-04-08T18:41:47.450Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.447 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:06.178Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 24.404 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:06.210Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.354 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:09.278Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.418 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:09.286Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 1.721 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:09.295Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.391 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:09.317Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 28.496 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:09.355Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 9.025 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:09.393Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 50.312 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:09.459Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 35.262 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:09.475Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 19.677 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:09.497Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 98.720 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:09.512Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.263 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:31.634Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 27.523 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:31.674Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 27.319 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:36.200Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.270 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:41.272Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.355 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:41.281Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.349 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:41.288Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.367 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:41.291Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.370 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:41.303Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.353 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:41.307Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 33.581 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:41.414Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 30.925 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:41.428Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 68.679 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:41.441Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 51.885 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:41.507Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 48.242 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:41.510Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 58.931 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:41.539Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.368 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:52.444Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 15.529 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:52.471Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.365 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:54.783Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.338 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:54.852Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.347 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:54.889Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.270 ms - 0\u001b[0m","timestamp":"2025-04-08T18:45:54.908Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 19.345 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:54.934Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 31.847 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:54.981Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 46.040 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:54.998Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 28.423 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:55.018Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 26.549 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:55.053Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 20.075 ms - -\u001b[0m","timestamp":"2025-04-08T18:45:55.066Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.327 ms - 0\u001b[0m","timestamp":"2025-04-08T18:46:10.791Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 21.960 ms - -\u001b[0m","timestamp":"2025-04-08T18:46:10.829Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.218 ms - 0\u001b[0m","timestamp":"2025-04-08T18:46:38.226Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 12.460 ms - -\u001b[0m","timestamp":"2025-04-08T18:46:38.249Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 8.970 ms - -\u001b[0m","timestamp":"2025-04-08T18:46:43.118Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.165 ms - 0\u001b[0m","timestamp":"2025-04-08T18:46:51.264Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.916 ms - -\u001b[0m","timestamp":"2025-04-08T18:46:51.287Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 12.910 ms - -\u001b[0m","timestamp":"2025-04-08T18:46:55.561Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.337 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:00.255Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.313 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:00.290Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.428 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:00.366Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:00.378Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.369 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:00.385Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.335 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:00.388Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 20.016 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:00.435Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 47.619 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:00.438Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 8.102 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:00.454Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 20.490 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:00.479Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 43.298 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:00.508Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 38.844 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:00.548Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.227 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:24.351Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.113 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:24.377Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.264 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:28.061Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.332 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:28.068Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.316 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:28.071Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.412 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:28.075Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 22.899 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:28.142Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 9.418 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:28.166Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 16.181 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:28.202Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 31.152 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:28.250Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 52.059 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:28.264Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 13.093 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:28.282Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:36.372Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.221 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:36.549Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.306 ms - 0\u001b[0m","timestamp":"2025-04-08T18:47:55.851Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.773 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:55.887Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.530 ms - -\u001b[0m","timestamp":"2025-04-08T18:47:58.367Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.376 ms - 0\u001b[0m","timestamp":"2025-04-08T18:48:11.769Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.530 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:11.787Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.365 ms - 0\u001b[0m","timestamp":"2025-04-08T18:48:17.399Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 66.150 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:17.477Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-08T18:48:21.206Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.309 ms - 0\u001b[0m","timestamp":"2025-04-08T18:48:21.215Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.260 ms - 0\u001b[0m","timestamp":"2025-04-08T18:48:21.243Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.295 ms - 0\u001b[0m","timestamp":"2025-04-08T18:48:21.252Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.907 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:21.342Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 22.349 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:21.385Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 38.024 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:21.447Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 36.924 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:21.451Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 75.746 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:21.463Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 10.173 ms - -\u001b[0m","timestamp":"2025-04-08T18:48:21.491Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.227 ms - 0\u001b[0m","timestamp":"2025-04-08T18:49:01.011Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.951 ms - -\u001b[0m","timestamp":"2025-04-08T18:49:01.048Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.169 ms - 0\u001b[0m","timestamp":"2025-04-08T18:52:48.623Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.467 ms - -\u001b[0m","timestamp":"2025-04-08T18:52:48.639Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.309 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:14.685Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 18.602 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:14.727Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.230 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:21.596Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.493 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:21.642Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.269 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:21.659Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.317 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:21.672Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.615 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:21.675Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 11.140 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:21.690Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 46.098 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:21.756Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 33.385 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:21.770Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 79.927 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:21.772Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 38.818 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:21.849Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 43.822 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:21.861Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 36.483 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:21.880Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.274 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:27.199Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 17.671 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:27.226Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.305 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:37.155Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 12.254 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:37.176Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.102 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:41.047Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.322 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:48.578Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.370 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:48.581Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.293 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:48.583Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.286 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:48.592Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.272 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:48.596Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.311 ms - 0\u001b[0m","timestamp":"2025-04-08T18:53:48.599Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 14.709 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:48.676Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 29.385 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:48.716Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 35.071 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:48.727Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 44.487 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:48.835Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 33.156 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:48.838Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 35.493 ms - -\u001b[0m","timestamp":"2025-04-08T18:53:48.855Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.301 ms - 0\u001b[0m","timestamp":"2025-04-08T18:55:49.329Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 11.315 ms - -\u001b[0m","timestamp":"2025-04-08T18:55:49.363Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 8.389 ms - -\u001b[0m","timestamp":"2025-04-08T18:55:52.294Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.254 ms - 0\u001b[0m","timestamp":"2025-04-08T18:55:55.275Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.390 ms - -\u001b[0m","timestamp":"2025-04-08T18:55:55.290Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.282 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:00.958Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 11.486 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:01.006Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.309 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:08.645Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 15.052 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:08.695Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.326 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:15.245Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.330 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:15.248Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.308 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:15.275Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.420 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:15.280Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.284 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:15.283Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.308 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:15.293Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.815 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:15.326Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 23.103 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:15.374Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 20.755 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:15.387Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 36.475 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:15.441Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 32.379 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:15.454Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 69.267 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:15.468Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.238 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:20.491Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 17.841 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:20.519Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.258 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:26.013Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.270 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:26.091Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.553 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:30.491Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.312 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:44.819Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.322 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:44.827Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.265 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:44.833Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.298 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:44.841Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.348 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:44.846Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.279 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:44.855Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 30.464 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:44.998Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 18.895 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:45.001Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 52.024 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:45.013Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 38.283 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:45.082Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 34.861 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:45.085Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 38.491 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:45.113Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.171 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:46.692Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.274 ms - 0\u001b[0m","timestamp":"2025-04-08T18:56:53.468Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.625 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:53.515Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 11.359 ms - -\u001b[0m","timestamp":"2025-04-08T18:56:55.239Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.287 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:00.117Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 12.346 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:00.155Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.281 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:31.806Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.961 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:31.872Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.255 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:46.462Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 2.041 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:46.475Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.273 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:46.477Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.369 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:46.488Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.467 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:46.497Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.352 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:46.499Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 18.684 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:46.535Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 29.816 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:46.566Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 98.305 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:46.600Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 34.347 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:46.603Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 67.238 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:46.796Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 50.667 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:46.822Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 55.384 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:49.118Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 11.931 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:50.716Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.343 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:57.094Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.259 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:57.100Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.360 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:57.103Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.398 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:57.115Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.293 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:57.117Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.308 ms - 0\u001b[0m","timestamp":"2025-04-08T18:57:57.120Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 20.612 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:57.185Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 31.526 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:57.197Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 69.854 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:57.205Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 18.278 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:57.217Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 9.014 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:57.261Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 26.118 ms - -\u001b[0m","timestamp":"2025-04-08T18:57:57.323Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.342 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:03.810Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.330 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:03.813Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.256 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:03.824Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.234 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:03.826Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.281 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:03.828Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.267 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:03.830Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 26.524 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:03.883Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 30.251 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:03.897Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 54.321 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:03.917Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 27.019 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:03.946Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 19.695 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:03.948Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 41.677 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:04.078Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.296 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:12.930Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.331 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:12.949Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.334 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:12.958Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.264 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:12.965Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.296 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:12.967Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.339 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:12.969Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 16.282 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:12.997Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 15.384 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:13.017Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 35.727 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:13.022Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 31.112 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:13.066Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 34.262 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:13.084Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 34.824 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:13.104Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.082 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:16.778Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.256 ms - 0\u001b[0m","timestamp":"2025-04-08T18:58:57.265Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 11.911 ms - -\u001b[0m","timestamp":"2025-04-08T18:58:57.289Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.248 ms - 0\u001b[0m","timestamp":"2025-04-08T18:59:09.827Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 34.162 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:09.881Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 17.606 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:13.461Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.206 ms - 0\u001b[0m","timestamp":"2025-04-08T18:59:15.700Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 14.570 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:15.720Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.291 ms - 0\u001b[0m","timestamp":"2025-04-08T18:59:25.489Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 8.611 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:25.508Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.476 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:27.352Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 1.905 ms - 0\u001b[0m","timestamp":"2025-04-08T18:59:42.575Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.228 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:42.593Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.748 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:47.408Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.222 ms - 0\u001b[0m","timestamp":"2025-04-08T18:59:48.126Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 15.422 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:48.146Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.943 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:48.898Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.219 ms - 0\u001b[0m","timestamp":"2025-04-08T18:59:55.110Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 13.201 ms - -\u001b[0m","timestamp":"2025-04-08T18:59:55.130Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.343 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:00.473Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.339 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:00.479Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.349 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:00.492Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.304 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:00.494Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.313 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:00.506Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.348 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:00.509Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 28.755 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:00.574Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 18.495 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:00.578Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 33.423 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:00.652Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 32.850 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:00.655Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 71.340 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:00.674Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 28.500 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:00.714Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.244 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:16.518Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 14.556 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:16.551Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.244 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:22.246Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 28.013 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:22.283Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.667 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:23.762Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.289 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:40.063Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 17.339 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:40.102Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.219 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:46.498Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 17.072 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:46.531Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.271 ms - 0\u001b[0m","timestamp":"2025-04-08T19:00:56.809Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 33.373 ms - -\u001b[0m","timestamp":"2025-04-08T19:00:56.921Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.267 ms - 0\u001b[0m","timestamp":"2025-04-08T19:01:07.223Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 32.773 ms - -\u001b[0m","timestamp":"2025-04-08T19:01:07.283Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 48.678 ms - -\u001b[0m","timestamp":"2025-04-08T19:01:08.787Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.241 ms - 0\u001b[0m","timestamp":"2025-04-08T19:01:20.818Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 29.493 ms - -\u001b[0m","timestamp":"2025-04-08T19:01:20.895Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 22.384 ms - -\u001b[0m","timestamp":"2025-04-08T19:01:21.393Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.239 ms - 0\u001b[0m","timestamp":"2025-04-08T19:01:38.188Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 28.830 ms - -\u001b[0m","timestamp":"2025-04-08T19:01:38.228Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.214 ms - 0\u001b[0m","timestamp":"2025-04-08T19:01:52.731Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 18.352 ms - -\u001b[0m","timestamp":"2025-04-08T19:01:52.756Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.541 ms - 0\u001b[0m","timestamp":"2025-04-08T19:01:59.277Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.936 ms - -\u001b[0m","timestamp":"2025-04-08T19:01:59.300Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.243 ms - 0\u001b[0m","timestamp":"2025-04-08T19:02:08.444Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 17.184 ms - -\u001b[0m","timestamp":"2025-04-08T19:02:08.592Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.236 ms - 0\u001b[0m","timestamp":"2025-04-08T19:02:15.178Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 16.986 ms - -\u001b[0m","timestamp":"2025-04-08T19:02:15.216Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 19.207 ms - -\u001b[0m","timestamp":"2025-04-08T19:02:18.548Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.246 ms - 0\u001b[0m","timestamp":"2025-04-08T19:02:20.950Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 106.771 ms - -\u001b[0m","timestamp":"2025-04-08T19:02:21.097Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.246 ms - 0\u001b[0m","timestamp":"2025-04-08T19:02:27.154Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 34.089 ms - -\u001b[0m","timestamp":"2025-04-08T19:02:27.198Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 17.015 ms - -\u001b[0m","timestamp":"2025-04-08T19:02:30.419Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.223 ms - 0\u001b[0m","timestamp":"2025-04-08T19:02:59.357Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.919 ms - -\u001b[0m","timestamp":"2025-04-08T19:02:59.388Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 9.680 ms - -\u001b[0m","timestamp":"2025-04-08T19:03:01.212Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 2.796 ms - 0\u001b[0m","timestamp":"2025-04-08T19:03:05.616Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.408 ms - 0\u001b[0m","timestamp":"2025-04-08T19:03:05.620Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.272 ms - 0\u001b[0m","timestamp":"2025-04-08T19:03:05.623Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/success-rates \u001b[32m204\u001b[0m 0.259 ms - 0\u001b[0m","timestamp":"2025-04-08T19:03:05.684Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/data-count \u001b[32m204\u001b[0m 0.277 ms - 0\u001b[0m","timestamp":"2025-04-08T19:03:05.687Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/dashboard/complication-trends \u001b[32m204\u001b[0m 0.266 ms - 0\u001b[0m","timestamp":"2025-04-08T19:03:05.690Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 10.211 ms - -\u001b[0m","timestamp":"2025-04-08T19:03:05.712Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 17.025 ms - -\u001b[0m","timestamp":"2025-04-08T19:03:05.740Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 31.965 ms - -\u001b[0m","timestamp":"2025-04-08T19:03:05.773Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/data-count \u001b[36m304\u001b[0m 31.399 ms - -\u001b[0m","timestamp":"2025-04-08T19:03:05.788Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/success-rates \u001b[36m304\u001b[0m 8.730 ms - -\u001b[0m","timestamp":"2025-04-08T19:03:05.809Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/dashboard/complication-trends \u001b[36m304\u001b[0m 8.016 ms - -\u001b[0m","timestamp":"2025-04-08T19:03:05.851Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[33m400\u001b[0m 278.963 ms - 257\u001b[0m","timestamp":"2025-04-08T19:11:27.266Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T19:16:15.250Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T19:16:15.341Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T19:16:15.402Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T19:16:15.415Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[33m400\u001b[0m 111.072 ms - 95\u001b[0m","timestamp":"2025-04-08T19:16:18.668Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[32m201\u001b[0m 70.491 ms - 122\u001b[0m","timestamp":"2025-04-08T19:16:36.636Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T19:23:23.849Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T19:23:23.939Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T19:23:23.997Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T19:23:24.014Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[32m201\u001b[0m 233.460 ms - 122\u001b[0m","timestamp":"2025-04-08T19:23:28.216Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-08T19:24:52.470Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-08T19:24:52.610Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-08T19:24:52.673Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-08T19:24:52.687Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[32m201\u001b[0m 246.516 ms - 122\u001b[0m","timestamp":"2025-04-08T19:24:59.701Z"}

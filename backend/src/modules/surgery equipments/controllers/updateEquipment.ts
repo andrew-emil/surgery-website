@@ -6,11 +6,16 @@ import { sanitizeString } from "../../../utils/sanitizeString.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 const UpdateEquipmentSchema = z.object({
-	name: z.string().min(2).max(255).transform(sanitizeString),
+	name: z.string().min(2).max(255).transform(sanitizeString).optional(),
 	photo: z
 		.string()
 		.optional()
-		.transform((val) => (val ? Buffer.from(val, "base64") : undefined)),
+		.refine((val) => !val || /^data:image\/(png|jpeg|jpg);base64,/.test(val), {
+			message: "Image must be in JPEG or PNG format",
+		})
+		.transform((val) =>
+			val ? Buffer.from(val.split(",")[1], "base64") : undefined
+		),
 });
 
 export const updateEquipment = async (req: Request, res: Response) => {

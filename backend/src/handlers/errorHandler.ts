@@ -1,5 +1,6 @@
 import { NextFunction, Response, Request, ErrorRequestHandler } from "express";
 import { ZodError } from "zod";
+import logger from "../config/loggerConfig.js";
 
 export const errorHandler: ErrorRequestHandler = (
 	err: Error,
@@ -96,6 +97,7 @@ const sendErrorResponse = (
 	message: string,
 	details?: any
 ) => {
+	logger.error(message + " " + details);
 	res.status(statusCode).json({
 		success: false,
 		message,

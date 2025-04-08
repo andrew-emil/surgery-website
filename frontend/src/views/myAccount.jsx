@@ -23,7 +23,7 @@ import {
 import RequirementProgress from "../components/RequirmentProgress";
 import Requirments from "../components/Requirment";
 import * as jose from "jose";
-import { convertImage } from './../utils/convertImage';
+import { convertImage } from "./../utils/convertImage";
 
 export default function MyAccount() {
 	const firstnameRef = useRef();
@@ -93,9 +93,8 @@ export default function MyAccount() {
 			formData.append("email", emailRef.current.value);
 			formData.append("phone_number", phone);
 
-			let base64Image;
 			if (picture) {
-				base64Image = await new Promise((resolve, reject) => {
+				const base64Image = await new Promise((resolve, reject) => {
 					const reader = new FileReader();
 					reader.onload = () => resolve(reader.result);
 					reader.onerror = (error) => reject(error);
@@ -103,6 +102,7 @@ export default function MyAccount() {
 				});
 
 				formData.delete("picture");
+				formData.append("picture", base64Image);
 			}
 
 			if (password) {
@@ -110,9 +110,6 @@ export default function MyAccount() {
 				formData.append("new_password", password);
 			}
 
-			if (picture) {
-				formData.append("picture", base64Image);
-			}
 			const secret = new TextEncoder().encode("mySecret1243");
 			const { data } = await axiosClient.patch("/users", formData, {
 				withCredentials: true,
@@ -174,7 +171,6 @@ export default function MyAccount() {
 							accept="image/*"
 							onChange={(e) => {
 								setPicture(e.target.files[0]);
-								console.log(e.target.files);
 							}}
 						/>
 					</Box>

@@ -3,9 +3,12 @@ import {
 	Card,
 	CardContent,
 	Typography,
-	Grid2,
 	Skeleton,
 	Box,
+	Container,
+	Grid2,
+	AlertTitle,
+	Alert,
 } from "@mui/material";
 import axiosClient from "../../axiosClient";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
@@ -20,13 +23,7 @@ const DataCountCard = () => {
 	useEffect(() => {
 		axiosClient
 			.get("admin/dashboard/data-count", { withCredentials: true })
-			.then((response) => {
-				if (!response.ok) {
-					throw new Error("Failed to fetch data count");
-				}
-				return response.json();
-			})
-			.then((data) => {
+			.then(({ data }) => {
 				setDataCount(data);
 			})
 			.catch((err) => {
@@ -37,71 +34,98 @@ const DataCountCard = () => {
 
 	if (loading) {
 		return (
-			<Card sx={{ minWidth: 275, margin: 2 }}>
-				<CardContent>
-					<Typography variant="h5" gutterBottom>
-						Data Counts
-					</Typography>
-					<Grid2 container spacing={2}>
-						{[1, 2, 3].map((_, index) => (
-							<Grid2 item xs={4} key={index}>
-								<Skeleton variant="rectangular" width="100%" height={60} />
-							</Grid2>
-						))}
-					</Grid2>
-				</CardContent>
-			</Card>
+			<Container
+				sx={{
+					marginY: "2rem",
+					display: "flex",
+					justifyContent: "center",
+					alignItems: "center",
+				}}>
+				<Grid2 container spacing={2}>
+					{[1, 2, 3].map((_, index) => (
+						<Grid2 item sx={{ width: "15rem" }} key={index}>
+							<Skeleton variant="rectangular" width="100%" height={140} />
+						</Grid2>
+					))}
+				</Grid2>
+			</Container>
 		);
 	}
 
 	if (error) {
-		return <Typography color="error">Error: {error}</Typography>;
+		return (
+			<Container
+				sx={{
+					marginY: "2rem",
+					display: "flex",
+					justifyContent: "flex-start",
+					alignItems: "center",
+				}}>
+				<Alert severity="error" sx={{ marginY: "1rem", width: "20rem" }}>
+					<AlertTitle>Error</AlertTitle>
+					{error}
+				</Alert>
+			</Container>
+		);
 	}
 
+	const cardData = [
+		{
+			title: "Doctors",
+			count: dataCount.doctorsCount,
+			icon: <LocalHospitalIcon fontSize="large" sx={{ marginRight: 1 }} />,
+		},
+		{
+			title: "Affiliations",
+			count: dataCount.affiliationCount,
+			icon: <BusinessIcon fontSize="large" sx={{ marginRight: 1 }} />,
+		},
+		{
+			title: "Consultants",
+			count: dataCount.consultantCount,
+			icon: <PeopleIcon fontSize="large" sx={{ marginRight: 1 }} />,
+		},
+	];
+
 	return (
-		<Card sx={{ minWidth: 275, margin: "2rem" }}>
-			<CardContent>
-				<Grid2 container spacing={2}>
-					<Grid2 item xs={4}>
-						<Typography variant="subtitle1" color="text.secondary">
-							Doctors
-						</Typography>
-						<Box display="flex" alignItems="center">
-							<LocalHospitalIcon fontSize="large" sx={{ marginRight: 1 }} />
-							<Box>
-								<Typography variant="h6">{dataCount.doctorsCount}</Typography>
-							</Box>
-						</Box>
+		<Container
+			sx={{
+				marginY: "2rem",
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+			}}>
+			<Grid2 container spacing={2}>
+				{cardData.map((card, index) => (
+					<Grid2 item sx={{ width: "15rem" }} key={index}>
+						<Card
+							sx={{
+								minHeight: 150,
+								display: "flex",
+								alignItems: "center",
+								justifyContent: "center",
+							}}>
+							<CardContent>
+								<Box display="flex" flexDirection="column" alignItems="center">
+									{card.icon}
+									<Typography
+										variant="subtitle1"
+										color="text.secondary"
+										sx={{ marginTop: 1 }}>
+										{card.title}
+									</Typography>
+									<Typography
+										variant="h4"
+										sx={{ fontWeight: "bold", marginTop: 1 }}>
+										{card.count}
+									</Typography>
+								</Box>
+							</CardContent>
+						</Card>
 					</Grid2>
-					<Grid2 item xs={4}>
-						<Box display="flex" alignItems="center">
-							<BusinessIcon fontSize="large" sx={{ marginRight: 1 }} />
-							<Box>
-								<Typography variant="subtitle1" color="text.secondary">
-									Affiliations
-								</Typography>
-								<Typography variant="h6">
-									{dataCount.affiliationCount}
-								</Typography>
-							</Box>
-						</Box>
-					</Grid2>
-					<Grid2 item xs={4}>
-						<Box display="flex" alignItems="center">
-							<PeopleIcon fontSize="large" sx={{ marginRight: 1 }} />
-							<Box>
-								<Typography variant="subtitle1" color="text.secondary">
-									Consultants
-								</Typography>
-								<Typography variant="h6">
-									{dataCount.consultantCount}
-								</Typography>
-							</Box>
-						</Box>
-					</Grid2>
-				</Grid2>
-			</CardContent>
-		</Card>
+				))}
+			</Grid2>
+		</Container>
 	);
 };
 

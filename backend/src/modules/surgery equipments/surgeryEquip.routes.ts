@@ -9,25 +9,14 @@ import { auditLogger } from "../../middlewares/auditLogger.js";
 
 const surgeryEquiRoutes = Router();
 
-surgeryEquiRoutes.get(
-	"/",
-	authUser(["Admin", "Consultant"]),
-	getSurgeryEquipments
-);
+surgeryEquiRoutes.use(authUser(["Admin", "Consultant"]));
+surgeryEquiRoutes.get("/", getSurgeryEquipments);
 
-surgeryEquiRoutes.use(auditLogger());
+surgeryEquiRoutes.delete("/:id", auditLogger(), deleteEquipment);
 
-surgeryEquiRoutes.post(
-	"/",
-	authUser(["Admin", "Consultant"]),
-	addSurgeryEquipment
-);
-surgeryEquiRoutes.delete("/:id", authUser(["Admin"]), deleteEquipment);
-surgeryEquiRoutes.put(
-	"/:id",
-	authUser(["Admin"]),
-	validateEquipmentPhoto,
-	updateEquipment
-);
+surgeryEquiRoutes.use(validateEquipmentPhoto, auditLogger());
+
+surgeryEquiRoutes.post("/", addSurgeryEquipment);
+surgeryEquiRoutes.put("/:id", updateEquipment);
 
 export default surgeryEquiRoutes;

@@ -8,7 +8,6 @@ import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import usersRoutes from "./modules/users/users.routes.js";
-import { notFoundHandler } from "./handlers/notFoundHandler.js";
 import { AppDataSource, MongoDataSource } from "./config/data-source.js";
 import { errorHandler } from "./handlers/errorHandler.js";
 import {
@@ -31,6 +30,7 @@ import { authMiddleware } from "./middlewares/authMiddleware.js";
 import logger from "./config/loggerConfig.js";
 import { initializeCronJobs } from "./utils/cronJobs.js";
 import procedureTypeRoutes from "./modules/procedureType.routes.js";
+import { notFoundHandler } from "./handlers/notFoundHandler.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -63,7 +63,7 @@ app.use(
 app.use(cookieParser());
 app.use(
 	cors({
-		origin: "http://localhost:5173",
+		origin: process.env.BASE_URL as string,
 		methods: "GET,POST,PUT,DELETE,PATCH",
 		credentials: true,
 	})
@@ -85,12 +85,6 @@ app.use("/api/rating", ratingRoutes);
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/procedure-types", procedureTypeRoutes);
 
-// 404 handler
-app.use(notFoundHandler);
-
-//errors handler
-app.use(errorHandler);
-
 const startServer = async () => {
 	try {
 		await AppDataSource.initialize();
@@ -104,7 +98,7 @@ const startServer = async () => {
 
 		intializeServices();
 
-		initializeCronJobs();
+		await initializeCronJobs();
 		logger.info("Cron jobs initialized");
 
 		server.listen(port, () => {
@@ -115,6 +109,12 @@ const startServer = async () => {
 		process.exit(1);
 	}
 };
+
+// 404 handler
+app.use(notFoundHandler);
+
+//errors handler
+app.use(errorHandler);
 
 export { io, server };
 startServer().then(() =>

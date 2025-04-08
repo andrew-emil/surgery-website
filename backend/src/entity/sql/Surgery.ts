@@ -21,9 +21,6 @@ export class Surgery {
 	@Column({ type: "varchar" })
 	name: string;
 
-	@Column({ type: "enum", enum: SURGERY_TYPE, nullable: true })
-	SurgeryType: SURGERY_TYPE;
-
 	@ManyToOne(() => Affiliations, {
 		onDelete: "SET NULL",
 		nullable: true,
@@ -46,7 +43,4 @@ export class Surgery {
 
 	@ManyToOne(() => ProcedureType, (procedure) => procedure.surgeries)
 	procedure: ProcedureType;
-
-	@Column({ type: "enum", enum: SURGERY_TYPE, default: SURGERY_TYPE.O })
-	type: SURGERY_TYPE;
 }

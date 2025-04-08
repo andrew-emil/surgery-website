@@ -1,31 +1,37 @@
 import { Request, Response } from "express";
 import { surgeryEquipmentRepo } from "../../../config/repositories.js";
 import { sanitizeString } from "../../../utils/sanitizeString.js";
+import { z } from "zod";
+import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+
+const addEquipmentSchema = z.object({
+	name: z.string().min(2).max(255).transform(sanitizeString),
+	photo: z
+		.string()
+		.refine((val) => !val || /^data:image\/(png|jpeg|jpg);base64,/.test(val), {
+			message: "Image must be in JPEG or PNG format",
+		})
+		.transform((val) =>
+			val ? Buffer.from(val.split(",")[1], "base64") : undefined
+		),
+});
 
 export const addSurgeryEquipment = async (req: Request, res: Response) => {
-	//if (!req.file) throw Error("Invalid credentails");
+	const validation = addEquipmentSchema.safeParse(req.body);
+	if (!validation.success)
+		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	const name = req.body.name;
-	const photo = req.file?.buffer;
-	if (!name) throw Error("Invalid credentails");
-
-	const sanitizedName = sanitizeString(name);
+	const { name, photo } = validation.data;
 
 	const exisitingEquipment = await surgeryEquipmentRepo.findOneBy({
-		equipment_name: sanitizedName,
+		equipment_name: name,
 	});
 
-	if (exisitingEquipment) {
-		res.status(409).json({
-			success: false,
-			message: "Equipment already exists",
-		});
-		return;
-	}
+	if (exisitingEquipment) throw Error("Equipment already exists");
 
 	const newEquipment = surgeryEquipmentRepo.create({
-		equipment_name: sanitizedName,
-		photo: photo ? photo : null,
+		equipment_name: name,
+		photo,
 	});
 
 	await surgeryEquipmentRepo.save(newEquipment);
