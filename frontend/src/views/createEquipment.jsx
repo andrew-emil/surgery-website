@@ -30,7 +30,7 @@ export default function CreateEquipments() {
         reader.readAsDataURL(picture);
       });
 
-      formData.append("photo", base64Image);
+      formData.append("photo", picture);
     }
 
     axiosClient
