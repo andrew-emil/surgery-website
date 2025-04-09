@@ -12,3 +12,8 @@
 {"level":"error","message":"Error [ERR_HTTP_HEADERS_SENT]: Cannot set headers after they are sent to the client","timestamp":"2025-04-08T18:26:29.143Z"}
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T18:26:29.162Z"}
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T18:32:06.590Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T22:37:34.651Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T22:37:34.692Z"}
+{"level":"error","message":"Equipment already exists undefined","timestamp":"2025-04-08T22:39:14.466Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T23:29:08.826Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-08T23:29:08.872Z"}
