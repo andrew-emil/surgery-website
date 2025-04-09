@@ -14,7 +14,9 @@ affiliationRoutes.use(auditLogger());
 affiliationRoutes.use(authMiddleware);
 
 affiliationRoutes.post("/", authUser(["Admin"]), addAffiliation);
+
 affiliationRoutes.delete("/:id", authUser(["Admin"]), deleteAffiliation);
+
 affiliationRoutes.patch("/", authUser(["Admin"]), updateAffiliation);
 
 export default affiliationRoutes;

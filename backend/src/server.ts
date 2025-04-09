@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import "express-async-errors";
+
 import express, { Application } from "express";
 import http from "http";
 import { Server } from "socket.io";
@@ -23,7 +24,7 @@ import notificationRoutes from "./modules/notification/notification.routes.js";
 import { seedDatabase } from "./config/databaseSeed.js";
 import adminRoutes from "./modules/admin/admin.routes.js";
 import { intializeServices } from "./config/initializeServices.js";
-import surgeryEquiRoutes from "./modules/surgery equipments/surgeryEquip.routes.js";
+import surgeryEquiRoutes from "./modules/surgeryEquipments/surgeryEquip.routes.js";
 import ratingRoutes from "./modules/rating/rating.routes.js";
 import scheduleRoutes from "./modules/Scheduling/schedule.routes.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
@@ -31,6 +32,8 @@ import logger from "./config/loggerConfig.js";
 import { initializeCronJobs } from "./utils/cronJobs.js";
 import procedureTypeRoutes from "./modules/procedureType.routes.js";
 import { notFoundHandler } from "./handlers/notFoundHandler.js";
+import surgicalRoleRoutes from "./modules/surgicalRole/surgicalRole.routes.js";
+import swaggerUi from "swagger-ui-express";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -84,6 +87,7 @@ app.use("/api/surgery-equipments", surgeryEquiRoutes);
 app.use("/api/rating", ratingRoutes);
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/procedure-types", procedureTypeRoutes);
+app.use("/api/surgical-role", surgicalRoleRoutes);
 
 const startServer = async () => {
 	try {
@@ -115,6 +119,7 @@ app.use(notFoundHandler);
 
 //errors handler
 app.use(errorHandler);
+
 
 export { io, server };
 startServer().then(() =>

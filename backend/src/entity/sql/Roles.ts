@@ -6,6 +6,7 @@ import {
 	ManyToOne,
 	ManyToMany,
 	JoinTable,
+	Index,
 } from "typeorm";
 import { User } from "./User.js";
 import { Permission } from "./Permission.js";
@@ -18,6 +19,10 @@ export class Role {
 
 	@Column({ type: "varchar", unique: true })
 	name: string;
+
+	@Column({type: 'int'})
+	@Index()
+	hierarchyLevel: number;
 
 	@OneToMany(() => Requirement, (requirement) => requirement.role)
 	requirements: Requirement[];

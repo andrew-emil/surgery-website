@@ -4,6 +4,7 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { resetPasswordSchema } from "../../../utils/zodSchemas.js";
 
 export const resetPassword = async (req: Request, res: Response) => {
+	// #swagger.tags = ['Users']
 	const validation = resetPasswordSchema.safeParse(req.body);
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });

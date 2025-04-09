@@ -13,25 +13,29 @@ import { getUserSurgeries } from "./controllers/getUserSurgeries.js";
 const surgeryRoutes = Router();
 
 surgeryRoutes.get("/get-surgrey/:surgeryId", getSurgery);
+
 surgeryRoutes.get("/search", searchSurgery);
+
 surgeryRoutes.get(
 	"/open-slots",
 	authUser(["Admin", "Consultant"]),
 	getSurgeriesWithOpenSlots
 );
+
 surgeryRoutes.get("/surgeries", getUserSurgeries);
 
-//middleware
 surgeryRoutes.use(auditLogger());
 
-//routes
 surgeryRoutes.post("/", authUser(["Admin", "Consultant"]), addSurgery);
+
 surgeryRoutes.post(
 	"/post-surgery",
 	authUser(["Admin", "Consultant"]),
 	addPostSurgery
 );
+
 surgeryRoutes.delete("/:id", authUser(["Admin", "Consultant"]), deleteSurgery);
+
 surgeryRoutes.put("/", authUser(["Admin", "Consultant"]), updateSurgery);
 
 export default surgeryRoutes;

@@ -36,7 +36,12 @@ export const updateSurgery = async (req: Request, res: Response) => {
 			lock: { mode: "pessimistic_write" },
 		});
 
-		if (!surgery) throw new Error("Surgery record not found");
+		if (!surgery) {
+			res.status(404).json({
+				message: "Surgery record not found",
+			});
+			return;
+		}
 
 		const { surgeryEquipments, ...updateDataWithoutRelations } = updateData;
 
@@ -82,10 +87,7 @@ export const updateSurgery = async (req: Request, res: Response) => {
 
 			const invalidRoles = doctorsTeam.filter((t) => {
 				const req = roleRequirements.find((r) => r.role.id === t.roleId);
-				return (
-					!req ||
-					req.procedure.category.code !== surgery.procedure.category.code
-				);
+				return !req || req.procedure.category !== surgery.procedure.category;
 			});
 
 			if (invalidRoles.length > 0) {

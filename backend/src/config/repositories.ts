@@ -17,6 +17,7 @@ import { Permission } from "../entity/sql/Permission.js";
 import { ProcedureType } from "../entity/sql/ProcedureType.js";
 import { Requirement } from "../entity/sql/Requirments.js";
 import { UserProgress } from "../entity/sql/UserProgress.js";
+import { SurgicalRole } from "../entity/sql/SurgicalRoles.js";
 
 // Export repositories for all entities
 export let userRepo: Repository<User>;
@@ -31,6 +32,7 @@ export let permissionRepo: Repository<Permission>;
 export let procedureTypeRepo: Repository<ProcedureType>;
 export let requirementRepo: Repository<Requirement>;
 export let userProgressRepo: Repository<UserProgress>;
+export let surgicalRolesRepo: Repository<SurgicalRole>
 
 export let auditTrailRepo: MongoRepository<AuditTrail>;
 export let postSurgeryRepo: MongoRepository<PostSurgery>;
@@ -52,6 +54,7 @@ export const initializeSQLRepositories = () => {
 	procedureTypeRepo = AppDataSource.getRepository(ProcedureType);
 	requirementRepo = AppDataSource.getRepository(Requirement);
 	userProgressRepo = AppDataSource.getRepository(UserProgress);
+	surgicalRolesRepo = AppDataSource.getRepository(SurgicalRole);
 };
 
 export const initializeMongoRepositories = () => {

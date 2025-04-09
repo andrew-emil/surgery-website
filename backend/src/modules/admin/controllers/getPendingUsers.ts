@@ -13,7 +13,6 @@ export const getPendingUsers = async (req: Request, res: Response) => {
 			"user.first_name",
 			"user.last_name",
 			"user.email",
-			"user.residencyLevel",
 			"user.phone_number",
 			"user.picture",
 			"user.created_at",

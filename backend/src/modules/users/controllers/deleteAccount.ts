@@ -11,6 +11,7 @@ import { AuthenticationRequest } from "../../../entity/sql/AuthenticationRequest
 import { UserProgress } from "../../../entity/sql/UserProgress.js";
 
 export const deleteAccount = async (req: Request, res: Response) => {
+	// #swagger.tags = ['Users']
 	const { id } = req.params;
 
 	// Validate userId

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 {"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.599 ms - 0\u001b[0m","timestamp":"2025-04-09T00:02:35.659Z"}
 {"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 154.457 ms - -\u001b[0m","timestamp":"2025-04-09T00:02:35.944Z"}
 {"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 14.286 ms - -\u001b[0m","timestamp":"2025-04-09T00:02:40.036Z"}
@@ -661,3 +662,234 @@
 {"level":"info","message":"\u001b[0mGET /api/affiliation \u001b[36m304\u001b[0m 42.882 ms - -\u001b[0m","timestamp":"2025-04-09T06:07:32.476Z"}
 {"level":"info","message":"\u001b[0mGET /api/procedure-types \u001b[36m304\u001b[0m 45.229 ms - -\u001b[0m","timestamp":"2025-04-09T06:07:32.485Z"}
 {"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 88.560 ms - -\u001b[0m","timestamp":"2025-04-09T06:07:32.523Z"}
+=======
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:05:40.949Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:05:41.052Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:05:41.162Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:05:41.176Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgical-role \u001b[33m400\u001b[0m 40.923 ms - 45\u001b[0m","timestamp":"2025-04-09T13:11:38.095Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-09T13:12:17.992Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgical-role \u001b[31m500\u001b[0m 42.425 ms - 50\u001b[0m","timestamp":"2025-04-09T13:12:17.996Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:14:21.306Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:14:21.465Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:14:21.572Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:14:21.588Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgical-role \u001b[33m404\u001b[0m 75.894 ms - 40\u001b[0m","timestamp":"2025-04-09T13:14:26.691Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgical-role \u001b[32m201\u001b[0m 98.332 ms - 48\u001b[0m","timestamp":"2025-04-09T13:14:33.896Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgical-role \u001b[32m201\u001b[0m 35.255 ms - 48\u001b[0m","timestamp":"2025-04-09T13:14:58.425Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgical-role \u001b[32m200\u001b[0m 19.559 ms - 225\u001b[0m","timestamp":"2025-04-09T13:15:15.945Z"}
+{"level":"error","message":"Invalid or missing 'name' field undefined","timestamp":"2025-04-09T13:16:00.424Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgical-role/3 \u001b[33m400\u001b[0m 22.200 ms - 61\u001b[0m","timestamp":"2025-04-09T13:16:00.427Z"}
+{"level":"error","message":"Surgical role not found undefined","timestamp":"2025-04-09T13:16:17.261Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgical-role/3 \u001b[33m404\u001b[0m 21.718 ms - 53\u001b[0m","timestamp":"2025-04-09T13:16:17.264Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgical-role/3 \u001b[32m200\u001b[0m 69.865 ms - 48\u001b[0m","timestamp":"2025-04-09T13:16:51.011Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgical-role/3 \u001b[33m400\u001b[0m 6.686 ms - 45\u001b[0m","timestamp":"2025-04-09T13:17:30.618Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:18:34.750Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:18:34.883Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:18:34.966Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:18:34.995Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgical-role/3 \u001b[32m201\u001b[0m 35.286 ms - 48\u001b[0m","timestamp":"2025-04-09T13:18:39.687Z"}
+{"level":"error","message":"Surgical role not found undefined","timestamp":"2025-04-09T13:18:46.451Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgical-role/3 \u001b[33m404\u001b[0m 41.255 ms - 53\u001b[0m","timestamp":"2025-04-09T13:18:46.465Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 190.285 ms - 156579\u001b[0m","timestamp":"2025-04-09T13:19:16.084Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 131.749 ms - 156579\u001b[0m","timestamp":"2025-04-09T13:20:15.227Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 43.585 ms - 156579\u001b[0m","timestamp":"2025-04-09T13:21:17.586Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:23:13.079Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:23:13.221Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:23:13.312Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:23:13.331Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/28 \u001b[32m200\u001b[0m 102.830 ms - 156585\u001b[0m","timestamp":"2025-04-09T13:23:17.928Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/27 \u001b[32m200\u001b[0m 147.963 ms - 145651\u001b[0m","timestamp":"2025-04-09T13:23:49.026Z"}
+{"level":"error","message":"Surgery record not found undefined","timestamp":"2025-04-09T13:24:20.019Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/279 \u001b[33m404\u001b[0m 51.633 ms - 54\u001b[0m","timestamp":"2025-04-09T13:24:20.025Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/search?date=2025-4-1 \u001b[32m200\u001b[0m 26.334 ms - 1757\u001b[0m","timestamp":"2025-04-09T13:24:31.326Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:31:02.826Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:31:02.900Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:31:02.957Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:31:02.972Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/search?date=2025-4-1 \u001b[32m200\u001b[0m 70.564 ms - 379\u001b[0m","timestamp":"2025-04-09T13:31:07.199Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgery/26 \u001b[32m204\u001b[0m 322.663 ms - -\u001b[0m","timestamp":"2025-04-09T13:31:45.983Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 22.248 ms - 89\u001b[0m","timestamp":"2025-04-09T13:33:51.688Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[33m400\u001b[0m 161.428 ms - 81\u001b[0m","timestamp":"2025-04-09T13:35:25.725Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 16.713 ms - 89\u001b[0m","timestamp":"2025-04-09T13:35:32.351Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 10.826 ms - 89\u001b[0m","timestamp":"2025-04-09T13:35:37.871Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:37:08.379Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:37:08.476Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:37:08.548Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:37:08.563Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 24.933 ms - 89\u001b[0m","timestamp":"2025-04-09T13:37:12.199Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 11.425 ms - 89\u001b[0m","timestamp":"2025-04-09T13:38:37.476Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 15.101 ms - 89\u001b[0m","timestamp":"2025-04-09T13:38:40.668Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:39:41.146Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:39:41.240Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:39:41.305Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:39:41.328Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 24.803 ms - 89\u001b[0m","timestamp":"2025-04-09T13:39:43.478Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 7.662 ms - 89\u001b[0m","timestamp":"2025-04-09T13:39:46.581Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:48:10.305Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:48:10.387Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:48:10.443Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:48:10.456Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/open-slots \u001b[32m200\u001b[0m 46.017 ms - 217\u001b[0m","timestamp":"2025-04-09T13:48:14.423Z"}
+{"level":"error","message":"surgeryId - Required undefined","timestamp":"2025-04-09T13:50:45.459Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgery/ \u001b[33m400\u001b[0m 58.305 ms - 50\u001b[0m","timestamp":"2025-04-09T13:50:45.465Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgery/ \u001b[32m200\u001b[0m 86.169 ms - 65\u001b[0m","timestamp":"2025-04-09T13:51:38.508Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgery/ \u001b[31m500\u001b[0m 16.966 ms - 54\u001b[0m","timestamp":"2025-04-09T13:52:33.386Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:54:08.393Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:54:08.720Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:54:08.822Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:54:08.854Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgery/ \u001b[31m500\u001b[0m 53.517 ms - 54\u001b[0m","timestamp":"2025-04-09T13:54:13.742Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgery/ \u001b[31m500\u001b[0m 13.360 ms - 54\u001b[0m","timestamp":"2025-04-09T13:54:17.868Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T13:55:24.487Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T13:55:24.562Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T13:55:24.626Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T13:55:24.639Z"}
+{"level":"info","message":"\u001b[0mPUT /api/surgery/ \u001b[33m404\u001b[0m 40.717 ms - 38\u001b[0m","timestamp":"2025-04-09T13:55:28.956Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-09T13:55:48.320Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[0m-\u001b[0m - ms - -\u001b[0m","timestamp":"2025-04-09T13:56:43.451Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T14:01:11.506Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T14:01:11.589Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T14:01:11.647Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T14:01:11.665Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[32m201\u001b[0m 1051.968 ms - 122\u001b[0m","timestamp":"2025-04-09T14:01:17.351Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgery/41 \u001b[31m500\u001b[0m 168.897 ms - 249\u001b[0m","timestamp":"2025-04-09T14:01:56.136Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T14:04:06.556Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T14:04:06.690Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T14:04:06.785Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T14:04:06.807Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgery/41 \u001b[31m500\u001b[0m 54.989 ms - 124\u001b[0m","timestamp":"2025-04-09T14:04:24.899Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/roles/26 \u001b[32m204\u001b[0m 48.934 ms - -\u001b[0m","timestamp":"2025-04-09T14:06:33.079Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T14:09:17.513Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T14:09:17.590Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T14:09:17.658Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T14:09:17.673Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgery/41 \u001b[31m500\u001b[0m 241.632 ms - 249\u001b[0m","timestamp":"2025-04-09T14:09:21.102Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T14:12:14.317Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T14:12:14.412Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T14:12:14.470Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T14:12:14.482Z"}
+{"level":"info","message":"\u001b[0mDELETE /api/surgery/41 \u001b[32m204\u001b[0m 102.500 ms - -\u001b[0m","timestamp":"2025-04-09T14:12:16.901Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T14:13:43.023Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T14:13:43.146Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T14:13:43.206Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T14:13:43.217Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[33m400\u001b[0m 117.682 ms - 109\u001b[0m","timestamp":"2025-04-09T14:13:49.452Z"}
+{"level":"info","message":"\u001b[0mPOST /api/surgery \u001b[32m201\u001b[0m 71.815 ms - 122\u001b[0m","timestamp":"2025-04-09T14:15:06.297Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/confliction-data \u001b[32m200\u001b[0m 38.511 ms - 572\u001b[0m","timestamp":"2025-04-09T14:18:03.254Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T15:46:32.841Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T15:46:32.912Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T15:46:33.039Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T15:46:33.055Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T16:09:11.223Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T16:09:11.325Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T16:09:11.446Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T16:09:11.459Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 88.301 ms - 637\u001b[0m","timestamp":"2025-04-09T16:09:59.284Z"}
+{"level":"info","message":"\u001b[0mGET /docs \u001b[33m404\u001b[0m 15.455 ms - 48\u001b[0m","timestamp":"2025-04-09T16:10:11.245Z"}
+{"level":"info","message":"\u001b[0mGET /favicon.ico \u001b[33m404\u001b[0m 6.255 ms - 48\u001b[0m","timestamp":"2025-04-09T16:10:11.550Z"}
+{"level":"info","message":"\u001b[0mGET /docs \u001b[33m404\u001b[0m 3.046 ms - 48\u001b[0m","timestamp":"2025-04-09T16:12:24.517Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T16:14:51.431Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T16:14:51.555Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T16:14:51.611Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T16:14:51.623Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T16:17:36.320Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T16:17:36.425Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T16:17:36.504Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T16:17:36.521Z"}
+{"level":"info","message":"\u001b[0mGET /docs \u001b[33m404\u001b[0m 18.464 ms - 48\u001b[0m","timestamp":"2025-04-09T16:17:46.610Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T16:21:25.288Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T16:21:25.449Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T16:21:25.528Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T16:21:25.544Z"}
+{"level":"info","message":"\u001b[0mGET /docs \u001b[33m404\u001b[0m 20.641 ms - 48\u001b[0m","timestamp":"2025-04-09T16:21:31.461Z"}
+{"level":"info","message":"\u001b[0mGET /docs \u001b[33m404\u001b[0m 6.282 ms - 48\u001b[0m","timestamp":"2025-04-09T16:21:34.757Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T16:30:10.100Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T16:30:10.255Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T16:30:10.330Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T16:30:10.349Z"}
+{"level":"info","message":"\u001b[0mGET /docs \u001b[36m301\u001b[0m 16.583 ms - 154\u001b[0m","timestamp":"2025-04-09T16:30:20.255Z"}
+{"level":"info","message":"\u001b[0mGET /docs/ \u001b[32m200\u001b[0m 9.168 ms - 3047\u001b[0m","timestamp":"2025-04-09T16:30:20.269Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-init.js \u001b[32m200\u001b[0m 3.221 ms - 20954\u001b[0m","timestamp":"2025-04-09T16:30:20.330Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui.css \u001b[32m200\u001b[0m 18.460 ms - 154986\u001b[0m","timestamp":"2025-04-09T16:30:20.336Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-standalone-preset.js \u001b[32m200\u001b[0m 13.759 ms - 229223\u001b[0m","timestamp":"2025-04-09T16:30:20.353Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-bundle.js \u001b[32m200\u001b[0m 15.858 ms - 1466908\u001b[0m","timestamp":"2025-04-09T16:30:20.425Z"}
+{"level":"info","message":"\u001b[0mGET /docs/favicon-32x32.png \u001b[32m200\u001b[0m 6.011 ms - 628\u001b[0m","timestamp":"2025-04-09T16:30:21.062Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T17:04:46.427Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T17:04:46.508Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T17:04:46.613Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T17:04:46.624Z"}
+{"level":"info","message":"\u001b[0mGET /docs/ \u001b[36m304\u001b[0m 28.913 ms - -\u001b[0m","timestamp":"2025-04-09T17:04:47.994Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui.css \u001b[36m304\u001b[0m 18.361 ms - -\u001b[0m","timestamp":"2025-04-09T17:04:48.080Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-bundle.js \u001b[36m304\u001b[0m 13.989 ms - -\u001b[0m","timestamp":"2025-04-09T17:04:48.098Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-init.js \u001b[32m200\u001b[0m 17.064 ms - 22391\u001b[0m","timestamp":"2025-04-09T17:04:48.146Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-standalone-preset.js \u001b[36m304\u001b[0m 46.753 ms - -\u001b[0m","timestamp":"2025-04-09T17:04:48.159Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T17:08:16.567Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T17:08:16.651Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T17:08:16.723Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T17:08:16.739Z"}
+{"level":"info","message":"\u001b[0mGET /docs/ \u001b[36m304\u001b[0m 20.950 ms - -\u001b[0m","timestamp":"2025-04-09T17:08:46.297Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui.css \u001b[36m304\u001b[0m 19.103 ms - -\u001b[0m","timestamp":"2025-04-09T17:08:46.363Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-init.js \u001b[32m200\u001b[0m 5.794 ms - 22603\u001b[0m","timestamp":"2025-04-09T17:08:46.398Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-bundle.js \u001b[36m304\u001b[0m 38.064 ms - -\u001b[0m","timestamp":"2025-04-09T17:08:46.406Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-standalone-preset.js \u001b[36m304\u001b[0m 18.908 ms - -\u001b[0m","timestamp":"2025-04-09T17:08:46.419Z"}
+{"level":"info","message":"\u001b[0mGET /docs/favicon-32x32.png \u001b[36m304\u001b[0m 5.077 ms - -\u001b[0m","timestamp":"2025-04-09T17:08:47.030Z"}
+{"level":"info","message":"\u001b[0mPOST /register \u001b[33m404\u001b[0m 12.246 ms - 48\u001b[0m","timestamp":"2025-04-09T17:09:34.981Z"}
+{"level":"info","message":"\u001b[0mPOST /register \u001b[33m404\u001b[0m 4.564 ms - 48\u001b[0m","timestamp":"2025-04-09T17:09:43.926Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T17:12:07.383Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T17:12:07.540Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T17:12:07.616Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T17:12:07.632Z"}
+{"level":"info","message":"\u001b[0mGET /docs/ \u001b[36m304\u001b[0m 30.164 ms - -\u001b[0m","timestamp":"2025-04-09T17:12:12.935Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui.css \u001b[36m304\u001b[0m 13.852 ms - -\u001b[0m","timestamp":"2025-04-09T17:12:12.997Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-bundle.js \u001b[36m304\u001b[0m 4.910 ms - -\u001b[0m","timestamp":"2025-04-09T17:12:13.006Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-init.js \u001b[32m200\u001b[0m 5.613 ms - 22815\u001b[0m","timestamp":"2025-04-09T17:12:13.035Z"}
+{"level":"info","message":"\u001b[0mGET /docs/swagger-ui-standalone-preset.js \u001b[36m304\u001b[0m 24.386 ms - -\u001b[0m","timestamp":"2025-04-09T17:12:13.037Z"}
+{"level":"info","message":"\u001b[0mGET /docs/favicon-32x32.png \u001b[36m304\u001b[0m 4.691 ms - -\u001b[0m","timestamp":"2025-04-09T17:12:13.493Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T17:30:10.740Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T17:30:10.832Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T17:30:10.892Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T17:30:10.913Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 85.266 ms - 637\u001b[0m","timestamp":"2025-04-09T17:30:25.509Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T18:07:59.091Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T18:07:59.171Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T18:07:59.232Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T18:07:59.246Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 157.673 ms - 722\u001b[0m","timestamp":"2025-04-09T18:08:04.663Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 24.327 ms - 969\u001b[0m","timestamp":"2025-04-09T18:08:19.515Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 43.823 ms - 969\u001b[0m","timestamp":"2025-04-09T18:09:44.394Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 28.683 ms - 969\u001b[0m","timestamp":"2025-04-09T18:10:14.296Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 31.751 ms - 722\u001b[0m","timestamp":"2025-04-09T18:10:38.697Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 28.136 ms - 722\u001b[0m","timestamp":"2025-04-09T18:12:08.980Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 40.101 ms - 969\u001b[0m","timestamp":"2025-04-09T18:12:22.229Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 32.778 ms - 722\u001b[0m","timestamp":"2025-04-09T18:13:03.577Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/confliction-data \u001b[32m200\u001b[0m 7.908 ms - 38\u001b[0m","timestamp":"2025-04-09T18:13:22.345Z"}
+{"level":"error","message":"Surgery record not found undefined","timestamp":"2025-04-09T18:17:28.761Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/41 \u001b[33m404\u001b[0m 51.731 ms - 54\u001b[0m","timestamp":"2025-04-09T18:17:28.772Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/42 \u001b[32m200\u001b[0m 263.314 ms - 219308\u001b[0m","timestamp":"2025-04-09T18:17:32.377Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/39 \u001b[32m200\u001b[0m 43.935 ms - 219416\u001b[0m","timestamp":"2025-04-09T18:17:53.426Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 56.308 ms - 722\u001b[0m","timestamp":"2025-04-09T18:18:30.573Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T18:19:47.730Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T18:19:47.891Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T18:19:47.951Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T18:19:47.967Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 58.328 ms - 985\u001b[0m","timestamp":"2025-04-09T18:19:53.119Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T18:26:51.759Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T18:26:51.883Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T18:26:51.942Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T18:26:51.955Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 124.592 ms - 1230\u001b[0m","timestamp":"2025-04-09T18:26:55.633Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 98.517 ms - 1230\u001b[0m","timestamp":"2025-04-09T18:27:22.390Z"}
+{"level":"error","message":"Database query error Unknown column 'user.residencyLevel' in 'field list'","timestamp":"2025-04-09T18:41:37.979Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[31m500\u001b[0m 162.451 ms - 115\u001b[0m","timestamp":"2025-04-09T18:41:37.983Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T18:44:25.253Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T18:44:25.341Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T18:44:25.403Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T18:44:25.418Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[32m200\u001b[0m 31.369 ms - 6667\u001b[0m","timestamp":"2025-04-09T18:44:28.629Z"}
+{"level":"info","message":"\u001b[0mGET /api/schedule/recommend-staff \u001b[32m200\u001b[0m 74.659 ms - 837\u001b[0m","timestamp":"2025-04-09T18:44:58.609Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-09T18:54:14.762Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-09T18:54:14.970Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-09T18:54:15.062Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-09T18:54:15.081Z"}
+>>>>>>> 62d4d171033f21bcee48df7e3966a127690427f6

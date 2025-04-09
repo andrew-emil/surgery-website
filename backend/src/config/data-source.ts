@@ -17,6 +17,7 @@ import { Permission } from "../entity/sql/Permission.js";
 import { ProcedureType } from "../entity/sql/ProcedureType.js";
 import { Requirement } from "../entity/sql/Requirments.js";
 import { UserProgress } from "../entity/sql/UserProgress.js";
+import { SurgicalRole } from "../entity/sql/SurgicalRoles.js";
 
 export const AppDataSource = new DataSource({
 	type: "mysql",
@@ -40,6 +41,7 @@ export const AppDataSource = new DataSource({
 		ProcedureType,
 		Requirement,
 		UserProgress,
+		SurgicalRole
 	],
 	subscribers: [],
 });

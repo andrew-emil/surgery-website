@@ -6,7 +6,7 @@
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"start": "nodemon --exec tsx src/server.ts",
 		"build": "tsc",
-		"dev": "nodemon --exec tsx src/server.ts"
+		"dev": " nodemon --exec tsx src/server.ts"
 	},
 	"author": "",
 	"license": "ISC",
@@ -47,6 +47,8 @@
 		"nodemailer": "^6.10.0",
 		"pdfkit": "^0.16.0",
 		"socket.io": "^4.8.1",
+		"swagger-autogen": "^2.23.7",
+		"swagger-ui-express": "^5.0.1",
 		"tsx": "^4.19.3",
 		"typeorm": "^0.3.20",
 		"typescript": "^5.7.3",
@@ -57,7 +59,9 @@
 		"zod-validation-error": "^3.4.0"
 	},
 	"devDependencies": {
+		"@types/cookie-parser": "^1.4.8",
 		"@types/nodemailer": "^6.4.17",
+		"@types/swagger-ui-express": "^4.1.8",
 		"concurrently": "^9.1.2",
 		"nodemon": "^3.1.9",
 		"ts-node": "^10.9.2"

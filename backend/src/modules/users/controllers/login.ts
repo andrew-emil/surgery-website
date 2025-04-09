@@ -4,12 +4,12 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { userService } from "../../../config/initializeServices.js";
 
 export const login = async (req: Request, res: Response): Promise<void> => {
+	// #swagger.tags = ['Users']
 	const validation = loginSchema.safeParse(req.body);
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const { email, password } = validation.data;
-
 
 	const authResult = await userService.login(email, password);
 
