@@ -7,11 +7,16 @@ export const getSurgeriesWithOpenSlots = async (
 	req: Request,
 	res: Response
 ) => {
+	const { page = "1" } = req.query;
+	const pageNumber = parseInt(page as string, 10);
+	const limitNumber = 10;
+	const skip = (pageNumber - 1) * limitNumber;
+
 	const pipeline = [
 		{
 			$match: {
 				status: STATUS.ONGOING,
-				doctorsTeam: { $exists: true, $ne: [] }, // Ensure doctorsTeam exists and isn't empty
+				doctorsTeam: { $exists: true, $ne: [] },
 			},
 		},
 		{
@@ -21,23 +26,30 @@ export const getSurgeriesWithOpenSlots = async (
 		},
 		{
 			$match: {
-				$expr: { $lt: ["$slots", "$doctorsTeamCount"] },
+				$expr: { $lt: ["$doctorsTeamCount", "$slots"] },
 			},
 		},
 		{
 			$project: {
-				doctorsTeamCount: 0, // Remove temporary field from results
+				doctorsTeamCount: 0,
 			},
 		},
+		{ $skip: skip },
+		{ $limit: limitNumber },
 	];
+
 	const openSurgeries = await surgeryLogsRepo.aggregate(pipeline).toArray();
 
 	if (openSurgeries.length === 0) {
 		res.status(200).json({
 			success: true,
 			surgeries: [],
-			total: 0,
 			message: "No surgeries with open slots found.",
+			pagination: {
+				page: pageNumber,
+				limit: limitNumber,
+				total: 0,
+			},
 		});
 		return;
 	}
@@ -82,6 +94,10 @@ export const getSurgeriesWithOpenSlots = async (
 	res.status(200).json({
 		success: true,
 		surgeries: surgeriesResponse,
-		total,
+		pagination: {
+			page: pageNumber,
+			limit: limitNumber,
+			total,
+		},
 	});
 };

@@ -15,6 +15,7 @@ import { notificationService } from "../../../config/initializeServices.js";
 const hashFunctions = new HashFunctions();
 
 export const register = async (req: Request, res: Response) => {
+	// #swagger.tags = ['Users']
 	const validation = registerSchema.safeParse(req.body);
 
 	if (!validation.success)

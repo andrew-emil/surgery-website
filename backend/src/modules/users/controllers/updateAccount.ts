@@ -5,6 +5,7 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { userService } from "../../../config/initializeServices.js";
 
 export const updateAccount = async (req: Request, res: Response) => {
+	// #swagger.tags = ['Users']
 	const userId = req.user?.id;
 	if (!userId) throw Error("unauthorized");
 

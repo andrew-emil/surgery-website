@@ -11,14 +11,15 @@ const departmentRoutes = Router();
 
 departmentRoutes.get("/:id", getDepartments);
 
-//middlewares
 departmentRoutes.use(auditLogger());
 departmentRoutes.use(authMiddleware);
 
-//department routes
 departmentRoutes.post("/", authUser(["Admin"]), addDepartment);
+
 departmentRoutes.delete("/:id", authUser(["Admin"]), deleteDepartment);
+
 departmentRoutes.put("/", authUser(["Admin"]), updateDepartment);
+
 departmentRoutes.get(
 	"/get-doctors/:id",
 	authUser(["Admin"]),

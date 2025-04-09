@@ -62,12 +62,8 @@ export const errorHandler: ErrorRequestHandler = (
 			message = "Requested resource not found";
 			break;
 		}
-		case errorMessageLower.includes("not found"): {
-			statusCode = 404;
-			message = errorMessage;
-			break;
-		}
-		case errorMessage.startsWith("No ") && errorMessage.endsWith(" Found"): {
+		case errorMessageLower.includes("not") &&
+			errorMessageLower.includes("found"): {
 			statusCode = 404;
 			message = errorMessage;
 			break;

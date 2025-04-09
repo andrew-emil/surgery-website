@@ -10,6 +10,7 @@ import {
 	procedureTypeRepo,
 	requirementRepo,
 	userProgressRepo,
+	surgicalRolesRepo,
 } from "../../../config/repositories.js";
 import { PatientDetails } from "../../../entity/sub entity/PatientDetails.js";
 import { addSurgerySchema } from "../../../utils/zodSchemas.js";
@@ -20,6 +21,7 @@ import { DoctorsTeam } from "../../../entity/sub entity/DoctorsTeam.js";
 import { Surgery } from "../../../entity/sql/Surgery.js";
 import { SurgeryLog } from "../../../entity/mongodb/SurgeryLog.js";
 import { trainingService } from "../../../config/initializeServices.js";
+import { STATUS } from "../../../utils/dataTypes.js";
 
 export const addSurgery = async (req: Request, res: Response) => {
 	const validation = addSurgerySchema.safeParse(req.body);
@@ -52,7 +54,7 @@ export const addSurgery = async (req: Request, res: Response) => {
 			department,
 			leadSurgeonEntity,
 			procedureType,
-			roleRequirements,
+			doctorsTeamRoles,
 		] = await Promise.all([
 			affiliationRepo.findOneBy({ id: hospitalId }),
 			departmentRepo.findOneBy({ id: departmentId }),
@@ -63,14 +65,28 @@ export const addSurgery = async (req: Request, res: Response) => {
 			procedureTypeRepo.findOne({
 				where: { id: procedureTypeId },
 			}),
-			requirementRepo.find({
+			userRepo.find({
 				where: {
-					role: { id: In(doctorsTeam.map((t) => t.roleId)) },
-					procedure: { id: procedureTypeId },
+					id: In(doctorsTeam.map((t) => t.doctorId)),
 				},
-				relations: ["role", "procedure"],
+				relations: ["role"],
+				select: {
+					id: true,
+					role: {
+						id: true,
+						name: true,
+					},
+				},
 			}),
 		]);
+
+		const roleRequirements = await requirementRepo.find({
+			where: {
+				role: { id: In(doctorsTeamRoles.map((t) => t.role.id)) },
+				procedure: { id: procedureTypeId },
+			},
+			relations: ["role", "procedure"],
+		});
 
 		if (!hospital) throw new Error("Hospital Not Found");
 		if (!department) throw new Error("Department Not Found");
@@ -85,8 +101,8 @@ export const addSurgery = async (req: Request, res: Response) => {
 		const roleIds = doctorsTeam.map((p) => p.roleId);
 
 		const [existingUsers, existingRoles] = await Promise.all([
-			userRepo.findBy({ id: In(doctorIds) }),
-			roleRepo.findBy({ id: In(roleIds) }),
+			userRepo.find({ where: { id: In(doctorIds) }, relations: ["role"] }),
+			surgicalRolesRepo.findBy({ id: In(roleIds) }),
 		]);
 
 		if (existingUsers.length !== doctorsTeam.length)
@@ -112,8 +128,8 @@ export const addSurgery = async (req: Request, res: Response) => {
 			return;
 		}
 
-		const invalidRoles = doctorsTeam.filter((t) => {
-			const req = roleRequirements.find((r) => r.role.id === t.roleId);
+		const invalidRoles = existingUsers.filter((user) => {
+			const req = roleRequirements.find((r) => r.role.id === user.role.id);
 			return !req || req.procedure.category !== procedureType.category;
 		});
 
@@ -154,6 +170,8 @@ export const addSurgery = async (req: Request, res: Response) => {
 				);
 			});
 			surgeryLog.leadSurgeon = leadSurgeonEntity.id;
+			surgeryLog.slots = slots;
+			surgeryLog.status = STATUS.ONGOING;
 			surgeryLog.date = new Date(date);
 			surgeryLog.time = time;
 			surgeryLog.cptCode = cptCode;
@@ -173,10 +191,19 @@ export const addSurgery = async (req: Request, res: Response) => {
 			await surgeryLogsRepo.save(surgeryLog);
 
 			const progressUpdates = doctorsTeam.map(async (doctor) => {
+				const doctorRole = await userRepo.findOne({
+					where: { id: In(doctorIds) },
+					relations: ["role"],
+					select: {
+						id: true,
+						role: {
+							id: true,
+						},
+					},
+				});
 				const requirement = roleRequirements.find(
-					(r) => r.role.id === doctor.roleId
+					(r) => r.role.id === doctorRole.role.id
 				);
-
 				if (!requirement) return;
 
 				const progress = await userProgressRepo.findOne({

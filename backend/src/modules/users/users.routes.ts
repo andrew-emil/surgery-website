@@ -15,25 +15,31 @@ import { getRoleRequirment } from "./controllers/getRoleRequirment.js";
 
 const usersRoutes = Router();
 
-//user routes...
 usersRoutes.post("/forget-password", forgetPassword);
+
 usersRoutes.post("/login", auditLogger("Login"), login);
+
 usersRoutes.post(
 	"/register",
 	validateUserPhoto,
 	auditLogger("Signup"),
 	register
 );
+
 usersRoutes.post("/verify", auditLogger("Verify"), verify2FA);
+
 usersRoutes.post("/reset-password", auditLogger(), resetPassword);
 
-//protected routes
 usersRoutes.use(authMiddleware);
 
 usersRoutes.delete("/:id", auditLogger(), deleteAccount);
+
 usersRoutes.patch("/", validateUserPhoto, auditLogger(), updateAccount);
+
 usersRoutes.get("/", getUserData);
+
 usersRoutes.get("/training/progress", getTrainingProgress);
+
 usersRoutes.get("/roles/requirements", getRoleRequirment);
 
 export default usersRoutes;

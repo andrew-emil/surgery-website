@@ -21,11 +21,20 @@ export const deleteSurgery = async (req: Request, res: Response) => {
 	try {
 		const surgery = await queryRunner.manager.findOne(Surgery, {
 			where: { id: surgeryId },
-			relations: ["procedure"],
+			relations: ["procedure", "surgeryEquipments"],
 		});
 
 		if (!surgery) {
 			throw Error("Surgery record not found");
+		}
+
+		if (surgery.surgeryEquipments && surgery.surgeryEquipments.length > 0) {
+			await queryRunner.manager
+				.createQueryBuilder()
+				.delete()
+				.from("surgery_equipment_mapping")
+				.where("surgeryId = :surgeryId", { surgeryId })
+				.execute();
 		}
 
 		const surgeryLog = await surgeryLogsRepo.findOneBy({ surgeryId });

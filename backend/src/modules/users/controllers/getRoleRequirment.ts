@@ -3,6 +3,7 @@ import { trainingService } from "../../../config/initializeServices.js";
 import { roleRepo } from "../../../config/repositories.js";
 
 export const getRoleRequirment = async (req: Request, res: Response) => {
+	// #swagger.tags = ['Users']
 	const roleName = req.user?.userRole;
 
 	const parentRole = await roleRepo.findOne({

@@ -1,0 +1,9 @@
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-09T13:12:17.992Z"}
+{"level":"error","message":"Invalid or missing 'name' field undefined","timestamp":"2025-04-09T13:16:00.423Z"}
+{"level":"error","message":"Surgical role not found undefined","timestamp":"2025-04-09T13:16:17.261Z"}
+{"level":"error","message":"Surgical role not found undefined","timestamp":"2025-04-09T13:18:46.451Z"}
+{"level":"error","message":"Surgery record not found undefined","timestamp":"2025-04-09T13:24:20.017Z"}
+{"level":"error","message":"surgeryId - Required undefined","timestamp":"2025-04-09T13:50:45.459Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-09T13:55:48.318Z"}
+{"level":"error","message":"Surgery record not found undefined","timestamp":"2025-04-09T18:17:28.761Z"}
+{"level":"error","message":"Database query error Unknown column 'user.residencyLevel' in 'field list'","timestamp":"2025-04-09T18:41:37.979Z"}
