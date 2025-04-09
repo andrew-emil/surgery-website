@@ -19,33 +19,40 @@ import Tooltip from "@mui/material/Tooltip";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import axiosClient from "../axiosClient";
 import { FormButton } from "../components/StyledComponents";
+import { convertImage } from "./../utils/convertImage";
 
 export default function Equipments() {
-  const [data, setData] = React.useState([]);
+  const [rows, setRows] = React.useState([]);
+  function createData(id, name, photo) {
+    return {
+      id,
+      name,
+      photo,
+    };
+  }
+
   React.useEffect(() => {
     axiosClient
       .get(`/surgery-equipments`, { withCredentials: true })
-      .then(({ data }) => {
-        console.log(data);
-        setData(data);
+      .then(async ({ data }) => {
+        const newRows = data.equipments.map((eq) =>
+          createData(eq.id, eq.equipment_name, convertImage(eq.photo.data))
+        );
+
+        setRows(newRows);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-  function createData(id, name, Photo) {
-    return {
-      id,
-      name,
-      Photo,
-    };
-  }
-
-  const rows = [createData(1, "Cupcake")];
+  // const rows = React.useMemo(() => {
+  //   return data.map((eq) =>
+  //     createData(eq.id, eq.equipment_name, convertImage(eq.photo.data))
+  //   );
+  // }, [data]);
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -68,7 +75,7 @@ export default function Equipments() {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Dessert (100g serving)",
+      label: "Equipment",
     },
     {
       id: "Photo",
@@ -101,7 +108,7 @@ export default function Equipments() {
               checked={rowCount > 0 && numSelected === rowCount}
               onChange={onSelectAllClick}
               inputProps={{
-                "aria-label": "select all desserts",
+                "aria-label": "select all equipments",
               }}
             />
           </TableCell>
@@ -143,7 +150,7 @@ export default function Equipments() {
   };
 
   function EnhancedTableToolbar(props) {
-    const { numSelected } = props;
+    const { numSelected, selected } = props;
     return (
       <Toolbar
         sx={[
@@ -176,21 +183,26 @@ export default function Equipments() {
             id="tableTitle"
             component="div"
           >
-            Surgical Equipments
+            Surgeries
           </Typography>
         )}
         {numSelected > 0 ? (
           <Tooltip title="Delete">
-            <IconButton>
+            <IconButton
+              onClick={() =>
+                selected.map((id) => {
+                  axiosClient.delete(`/surgery-equipments/${id}`, {
+                    withCredentials: true,
+                  });
+                  setRows((prev) => prev.filter((row) => row.id !== id));
+                })
+              }
+            >
               <DeleteIcon />
             </IconButton>
           </Tooltip>
         ) : (
-          <Tooltip title="Filter list">
-            <IconButton>
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
+          <div></div>
         )}
       </Toolbar>
     );
@@ -198,10 +210,11 @@ export default function Equipments() {
 
   EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
+    selected: PropTypes.array.isRequired,
   };
 
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [dense, setDense] = React.useState(false);
@@ -238,6 +251,7 @@ export default function Equipments() {
         selected.slice(selectedIndex + 1)
       );
     }
+
     setSelected(newSelected);
   };
 
@@ -254,16 +268,13 @@ export default function Equipments() {
     setDense(event.target.checked);
   };
 
-  // Avoid a layout jump when reaching the last page with empty rows.
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      [...rows]
-        .sort(getComparator(order, orderBy))
-        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
-    [order, orderBy, page, rowsPerPage]
+  const visibleRows = React.useMemo(() =>
+    [...rows]
+      .sort(getComparator(order, orderBy))
+      .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   );
 
   return (
@@ -279,7 +290,10 @@ export default function Equipments() {
       </FormButton>
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
-          <EnhancedTableToolbar numSelected={selected.length} />
+          <EnhancedTableToolbar
+            numSelected={selected.length}
+            selected={selected}
+          />
           <TableContainer>
             <Table
               sx={{ minWidth: 750 }}
@@ -327,10 +341,17 @@ export default function Equipments() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.photo}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">
+                        <img
+                          src={row.photo}
+                          alt="equipment"
+                          style={{
+                            width: "80px",
+                            height: "80px",
+                            objectFit: "cover",
+                          }}
+                        />
+                      </TableCell>
                     </TableRow>
                   );
                 })}
