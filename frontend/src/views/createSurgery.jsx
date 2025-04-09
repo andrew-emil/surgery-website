@@ -15,17 +15,15 @@ import axiosClient from "../axiosClient";
 import AlertTitle from "@mui/material/AlertTitle";
 import {
   Alert,
-  Typography,
+  Box,
+  Skeleton,
   InputLabel,
   Select,
   MenuItem,
   FormControl,
-  Box,
-  Skeleton,
+  Typography,
   Checkbox,
   ListItemText,
-  Autocomplete,
-  TextField,
 } from "@mui/material";
 
 const steps = [
@@ -33,7 +31,10 @@ const steps = [
   "Create an ad group",
   "Create an ad",
 ];
-function StepOne() {
+
+let payload = {};
+
+function StepOne({ onComplete }) {
   const nameRef = useRef();
   const slotRef = useRef();
   const dateRef = useRef();
@@ -48,12 +49,12 @@ function StepOne() {
   const [err, setErr] = useState(null);
   const [msg, setMsg] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isButtonloading, setIsButtonLoading] = useState(false);
   const [affiliation, setAffiliation] = useState(null);
   const [department, setDepartment] = useState("");
   const [equipment, setEquipment] = useState([]);
   const [procedure, setProcedure] = useState([]);
   const [affiliationData, setAffiliationData] = useState([]);
+  const [patientComorbidityData, setPatientComorbidityData] = useState([]);
   const [procedureTypeData, setProcedureTypeData] = useState([]);
   const [departmentData, setDepartmentData] = useState([]);
   const [equipmentData, setEquipmentData] = useState([]);
@@ -97,7 +98,6 @@ function StepOne() {
 
   useEffect(() => {
     if (affiliation) {
-      console.log(affiliation);
       axiosClient
         .get(`/departments/${affiliation}`)
         .then(({ data }) => {
@@ -106,10 +106,8 @@ function StepOne() {
         .catch((err) => {
           console.log(err);
         });
-    } else {
-      console.log("Affiliation is not yet available.");
     }
-  }, [affiliation, setDepartmentData]);
+  }, [affiliation]);
 
   if (loading) {
     return (
@@ -119,11 +117,44 @@ function StepOne() {
     );
   }
 
-  const submit = async (ev) => {
-    ev.preventDefault();
-    setIsButtonLoading(true);
-    setErr("");
-    console.log(equipment);
+  const validateFields = () => {
+    const newErrors = {};
+    if (!nameRef.current.value) newErrors.name = "Name is required";
+    if (!slotRef.current.value) newErrors.slots = "Slots are required";
+    if (!dateRef.current.value) newErrors.date = "Date is required";
+    if (!timeRef.current.value) newErrors.time = "Time is required";
+    if (!estimatedEndTimeRef.current.value)
+      newErrors.estimatedEndTime = "Estimated end time is required";
+    if (!cptCodeRef.current.value) newErrors.cptCode = "CPT Code is required";
+    if (!icdCodeRef.current.value) newErrors.icdCode = "ICD Code is required";
+    if (!affiliation) newErrors.affiliation = "Affiliation is required";
+    if (!department) newErrors.department = "Department is required";
+    if (!procedure) newErrors.procedure = "Procedure is required";
+
+    setErr(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const collectPayload = () => {
+    if (!validateFields()) return;
+
+    payload = {
+      name: nameRef.current.value,
+      slots: slotRef.current.value,
+      date: dateRef.current.value,
+      time: timeRef.current.value,
+      estimatedEndTime: estimatedEndTimeRef.current.value,
+      cptCode: cptCodeRef.current.value,
+      icdCode: icdCodeRef.current.value,
+      patientBmi: patientBmiRef.current.value,
+      patientDiagnosis: patientDiagnosisRef.current.value,
+      patientComorbidity: patientComorbidityData,
+      affiliation,
+      department,
+      equipment,
+      procedure,
+    };
+    onComplete();
   };
 
   const handleAffiliationChange = (event) => {
@@ -133,27 +164,33 @@ function StepOne() {
     setDepartment(event.target.value);
   };
   const handleProcedureChange = (event) => {
-    setDepartment(event.target.value);
+    setProcedure(event.target.value);
   };
   const handleEquipmentChange = (event) => {
     const {
       target: { value },
     } = event;
-    setEquipment(
-      // On autofill we get a stringified value.
-      typeof value === "string" ? value.split(",") : value
-    );
+    setEquipment(typeof value === "string" ? value.split(",") : value);
+  };
+  const handlePatientComorbidityChange = (ev) => {
+    ev.preventDefault();
+    const comorbidityArray = patientComorbidityRef.current.value.split(",");
+    setPatientComorbidityData(comorbidityArray);
   };
 
   return (
     <FormContainer
-      sx={{ display: "flex", flexDirection: "column", width: "100%" }}
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        height: "70%",
+      }}
     >
-      {/* <FormCard variant={"register"} className="form"> */}
       {err && (
         <Alert severity="error" sx={{ marginBottom: "1rem" }}>
           <AlertTitle>Error</AlertTitle>
-          {err}
+          {Object.values(err).join(", ")}
         </Alert>
       )}
       {msg && (
@@ -162,17 +199,75 @@ function StepOne() {
           {msg}
         </Alert>
       )}
-      <form onSubmit={submit} style={{ width: "100%" }}>
-        <FormTitle
-          variant="h1"
-          className="title"
-          sx={{ width: "100%", flexBasis: "100%" }}
+      <form style={{ width: "100%" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", sm: "row" },
+            gap: "1rem",
+          }}
         >
-          Surgery Details
-        </FormTitle>
-
-        <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-          <Box sx={{ width: "50%" }}>
+          <Box sx={{ width: { xs: "100%", sm: "50%" } }}>
+            <FormTextField
+              inputRef={nameRef}
+              type="name"
+              label="Name"
+              variant="standard"
+              required
+            />
+            <FormTextField
+              inputRef={slotRef}
+              type="number"
+              label="Slots"
+              variant="standard"
+              required
+            />
+            <FormTextField
+              inputRef={dateRef}
+              type="date"
+              label="Date"
+              variant="standard"
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <FormTextField
+              inputRef={timeRef}
+              type="time"
+              label="Time"
+              variant="standard"
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <FormTextField
+              inputRef={estimatedEndTimeRef}
+              type="time"
+              label="Estimated End Time"
+              variant="standard"
+              required
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <FormTextField
+              inputRef={cptCodeRef}
+              type="text"
+              label="CPT Code"
+              variant="standard"
+              required
+            />
+            <FormTextField
+              inputRef={icdCodeRef}
+              type="text"
+              label="ICD Code"
+              variant="standard"
+              required
+            />
+          </Box>
+          <Box sx={{ width: { xs: "100%", sm: "50%" } }}>
             <FormControl variant="standard" sx={{ minWidth: "100%" }}>
               <InputLabel id="demo-simple-select-standard-label">
                 Affiliations
@@ -287,127 +382,47 @@ function StepOne() {
             <FormTextField
               inputRef={patientBmiRef}
               type="number"
-              name=""
-              id="standard-basic"
               label="Patient BMI"
               variant="standard"
             />
             <FormTextField
               inputRef={patientDiagnosisRef}
               type="text"
-              name=""
-              id="standard-basic"
               label="Patient Diagnosis"
               variant="standard"
             />
             <FormTextField
               inputRef={patientComorbidityRef}
+              onBlur={handlePatientComorbidityChange}
               type="text"
-              name=""
-              id="standard-basic"
               label="Patient Comorbidity"
+              placeholder="Example: Hypertension, Diabetes"
               variant="standard"
-            />
-          </Box>
-          <Box sx={{ width: "50%" }}>
-            <FormTextField
-              inputRef={nameRef}
-              type="name"
-              name=""
-              id="standard-basic"
-              label="Name"
-              variant="standard"
-              required
-            />
-            <FormTextField
-              inputRef={slotRef}
-              type="number"
-              name=""
-              id="standard-basic"
-              label="Slots"
-              variant="standard"
-              required
-            />
-            <FormTextField
-              inputRef={dateRef}
-              type="date"
-              name=""
-              id="standard-basic"
-              label="date"
-              variant="standard"
-              required
               InputLabelProps={{
                 shrink: true,
               }}
-            />
-            <FormTextField
-              inputRef={timeRef}
-              type="time"
-              name=""
-              id="standard-basic"
-              label="Time"
-              variant="standard"
-              required
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <FormTextField
-              inputRef={estimatedEndTimeRef}
-              type="time"
-              name=""
-              id="standard-basic"
-              label="Estimated End Time"
-              variant="standard"
-              required
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-            <FormTextField
-              inputRef={cptCodeRef}
-              type="text"
-              name=""
-              id="standard-basic"
-              label="CPT Code"
-              variant="standard"
-              required
-            />
-            <FormTextField
-              inputRef={icdCodeRef}
-              type="text"
-              name=""
-              id="standard-basic"
-              label="ICD Code"
-              variant="standard"
-              required
             />
           </Box>
         </Box>
-        <FormButton
-          variant="contained"
-          className="btn btn-black"
-          type="submit"
-          loading={isButtonloading}
-        >
-          Sign-Up
-        </FormButton>
       </form>
-      <Typography
-        variant="body2"
-        className="message"
-        sx={{ marginTop: "1rem", textAlign: "center" }}
-      >
-        Already Have An Account? <Link to="/login">Login</Link>
-      </Typography>
-      {/* </FormCard> */}
+      <Button variant="contained" sx={{ mt: 3 }} onClick={collectPayload}>
+        Complete Step
+      </Button>
     </FormContainer>
   );
 }
 
 function StepTwo() {
-  return <div>Step 2</div>;
+  return (
+    <Box sx={{ mt: 4 }}>
+      <Typography variant="h6">Step 2 - Payload Preview</Typography>
+      <pre style={{ background: "#f5f5f5", padding: "1rem" }}>
+        {JSON.stringify(payload, null, 2)}
+      </pre>
+    </Box>
+  );
 }
+
 export default function HorizontalNonLinearStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState({});
@@ -431,15 +446,13 @@ export default function HorizontalNonLinearStepper() {
   const handleNext = () => {
     const newActiveStep =
       isLastStep() && !allStepsCompleted()
-        ? // It's the last step, but not all steps have been completed,
-          // find the first step that has been completed
-          steps.findIndex((step, i) => !(i in completed))
+        ? steps.findIndex((step, i) => !(i in completed))
         : activeStep + 1;
     setActiveStep(newActiveStep);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep(activeStep - 1);
   };
 
   const handleStep = (step) => () => {
@@ -447,10 +460,7 @@ export default function HorizontalNonLinearStepper() {
   };
 
   const handleComplete = () => {
-    setCompleted({
-      ...completed,
-      [activeStep]: true,
-    });
+    setCompleted({ ...completed, [activeStep]: true });
     handleNext();
   };
 
@@ -461,69 +471,30 @@ export default function HorizontalNonLinearStepper() {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <Box sx={{ mt: 2 }}>
-        {activeStep === 0 && <StepOne />}
-        {activeStep === 1 && <stepTwo />}
-        {activeStep === 2 && <div>Step 3</div>}
-      </Box>
-      <Stepper nonLinear activeStep={activeStep}>
+      <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => (
-          <Step key={label} completed={completed[index]}>
-            <StepButton color="inherit" onClick={handleStep(index)}>
-              {label}
-            </StepButton>
+          <Step key={label}>
+            <StepButton onClick={handleStep(index)}>{label}</StepButton>
           </Step>
         ))}
       </Stepper>
+      <Box
+        sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+      >
+        {activeStep === 0 && <StepOne onComplete={handleComplete} />}
+        {activeStep === 1 && <StepTwo />}
+        {activeStep === 2 && <Typography>All steps completed</Typography>}
 
-      <div>
-        {allStepsCompleted() ? (
-          <React.Fragment>
-            <Typography sx={{ mt: 2, mb: 1 }}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleReset}>Reset</Button>
-            </Box>
-          </React.Fragment>
-        ) : (
-          <React.Fragment>
-            {/* <Typography sx={{ mt: 2, mb: 1, py: 1 }}>
-              Step {activeStep + 1}
-            </Typography> */}
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-                color="inherit"
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                sx={{ mr: 1 }}
-              >
-                Back
-              </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
-              <Button onClick={handleNext} sx={{ mr: 1 }}>
-                Next
-              </Button>
-              {activeStep !== steps.length &&
-                (completed[activeStep] ? (
-                  <Typography
-                    variant="caption"
-                    sx={{ display: "inline-block" }}
-                  >
-                    Step {activeStep + 1} already completed
-                  </Typography>
-                ) : (
-                  <Button onClick={handleComplete}>
-                    {completedSteps() === totalSteps() - 1
-                      ? "Finish"
-                      : "Complete Step"}
-                  </Button>
-                ))}
-            </Box>
-          </React.Fragment>
-        )}
-      </div>
+        <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
+          <Button
+            disabled={activeStep === 0}
+            onClick={handleBack}
+            sx={{ width: "auto", marginTop: "1rem" }}
+          >
+            Back
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 }

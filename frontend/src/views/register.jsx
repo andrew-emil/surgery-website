@@ -163,7 +163,13 @@ export default function Register() {
           </Alert>
         )}
         <form onSubmit={submit}>
-          <Box sx={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              gap: "1rem",
+            }}
+          >
             <Box sx={{ width: "50%" }}>
               <FormTitle variant="h1" className="title">
                 Personal Information

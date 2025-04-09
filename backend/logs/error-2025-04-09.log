@@ -21,3 +21,10 @@
 {"level":"error","message":"Surgery record not found undefined","timestamp":"2025-04-09T18:17:28.761Z"}
 {"level":"error","message":"Database query error Unknown column 'user.residencyLevel' in 'field list'","timestamp":"2025-04-09T18:41:37.979Z"}
 >>>>>>> 62d4d171033f21bcee48df7e3966a127690427f6
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-09T21:51:40.319Z"}
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-09T21:51:40.330Z"}
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-09T21:51:40.342Z"}
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-09T21:51:40.370Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-09T21:52:09.676Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-09T21:52:09.697Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-09T22:12:30.264Z"}
