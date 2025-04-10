@@ -5,6 +5,8 @@ import {
 	Container,
 	Skeleton,
 	Typography,
+	Alert,
+	AlertTitle,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import axiosClient from "./../../axiosClient";
@@ -18,6 +20,8 @@ const PendingUsers = () => {
 	const [showRejectForm, setShowRejectForm] = useState(false);
 	const [rejectionReason, setRejectionReason] = useState("");
 	const [buttonLoading, setButtonLoading] = useState(false);
+	const [msg, setMsg] = useState(null);
+	const [err, setErr] = useState(null);
 
 	const handleRejectClick = () => setShowRejectForm(true);
 	const handleCancelReject = () => {
@@ -28,21 +32,46 @@ const PendingUsers = () => {
 	const handleApprove = async (userId, activationToken) => {
 		setButtonLoading(true);
 		try {
-			const response = await axiosClient.patch(`/admin/approve-user/${userId}`, {}, {
-				withCredentials: true,
-				params: {
-					activationToken,
-				},
-			});
-			console.log(response.data);
+			const response = await axiosClient.patch(
+				`/admin/approve-user/${userId}`,
+				{},
+				{
+					withCredentials: true,
+					params: {
+						activationToken,
+					},
+				}
+			);
+			setPendingUsers((prev) => prev.filter((user) => user.id !== userId));
+			setMsg(response.data.message);
 		} catch (err) {
-			console.error(err);
+			setErr(err.data.message);
 		} finally {
 			setButtonLoading(false);
 		}
 	};
 
-	const handleReject = (userId, rejectionReason) => {};
+	const handleReject = async (userId, rejectionReason, activationToken) => {
+		setButtonLoading(true);
+		try {
+			const response = await axiosClient.patch(
+				`/admin/reject-user/${userId}`,
+				{ rejectionReason },
+				{
+					withCredentials: true,
+					params: {
+						activationToken,
+					},
+				}
+			);
+			setPendingUsers((prev) => prev.filter((user) => user.id !== userId));
+			setMsg(response.data.message);
+		} catch (err) {
+			setErr(err.data.message);
+		} finally {
+			setButtonLoading(false);
+		}
+	};
 
 	useEffect(() => {
 		const getPendingUsers = async () => {
@@ -77,6 +106,18 @@ const PendingUsers = () => {
 	return (
 		<Container sx={{ marginY: "1rem" }}>
 			<Typography variant="h5">Pending Users</Typography>
+			{err && (
+				<Alert severity="error" sx={{ marginBottom: "1rem" }}>
+					<AlertTitle>Error</AlertTitle>
+					{err}
+				</Alert>
+			)}
+			{msg && (
+				<Alert severity="success" sx={{ marginBottom: "1rem" }}>
+					<AlertTitle>Success</AlertTitle>
+					{msg}
+				</Alert>
+			)}
 			{pendingUsers.length > 0 ? (
 				pendingUsers.map((user) => (
 					<Card variant="outlined" sx={{ marginY: "1rem" }} key={user.id}>
@@ -129,7 +170,11 @@ const PendingUsers = () => {
 										variant="contained"
 										color="error"
 										onClick={() => {
-											handleReject(user.id, rejectionReason);
+											handleReject(
+												user.id,
+												rejectionReason,
+												user.activation_token
+											);
 											handleCancelReject();
 										}}
 										sx={{ margin: 1 }}

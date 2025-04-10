@@ -1,14 +1,15 @@
-import { useContext, useState, createContext, useCallback } from "react";
+import { useContext, useState, createContext, useCallback, useEffect } from "react";
 import Cookies from "js-cookie";
-// import * as jose from "jose";
+import { io } from 'socket.io-client';
 
 const StateContext = createContext({
-  user: null,
-  token: null,
-  settings: { theme: "light", language: "en" },
-  setUser: () => {},
-  setToken: () => {},
-  setSettings: () => {},
+	user: null,
+	token: null,
+	settings: { theme: "light", language: "en" },
+	socket: null,
+	setUser: () => {},
+	setToken: () => {},
+	setSettings: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
@@ -29,6 +30,8 @@ export const ContextProvider = ({ children }) => {
       ? JSON.parse(savedSettings)
       : { theme: "light", language: "en" };
   });
+  const [socket, setSocket] = useState(null);
+
   const setUser = (user) => {
     _setUser(user);
     if (user) {
@@ -68,12 +71,38 @@ export const ContextProvider = ({ children }) => {
     });
   }, []);
 
+  useEffect(() => {
+    if(token && !socket){
+      // eslint-disable-next-line no-undef
+      const newSocket = io(process.env.REACT_APP_API_URL, {
+				withCredentials: true,
+				auth: { token },
+				autoConnect: true,
+			});
+
+			newSocket.on("connect", () => {
+				console.log("Socket connected");
+				setSocket(newSocket);
+			});
+
+			newSocket.on("disconnect", () => {
+				console.log("Socket disconnected");
+				setSocket(null);
+			});
+
+			return () => {
+				newSocket.disconnect();
+			};
+    }
+  }, [socket, token])
+
   return (
     <StateContext.Provider
       value={{
         user,
         token,
         settings,
+        socket,
         setUser,
         setToken,
         setSettings,
