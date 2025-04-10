@@ -93,7 +93,10 @@ const ComplicationChart = () => {
 	}
 
 	return (
-		<Container>
+		<Container
+			sx={{
+				marginY: "2rem",
+			}}>
 			<Typography variant="h4">Monthly Complications by Type</Typography>
 			<Bar
 				data={chartData}

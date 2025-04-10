@@ -55,3 +55,10 @@
 {"level":"error","message":"affiliationId - Required, departmentId - Required, date - Required, time - Required undefined","timestamp":"2025-04-10T04:22:47.368Z"}
 {"level":"error","message":"affiliationId - Required, departmentId - Required, date - Required, time - Required undefined","timestamp":"2025-04-10T04:22:47.382Z"}
 {"level":"error","message":"affiliationId - Required, departmentId - Required, date - Required, time - Required undefined","timestamp":"2025-04-10T04:24:32.684Z"}
+{"level":"error","message":"Database query error Unknown column 'user.activision_token' in 'field list'","timestamp":"2025-04-10T15:46:41.669Z"}
+{"level":"error","message":"Database query error Unknown column 'user.activision_token' in 'field list'","timestamp":"2025-04-10T15:51:23.097Z"}
+{"level":"error","message":"Database query error Unknown column 'user.activision_token' in 'field list'","timestamp":"2025-04-10T15:51:23.275Z"}
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-10T16:06:53.953Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:09:07.043Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:13:08.847Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:14:36.959Z"}

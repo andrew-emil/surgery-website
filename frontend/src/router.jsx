@@ -17,41 +17,48 @@ import TestPage from "./views/Test";
 import Equipments from "./views/equipments";
 import CreateEquipments from "./views/createEquipment";
 import Surgeries from "./views/surgeries";
+import AdminDashboard from "./admin/pages/AdminDashborad";
+import PendingUsers from "./admin/pages/PendingUsers";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <DefaultLayout />,
-    children: [
-      { path: "/", element: <Home /> },
-      { path: "/home", element: <Home /> },
-      { path: "/account", element: <MyAccount /> },
-      { path: "/surgeryDetails", element: <SurgeryDetails /> },
-      { path: "/create_surgery", element: <CreateSurgery /> },
-      { path: "/equipments", element: <Equipments /> },
-      { path: "/add-equipment", element: <CreateEquipments /> },
-      { path: "/surgeries", element: <Surgeries /> },
-      { path: "/test", element: <TestPage /> },
-      { path: "*", element: <NotFoundPage /> },
-    ],
-  },
-  {
-    path: "/",
-    element: <GuestLayout />,
-    children: [
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-      { path: "/forgot-password", element: <ForgoPassword /> },
-      { path: "/reset-password", element: <ResetPassword /> },
-      { path: "/otp", element: <OTP_auth /> },
-      { path: "*", element: <NotFoundPage /> } /* not working */,
-    ],
-  },
-  {
-    path: "/",
-    element: <AdminLayout />,
-    children: [{ path: "/admin", element: <Dashboard /> }],
-  },
+	{
+		path: "/",
+		element: <DefaultLayout />,
+		children: [
+			{ path: "/", element: <Home /> },
+			{ path: "/home", element: <Home /> },
+			{ path: "/account", element: <MyAccount /> },
+			{ path: "/surgeryDetails", element: <SurgeryDetails /> },
+			{ path: "/create_surgery", element: <CreateSurgery /> },
+			{ path: "/equipments", element: <Equipments /> },
+			{ path: "/add-equipment", element: <CreateEquipments /> },
+			{ path: "/surgeries", element: <Surgeries /> },
+			{ path: "/test", element: <TestPage /> },
+
+			{ path: "*", element: <NotFoundPage /> },
+		],
+	},
+	{
+		path: "/",
+		element: <GuestLayout />,
+		children: [
+			{ path: "/login", element: <Login /> },
+			{ path: "/register", element: <Register /> },
+			{ path: "/forgot-password", element: <ForgoPassword /> },
+			{ path: "/reset-password", element: <ResetPassword /> },
+			{ path: "/otp", element: <OTP_auth /> },
+			{ path: "*", element: <NotFoundPage /> } /* not working */,
+		],
+	},
+	{
+		path: "/",
+		element: <AdminLayout />,
+		children: [
+			{ path: "/admin", element: <Dashboard /> },
+			{ path: "/admin/dashboard", element: <AdminDashboard /> },
+			{ path: "/admin/pending-users", element: <PendingUsers /> },
+		],
+	},
 ]);
 
 export default router;

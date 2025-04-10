@@ -6,20 +6,10 @@ import { authUser } from "../../middlewares/authMiddleware.js";
 
 const scheduleRoutes = Router();
 
-scheduleRoutes.post(
-	"/availability-calendar/:userId",
-	authUser(["Admin", "Consultant"]),
-	getAvailabilityCalendar
-);
-scheduleRoutes.post(
-	"/recommend-staff",
-	authUser(["Admin", "Consultant"]),
-	getRecommendedStaff
-);
-scheduleRoutes.post(
-	"/confliction-data",
-	authUser(["Admin", "Consultant"]),
-	getConflictResolutionData
-);
+scheduleRoutes.use(authUser(["Admin", "Consultant"]));
+
+scheduleRoutes.get("/availability-calendar/:userId", getAvailabilityCalendar);
+scheduleRoutes.post("/recommend-staff", getRecommendedStaff);
+scheduleRoutes.get("/confliction-data", getConflictResolutionData);
 
 export default scheduleRoutes;

@@ -6,6 +6,7 @@ import { sendAccountApprovalEmails } from "../../../utils/sendEmails.js";
 export const approveUserAccount = async (req: Request, res: Response) => {
 	const userId = req.params.userId;
 	const activationToken = req.query.activationToken as string;
+	console.log(userId, activationToken)
 	if (!userId || !activationToken) throw new Error("Invalid token");
 
 	const user = await userRepo.findOneBy({

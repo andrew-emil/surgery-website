@@ -16,6 +16,7 @@ export const getPendingUsers = async (req: Request, res: Response) => {
 			"user.phone_number",
 			"user.picture",
 			"user.created_at",
+			"user.activation_token",
 			"role.name",
 			"affiliation.name",
 			"department.name",
@@ -26,7 +27,7 @@ export const getPendingUsers = async (req: Request, res: Response) => {
 
 	const sanitizedUsers = users.map((user) => ({
 		...user,
-		picture: user.picture.toString("base64"),
+		picture: user.picture,
 		role: user.role.name,
 		affiliation: user.affiliation.name,
 		department: user.department.name,

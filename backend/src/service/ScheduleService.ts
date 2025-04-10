@@ -1,4 +1,4 @@
-import { In, MongoRepository, Repository } from "typeorm";
+import { MongoRepository, Repository } from "typeorm";
 import { User } from "../entity/sql/User.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import { STATUS, USER_STATUS } from "../utils/dataTypes.js";
@@ -16,7 +16,6 @@ interface StaffRecommendation {
 		id: string;
 		firstName: string;
 		lastName: string;
-		conflict: boolean;
 	}>;
 }
 
@@ -69,21 +68,22 @@ export class ScheduleService {
 		return groupedResults;
 	}
 
-	async recommendStaff(affiliation: Affiliations, date: Date, time: string) {
-		const [ongoingSurgeries, conflictedDoctors] = await Promise.all([
-			this.surgeryLogRepo.find({
-				where: {
-					status: { $eq: STATUS.ONGOING },
-					date,
-					time,
-				},
-				select: {
-					leadSurgeon: true,
-					doctorsTeam: true,
-				},
-			}),
-			this.getConflictResolutionData(date, time),
-		]);
+	async recommendStaff(
+		affiliation: Affiliations,
+		date: Date,
+		time: string
+	): Promise<StaffRecommendation> {
+		const ongoingSurgeries = await this.surgeryLogRepo.find({
+			where: {
+				status: { $eq: STATUS.ONGOING },
+				date,
+				time,
+			},
+			select: {
+				leadSurgeon: true,
+				doctorsTeam: true,
+			},
+		});
 
 		const filteredUsers = new Set<string>();
 		ongoingSurgeries.forEach((surgery) => {
@@ -110,11 +110,11 @@ export class ScheduleService {
 					"role.name",
 				]);
 
-			// if (filteredUsers.size > 0) {
-			// 	qb.andWhere("user.id NOT IN (:...filteredUsers)", {
-			// 		filteredUsers: Array.from(filteredUsers),
-			// 	});
-			// }
+			if (filteredUsers.size > 0) {
+				qb.andWhere("user.id NOT IN (:...filteredUsers)", {
+					filteredUsers: Array.from(filteredUsers),
+				});
+			}
 
 			return qb;
 		};
@@ -132,29 +132,33 @@ export class ScheduleService {
 				.getMany(),
 		]);
 
-		const conflictedDoctorIds = new Set(conflictedDoctors.map((d) => d.id));
-
 		// Build recommendation with conflict status
 		const staffRecommendation = this.addUsersToRecommendation(
 			relatedUsers,
-			otherUsers,
-			conflictedDoctorIds
+			otherUsers
 		);
 
-		return { staffRecommendation, conflictedDoctors };
+		return staffRecommendation;
 	}
 
-	private async getConflictResolutionData(date: Date, time: string) {
-		
+	async getConflictResolutionData(): Promise<DoctorConflict[]> {
 		const surgeries = await this.surgeryLogRepo.find({
-			where: { date, time },
+			where: { status: STATUS.ONGOING },
+			select: [
+				"surgeryId",
+				"doctorsTeam",
+				"date",
+				"time",
+				"status",
+				"leadSurgeon",
+			],
 			relations: ["doctorsTeam"],
 		});
 
 		const doctorMap = this.getDoctorMap(surgeries);
 		const filteredDoctors = this.filterDoctorsMap(doctorMap);
-		const doctorsNames = await this.getDoctorsName(filteredDoctors)
-		return doctorsNames
+		const doctorsNames = await this.getDoctorsName(filteredDoctors);
+		return doctorsNames;
 	}
 
 	private groupEventsByDay(
@@ -241,15 +245,13 @@ export class ScheduleService {
 
 	private addUsersToRecommendation(
 		relatedUsers: User[],
-		otherUsers?: User[],
-		conflictedDoctorIds?: Set<string>
+		otherUsers?: User[]
 	): StaffRecommendation {
 		const staffRecommendation: StaffRecommendation = {};
 		const allUsers = [...relatedUsers, ...(otherUsers || [])];
 
 		allUsers.forEach((user) => {
 			const roleName = user.role?.name || "Unassigned";
-			const conflict = conflictedDoctorIds?.has(user.id) ?? false;
 
 			if (!staffRecommendation[roleName]) {
 				staffRecommendation[roleName] = [];
@@ -259,7 +261,6 @@ export class ScheduleService {
 				id: user.id,
 				firstName: user.first_name,
 				lastName: user.last_name,
-				conflict,
 			});
 		});
 
@@ -327,15 +328,21 @@ export class ScheduleService {
 	}
 
 	private async getDoctorsName(doctorConflicts: DoctorConflict[]) {
-		const doctorIds = doctorConflicts.map((entry) => entry.doctorId);
-		if (doctorIds.length === 0) return [];
-
-		const doctors = await this.userRepo.find({
-			where: { id: In(doctorIds) },
-			relations: ["role"],
-			select: ["id", "first_name", "last_name", "role"],
-		});
-
-		return doctors;
+		return Promise.all(
+			doctorConflicts.map(async (entry) => {
+				const doctorId = entry.doctorId;
+				const doctor = await this.userRepo.findOne({
+					where: { id: doctorId },
+					select: ["first_name", "last_name"],
+				});
+				const doctorName = doctor
+					? `Dr. ${doctor.first_name} ${doctor.last_name}`
+					: "";
+				return {
+					...entry,
+					doctorName,
+				};
+			})
+		);
 	}
 }
