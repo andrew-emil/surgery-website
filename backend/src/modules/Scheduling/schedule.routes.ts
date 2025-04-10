@@ -6,17 +6,17 @@ import { authUser } from "../../middlewares/authMiddleware.js";
 
 const scheduleRoutes = Router();
 
-scheduleRoutes.get(
+scheduleRoutes.post(
 	"/availability-calendar/:userId",
 	authUser(["Admin", "Consultant"]),
 	getAvailabilityCalendar
 );
-scheduleRoutes.get(
+scheduleRoutes.post(
 	"/recommend-staff",
 	authUser(["Admin", "Consultant"]),
 	getRecommendedStaff
 );
-scheduleRoutes.get(
+scheduleRoutes.post(
 	"/confliction-data",
 	authUser(["Admin", "Consultant"]),
 	getConflictResolutionData

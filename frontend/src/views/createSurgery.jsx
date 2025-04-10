@@ -24,6 +24,7 @@ import {
   Typography,
   Checkbox,
   ListItemText,
+  TextField,
 } from "@mui/material";
 
 const steps = [
@@ -412,15 +413,273 @@ function StepOne({ onComplete }) {
   );
 }
 
-function StepTwo() {
+function StepTwo({ onComplete }) {
+  const [err, setErr] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [leadSurgeon, setLeadSurgeon] = useState(null);
+  const [recommendedStaffData, setRecommendedStaffData] = useState([]);
+  const [rolesData, setRolesData] = useState([]);
+
+  // Maintain separate state for each selected staff, role, and notes
+  const [selectedSurgeons, setSelectedSurgeons] = useState([]);
+  const [selectedRoles, setSelectedRoles] = useState([]);
+  const [notes, setNotes] = useState([]); // New state for notes
+
+  useEffect(() => {
+    setLoading(true);
+    axiosClient
+      .post(
+        "/schedule/recommend-staff",
+        {
+          affiliationId: payload["affiliation"],
+          departmentId: payload["department"],
+          date: payload["date"],
+          time: payload["time"],
+        },
+        { withCredentials: true }
+      )
+      .then(({ data }) => {
+        setRecommendedStaffData(data.recommendedStaff);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErr(err.response.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    axiosClient
+      .get("/roles")
+      .then(({ data }) => {
+        setRolesData(data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  if (loading) {
+    return (
+      <FormContainer>
+        <Skeleton variant="rounded" width={720} height={526} />
+      </FormContainer>
+    );
+  }
+
+  const handleSurgeonChange = (index, event) => {
+    const newSurgeons = [...selectedSurgeons];
+    newSurgeons[index] = event.target.value;
+    setSelectedSurgeons(newSurgeons);
+  };
+
+  const handleRoleChange = (index, event) => {
+    const newRoles = [...selectedRoles];
+    newRoles[index] = event.target.value;
+    setSelectedRoles(newRoles);
+  };
+
+  const handleNotesChange = (index, event) => {
+    const newNotes = [...notes];
+    newNotes[index] = event.target.value; // Update the specific index for notes
+    setNotes(newNotes);
+  };
+
+  const validateFields = () => {
+    const newErrors = {};
+    if (!leadSurgeon) newErrors.name = "Name is required";
+    setErr(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const collectPayload = () => {
+    if (!validateFields()) return;
+
+    const team = selectedSurgeons
+      .map((surgeon, index) => {
+        if (surgeon && selectedRoles[index]) {
+          return {
+            doctorId: surgeon,
+            roleId: selectedRoles[index],
+            notes: notes[index] || "", // Include notes for each surgeon
+          };
+        }
+        return null;
+      })
+      .filter((item) => item !== null);
+
+    payload = {
+      hospitalId: payload["affiliation"],
+      departmentId: payload["department"],
+      name: payload["name"],
+      leadSurgeon: leadSurgeon,
+      procedure: payload["procedure"],
+      doctorsTeam: team,
+      slots: payload["slots"],
+      date: payload["date"],
+      time: payload["time"],
+      estimatedEndTime: payload["estimatedEndTime"],
+      surgeryEquipments: payload["equipment"],
+      cptCode: payload["cptCode"],
+      icdCode: payload["icdCode"],
+      patientBmi: payload["patientBmi"],
+      patientComorbidity: payload["patientComorbidity"],
+      patientDiagnosis: payload["patientDiagnosis"],
+    };
+
+    onComplete();
+  };
+
   return (
-    <Box sx={{ mt: 4 }}>
-      <Typography variant="h6">Step 2 - Payload Preview</Typography>
-      <pre style={{ background: "#f5f5f5", padding: "1rem" }}>
-        {JSON.stringify(payload, null, 2)}
-      </pre>
-    </Box>
+    <FormContainer
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        width: "100%",
+        height: "70%",
+      }}
+    >
+      {err && (
+        <Alert severity="error" sx={{ marginBottom: "1rem" }}>
+          <AlertTitle>Error</AlertTitle>
+          {Object.values(err).join(", ")}
+        </Alert>
+      )}
+
+      <form style={{ width: "100%" }}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+          <Box sx={{ width: "100%" }}>
+            <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+              <InputLabel id="demo-simple-select-standard-label">
+                Lead Surgeon
+              </InputLabel>
+              <Select
+                labelId="demo-simple-select-standard-label"
+                id="demo-simple-select-standard"
+                value={leadSurgeon}
+                onChange={(event) => setLeadSurgeon(event.target.value)}
+                label="Lead Surgeon"
+              >
+                <MenuItem value="">
+                  <em>None</em>
+                </MenuItem>
+                {recommendedStaffData.map((Surgeon) => (
+                  <MenuItem key={Surgeon.id} value={Surgeon.id}>
+                    {Surgeon.firstName +
+                      " " +
+                      Surgeon.lastName +
+                      "|" +
+                      Surgeon.expertise}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Box>
+
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "1rem",
+              width: "calc(100% - 1rem)",
+            }}
+          >
+            {Array.from({ length: payload["slots"] }).map((_, index) => (
+              <Box
+                key={index}
+                sx={{
+                  width: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1rem",
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    width: "50%",
+                    gap: "1rem",
+                  }}
+                >
+                  <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                    <InputLabel
+                      id={`demo-simple-select-standard-label-${index}`}
+                    >
+                      Recommended Staff
+                    </InputLabel>
+                    <Select
+                      labelId={`demo-simple-select-standard-label-${index}`}
+                      id={`demo-simple-select-standard-${index}`}
+                      value={selectedSurgeons[index] || ""}
+                      onChange={(event) => handleSurgeonChange(index, event)}
+                      label="Recommended Staff"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {recommendedStaffData.map((Surgeon) => (
+                        <MenuItem key={Surgeon.id} value={Surgeon.id}>
+                          {Surgeon.firstName +
+                            " " +
+                            Surgeon.lastName +
+                            "|" +
+                            Surgeon.expertise}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+
+                  <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                    <InputLabel id={`role-select-label-${index}`}>
+                      Role
+                    </InputLabel>
+                    <Select
+                      labelId={`role-select-label-${index}`}
+                      id={`role-select-${index}`}
+                      value={selectedRoles[index] || ""}
+                      onChange={(event) => handleRoleChange(index, event)}
+                      label="Role"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {rolesData.map((role) => (
+                        <MenuItem key={role.id} value={role.id}>
+                          {role.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+                {/* Add Notes Field */}
+                <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                  <FormTextField
+                    label="Notes"
+                    value={notes[index] || ""}
+                    onChange={(event) => handleNotesChange(index, event)}
+                    multiline
+                    rows={3}
+                    variant="outlined"
+                  />
+                </FormControl>
+              </Box>
+            ))}
+          </Box>
+        </Box>
+      </form>
+
+      <Button variant="contained" sx={{ mt: 3 }} onClick={collectPayload}>
+        Complete Step
+      </Button>
+    </FormContainer>
   );
+}
+
+function StepThree() {
+  console.log(payload);
 }
 
 export default function HorizontalNonLinearStepper() {
@@ -482,8 +741,8 @@ export default function HorizontalNonLinearStepper() {
         sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}
       >
         {activeStep === 0 && <StepOne onComplete={handleComplete} />}
-        {activeStep === 1 && <StepTwo />}
-        {activeStep === 2 && <Typography>All steps completed</Typography>}
+        {activeStep === 1 && <StepTwo onComplete={handleComplete} />}
+        {activeStep === 2 && <StepThree />}
 
         <Box sx={{ display: "flex", justifyContent: "center", width: "100%" }}>
           <Button
@@ -492,6 +751,13 @@ export default function HorizontalNonLinearStepper() {
             sx={{ width: "auto", marginTop: "1rem" }}
           >
             Back
+          </Button>
+          <Button
+            disabled={activeStep === 0 || activeStep === 2}
+            onClick={handleReset}
+            sx={{ width: "auto", marginTop: "1rem" }}
+          >
+            Reset
           </Button>
         </Box>
       </Box>
