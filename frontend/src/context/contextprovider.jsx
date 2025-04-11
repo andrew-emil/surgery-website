@@ -1,122 +1,119 @@
 import {
-  useContext,
-  useState,
-  createContext,
-  useCallback,
-  useEffect,
+	useContext,
+	useState,
+	createContext,
+	useCallback,
+	useEffect,
 } from "react";
 import Cookies from "js-cookie";
 import { io } from "socket.io-client";
 
 const StateContext = createContext({
-  user: null,
-  token: null,
-  settings: { theme: "light", language: "en" },
-  socket: null,
-  setUser: () => {},
-  setToken: () => {},
-  setSettings: () => {},
+	user: null,
+	token: null,
+	settings: { theme: "light", language: "en" },
+	socket: null,
+	setUser: () => {},
+	setToken: () => {},
+	setSettings: () => {},
 });
 
 // eslint-disable-next-line react/prop-types
 export const ContextProvider = ({ children }) => {
-  const [user, _setUser] = useState(() => {
-    const cookieValue = Cookies.get("USER");
-    try {
-      return cookieValue ? JSON.parse(cookieValue) : null;
-    } catch (err) {
-      console.error("Failed to parse user cookie", err);
-      return null;
-    }
-  });
-  const [token, _setToken] = useState(Cookies.get("ACCESS_TOKEN") || null);
-  const [settings, _setSettings] = useState(() => {
-    const savedSettings = localStorage.getItem("user_settings");
-    return savedSettings
-      ? JSON.parse(savedSettings)
-      : { theme: "light", language: "en" };
-  });
-  const [socket, setSocket] = useState(null);
+	const [user, _setUser] = useState(() => {
+		const cookieValue = Cookies.get("USER");
+		try {
+			return cookieValue ? JSON.parse(cookieValue) : null;
+		} catch (err) {
+			console.error("Failed to parse user cookie", err);
+			return null;
+		}
+	});
+	const [token, _setToken] = useState(Cookies.get("ACCESS_TOKEN") || null);
+	const [settings, _setSettings] = useState(() => {
+		const savedSettings = localStorage.getItem("user_settings");
+		return savedSettings
+			? JSON.parse(savedSettings)
+			: { theme: "light", language: "en" };
+	});
+	const [socket, setSocket] = useState(null);
 
-  const setUser = (user) => {
-    _setUser(user);
-    if (user) {
-      Cookies.set("USER", JSON.stringify(user), {
-        expires: 30,
-        secure: false,
-        path: "/",
-      });
-    } else {
-      Cookies.remove("USER");
-    }
-  };
+	const setUser = (user) => {
+		_setUser(user);
+		if (user) {
+			Cookies.set("USER", JSON.stringify(user), {
+				expires: 30,
+				secure: false,
+				path: "/",
+			});
+		} else {
+			Cookies.remove("USER");
+		}
+	};
 
-  const setToken = (token) => {
-    _setToken(token);
-    if (token) {
-      Cookies.set("ACCESS_TOKEN", token, {
-        expires: 30,
-        secure: false, //only for production == true
-        sameSite: "Lax",
-        path: "/",
-      });
-    } else {
-      Cookies.remove("ACCESS_TOKEN");
-    }
-  };
+	const setToken = (token) => {
+		_setToken(token);
+		if (token) {
+			Cookies.set("ACCESS_TOKEN", token, {
+				expires: 30,
+				secure: false, //only for production == true
+				sameSite: "Lax",
+				path: "/",
+			});
+		} else {
+			Cookies.remove("ACCESS_TOKEN");
+		}
+	};
 
-  const setSettings = useCallback((newSettings) => {
-    if (typeof newSettings === "string") {
-      newSettings = { theme: newSettings }; // Convert string to object
-    }
+	const setSettings = useCallback((newSettings) => {
+		if (typeof newSettings === "string") {
+			newSettings = { theme: newSettings }; // Convert string to object
+		}
 
-    _setSettings((prev) => {
-      const updatedSettings = { ...prev, ...newSettings };
-      localStorage.setItem("user_settings", JSON.stringify(updatedSettings));
-      return updatedSettings;
-    });
-  }, []);
+		_setSettings((prev) => {
+			const updatedSettings = { ...prev, ...newSettings };
+			localStorage.setItem("user_settings", JSON.stringify(updatedSettings));
+			return updatedSettings;
+		});
+	}, []);
 
-  // useEffect(() => {
-  //   if(token && !socket){
-  //     // eslint-disable-next-line no-undef
-  //     const newSocket = io(process.env.REACT_APP_API_URL, {
-  // 			withCredentials: true,
-  // 			auth: { token },
-  // 			autoConnect: true,
-  // 		});
+	useEffect(() => {
+		if (token && !socket) {
+			const newSocket = io("http://localhost:5173", {
+				withCredentials: true,
+				autoConnect: false,
+			});
 
-  // 		newSocket.on("connect", () => {
-  // 			console.log("Socket connected");
-  // 			setSocket(newSocket);
-  // 		});
+			newSocket.on("connect", () => {
+				console.log("Socket connected");
+				setSocket(newSocket);
+			});
 
-  // 		newSocket.on("disconnect", () => {
-  // 			console.log("Socket disconnected");
-  // 			setSocket(null);
-  // 		});
+			newSocket.on("disconnect", () => {
+				console.log("Socket disconnected");
+				setSocket(null);
+			});
 
-  // 		return () => {
-  // 			newSocket.disconnect();
-  // 		};
-  //   }
-  // }, [socket, token])
+			return () => {
+				newSocket.disconnect();
+			};
+		}
+	}, [socket, token]);
 
-  return (
-    <StateContext.Provider
-      value={{
-        user,
-        token,
-        settings,
-        socket,
-        setUser,
-        setToken,
-        setSettings,
-      }}
-    >
-      {children}
-    </StateContext.Provider>
-  );
+	return (
+		<StateContext.Provider
+			value={{
+				user,
+				token,
+				settings,
+				socket,
+				setUser,
+				setToken,
+				setSettings,
+			}}>
+			{children}
+		</StateContext.Provider>
+	);
 };
 
 // eslint-disable-next-line react-refresh/only-export-components

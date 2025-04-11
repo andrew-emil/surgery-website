@@ -7,6 +7,6 @@ const notificationRoutes = Router();
 
 notificationRoutes.post("/", createNotification);
 notificationRoutes.get("/:userId", getNotification);
-notificationRoutes.put("/", markNotificationAsRead);
+notificationRoutes.patch("/", markNotificationAsRead);
 
 export default notificationRoutes;
