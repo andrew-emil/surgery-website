@@ -29,10 +29,11 @@ import MoreIcon from "@mui/icons-material/MoreVert";
 import { useStateContext } from "../context/contextprovider";
 import DarkModeButton from "./darkmodeButton";
 import { useNavigate } from "react-router-dom";
-import { Link } from "@mui/material";
+import { Autocomplete, Link, TextField } from "@mui/material";
 import HomeIcon from "@mui/icons-material/Home";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import VaccinesIcon from "@mui/icons-material/Vaccines";
+import axiosClient from "../axiosClient";
 
 const drawerWidth = 240;
 
@@ -140,16 +141,30 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   justifyContent: "center",
 }));
 
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
+const StyledInputBase = styled(Autocomplete)(({ theme }) => ({
+  width: "100%",
+  maxWidth: "500rem",
+  marginLeft: theme.spacing(4),
+  // marginRight: theme.spacing(4),
+
+  "& .MuiInputBase-root": {
+    width: "90%",
+    backgroundColor: "transparent", // or add a background if needed
+    border: "none",
+    boxShadow: "none",
+  },
+
+  "& .MuiOutlinedInput-notchedOutline": {
+    border: "none",
+  },
+
   "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
     width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
+    padding: theme.spacing(1.2, 2),
+    fontSize: "1rem",
+    [theme.breakpoints.down("sm")]: {
+      fontSize: "0.9rem",
+      padding: theme.spacing(1),
     },
   },
 }));
@@ -278,7 +293,56 @@ export default function MiniDrawer() {
     </Menu>
   );
 
-  
+  const [userSurgeries, setUserSurgeries] = React.useState([]);
+  const [surgeryId, setSurgeryId] = React.useState(null);
+  React.useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosClient.get("/surgery/surgeries", {
+          withCredentials: true,
+        });
+        const { data } = response;
+        console.log(data.surgeries);
+        setUserSurgeries(data.surgeries);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    fetchData();
+  }, []);
+  const filterOptions = (options, { inputValue }) => {
+    return options.filter((option) => {
+      const searchStr = inputValue.toLowerCase();
+      return (
+        option.name.toLowerCase().includes(searchStr) ||
+        option.icdCode?.toLowerCase().includes(searchStr) ||
+        option.cptCode?.toLowerCase().includes(searchStr)
+        // || option.doctorName?.toLowerCase().includes(searchStr) // if you add doctorName
+      );
+    });
+  };
+
+  const handleButtonClick = (surgeryId) => {
+    console.log(surgeryId);
+    navigate("/surgeryDetails", {
+      state: {
+        surgeryId,
+      },
+    });
+  };
+
+  const handleSurgerySelect = (event, value) => {
+    if (value) {
+      setSurgeryId(value.id);
+      handleButtonClick(value.id);
+    }
+  };
+  // const handleSurgeryInputChange = (event, value) => {
+  //   if (value) {
+  //     setSurgeryId(value.id);
+  //   }
+  // };
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -310,13 +374,31 @@ export default function MiniDrawer() {
           >
             Surgical Web
           </Link>
-          <Search>
+          <Search sx={{ flexGrow: 1 }}>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
+              disableClearable
+              freeSolo
+              id="custom-search"
+              options={userSurgeries}
+              filterOptions={filterOptions}
+              getOptionLabel={(option) => option.name}
+              onChange={handleSurgerySelect}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  placeholder="Search…"
+                  InputLabelProps={{ shrink: false }}
+                  slotProps={{
+                    input: {
+                      ...params.InputProps,
+                      type: "search",
+                    },
+                  }}
+                />
+              )}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
