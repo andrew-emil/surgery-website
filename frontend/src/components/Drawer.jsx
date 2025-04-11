@@ -22,7 +22,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { useStateContext } from "../context/contextprovider";
 import DarkModeButton from "./darkmodeButton";
@@ -255,20 +254,12 @@ export default function MiniDrawer() {
 			open={isMobileMenuOpen}
 			onClose={handleMobileMenuClose}>
 			<MenuItem>
-				<IconButton size="large" aria-label="show 4 new mails" color="inherit">
-					<Badge badgeContent={4} color="error">
-						<MailIcon />
-					</Badge>
-				</IconButton>
-				<p>Messages</p>
-			</MenuItem>
-			<MenuItem>
 				<IconButton
 					size="large"
-					aria-label="show 17 new notifications"
+					aria-label={`show ${unreadCount} notification`}
 					color="inherit">
-					<Badge badgeContent={17} color="error">
-						<NotificationsIcon />
+					<Badge badgeContent={unreadCount} color="error">
+						<MailIcon />
 					</Badge>
 				</IconButton>
 				<p>Notifications</p>
@@ -276,11 +267,17 @@ export default function MiniDrawer() {
 			<MenuItem onClick={handleProfileMenuOpen}>
 				<IconButton
 					size="large"
+					edge="end"
 					aria-label="account of current user"
-					aria-controls="primary-search-account-menu"
+					aria-controls={menuId}
 					aria-haspopup="true"
+					onClick={handleProfileMenuOpen}
 					color="inherit">
-					<AccountCircle />
+					{userData?.picture ? (
+						<Avatar src={convertImage(userData.picture.data)} />
+					) : (
+						<AccountCircle />
+					)}
 				</IconButton>
 				<p>Profile</p>
 			</MenuItem>
@@ -469,7 +466,7 @@ export default function MiniDrawer() {
 								<MenuItem
 									key={notification.id}
 									sx={{
-										minWidth: "300px",
+										Width: "19rem",
 									}}
 									onClick={() => markAsRead(notification.id)}>
 									<ListItemText
@@ -487,11 +484,10 @@ export default function MiniDrawer() {
 								<MenuItem disabled>No notifications</MenuItem>
 							)}
 						</Menu>
-						<Box sx={{padding: 1}}>
-
-						<DarkModeButton></DarkModeButton>
+						<Box sx={{ padding: 1 }}>
+							<DarkModeButton></DarkModeButton>
 						</Box>
-						{/* here is the profile icon you need to replace it with the profile photo */}
+
 						<IconButton
 							size="large"
 							edge="end"

@@ -8,7 +8,7 @@ import {
 import { User } from "./User.js";
 import { Authentication_Request } from "../../utils/dataTypes.js";
 import { Surgery } from "./Surgery.js";
-import { Role } from "./Roles.js";
+import { SurgicalRole } from "./SurgicalRoles.js";
 
 @Entity()
 export class AuthenticationRequest {
@@ -30,8 +30,8 @@ export class AuthenticationRequest {
 	})
 	surgery: Surgery;
 
-	@ManyToOne(() => Role)
-	requestedRole: Role;
+	@ManyToOne(() => SurgicalRole)
+	requestedRole: SurgicalRole;
 
 	@ManyToOne(() => User)
 	trainee: User;
@@ -39,9 +39,9 @@ export class AuthenticationRequest {
 	@ManyToOne(() => User)
 	consultant: User;
 
-	@Column({type: 'timestamp', nullable: true})
+	@Column({ type: "timestamp", nullable: true })
 	approvedAt: Date;
 
-	@Column({type: 'varchar', nullable: true})
-	rejectionReason: string
+	@Column({ type: "varchar", nullable: true })
+	rejectionReason: string;
 }

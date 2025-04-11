@@ -643,3 +643,19 @@
 {"level":"info","message":"\u001b[0mGET /api/users \u001b[36m304\u001b[0m 51.189 ms - -\u001b[0m","timestamp":"2025-04-11T11:11:50.205Z"}
 {"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 107.972 ms - -\u001b[0m","timestamp":"2025-04-11T11:11:50.218Z"}
 {"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 42.658 ms - -\u001b[0m","timestamp":"2025-04-11T11:11:50.270Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-11T17:00:55.217Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-11T17:00:55.310Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-11T17:00:55.733Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-11T17:00:55.748Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[32m200\u001b[0m 160.968 ms - 266957\u001b[0m","timestamp":"2025-04-11T17:01:03.248Z"}
+{"level":"info","message":"\u001b[0mGET /surgery-equipments/1 \u001b[33m404\u001b[0m 6.286 ms - 48\u001b[0m","timestamp":"2025-04-11T17:01:22.043Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments/1 \u001b[32m200\u001b[0m 12.641 ms - 96706\u001b[0m","timestamp":"2025-04-11T17:01:48.590Z"}
+{"level":"error","message":"Surgery Equipment not found undefined","timestamp":"2025-04-11T17:02:01.128Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments/6 \u001b[33m404\u001b[0m 27.756 ms - 57\u001b[0m","timestamp":"2025-04-11T17:02:01.131Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments/ \u001b[32m200\u001b[0m 17.394 ms - 266957\u001b[0m","timestamp":"2025-04-11T17:02:04.691Z"}
+{"level":"error","message":"Invalid Id format undefined","timestamp":"2025-04-11T17:02:39.361Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments/gj \u001b[33m400\u001b[0m 14.055 ms - 47\u001b[0m","timestamp":"2025-04-11T17:02:39.371Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-11T17:19:06.015Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-11T17:19:06.160Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-11T17:19:06.222Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-11T17:19:06.237Z"}

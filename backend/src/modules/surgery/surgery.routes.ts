@@ -16,11 +16,7 @@ surgeryRoutes.get("/get-surgrey/:surgeryId", getSurgery);
 
 surgeryRoutes.get("/search", searchSurgery);
 
-surgeryRoutes.get(
-	"/open-slots",
-	authUser(["Admin", "Consultant"]),
-	getSurgeriesWithOpenSlots
-);
+surgeryRoutes.get("/open-slots", getSurgeriesWithOpenSlots);
 
 surgeryRoutes.get("/surgeries", getUserSurgeries);
 
