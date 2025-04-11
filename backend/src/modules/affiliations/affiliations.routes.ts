@@ -5,10 +5,12 @@ import { getAffiliations } from "./controllers/getAffiliations.js";
 import { deleteAffiliation } from "./controllers/deleteAffiliation.js";
 import { updateAffiliation } from "./controllers/updateAffiliation.js";
 import { authMiddleware, authUser } from "../../middlewares/authMiddleware.js";
+import { getAffiliationById } from "./controllers/getAffiliationById.js";
 
 const affiliationRoutes = Router();
 
 affiliationRoutes.get("/", getAffiliations);
+affiliationRoutes.get("/:id", getAffiliationById);
 
 affiliationRoutes.use(auditLogger());
 affiliationRoutes.use(authMiddleware);

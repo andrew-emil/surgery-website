@@ -12,10 +12,10 @@ import { convertImage } from "./../utils/convertImage";
 
 export default function CreateEquipments() {
 	const nameRef = useRef();
-	const [err, setErr] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const [err, setErr] = useState(null);
+	const [msg, setMsg] = useState(null);
 	const [picture, setPicture] = useState(null);
-  const [msg, setMsg] = useState(null)
 
 	const submit = async (ev) => {
 		ev.preventDefault();
@@ -39,7 +39,7 @@ export default function CreateEquipments() {
 		axiosClient
 			.post("/surgery-equipments", formData, { withCredentials: true })
 			.then(({ data }) => {
-				setMsg(data.message)
+				setMsg(data.message);
 			})
 			.catch((err) => {
 				const response = err.response;

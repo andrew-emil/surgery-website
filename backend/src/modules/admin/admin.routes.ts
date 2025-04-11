@@ -14,7 +14,6 @@ import { getDataCount } from "./controllers/getDataCount.js";
 
 const adminRoutes = Router();
 
-
 adminRoutes.use(authUser(["Admin"]));
 
 adminRoutes.get("/pending-users", getPendingUsers);

@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { updateAffiliationSchema } from "../../../utils/zodSchemas.js";
 import { affiliationRepo } from "../../../config/repositories.js";
-import { AffiliationsType } from "../../../utils/dataTypes.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const updateAffiliation = async (req: Request, res: Response) => {
@@ -16,13 +15,13 @@ export const updateAffiliation = async (req: Request, res: Response) => {
 
 	const affiliation = await affiliationRepo.findOne({
 		where: { id: affiliationId },
+		relations: ["departments"],
 	});
 	if (!affiliation) throw Error("Affiliation Not Found");
 
 	Object.assign(affiliation, updateData);
 
-	if (institution_type)
-		affiliation.institution_type = institution_type;
+	if (institution_type) affiliation.institution_type = institution_type;
 
 	await affiliationRepo.save(affiliation);
 

@@ -9,20 +9,12 @@ export const deleteDepartment = async (req: Request, res: Response) => {
 	const departmentId = parseInt(id);
 	const department = await departmentRepo.findOne({
 		where: { id: departmentId },
-		relations: ["surgeryEquipment", "users"],
+		relations: ["users"],
 	});
 
 	if (!department) throw Error("Department Not Found");
 
 	await AppDataSource.transaction(async (transactionalEntityManager) => {
-		if (department.surgeryEquipment.length > 0) {
-			await transactionalEntityManager
-				.createQueryBuilder()
-				.relation("Department", "surgeryEquipment")
-				.of(departmentId)
-				.remove(department.surgeryEquipment);
-		}
-
 		if (department.users.length > 0) {
 			await transactionalEntityManager
 				.createQueryBuilder()

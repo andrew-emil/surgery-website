@@ -1,2 +1,5 @@
 {"level":"error","message":"Surgery Equipment not found undefined","timestamp":"2025-04-11T17:02:01.127Z"}
 {"level":"error","message":"Invalid Id format undefined","timestamp":"2025-04-11T17:02:39.361Z"}
+{"level":"error","message":"Property \"surgeryEquipment\" was not found in \"Department\". Make sure your query is correct. undefined","timestamp":"2025-04-11T22:05:12.859Z"}
+{"level":"error","message":"Property \"surgeryEquipment\" was not found in \"Department\". Make sure your query is correct. undefined","timestamp":"2025-04-11T22:05:38.249Z"}
+{"level":"error","message":"Property \"surgeryEquipment\" was not found in \"Department\". Make sure your query is correct. undefined","timestamp":"2025-04-11T22:05:55.781Z"}

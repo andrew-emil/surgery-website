@@ -215,6 +215,12 @@ export default function MiniDrawer() {
 		setToken(null);
 	};
 
+	const [userData, setUserData] = React.useState(null);
+	const { socket, user } = useStateContext();
+	const { notifications, unreadCount, setNotifications, setUnreadCount } =
+		useNotifications();
+	const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
+
 	const menuId = "primary-search-account-menu";
 	const renderMenu = (
 		<Menu
@@ -287,11 +293,7 @@ export default function MiniDrawer() {
 		</Menu>
 	);
 
-	const [userData, setUserData] = React.useState(null);
-	const { socket, user } = useStateContext();
-	const { notifications, unreadCount, setNotifications, setUnreadCount } =
-		useNotifications();
-	const [notificationAnchorEl, setNotificationAnchorEl] = React.useState(null);
+	
 
 	const handleNotificationClick = (event) => {
 		setNotificationAnchorEl(event.currentTarget);
