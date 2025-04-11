@@ -62,6 +62,7 @@
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:09:07.043Z"}
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:13:08.847Z"}
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:14:36.959Z"}
+<<<<<<< HEAD
 {"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:25:54.173Z"}
 {"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:27:19.338Z"}
 {"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:28:13.249Z"}
@@ -80,3 +81,7 @@
 {"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-10T22:10:19.136Z"}
 {"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-10T22:13:55.797Z"}
 {"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-10T22:17:31.286Z"}
+=======
+{"code":"EAUTH","command":"AUTH PLAIN","level":"error","message":"Error sending email:  Invalid login: 535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"stack":"Error: Invalid login: 535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing\n    at SMTPConnection._formatError (/app/node_modules/nodemailer/lib/smtp-connection/index.js:809:19)\n    at SMTPConnection._actionAUTHComplete (/app/node_modules/nodemailer/lib/smtp-connection/index.js:1588:34)\n    at SMTPConnection.<anonymous> (/app/node_modules/nodemailer/lib/smtp-connection/index.js:556:26)\n    at SMTPConnection._processResponse (/app/node_modules/nodemailer/lib/smtp-connection/index.js:993:20)\n    at SMTPConnection._onData (/app/node_modules/nodemailer/lib/smtp-connection/index.js:774:14)\n    at SMTPConnection._onSocketData (/app/node_modules/nodemailer/lib/smtp-connection/index.js:195:44)\n    at TLSSocket.emit (node:events:517:28)\n    at addChunk (node:internal/streams/readable:368:12)\n    at readableAddChunk (node:internal/streams/readable:341:9)\n    at Readable.push (node:internal/streams/readable:278:10)\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:190:23)","timestamp":"2025-04-10T21:21:56.814Z"}
+{"level":"error","message":"Invalid login: 535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing undefined","timestamp":"2025-04-10T21:21:56.823Z"}
+>>>>>>> d71408d092771ab7f39b5d1812392fe69d91510a

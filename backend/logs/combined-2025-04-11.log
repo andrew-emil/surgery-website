@@ -42,3 +42,7 @@
 {"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-11T02:03:40.648Z"}
 {"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-11T02:03:40.691Z"}
 {"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-11T02:03:40.698Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-11T02:04:07.093Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-11T02:04:07.167Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-11T02:04:07.211Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-11T02:04:07.218Z"}

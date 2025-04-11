@@ -1602,6 +1602,7 @@
 {"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-10T16:14:33.765Z"}
 {"level":"info","message":"\u001b[0mOPTIONS /api/admin/approve-user/bf97d3fa-afa9-436c-b702-338c726f791b?activationToken=12345 \u001b[32m204\u001b[0m 3.480 ms - 0\u001b[0m","timestamp":"2025-04-10T16:14:36.909Z"}
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:14:36.960Z"}
+<<<<<<< HEAD
 {"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-10T21:04:29.145Z"}
 {"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-10T21:04:29.383Z"}
 {"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-10T21:04:29.511Z"}
@@ -2148,3 +2149,112 @@
 {"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.394 ms - 0\u001b[0m","timestamp":"2025-04-10T22:35:13.495Z"}
 {"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 24.113 ms - -\u001b[0m","timestamp":"2025-04-10T22:35:13.541Z"}
 {"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 25.263 ms - -\u001b[0m","timestamp":"2025-04-10T22:35:13.595Z"}
+=======
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-10T21:13:23.204Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-10T21:13:23.386Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-10T21:13:23.569Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-10T21:13:23.587Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 13.413 ms - 0\u001b[0m","timestamp":"2025-04-10T21:13:28.321Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.551 ms - 0\u001b[0m","timestamp":"2025-04-10T21:13:28.327Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 157.129 ms - -\u001b[0m","timestamp":"2025-04-10T21:13:28.520Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 68.720 ms - -\u001b[0m","timestamp":"2025-04-10T21:13:28.598Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.330 ms - 0\u001b[0m","timestamp":"2025-04-10T21:13:42.388Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.325 ms - 0\u001b[0m","timestamp":"2025-04-10T21:13:42.402Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 46.749 ms - -\u001b[0m","timestamp":"2025-04-10T21:13:42.455Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 32.941 ms - -\u001b[0m","timestamp":"2025-04-10T21:13:42.502Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/reject-user/bf97d3fa-afa9-436c-b702-338c726f791b?activationToken=12345 \u001b[32m204\u001b[0m 0.373 ms - 0\u001b[0m","timestamp":"2025-04-10T21:13:52.641Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/admin/reject-user/bf97d3fa-afa9-436c-b702-338c726f791b?activationToken=12345 \u001b[32m200\u001b[0m 3084.109 ms - 63\u001b[0m","timestamp":"2025-04-10T21:13:55.916Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.366 ms - 0\u001b[0m","timestamp":"2025-04-10T21:18:07.747Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[32m200\u001b[0m 7.055 ms - 69\u001b[0m","timestamp":"2025-04-10T21:18:07.881Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.657 ms - 0\u001b[0m","timestamp":"2025-04-10T21:18:33.454Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[32m200\u001b[0m 15.725 ms - 17286\u001b[0m","timestamp":"2025-04-10T21:18:33.503Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 12.461 ms - -\u001b[0m","timestamp":"2025-04-10T21:18:36.776Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 28.680 ms - -\u001b[0m","timestamp":"2025-04-10T21:18:36.809Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/approve-user/bf97d3fa-afa9-436c-b702-338c726f791b?activationToken=12323 \u001b[32m204\u001b[0m 0.301 ms - 0\u001b[0m","timestamp":"2025-04-10T21:18:39.536Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/admin/approve-user/bf97d3fa-afa9-436c-b702-338c726f791b?activationToken=12323 \u001b[32m200\u001b[0m 2399.538 ms - 55\u001b[0m","timestamp":"2025-04-10T21:18:41.982Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.372 ms - 0\u001b[0m","timestamp":"2025-04-10T21:19:44.140Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 1.959 ms - 0\u001b[0m","timestamp":"2025-04-10T21:19:44.157Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[32m200\u001b[0m 19.596 ms - 17285\u001b[0m","timestamp":"2025-04-10T21:19:44.310Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 9.900 ms - -\u001b[0m","timestamp":"2025-04-10T21:19:44.390Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 19.772 ms - -\u001b[0m","timestamp":"2025-04-10T21:19:44.510Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 10.100 ms - -\u001b[0m","timestamp":"2025-04-10T21:19:44.533Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.320 ms - 0\u001b[0m","timestamp":"2025-04-10T21:20:05.504Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 7.791 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:05.561Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.112 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:06.927Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.274 ms - 0\u001b[0m","timestamp":"2025-04-10T21:20:16.785Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 7.966 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:16.810Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.267 ms - 0\u001b[0m","timestamp":"2025-04-10T21:20:28.848Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 9.032 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:28.874Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.508 ms - 0\u001b[0m","timestamp":"2025-04-10T21:20:36.120Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 7.774 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:36.185Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.877 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:36.839Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 7.632 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:39.720Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.260 ms - 0\u001b[0m","timestamp":"2025-04-10T21:20:41.715Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 11.364 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:41.732Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 16.566 ms - -\u001b[0m","timestamp":"2025-04-10T21:20:43.048Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.349 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:05.677Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.663 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:05.716Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.405 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:25.158Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.277 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:25.161Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 17.617 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:25.225Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.256 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:25.248Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.444 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:30.340Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.281 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:30.353Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.530 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:30.493Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.696 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:30.583Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.267 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:33.103Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.242 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:39.423Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 9.894 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:39.478Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.196 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:48.135Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 7.423 ms - -\u001b[0m","timestamp":"2025-04-10T21:21:48.154Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/reject-user/bf97d3fa-afa9-436c-b702-338c726f791b?activationToken=1234 \u001b[32m204\u001b[0m 0.271 ms - 0\u001b[0m","timestamp":"2025-04-10T21:21:55.264Z"}
+{"code":"EAUTH","command":"AUTH PLAIN","level":"error","message":"Error sending email:  Invalid login: 535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","response":"535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing","responseCode":535,"stack":"Error: Invalid login: 535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing\n    at SMTPConnection._formatError (/app/node_modules/nodemailer/lib/smtp-connection/index.js:809:19)\n    at SMTPConnection._actionAUTHComplete (/app/node_modules/nodemailer/lib/smtp-connection/index.js:1588:34)\n    at SMTPConnection.<anonymous> (/app/node_modules/nodemailer/lib/smtp-connection/index.js:556:26)\n    at SMTPConnection._processResponse (/app/node_modules/nodemailer/lib/smtp-connection/index.js:993:20)\n    at SMTPConnection._onData (/app/node_modules/nodemailer/lib/smtp-connection/index.js:774:14)\n    at SMTPConnection._onSocketData (/app/node_modules/nodemailer/lib/smtp-connection/index.js:195:44)\n    at TLSSocket.emit (node:events:517:28)\n    at addChunk (node:internal/streams/readable:368:12)\n    at readableAddChunk (node:internal/streams/readable:341:9)\n    at Readable.push (node:internal/streams/readable:278:10)\n    at TLSWrap.onStreamRead (node:internal/stream_base_commons:190:23)","timestamp":"2025-04-10T21:21:56.814Z"}
+{"level":"error","message":"Invalid login: 535 5.7.0 The email limit is reached. Please upgrade your plan https://mailtrap.io/billing/plans/testing undefined","timestamp":"2025-04-10T21:21:56.823Z"}
+{"level":"info","message":"\u001b[0mPATCH /api/admin/reject-user/bf97d3fa-afa9-436c-b702-338c726f791b?activationToken=1234 \u001b[33m400\u001b[0m 1535.594 ms - 149\u001b[0m","timestamp":"2025-04-10T21:21:56.827Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.276 ms - 0\u001b[0m","timestamp":"2025-04-10T21:23:46.806Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[32m200\u001b[0m 15.538 ms - 69\u001b[0m","timestamp":"2025-04-10T21:23:46.843Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.343 ms - 0\u001b[0m","timestamp":"2025-04-10T21:23:52.432Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 7.996 ms - -\u001b[0m","timestamp":"2025-04-10T21:23:52.480Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 6.389 ms - -\u001b[0m","timestamp":"2025-04-10T21:23:57.176Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.324 ms - 0\u001b[0m","timestamp":"2025-04-10T21:24:14.644Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.340 ms - 0\u001b[0m","timestamp":"2025-04-10T21:24:14.648Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 6.390 ms - -\u001b[0m","timestamp":"2025-04-10T21:24:14.685Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 12.399 ms - -\u001b[0m","timestamp":"2025-04-10T21:24:14.703Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.288 ms - 0\u001b[0m","timestamp":"2025-04-10T21:24:23.243Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.226 ms - 0\u001b[0m","timestamp":"2025-04-10T21:24:23.246Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 6.619 ms - -\u001b[0m","timestamp":"2025-04-10T21:24:23.261Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 11.877 ms - -\u001b[0m","timestamp":"2025-04-10T21:24:23.287Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.271 ms - 0\u001b[0m","timestamp":"2025-04-10T21:24:30.218Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/admin/pending-users \u001b[32m204\u001b[0m 0.303 ms - 0\u001b[0m","timestamp":"2025-04-10T21:24:30.226Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 6.562 ms - -\u001b[0m","timestamp":"2025-04-10T21:24:30.260Z"}
+{"level":"info","message":"\u001b[0mGET /api/admin/pending-users \u001b[36m304\u001b[0m 8.191 ms - -\u001b[0m","timestamp":"2025-04-10T21:24:30.277Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.331 ms - 0\u001b[0m","timestamp":"2025-04-10T21:25:03.748Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.300 ms - 0\u001b[0m","timestamp":"2025-04-10T21:25:03.754Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 45.276 ms - -\u001b[0m","timestamp":"2025-04-10T21:25:03.808Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 34.053 ms - -\u001b[0m","timestamp":"2025-04-10T21:25:03.850Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.378 ms - 0\u001b[0m","timestamp":"2025-04-10T21:26:32.950Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.324 ms - 0\u001b[0m","timestamp":"2025-04-10T21:26:32.954Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 41.485 ms - -\u001b[0m","timestamp":"2025-04-10T21:26:33.003Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 29.342 ms - -\u001b[0m","timestamp":"2025-04-10T21:26:33.041Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.340 ms - 0\u001b[0m","timestamp":"2025-04-10T21:33:22.791Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 25.789 ms - -\u001b[0m","timestamp":"2025-04-10T21:33:22.825Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 35.098 ms - -\u001b[0m","timestamp":"2025-04-10T21:33:22.986Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.234 ms - 0\u001b[0m","timestamp":"2025-04-10T21:35:48.170Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 21.687 ms - -\u001b[0m","timestamp":"2025-04-10T21:35:48.199Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 36.626 ms - -\u001b[0m","timestamp":"2025-04-10T21:35:48.247Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.349 ms - 0\u001b[0m","timestamp":"2025-04-10T21:36:45.778Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.419 ms - 0\u001b[0m","timestamp":"2025-04-10T21:36:45.783Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 24.945 ms - -\u001b[0m","timestamp":"2025-04-10T21:36:45.867Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 42.732 ms - -\u001b[0m","timestamp":"2025-04-10T21:36:45.918Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.277 ms - 0\u001b[0m","timestamp":"2025-04-10T21:38:32.872Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.370 ms - 0\u001b[0m","timestamp":"2025-04-10T21:38:32.877Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 27.490 ms - -\u001b[0m","timestamp":"2025-04-10T21:38:32.912Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 39.436 ms - -\u001b[0m","timestamp":"2025-04-10T21:38:32.964Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.325 ms - 0\u001b[0m","timestamp":"2025-04-10T21:38:44.102Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.291 ms - 0\u001b[0m","timestamp":"2025-04-10T21:38:44.106Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 37.558 ms - -\u001b[0m","timestamp":"2025-04-10T21:38:44.158Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 36.456 ms - -\u001b[0m","timestamp":"2025-04-10T21:38:44.199Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.442 ms - 0\u001b[0m","timestamp":"2025-04-10T21:38:58.573Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 25.895 ms - -\u001b[0m","timestamp":"2025-04-10T21:38:58.607Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 26.950 ms - -\u001b[0m","timestamp":"2025-04-10T21:38:58.644Z"}
+>>>>>>> d71408d092771ab7f39b5d1812392fe69d91510a
