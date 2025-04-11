@@ -18,7 +18,6 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
-import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
@@ -294,7 +293,6 @@ export default function MiniDrawer() {
   );
 
   const [userSurgeries, setUserSurgeries] = React.useState([]);
-  const [surgeryId, setSurgeryId] = React.useState(null);
   React.useEffect(() => {
     const fetchData = async () => {
       try {
@@ -334,15 +332,9 @@ export default function MiniDrawer() {
 
   const handleSurgerySelect = (event, value) => {
     if (value) {
-      setSurgeryId(value.id);
       handleButtonClick(value.id);
     }
   };
-  // const handleSurgeryInputChange = (event, value) => {
-  //   if (value) {
-  //     setSurgeryId(value.id);
-  //   }
-  // };
 
   return (
     <Box sx={{ display: "flex" }}>

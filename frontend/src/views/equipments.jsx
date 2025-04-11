@@ -23,6 +23,7 @@ import { visuallyHidden } from "@mui/utils";
 import axiosClient from "../axiosClient";
 import { FormButton } from "../components/StyledComponents";
 import { convertImage } from "./../utils/convertImage";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Equipments() {
   const [rows, setRows] = React.useState([]);
@@ -48,11 +49,6 @@ export default function Equipments() {
         console.log(err);
       });
   }, []);
-  // const rows = React.useMemo(() => {
-  //   return data.map((eq) =>
-  //     createData(eq.id, eq.equipment_name, convertImage(eq.photo.data))
-  //   );
-  // }, [data]);
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -82,6 +78,12 @@ export default function Equipments() {
       numeric: true,
       disablePadding: false,
       label: "Photo",
+    },
+    {
+      id: "edit",
+      numeric: true,
+      disablePadding: false,
+      label: "",
     },
   ];
 
@@ -277,6 +279,10 @@ export default function Equipments() {
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   );
 
+  const handleEditClick = (id) => {
+    window.location.href = `/edit-equipment?id=${id}`;
+  };
+
   return (
     <Box>
       <FormButton
@@ -351,6 +357,16 @@ export default function Equipments() {
                             objectFit: "cover",
                           }}
                         />
+                      </TableCell>
+                      <TableCell align="right" sx={{ width: "10px" }}>
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditClick(row.id);
+                          }}
+                        >
+                          <EditIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );
