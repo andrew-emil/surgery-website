@@ -1,0 +1,44 @@
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 1.762 ms - 0\u001b[0m","timestamp":"2025-04-11T01:54:20.011Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.420 ms - 0\u001b[0m","timestamp":"2025-04-11T01:54:20.118Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 83.954 ms - -\u001b[0m","timestamp":"2025-04-11T01:54:20.204Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 27.088 ms - -\u001b[0m","timestamp":"2025-04-11T01:54:20.243Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.233 ms - 0\u001b[0m","timestamp":"2025-04-11T01:56:04.039Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.306 ms - 0\u001b[0m","timestamp":"2025-04-11T01:56:04.041Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 19.263 ms - -\u001b[0m","timestamp":"2025-04-11T01:56:04.113Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 25.540 ms - -\u001b[0m","timestamp":"2025-04-11T01:56:04.157Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.227 ms - 0\u001b[0m","timestamp":"2025-04-11T02:01:53.692Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.319 ms - 0\u001b[0m","timestamp":"2025-04-11T02:01:53.694Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[32m200\u001b[0m 33.345 ms - 243\u001b[0m","timestamp":"2025-04-11T02:01:53.732Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 37.420 ms - -\u001b[0m","timestamp":"2025-04-11T02:01:53.780Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/1 \u001b[32m204\u001b[0m 0.205 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:00.483Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/get-surgrey/1 \u001b[32m204\u001b[0m 0.197 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:00.488Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/1 \u001b[32m200\u001b[0m 25.677 ms - 47599\u001b[0m","timestamp":"2025-04-11T02:02:00.518Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/get-surgrey/1 \u001b[36m304\u001b[0m 16.041 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:00.539Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.214 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:24.895Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.361 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:24.899Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 39.659 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:24.941Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 20.865 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:24.972Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.253 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:29.915Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.189 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:29.920Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 17.156 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:29.942Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 21.831 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:29.973Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.294 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:40.019Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.198 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:40.021Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 17.470 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:40.045Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 21.950 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:40.080Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 14.173 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:42.817Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 15.713 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:42.845Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.452 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:45.043Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery-equipments \u001b[32m204\u001b[0m 0.216 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:45.046Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 17.224 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:45.066Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery-equipments \u001b[36m304\u001b[0m 35.147 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:45.106Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.495 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:55.086Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/surgery/surgeries \u001b[32m204\u001b[0m 0.330 ms - 0\u001b[0m","timestamp":"2025-04-11T02:02:55.091Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 43.935 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:55.143Z"}
+{"level":"info","message":"\u001b[0mGET /api/surgery/surgeries \u001b[36m304\u001b[0m 42.759 ms - -\u001b[0m","timestamp":"2025-04-11T02:02:55.199Z"}
+{"level":"info","message":"\u001b[0mOPTIONS /api/users/login \u001b[32m204\u001b[0m 0.446 ms - 0\u001b[0m","timestamp":"2025-04-11T02:03:20.085Z"}
+{"level":"info","message":"\u001b[0mPOST /api/users/login \u001b[32m202\u001b[0m 152.554 ms - 71\u001b[0m","timestamp":"2025-04-11T02:03:20.241Z"}
+{"level":"info","message":"Connected to MySQL database","timestamp":"2025-04-11T02:03:40.594Z"}
+{"level":"info","message":"Connected to MongoDB database successfully","timestamp":"2025-04-11T02:03:40.648Z"}
+{"level":"info","message":"Cron jobs initialized","timestamp":"2025-04-11T02:03:40.691Z"}
+{"level":"info","message":"app listening on port: 4000","timestamp":"2025-04-11T02:03:40.698Z"}

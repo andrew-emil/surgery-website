@@ -62,3 +62,21 @@
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:09:07.043Z"}
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:13:08.847Z"}
 {"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T16:14:36.959Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:25:54.173Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:27:19.338Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:28:13.249Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:38:25.696Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:38:43.112Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:39:00.375Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:39:23.158Z"}
+{"level":"error","message":"slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:39:36.150Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T21:43:15.921Z"}
+{"level":"error","message":"hospitalId - Required, slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:43:34.119Z"}
+{"level":"error","message":"hospitalId - Required, slots - Expected number, received string, procedureTypeId - Required, surgeryEquipments.0 - Expected number, received string, patientBmi - Expected number, received string undefined","timestamp":"2025-04-10T21:43:52.902Z"}
+{"level":"error","message":"doctorsTeam - Array must contain at least 1 element(s) undefined","timestamp":"2025-04-10T22:03:49.612Z"}
+{"level":"error","message":"affiliationId - Required, departmentId - Required undefined","timestamp":"2025-04-10T22:04:10.163Z"}
+{"level":"error","message":"affiliationId - Required, departmentId - Required undefined","timestamp":"2025-04-10T22:04:10.191Z"}
+{"level":"error","message":"Something went wrong undefined","timestamp":"2025-04-10T22:10:12.131Z"}
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-10T22:10:19.136Z"}
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-10T22:13:55.797Z"}
+{"level":"error","message":"Unauthorized undefined","timestamp":"2025-04-10T22:17:31.286Z"}

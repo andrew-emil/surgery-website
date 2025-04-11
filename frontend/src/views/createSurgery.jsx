@@ -4,13 +4,7 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import { useEffect, useRef, useState } from "react";
-import {
-  FormButton,
-  FormContainer,
-  FormTextField,
-  FormTitle,
-} from "../components/StyledComponents";
-import { Link } from "react-router-dom";
+import { FormContainer, FormTextField } from "../components/StyledComponents";
 import axiosClient from "../axiosClient";
 import AlertTitle from "@mui/material/AlertTitle";
 import {
@@ -21,17 +15,18 @@ import {
   Select,
   MenuItem,
   FormControl,
-  Typography,
   Checkbox,
   ListItemText,
-  TextField,
+  Typography,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  List,
+  ListItem,
 } from "@mui/material";
 
-const steps = [
-  "Select campaign settings",
-  "Create an ad group",
-  "Create an ad",
-];
+const steps = ["Surgery Details", "Surgery Team", "Review Surgery"];
 
 let payload = {};
 
@@ -171,8 +166,15 @@ function StepOne({ onComplete }) {
     const {
       target: { value },
     } = event;
-    setEquipment(typeof value === "string" ? value.split(",") : value);
+
+    const parsed =
+      typeof value === "string"
+        ? value.split(",").map((v) => parseInt(v))
+        : value.map((v) => parseInt(v));
+
+    setEquipment(parsed);
   };
+
   const handlePatientComorbidityChange = (ev) => {
     ev.preventDefault();
     const comorbidityArray = patientComorbidityRef.current.value.split(",");
@@ -368,7 +370,7 @@ function StepOne({ onComplete }) {
                 </MenuItem>
                 {equipmentData.length > 0 ? (
                   equipmentData.map((eq) => (
-                    <MenuItem key={eq.equipment_name} value={eq.equipment_name}>
+                    <MenuItem key={eq.id} value={eq.id}>
                       <Checkbox
                         checked={equipment.includes(eq.equipment_name)}
                       />
@@ -451,9 +453,9 @@ function StepTwo({ onComplete }) {
   useEffect(() => {
     setLoading(true);
     axiosClient
-      .get("/roles")
+      .get("/surgical-role", { withCredentials: true })
       .then(({ data }) => {
-        setRolesData(data.data);
+        setRolesData(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -515,16 +517,16 @@ function StepTwo({ onComplete }) {
       departmentId: payload["department"],
       name: payload["name"],
       leadSurgeon: leadSurgeon,
-      procedure: payload["procedure"],
+      procedureTypeId: payload["procedure"],
       doctorsTeam: team,
-      slots: payload["slots"],
+      slots: parseInt(payload["slots"]),
       date: payload["date"],
       time: payload["time"],
       estimatedEndTime: payload["estimatedEndTime"],
       surgeryEquipments: payload["equipment"],
       cptCode: payload["cptCode"],
       icdCode: payload["icdCode"],
-      patientBmi: payload["patientBmi"],
+      patientBmi: parseInt(payload["patientBmi"]),
       patientComorbidity: payload["patientComorbidity"],
       patientDiagnosis: payload["patientDiagnosis"],
     };
@@ -679,7 +681,213 @@ function StepTwo({ onComplete }) {
 }
 
 function StepThree() {
-  console.log(payload);
+  const [loading, setLoading] = useState(false);
+  const [err, setErr] = useState(null);
+  const [redirect, setRedirect] = useState(false);
+  const {
+    name,
+    leadSurgeon,
+    procedureTypeId,
+    hospitalId,
+    departmentId,
+    date,
+    time,
+    estimatedEndTime,
+    doctorsTeam,
+    slots,
+    surgeryEquipments,
+    cptCode,
+    icdCode,
+    patientBmi,
+    patientComorbidity,
+    patientDiagnosis,
+  } = payload;
+
+  const confirmSurgery = () => {
+    console.log(payload);
+    setLoading(true);
+    axiosClient
+      .post("/surgery", payload, { withCredentials: true })
+      .then(({ data }) => {
+        console.log(data);
+        setRedirect(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErr(err.response.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  if (redirect) {
+    window.location.href = "/surgeries";
+  }
+
+  return (
+    <Box sx={{ width: "100%", p: 3 }}>
+      {err && (
+        <Alert severity="error" sx={{ marginBottom: "1rem" }}>
+          <AlertTitle>Error</AlertTitle>
+          {Object.values(err).join(", ")}
+        </Alert>
+      )}
+      <Typography variant="h5" gutterBottom>
+        Review Surgery Details
+      </Typography>
+
+      <Card variant="outlined" sx={{ mb: 2 }}>
+        <CardContent>
+          <Typography variant="h6">Basic Information</Typography>
+          <Divider sx={{ mb: 2 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Name:</strong> {name}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Lead Surgeon ID:</strong> {leadSurgeon}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Procedure ID:</strong> {procedureTypeId}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Hospital ID:</strong> {hospitalId}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Department ID:</strong> {departmentId}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Slots:</strong> {slots}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+      <Card variant="outlined" sx={{ mb: 2 }}>
+        <CardContent>
+          <Typography variant="h6">Timing</Typography>
+          <Divider sx={{ mb: 2 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Date:</strong> {date}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Time:</strong> {time}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Estimated End Time:</strong> {estimatedEndTime}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+
+      <Card variant="outlined" sx={{ mb: 2 }}>
+        <CardContent>
+          <Typography variant="h6">Doctors Team</Typography>
+          <Divider sx={{ mb: 2 }} />
+          <List>
+            {doctorsTeam.map((member, index) => (
+              <ListItem key={index} alignItems="flex-start">
+                <ListItemText
+                  primary={`Doctor ID: ${member.doctorId}`}
+                  secondary={
+                    <>
+                      <Typography component="span" variant="body2">
+                        Role ID: {member.roleId}
+                      </Typography>
+                      <br />
+                      Notes: {member.notes}
+                    </>
+                  }
+                />
+              </ListItem>
+            ))}
+          </List>
+        </CardContent>
+      </Card>
+
+      <Card variant="outlined" sx={{ mb: 2 }}>
+        <CardContent>
+          <Typography variant="h6">Surgery Equipments</Typography>
+          <Divider sx={{ mb: 2 }} />
+          <List>
+            {surgeryEquipments.map((item, index) => (
+              <ListItem key={index}>
+                <ListItemText primary={item} />
+              </ListItem>
+            ))}
+          </List>
+        </CardContent>
+      </Card>
+
+      <Card variant="outlined" sx={{ mb: 2 }}>
+        <CardContent>
+          <Typography variant="h6">Medical Information</Typography>
+          <Divider sx={{ mb: 2 }} />
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>CPT Code:</strong> {cptCode}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>ICD Code:</strong> {icdCode}
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>
+                <strong>Patient BMI:</strong> {patientBmi}
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>
+                <strong>Patient Comorbidities:</strong>
+              </Typography>
+              <List dense>
+                {patientComorbidity.map((com, index) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={com} />
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>
+                <strong>Diagnosis:</strong> {patientDiagnosis}
+              </Typography>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+      <Button
+        loading={loading}
+        variant="contained"
+        sx={{ mt: 3 }}
+        onClick={confirmSurgery}
+      >
+        Confirm Surgery
+      </Button>
+    </Box>
+  );
 }
 
 export default function HorizontalNonLinearStepper() {

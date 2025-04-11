@@ -26,11 +26,14 @@ import { convertImage } from "./../utils/convertImage";
 
 export default function Equipments() {
   const [rows, setRows] = React.useState([]);
-  function createData(id, name, photo) {
+  function createData(id, name, leadSurgeon, date, cptCode, icdCode) {
     return {
       id,
       name,
-      photo,
+      leadSurgeon,
+      date,
+      cptCode,
+      icdCode,
     };
   }
 
@@ -75,7 +78,7 @@ export default function Equipments() {
       id: "name",
       numeric: false,
       disablePadding: true,
-      label: "Equipment",
+      label: "Surgery",
     },
     {
       id: "Photo",
