@@ -16,24 +16,22 @@ import {
 } from "@mui/material";
 import { Add, Edit, Delete } from "@mui/icons-material";
 import axiosClient from "../../axiosClient";
+import { useNavigate } from "react-router";
 
 const RolesPage = () => {
 	const [loading, setLoading] = useState(true);
 	const [roles, setRoles] = useState([]);
 	const [err, setErr] = useState(null);
+	const navigate = useNavigate();
 
-	// Simulate data fetching
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const response = await axiosClient.get("roles", {
 					withCredentials: true,
 				});
-                const {data} = response
-				setTimeout(() => {
-					setRoles(data.roles);
-					setLoading(false);
-				}, 1500);
+				const { data } = response;
+				setRoles(data.data);
 			} catch (err) {
 				setErr(err.response.data.message);
 			} finally {
@@ -43,10 +41,18 @@ const RolesPage = () => {
 		fetchData();
 	}, []);
 
-	// Empty handler functions
-	const handleAddRole = () => console.log("Add role clicked");
-	const handleEditRole = (roleId) => console.log("Edit role:", roleId);
-	const handleDeleteRole = (roleId) => console.log("Delete role:", roleId);
+	const handleAddRole = () => navigate("/admin/roles/add-role");
+	const handleEditRole = (roleId) => navigate(`/admin/roles/edit?id=${roleId}`);
+	const handleDeleteRole = async (roleId) => {
+		try {
+			await axiosClient.delete(`/roles/${roleId}`, { withCredentials: true });
+			setRoles((prev) => prev.filter((role) => role.id !== roleId));
+		} catch (err) {
+			setErr(err.response.data.message);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	if (loading) {
 		return (
@@ -120,7 +126,6 @@ const RolesPage = () => {
 				<Table>
 					<TableHead>
 						<TableRow>
-							<TableCell>ID</TableCell>
 							<TableCell>Name</TableCell>
 							<TableCell>Parent</TableCell>
 							<TableCell>Requirements</TableCell>
@@ -130,9 +135,8 @@ const RolesPage = () => {
 					<TableBody>
 						{roles.map((role) => (
 							<TableRow key={role.id}>
-								<TableCell>{role.id}</TableCell>
 								<TableCell>{role.name}</TableCell>
-								<TableCell>{role.parent}</TableCell>
+								<TableCell>{role.parent?.name || "N/A"}</TableCell>
 								<TableCell>
 									{role.requirements?.map((req) => (
 										<div key={req.id}>

@@ -68,7 +68,6 @@ export const addRole = async (req: Request, res: Response) => {
 		for (const req of procedureRequirements) {
 			const procedureType = await procedureTypeRepo.findOne({
 				where: { id: req.procedureTypeId },
-				relations: ["category"],
 			});
 
 			if (!procedureType) {

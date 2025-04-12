@@ -11,7 +11,6 @@ export const getAllRoles = async (req: Request, res: Response) => {
 				permissions: true,
 				requirements: {
 					procedure: true,
-					
 				},
 			},
 			select: {
@@ -28,16 +27,12 @@ export const getAllRoles = async (req: Request, res: Response) => {
 					procedure: {
 						id: true,
 						name: true,
-						category: true
+						category: true,
 					},
 				},
 			},
 			order: {
-				requirements: {
-					procedure: {
-						name: "ASC",
-					},
-				},
+				id: "ASC",
 			},
 		}),
 		roleRepo.count({ where: { name: Not("Admin") } }),

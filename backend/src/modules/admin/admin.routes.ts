@@ -26,6 +26,6 @@ adminRoutes.get("/dashboard/team-performance/:affiliationId", getPerformance);
 adminRoutes.get("/export", exportLog);
 adminRoutes.get("/audit", getAuditTrail);
 adminRoutes.get("/users", getUsers);
-adminRoutes.get("/promote/:userId", promoteUser);
+adminRoutes.patch("/promote/:userId", promoteUser);
 
 export default adminRoutes;

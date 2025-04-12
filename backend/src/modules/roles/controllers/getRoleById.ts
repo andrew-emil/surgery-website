@@ -10,18 +10,33 @@ export const getRoleById = async (req: Request, res: Response) => {
 		where: {
 			id: parsedId,
 		},
-		relations: ["permissions"],
-        select: {
-            id: true,
-            name: true,
-            permissions: {
-                id: true,
-                action: true
-            }
-        }
+		relations: [
+			"permissions",
+			"requirements",
+			"parent",
+			"requirements.procedure",
+		],
+		select: {
+			id: true,
+			name: true,
+			permissions: {
+				id: true,
+				action: true,
+			},
+			parent: {
+				id: true,
+				name: true,
+			},
+			requirements: {
+				id: true,
+				procedure: {
+					id: true,
+					category: true,
+				},
+				requiredCount: true,
+			},
+		},
 	});
-
-    console.log(role)
 
 	if (!role) throw Error("Role not found");
 

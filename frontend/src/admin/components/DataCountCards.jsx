@@ -73,6 +73,9 @@ const DataCountCard = () => {
 	}
 
 	const handleButtonClick = (index) => {
+		if(index === 0){
+			navigate("/admin/users")
+		}
 		if(index === 1){
 			navigate("/admin/affiliations")
 		}

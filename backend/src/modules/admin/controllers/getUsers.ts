@@ -6,7 +6,7 @@ import { USER_STATUS } from "../../../utils/dataTypes.js";
 export const getUsers = async (req: Request, res: Response) => {
 	const { page = "1" } = req.query;
 
-	const limit = 50;
+	const limit = 15;
 	const parsedPage = parseInt(page.toString());
 	const skip = (parsedPage - 1) * limit;
 	const currentUserId = req.user.id;
@@ -15,9 +15,6 @@ export const getUsers = async (req: Request, res: Response) => {
 		where: {
 			id: Not(currentUserId),
 			account_status: USER_STATUS.ACTIVE,
-			role: {
-				name: Not("Consultant"),
-			},
 		},
 	});
 
@@ -25,13 +22,11 @@ export const getUsers = async (req: Request, res: Response) => {
 		where: {
 			id: Not(currentUserId),
 			account_status: USER_STATUS.ACTIVE,
-			role: {
-				name: Not("Consultant"),
-			},
 		},
 		skip,
 		take: limit,
 		select: {
+			id: true,
 			first_name: true,
 			last_name: true,
 			email: true,
@@ -41,9 +36,11 @@ export const getUsers = async (req: Request, res: Response) => {
 				name: true,
 			},
 			affiliation: {
+				id: true,
 				name: true,
 			},
 			department: {
+				id: true,
 				name: true,
 			},
 		},

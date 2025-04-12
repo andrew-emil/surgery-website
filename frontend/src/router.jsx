@@ -11,6 +11,7 @@ import NotFoundPage from "./views/not_found";
 import Dashboard from "./views/dashboard";
 import AdminLayout from "./components/adminLayout";
 import MyAccount from "./views/myAccount";
+import CreateAffiliation from "./admin/pages/CreateAffiliation";
 import CreateSurgery from "./views/createSurgery";
 import SurgeryDetails from "./views/SurgeryDetails";
 import Equipments from "./views/equipments";
@@ -20,7 +21,6 @@ import AdminDashboard from "./admin/pages/AdminDashborad";
 import PendingUsers from "./admin/pages/PendingUsers";
 import AffiliationPage from "./admin/pages/AffiliationPage";
 import EditEquipment from "./views/editEquipment";
-import CreateAffiliation from "./admin/pages/createAffiliation";
 import AffiliationDetails from "./admin/pages/AffiliationDetails";
 import EditSurgery from "./views/editSurgery";
 import OpenSlots from "./views/openSLots";
@@ -28,6 +28,9 @@ import AddDepartment from "./admin/pages/AddDepartments";
 import EditDepartment from "./admin/pages/editDepartment";
 import EditAffiliation from "./admin/pages/EditAffiliation";
 import RolesPage from "./admin/pages/RolesPage";
+import AddRole from "./admin/pages/AddRole";
+import EditRole from "./admin/pages/EditRole";
+import UsersPage from "./admin/pages/UsersPage";
 
 const router = createBrowserRouter([
 	{
@@ -74,9 +77,12 @@ const router = createBrowserRouter([
 			{ path: "/admin/affiliations/edit", element: <EditAffiliation /> },
 			{ path: "/admin/add-department", element: <AddDepartment /> },
 			{ path: "/admin/edit-department", element: <EditDepartment /> },
+			{ path: "/admin/users", element: <UsersPage /> },
 			//!need an icon in the drawer admin
 
 			{ path: "/admin/roles", element: <RolesPage /> },
+			{ path: "/admin/roles/add-role", element: <AddRole /> },
+			{ path: "/admin/roles/edit", element: <EditRole /> },
 		],
 	},
 ]);

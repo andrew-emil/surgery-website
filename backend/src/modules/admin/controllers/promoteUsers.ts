@@ -44,9 +44,16 @@ export const promoteUser = async (req: Request, res: Response) => {
 			return;
 		}
 
-		await manager.update(User, user, {
-			role: parentRole,
-		});
+		const newUser = await manager.update(
+			User,
+			{
+				id: user.id,
+			},
+			{
+				role: parentRole,
+			}
+		);
+		console.log(user, newUser);
 	});
 
 	res.status(200).json({
