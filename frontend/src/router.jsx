@@ -27,6 +27,7 @@ import OpenSlots from "./views/openSLots";
 import AddDepartment from "./admin/pages/AddDepartments";
 import EditDepartment from "./admin/pages/editDepartment";
 import EditAffiliation from "./admin/pages/EditAffiliation";
+import RolesPage from "./admin/pages/RolesPage";
 
 const router = createBrowserRouter([
 	{
@@ -73,6 +74,9 @@ const router = createBrowserRouter([
 			{ path: "/admin/affiliations/edit", element: <EditAffiliation /> },
 			{ path: "/admin/add-department", element: <AddDepartment /> },
 			{ path: "/admin/edit-department", element: <EditDepartment /> },
+			//!need an icon in the drawer admin
+
+			{ path: "/admin/roles", element: <RolesPage /> },
 		],
 	},
 ]);
