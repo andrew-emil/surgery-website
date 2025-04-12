@@ -12,6 +12,8 @@ import {
 	transformLog,
 } from "../../../utils/exportLogHelperFunction.js";
 
+const availableFormats = ["csv", "pdf", "excel"];
+
 export const exportLog = async (req: Request, res: Response) => {
 	const validation = exportLogSchema.safeParse(req.query);
 
@@ -20,9 +22,9 @@ export const exportLog = async (req: Request, res: Response) => {
 
 	const { format, startDate, endDate } = validation.data;
 
-	if (!["csv", "pdf", "excel"].includes(format)) {
+	if (!availableFormats.includes(format)) {
 		throw Error(
-			`Invalid format. Allowed values are ${["csv", "pdf", "excel"].join(", ")}`
+			`Invalid format. Allowed values are ${availableFormats.join(", ")}`
 		);
 	}
 

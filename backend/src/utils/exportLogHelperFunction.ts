@@ -3,7 +3,6 @@ import { roleRepo, userRepo } from "../config/repositories.js";
 import { SurgeryLog } from "../entity/mongodb/SurgeryLog.js";
 import PDFDocument from "pdfkit";
 import ExcelJS from "exceljs";
-import { ObjectId } from "typeorm";
 
 export const transformLog = async (
 	log: SurgeryLog,
@@ -18,19 +17,18 @@ export const transformLog = async (
 
 	const team = await Promise.all(log.doctorsTeam.map(buildDoctorInfo));
 	const patientId = safeField(log.patient_details.patient_id);
-
 	return {
 		surgeryId: log.surgeryId,
 		leadSurgeon: `Dr. ${safeField(leadSurgeon.first_name)} ${safeField(
 			leadSurgeon.last_name
 		)}`,
 		team,
-		date: log.date.toISOString().split("T")[0],
+		date: log.date !== null ? log.date.toString().split(" 00:")[0] : " - ",
 		time: safeField(log.time),
 		cptCode: safeField(log.cptCode),
 		icdCode: safeField(log.icdCode),
 		patient_details: {
-			id: new ObjectId(patientId),
+			id: patientId.toString(),
 			BMI: safeField(log.patient_details.bmi),
 			comorbidity: safeField(log.patient_details.comorbidity),
 			diagonsis: safeField(log.patient_details.diagnosis),
@@ -66,8 +64,7 @@ const buildDoctorInfo = async (doctor: any) => {
 		doctor: `Dr. ${safeField(doctorUser.first_name)} ${safeField(
 			doctorUser.last_name
 		)}`,
-		role: safeField(roleData?.name || null),
-		participationStatus: safeField(doctor.participationStatus),
+		role: safeField(roleData?.name),
 		notes: safeField(doctor.notes),
 	};
 };

@@ -1,19 +1,22 @@
-import { useRef, useState } from "react";
 import {
 	FormCard,
 	FormContainer,
+	FormTitle,
 	FormTextField,
 	FormButton,
-	FormTitle,
 } from "../../components/StyledComponents";
 import {
 	Alert,
 	AlertTitle,
+	Skeleton,
 	MenuItem,
 	InputLabel,
 	Select,
 	FormControl,
 } from "@mui/material";
+import { useEffect, useRef } from "react";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import axiosClient from "../../axiosClient";
 
 const institutionTypes = {
@@ -25,53 +28,86 @@ const institutionTypes = {
 	PRIVATE_PRACTICE: "Private Practice",
 };
 
-const CreateAffiliation = () => {
+const EditAffiliation = () => {
+	const [err, setErr] = useState(null);
+	const [msg, setMsg] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [affiliation, setAffiliation] = useState(null);
+	const [buttonLoading, setButtonLoading] = useState(false);
+	const [selectedType, setSelectedType] = useState(null);
+
+	const location = useLocation();
+	const searchParams = new URLSearchParams(location.search);
+	const affiliationId = searchParams.get("id");
+
 	const nameRef = useRef();
 	const countryRef = useRef();
 	const cityRef = useRef();
 	const addressRef = useRef();
-	const [err, setErr] = useState(null);
-	const [isLoading, setIsLoading] = useState(false);
-	const [msg, setMsg] = useState(null);
-	const [selectedType, setSelectedType] = useState(
-		Object.values(institutionTypes)[0]
-	);
+
+	useEffect(() => {
+		const fetchAffiliationData = async () => {
+			try {
+				const response = await axiosClient.get(
+					`/affiliation/${affiliationId}`,
+					{ withCredentials: true }
+				);
+				const { data } = response;
+				setAffiliation(data);
+				setSelectedType(
+					institutionTypes[`${data.institution_type.toUpperCase()}`]
+				);
+			} catch (err) {
+				setErr(err.response.data.message);
+			} finally {
+				setLoading(false);
+			}
+		};
+
+		fetchAffiliationData();
+	}, [affiliationId]);
+
+	const onSubmit = async (e) => {
+		e.preventDefault();
+		setButtonLoading(true);
+		setErr(null);
+		setMsg(null);
+		try {
+			const payload = {
+				id: affiliationId,
+				name: nameRef.current.value,
+				country: countryRef.current.value,
+				city: cityRef.current.value,
+				address: addressRef.current.value,
+				institution_type: selectedType,
+			};
+			const response = await axiosClient.patch("affiliation", payload, {
+				withCredentials: true,
+			});
+			const { data } = response;
+			setMsg(data.message);
+		} catch (err) {
+			setErr(err.response.data.message);
+		} finally {
+			setButtonLoading(false);
+		}
+	};
 
 	const handleChange = (event) => {
 		setSelectedType(event.target.value);
 	};
 
-	const submit = async (ev) => {
-		ev.preventDefault();
-		setIsLoading(true);
-		setErr(null)
-		setMsg(null)
-		const payload = {
-			name: nameRef.current.value,
-			country: countryRef.current.value,
-			city: cityRef.current.value,
-			address: addressRef.current.value,
-			institution_type: selectedType,
-		};
-
-		try {
-			const response = await axiosClient.post("/affiliation", payload, {
-				withCredentials: true,
-			});
-
-			const { data } = response;
-			setMsg(data.message);
-		} catch (err) {
-			console.error(err);
-			setErr(err.response.message);
-		} finally {
-			setIsLoading(false);
-		}
-	};
+	if (loading) {
+		return (
+			<FormContainer>
+				<Skeleton variant="rounded" height={300} />
+			</FormContainer>
+		);
+	}
 
 	return (
 		<FormContainer>
-			<FormCard>
+			<FormCard sx={{ width: "400px", padding: "2rem" }}>
 				{err && (
 					<Alert severity="error" sx={{ marginBottom: "1rem" }}>
 						<AlertTitle>Error</AlertTitle>
@@ -84,8 +120,8 @@ const CreateAffiliation = () => {
 						{msg}
 					</Alert>
 				)}
-				<FormTitle>Add Affiliation</FormTitle>
-				<form onSubmit={submit}>
+				<FormTitle>Edit Affiliation</FormTitle>
+				<form onSubmit={onSubmit}>
 					<FormTextField
 						inputRef={nameRef}
 						type="text"
@@ -93,6 +129,7 @@ const CreateAffiliation = () => {
 						variant="outlined"
 						fullWidth
 						required
+						defaultValue={affiliation.name}
 					/>
 					<FormTextField
 						inputRef={countryRef}
@@ -101,6 +138,7 @@ const CreateAffiliation = () => {
 						variant="outlined"
 						fullWidth
 						required
+						defaultValue={affiliation.country}
 					/>
 					<FormTextField
 						inputRef={cityRef}
@@ -109,6 +147,7 @@ const CreateAffiliation = () => {
 						variant="outlined"
 						fullWidth
 						required
+						defaultValue={affiliation.city}
 					/>
 					<FormTextField
 						inputRef={addressRef}
@@ -117,8 +156,9 @@ const CreateAffiliation = () => {
 						variant="outlined"
 						fullWidth
 						required
+						defaultValue={affiliation.address}
 					/>
-					<FormControl fullWidth sx={{marginBottom: '1rem'}}>
+					<FormControl fullWidth sx={{ marginBottom: "1rem" }}>
 						<InputLabel id="institution-type-label">
 							Institution Type
 						</InputLabel>
@@ -128,6 +168,7 @@ const CreateAffiliation = () => {
 							value={selectedType}
 							label="Institution Type"
 							onChange={handleChange}
+							defaultValue={selectedType}
 							required>
 							{Object.values(institutionTypes).map((type) => (
 								<MenuItem key={type} value={type}>
@@ -140,8 +181,8 @@ const CreateAffiliation = () => {
 						type="submit"
 						variant="contained"
 						color="primary"
-						loading={isLoading}>
-						Create Affiliation
+						loading={buttonLoading}>
+						Edit Affiliation
 					</FormButton>
 				</form>
 			</FormCard>
@@ -149,4 +190,4 @@ const CreateAffiliation = () => {
 	);
 };
 
-export default CreateAffiliation;
+export default EditAffiliation;

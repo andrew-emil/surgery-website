@@ -9,7 +9,7 @@ import { authMiddleware, authUser } from "../../middlewares/authMiddleware.js";
 
 const departmentRoutes = Router();
 
-// departmentRoutes.get("/:id", getDepartments);
+departmentRoutes.get("/:id", getDepartments);
 
 departmentRoutes.use(auditLogger());
 departmentRoutes.use(authMiddleware);

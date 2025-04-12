@@ -19,6 +19,7 @@ import {
 	TableHead,
 	TableRow,
 	Paper,
+	Rating,
 	Alert,
 	AlertTitle,
 } from "@mui/material";
@@ -28,8 +29,8 @@ import axiosClient from "./../../axiosClient";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const AffiliationDetails = () => {
-	const location = useLocation();
 	const navigate = useNavigate();
+	const location = useLocation();
 	const { affiliationId } = location.state;
 	const [affiliation, setAffiliation] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -57,7 +58,7 @@ const AffiliationDetails = () => {
 					setAffiliation(affiliationResponse.data);
 					setTeams(performanceResponse.data.teams);
 				} catch (err) {
-					console.error(err);
+					setErr(err.response.data.message);
 				} finally {
 					setLoading(false);
 				}
@@ -67,13 +68,15 @@ const AffiliationDetails = () => {
 	}, [affiliation, affiliationId, loading]);
 
 	const handleAddDepartment = () => {
-		// Implement add department logic
-		console.log("Add department");
+		navigate(`/admin/add-department?id=${affiliationId}`);
 	};
 
 	const handleUpdateDepartment = (department) => {
-		// Implement update department logic
-		console.log("Update department:", department);
+		navigate(`/admin/edit-department`, {
+			state: {
+				department,
+			},
+		});
 	};
 
 	const handleDeleteDepartment = async (departmentId) => {
@@ -84,8 +87,10 @@ const AffiliationDetails = () => {
 			await axiosClient.delete(`/departments/${departmentId}`, {
 				withCredentials: true,
 			});
-            const departments = affiliation.departments.filter((depart) => depart.id === departmentId)
-            setAffiliation((prev) => ({...prev, departments}))
+			const departments = affiliation.departments.filter(
+				(depart) => depart.id === departmentId
+			);
+			setAffiliation((prev) => ({ ...prev, departments }));
 			setMsg("department deleted successfully");
 		} catch (err) {
 			console.log(err);
@@ -99,8 +104,7 @@ const AffiliationDetails = () => {
 		return (
 			<Container sx={{ mt: 4 }}>
 				<Skeleton variant="rounded" height={400} />
-				<Skeleton variant="text" sx={{ fontSize: "3rem", mt: 2 }} />
-				<Skeleton variant="rectangular" height={300} sx={{ mt: 2 }} />
+				<Skeleton variant="rounded" height={300} sx={{ mt: 2 }} />
 			</Container>
 		);
 	}
@@ -207,6 +211,7 @@ const AffiliationDetails = () => {
 								<TableRow>
 									<TableCell>Doctor Name</TableCell>
 									<TableCell align="right">Average Surgeries</TableCell>
+									<TableCell align="right">Average Rating</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
@@ -214,9 +219,18 @@ const AffiliationDetails = () => {
 									<TableRow key={team.doctorName}>
 										<TableCell>{team.doctorName}</TableCell>
 										<TableCell align="right">
-											{team.avg_surgeries
-												? parseFloat(team.avg_surgeries).toFixed(2)
-												: "N/A"}
+											{team.avg_surgeries ? team.avg_surgeries : "N/A"}
+										</TableCell>
+										<TableCell align="right">
+											<Typography variant="h5">
+												{team.avg_rating ? team.avg_rating : "N/A"}
+											</Typography>
+											<Rating
+												value={team.avg_rating || 0}
+												precision={0.5}
+												readOnly
+												size="large"
+											/>
 										</TableCell>
 									</TableRow>
 								))}

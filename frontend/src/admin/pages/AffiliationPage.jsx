@@ -64,7 +64,7 @@ const AffiliationPage = () => {
 	if (loading) {
 		return (
 			<Container>
-				<Skeleton variant="rounded" />
+				<Skeleton variant="rounded" height={300} />
 			</Container>
 		);
 	}
@@ -97,7 +97,7 @@ const AffiliationPage = () => {
 				<Button
 					variant="outlined"
 					onClick={() =>
-						navigate(`/affiliations/edit/${selectedAffiliationId}`)
+						navigate(`/admin/affiliations/edit?id=${selectedAffiliationId}`)
 					}
 					disabled={!selectedAffiliationId}
 					sx={{ mb: 2, mr: 2 }}>
