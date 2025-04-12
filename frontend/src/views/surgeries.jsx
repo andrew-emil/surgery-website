@@ -23,40 +23,44 @@ import { visuallyHidden } from "@mui/utils";
 import axiosClient from "../axiosClient";
 import { FormButton } from "../components/StyledComponents";
 import { convertImage } from "./../utils/convertImage";
+import { Alert, AlertTitle } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Equipments() {
   const [rows, setRows] = React.useState([]);
-  function createData(id, name, leadSurgeon, date, cptCode, icdCode) {
+  const [err, setErr] = React.useState(null);
+
+  function createData(id, name, date, cptCode, icdCode, time) {
     return {
       id,
       name,
-      leadSurgeon,
       date,
       cptCode,
       icdCode,
+      time,
     };
   }
 
   React.useEffect(() => {
-    axiosClient
-      .get(`/surgery-equipments`, { withCredentials: true })
-      .then(async ({ data }) => {
-        const newRows = data.equipments.map((eq) =>
-          createData(eq.id, eq.equipment_name, convertImage(eq.photo.data))
+    const fetchData = async () => {
+      try {
+        const response = await axiosClient.get("/surgery/surgeries", {
+          withCredentials: true,
+        });
+        const { data } = response;
+        const newRows = data.surgeries.map((sr) =>
+          createData(sr.id, sr.name, sr.date, sr.cptCode, sr.icdCode, sr.time)
         );
 
         setRows(newRows);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.log(err);
-      });
-  }, []);
-  // const rows = React.useMemo(() => {
-  //   return data.map((eq) =>
-  //     createData(eq.id, eq.equipment_name, convertImage(eq.photo.data))
-  //   );
-  // }, [data]);
+        setErr(err.message);
+      }
+    };
 
+    fetchData();
+  }, []);
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
       return -1;
@@ -81,10 +85,28 @@ export default function Equipments() {
       label: "Surgery",
     },
     {
-      id: "Photo",
+      id: "date",
       numeric: true,
       disablePadding: false,
-      label: "Photo",
+      label: "date",
+    },
+    {
+      id: "cptCode",
+      numeric: true,
+      disablePadding: false,
+      label: "cpt",
+    },
+    {
+      id: "icdCode",
+      numeric: true,
+      disablePadding: false,
+      label: "icd",
+    },
+    {
+      id: "time",
+      numeric: true,
+      disablePadding: false,
+      label: "time",
     },
   ];
 
@@ -194,7 +216,7 @@ export default function Equipments() {
             <IconButton
               onClick={() =>
                 selected.map((id) => {
-                  axiosClient.delete(`/surgery-equipments/${id}`, {
+                  axiosClient.delete(`/surgery/${id}`, {
                     withCredentials: true,
                   });
                   setRows((prev) => prev.filter((row) => row.id !== id));
@@ -280,6 +302,10 @@ export default function Equipments() {
       .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
   );
 
+  const handleEditClick = (id) => {
+    window.location.href = `/edit-surgery?id=${id}`;
+  };
+
   return (
     <Box>
       <FormButton
@@ -291,6 +317,12 @@ export default function Equipments() {
       >
         Add Surgery
       </FormButton>
+      {err && (
+        <Alert severity="error" sx={{ marginBottom: "1rem" }}>
+          <AlertTitle>err</AlertTitle>
+          {err}
+        </Alert>
+      )}
       <Box sx={{ width: "100%" }}>
         <Paper sx={{ width: "100%", mb: 2 }}>
           <EnhancedTableToolbar
@@ -344,16 +376,19 @@ export default function Equipments() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">
-                        <img
-                          src={row.photo}
-                          alt="equipment"
-                          style={{
-                            width: "80px",
-                            height: "80px",
-                            objectFit: "cover",
+                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">{row.cptCode}</TableCell>
+                      <TableCell align="right">{row.icdCode}</TableCell>
+                      <TableCell align="right">{row.time}</TableCell>
+                      <TableCell align="right" sx={{ width: "10px" }}>
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleEditClick(row.id);
                           }}
-                        />
+                        >
+                          <EditIcon />
+                        </IconButton>
                       </TableCell>
                     </TableRow>
                   );

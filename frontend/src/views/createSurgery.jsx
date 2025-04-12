@@ -95,7 +95,7 @@ function StepOne({ onComplete }) {
   useEffect(() => {
     if (affiliation) {
       axiosClient
-        .get(`/departments/${affiliation}`)
+        .get(`/departments/${affiliation}`, { withCredentials: true })
         .then(({ data }) => {
           setDepartmentData(data.departments);
         })

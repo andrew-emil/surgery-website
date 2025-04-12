@@ -23,6 +23,8 @@ import AffiliationPage from "./admin/pages/AffiliationPage";
 import EditEquipment from "./views/editEquipment";
 import CreateAffiliation from "./admin/pages/createAffiliation";
 import AffiliationDetails from "./admin/pages/AffiliationDetails";
+import EditSurgery from "./views/editSurgery";
+import OpenSlots from "./views/openSLots";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,8 @@ const router = createBrowserRouter([
       { path: "/equipments", element: <Equipments /> },
       { path: "/add-equipment", element: <CreateEquipments /> },
       { path: "/surgeries", element: <Surgeries /> },
+      { path: "/surgeries-open-slots", element: <OpenSlots /> },
+      { path: "/edit-surgery", element: <EditSurgery /> },
       { path: "/edit-equipment", element: <EditEquipment /> },
       { path: "/test", element: <TestPage /> },
 
