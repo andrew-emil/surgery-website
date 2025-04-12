@@ -174,7 +174,7 @@ If an internal server error occurs:
 
 ### **Endpoint**
 
-`GET /:id`
+`GET /get-surgery/:id`
 
 ### **Description**
 
