@@ -3,9 +3,9 @@ import { editRequestSchema } from "../../../utils/zodSchemas.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import {
 	authenticationRequestRepo,
-	roleRepo,
 	surgeryLogsRepo,
 	surgeryRepo,
+	surgicalRolesRepo,
 	userRepo,
 } from "../../../config/repositories.js";
 
@@ -19,17 +19,19 @@ export const editRequest = async (req: Request, res: Response) => {
 
 	if (req.user.id !== traineeId) throw Error("Unauthorized");
 
-	const surgery = await surgeryRepo.findOne({
-		where: {
-			id: surgeryId,
-		},
-		relations: ["surgery_type"],
-	});
-	if (!surgery) throw Error("Surgery not Found");
+	const [surgery, trainee] = await Promise.all([
+		surgeryRepo.findOne({
+			where: {
+				id: surgeryId,
+			},
+			relations: ["procedure"],
+		}),
+		userRepo.findOneBy({
+			id: traineeId,
+		}),
+	]);
 
-	const trainee = await userRepo.findOneBy({
-		id: traineeId,
-	});
+	if (!surgery) throw Error("Surgery not Found");
 	if (!trainee) throw Error("Invalid user data");
 
 	const authRequest = await authenticationRequestRepo.findOne({
@@ -42,7 +44,7 @@ export const editRequest = async (req: Request, res: Response) => {
 	if (!authRequest) throw Error("Request Not Found");
 
 	if (roleId) {
-		const role = await roleRepo.findOneBy({ id: roleId });
+		const role = await surgicalRolesRepo.findOneBy({ id: roleId });
 		if (!role) throw Error("Role Not Found");
 
 		authRequest.requestedRole = role;

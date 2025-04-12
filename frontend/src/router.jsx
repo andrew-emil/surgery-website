@@ -19,7 +19,10 @@ import CreateEquipments from "./views/createEquipment";
 import Surgeries from "./views/surgeries";
 import AdminDashboard from "./admin/pages/AdminDashborad";
 import PendingUsers from "./admin/pages/PendingUsers";
+import AffiliationPage from "./admin/pages/AffiliationPage";
 import EditEquipment from "./views/editEquipment";
+import CreateAffiliation from "./admin/pages/createAffiliation";
+import AffiliationDetails from "./admin/pages/AffiliationDetails";
 
 const router = createBrowserRouter([
   {
@@ -59,6 +62,9 @@ const router = createBrowserRouter([
       { path: "/admin", element: <Dashboard /> },
       { path: "/admin/dashboard", element: <AdminDashboard /> },
       { path: "/admin/pending-users", element: <PendingUsers /> },
+      { path: "/admin/affiliations", element: <AffiliationPage /> },
+      { path: "/admin/create-affiliation", element: <CreateAffiliation /> },
+      { path: "/admin/affiliation-details", element: <AffiliationDetails /> },
     ],
   },
 ]);

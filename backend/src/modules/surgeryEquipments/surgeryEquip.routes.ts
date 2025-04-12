@@ -6,11 +6,13 @@ import { deleteEquipment } from "./controllers/deleteEquipment.js";
 import { updateEquipment } from "./controllers/updateEquipment.js";
 import { authUser } from "../../middlewares/authMiddleware.js";
 import { auditLogger } from "../../middlewares/auditLogger.js";
+import { getEquipmentById } from "./controllers/getEquipmentById.js";
 
 const surgeryEquiRoutes = Router();
 
 surgeryEquiRoutes.use(authUser(["Admin", "Consultant"]));
 surgeryEquiRoutes.get("/", getSurgeryEquipments);
+surgeryEquiRoutes.get("/:id", getEquipmentById);
 
 surgeryEquiRoutes.delete("/:id", auditLogger(), deleteEquipment);
 

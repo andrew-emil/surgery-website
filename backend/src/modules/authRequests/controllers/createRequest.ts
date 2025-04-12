@@ -4,6 +4,7 @@ import {
 	roleRepo,
 	surgeryLogsRepo,
 	surgeryRepo,
+	surgicalRolesRepo,
 	userRepo,
 } from "../../../config/repositories.js";
 import { AuthenticationRequest } from "../../../entity/sql/AuthenticationRequests.js";
@@ -22,20 +23,19 @@ export const createRequest = async (req: Request, res: Response) => {
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 	}
 
-	const { surgeryId, traineeId, consultantId, roleId, permissions, notes } =
-		validation.data;
+	const { surgeryId, traineeId, consultantId, roleId, notes } = validation.data;
 
 	// 2. Fetch required entities
 	const [surgery, consultantRole, trainee, consultant, role] =
 		await Promise.all([
 			surgeryRepo.findOne({
 				where: { id: surgeryId },
-				relations: ["surgery_type"],
+				relations: ["procedure"],
 			}),
 			roleRepo.findOneBy({ name: "Consultant" }),
 			userRepo.findOneBy({ id: traineeId }),
 			userRepo.findOneBy({ id: consultantId }),
-			roleRepo.findOneBy({ id: roleId }),
+			surgicalRolesRepo.findOneBy({ id: roleId }),
 		]);
 
 	// 3. Validate entities
@@ -86,7 +86,7 @@ export const createRequest = async (req: Request, res: Response) => {
 	await notificationService.createNotification(
 		consultant.id,
 		NOTIFICATION_TYPES.AUTH_REQUEST,
-		`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.SurgeryType})`
+		`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.procedure.name})`
 	);
 
 	// 8. Save changes
@@ -98,12 +98,5 @@ export const createRequest = async (req: Request, res: Response) => {
 	res.status(201).json({
 		success: true,
 		message: "Request created successfully",
-		data: {
-			requestId: authRequest.id,
-			surgery: surgery.name,
-			surgeryType: surgery.SurgeryType,
-			trainee: `${trainee.first_name} ${trainee.last_name}`,
-			consultant: `${consultant.first_name} ${consultant.last_name}`,
-		},
 	});
 };

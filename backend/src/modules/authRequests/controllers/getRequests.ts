@@ -11,7 +11,7 @@ export const getRequests = async (req: Request, res: Response) => {
 
 	const surgery = await surgeryRepo.findOne({
 		where: { id: surgeryId },
-		relations: ["surgery_type"],
+		relations: ["procedure"],
 	});
 
 	if (!surgery) throw Error("Surgery Not Found");

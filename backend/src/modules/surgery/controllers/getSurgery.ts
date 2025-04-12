@@ -9,9 +9,9 @@ import {
 	userRepo,
 } from "../../../config/repositories.js";
 import { PARTICIPATION_STATUS, STATUS } from "../../../utils/dataTypes.js";
-import { formatRatings } from "../../../utils/formatRating.js";
 import { PostSurgery } from "../../../entity/mongodb/PostSurgery.js";
 import { surgeryAuthService } from "../../../config/initializeServices.js";
+import { formatService } from './../../../config/initializeServices.js';
 
 export const getSurgery = async (req: Request, res: Response) => {
 	const surgeryId = parseInt(req.params.surgeryId);
@@ -68,7 +68,7 @@ export const getSurgery = async (req: Request, res: Response) => {
 		postSurgery = await postSurgeryRepo.findOneBy({ surgeryId });
 	}
 
-	const formattedRatings = await formatRatings(ratings);
+	const formattedRatings = await formatService.formatRatings(ratings);
 
 	res.status(200).json({
 		success: true,

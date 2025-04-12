@@ -4,7 +4,10 @@ import {
 	surgeryLogsRepo,
 	authenticationRequestRepo,
 	procedureTypeRepo,
+	surgeryRepo,
+	ratingRepo,
 } from "../config/repositories.js";
+import { FormatService } from "../service/FormatService.js";
 import { NotificationService } from "../service/NotificationService.js";
 import { ProcedureTypeService } from "../service/ProcedureTypeService.js";
 import { ScheduleService } from "../service/ScheduleService.js";
@@ -18,6 +21,7 @@ export let notificationService: NotificationService;
 export let scheduleService: ScheduleService;
 export let procedureTypeService: ProcedureTypeService;
 export let userService: UserService;
+export let formatService: FormatService;
 
 export const intializeServices = () => {
 	trainingService = new TrainingService(userRepo, roleRepo, surgeryLogsRepo);
@@ -33,4 +37,5 @@ export const intializeServices = () => {
 	scheduleService = new ScheduleService(userRepo, surgeryLogsRepo);
 	procedureTypeService = new ProcedureTypeService(procedureTypeRepo);
 	userService = new UserService(userRepo);
+	formatService = new FormatService(surgeryRepo, userRepo, ratingRepo);
 };

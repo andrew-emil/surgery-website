@@ -111,3 +111,14 @@ export type RequirementProgress = {
 	remaining: number;
 	met: boolean;
 };
+
+export interface SurgeryInterface {
+	id: number;
+	name: string;
+	date: Date;
+	time: string;
+	status: STATUS;
+	stars: number;
+	icdCode: string;
+	cptCode: string;
+}

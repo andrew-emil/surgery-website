@@ -155,7 +155,6 @@ export const updateDepartmentSchema = z.object({
 	id: z.string(),
 	name: z.string().optional(),
 	affiliationId: z.string().optional(),
-	surgeryEquipments: z.array(z.string()).nonempty().optional(),
 });
 
 export const addAffiliationSchema = z.object({

@@ -4,7 +4,7 @@ import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Container, Skeleton, Alert, AlertTitle } from "@mui/material";
+import { Container, Skeleton} from "@mui/material";
 import axiosClient from "./../axiosClient";
 import StarRating from "./../components/StarRating";
 import { useNavigate } from "react-router-dom";
@@ -71,15 +71,14 @@ export default function Home() {
 					width: "auto",
 				}}>
 				{err && (
-					<Alert
-						severity="error"
+					<Typography
+						variant='h4'
 						sx={{
 							marginBottom: "1rem",
-							width: 150,
+							color: 'red'
 						}}>
-						<AlertTitle>Error</AlertTitle>
 						{err}
-					</Alert>
+					</Typography>
 				)}
 			</Container>
 		);

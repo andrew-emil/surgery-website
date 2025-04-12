@@ -8,7 +8,6 @@ import {
 } from "typeorm";
 import { User } from "./User.js";
 import { Affiliations } from "./Affiliations.js";
-import { SurgeryEquipment } from "./SurgeryEquipments.js";
 
 @Entity()
 export class Department {
@@ -25,7 +24,4 @@ export class Department {
 		onDelete: "CASCADE",
 	})
 	affiliation: Affiliations;
-
-	@ManyToMany(() => SurgeryEquipment, (surgery) => surgery.department)
-	surgeryEquipment: SurgeryEquipment[];
 }

@@ -9,7 +9,7 @@ import { authMiddleware, authUser } from "../../middlewares/authMiddleware.js";
 
 const departmentRoutes = Router();
 
-departmentRoutes.get("/:id", getDepartments);
+// departmentRoutes.get("/:id", getDepartments);
 
 departmentRoutes.use(auditLogger());
 departmentRoutes.use(authMiddleware);
@@ -20,10 +20,10 @@ departmentRoutes.delete("/:id", authUser(["Admin"]), deleteDepartment);
 
 departmentRoutes.put("/", authUser(["Admin"]), updateDepartment);
 
-departmentRoutes.get(
-	"/get-doctors/:id",
-	authUser(["Admin"]),
-	getDoctorsDepartment
-);
+// departmentRoutes.get(
+// 	"/get-doctors/:id",
+// 	authUser(["Admin"]),
+// 	getDoctorsDepartment
+// );
 
 export default departmentRoutes;
