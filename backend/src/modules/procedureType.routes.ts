@@ -11,11 +11,11 @@ procedureTypeRoutes.post("/", async (req: Request, res: Response) => {
 
 	if (!name || !category) throw Error("Invalid credentails");
 
-	const newProcedureType = await procedureTypeService.createProcedureType({
+	await procedureTypeService.createProcedureType({
 		name,
 		category,
 	});
-	res.status(201).json(newProcedureType);
+	res.status(201).json({ message: "Procedure type added successfully" });
 });
 
 procedureTypeRoutes.get("/", async (req: Request, res: Response) => {
@@ -34,7 +34,7 @@ procedureTypeRoutes.put("/:id", async (req: Request, res: Response) => {
 	if (!updatedProcedureType) {
 		throw Error("ProcedureType not found");
 	}
-	res.status(200).json(updatedProcedureType);
+	res.status(200).json({ message: "Procedure type updated successfully" });
 });
 
 procedureTypeRoutes.delete("/:id", async (req: Request, res: Response) => {
@@ -44,7 +44,7 @@ procedureTypeRoutes.delete("/:id", async (req: Request, res: Response) => {
 	if (!deleted) {
 		throw Error("ProcedureType not found");
 	}
-	res.status(200).json({ message: "ProcedureType deleted successfully" });
+	res.status(204).json();
 });
 
 export default procedureTypeRoutes;

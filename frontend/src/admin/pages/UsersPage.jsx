@@ -15,11 +15,19 @@ import {
 	Avatar,
 	Skeleton,
 	Snackbar,
+	CircularProgress,
 } from "@mui/material";
 import { convertImage } from "../../utils/convertImage";
 import { AccountCircle } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import  Dialog  from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import  DialogContent  from "@mui/material/DialogContent";
+import  DialogActions  from "@mui/material/DialogActions";
+import  ListItem  from "@mui/material/ListItem";
+import  ListItemButton  from "@mui/material/ListItemButton";
+import  List from "@mui/material/List";
 
 const UsersPage = () => {
 	const [users, setUsers] = useState([]);
@@ -33,6 +41,11 @@ const UsersPage = () => {
 	const [open, setOpen] = useState(false);
 	const [msg, setMsg] = useState(null);
 	const [err, setErr] = useState(null);
+
+	const [selectedUser, setSelectedUser] = useState(null);
+	const [childRoles, setChildRoles] = useState([]);
+	const [rolesLoading, setRolesLoading] = useState(false);
+	const [delegateDialogOpen, setDelegateDialogOpen] = useState(false);
 
 	useEffect(() => {
 		const fetchUsersData = async () => {
@@ -61,7 +74,21 @@ const UsersPage = () => {
 		}));
 	};
 
-	// Handle promote action
+	const fetchChildRoles = async (roleId) => {
+		try {
+			setRolesLoading(true);
+			const response = await axiosClient.get(`/roles/get-children/${roleId}`, {
+				withCredentials: true,
+			});
+			setChildRoles(response.data.children);
+		} catch (error) {
+			setErr(error.response?.data?.message || "Failed to fetch roles");
+			setOpen(true);
+		} finally {
+			setRolesLoading(false);
+		}
+	};
+
 	const handlePromote = async (userId) => {
 		setButtonLoading(true);
 		try {
@@ -91,11 +118,83 @@ const UsersPage = () => {
 		setOpen(false);
 	};
 
-	// Handle delegate action
-	const handleDelegate = (userId) => {
-		console.log("Delegate user:", userId);
-		// Add your delegate logic here
+	const handleDelegate = async (userId, roleId) => {
+		try {
+			setButtonLoading(true);
+			await axiosClient.patch(
+				`/admin/delegate/${userId}/${roleId}`,
+				{ roleId: selectedUser.targetRoleId },
+				{ withCredentials: true }
+			);
+
+			setMsg("User delegated successfully");
+			setOpen(true);
+
+			setPagination((prev) => ({ ...prev, currentPage: prev.currentPage }));
+		} catch (error) {
+			setErr(error.response?.data?.message || "Delegation failed");
+			setOpen(true);
+		} finally {
+			setButtonLoading(false);
+			setDelegateDialogOpen(false);
+			setSelectedUser(null);
+		}
 	};
+
+	const handleDelegateClick = async (userId, roleId) => {
+		try {
+			setSelectedUser({ userId });
+			await fetchChildRoles(roleId);
+			setDelegateDialogOpen(true);
+		} catch (error) {
+			setErr("Failed to load delegation options" + error);
+			setOpen(true);
+		}
+	};
+
+	const RoleSelectionDialog = () => (
+		<Dialog
+			open={delegateDialogOpen}
+			onClose={() => setDelegateDialogOpen(false)}>
+			<DialogTitle>Select Target Role</DialogTitle>
+			<DialogContent>
+				{rolesLoading ? (
+					<CircularProgress />
+				) : (
+					<List>
+						{childRoles.length === 0 ? (
+							<Typography variant="body2">
+								No available roles for delegation
+							</Typography>
+						) : (
+							childRoles.map((role) => (
+								<ListItem key={role.id} disablePadding>
+									<ListItemButton
+										onClick={() => {
+											setSelectedUser((prevState) => {
+												const userId = prevState.userId;
+
+												handleDelegate(userId, role.id);
+
+												return {
+													...prevState,
+													targetRoleId: role.id,
+												};
+											});
+										}}>
+										{role.name}
+									</ListItemButton>
+								</ListItem>
+							))
+						)}
+					</List>
+				)}
+			</DialogContent>
+			<DialogActions>
+				<Button onClick={() => setDelegateDialogOpen(false)}>Cancel</Button>
+			</DialogActions>
+		</Dialog>
+	);
 
 	const action = (
 		<>
@@ -179,7 +278,7 @@ const UsersPage = () => {
 										<Button
 											variant="outlined"
 											color="secondary"
-											onClick={() => handleDelegate(user.id)}
+											onClick={() => handleDelegateClick(user.id, user.role.id)}
 											disabled={buttonLoading}>
 											Delegate
 										</Button>
@@ -204,6 +303,7 @@ const UsersPage = () => {
 					}}
 				/>
 			</Paper>
+			<RoleSelectionDialog />
 			{(msg || err) && (
 				<Snackbar
 					open={open}

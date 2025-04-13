@@ -2,13 +2,10 @@ import * as React from "react";
 import { extendTheme, styled } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import DescriptionIcon from "@mui/icons-material/Description";
-import LayersIcon from "@mui/icons-material/Layers";
 import { AppProvider } from "@toolpad/core/AppProvider";
 import { DashboardLayout } from "@toolpad/core/DashboardLayout";
 import { PageContainer } from "@toolpad/core/PageContainer";
-// import Grid from "@mui/material/Grid2";
+import UsersPage from "../admin/pages/UsersPage";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import AdminDashboard from "../admin/pages/AdminDashborad";
@@ -16,59 +13,44 @@ import PendingUsers from "../admin/pages/PendingUsers";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import AffiliationPage from "../admin/pages/AffiliationPage";
 import AffiliationDetails from "../admin/pages/AffiliationDetails";
-import router from "../router";
+// import router from "../router";
 import EditAffiliation from "../admin/pages/EditAffiliation";
+import PersonIcon from '@mui/icons-material/Person';
+import AssignmentIndTwoTone from "@mui/icons-material/AssignmentIndTwoTone";
+import RolesPage from './../admin/pages/RolesPage';
+import AddRole from "../admin/pages/AddRole";
+import EditRole from "../admin/pages/EditRole";
 
 const NAVIGATION = [
-  {
-    kind: "header",
-    title: "Main items",
-  },
-  {
-    segment: "dashboard",
-    title: "Dashboard",
-    icon: <DashboardIcon />,
-  },
-  {
-    segment: "pending_users",
-    title: "Pending Users",
-    icon: <PeopleIcon />,
-  },
-  {
-    segment: "affiliation",
-    title: "Affiliations",
-    icon: <LocalHospitalIcon />,
-  },
-
-  {
-    kind: "divider",
-  },
-  {
-    kind: "header",
-    title: "Analytics",
-  },
-  {
-    segment: "reports",
-    title: "Reports",
-    icon: <BarChartIcon />,
-    children: [
-      {
-        segment: "sales",
-        title: "Sales",
-        icon: <DescriptionIcon />,
-      },
-      {
-        segment: "traffic",
-        title: "Traffic",
-        icon: <DescriptionIcon />,
-      },
-    ],
-  },
-  {
-    segment: "integrations",
-    title: "Integrations",
-    icon: <LayersIcon />,
-  },
+	{
+		kind: "header",
+		title: "Main items",
+	},
+	{
+		segment: "dashboard",
+		title: "Dashboard",
+		icon: <DashboardIcon />,
+	},
+	{
+		segment: "pending_users",
+		title: "Pending Users",
+		icon: <PeopleIcon />,
+	},
+	{
+		segment: "affiliation",
+		title: "Affiliations",
+		icon: <LocalHospitalIcon />,
+	},
+	{
+		segment: "users",
+		title: "Users",
+		icon: <PersonIcon />,
+	},
+	{
+		segment: "roles",
+		title: "Roles",
+		icon: <AssignmentIndTwoTone />,
+	},
 ];
 
 const demoTheme = extendTheme({
@@ -129,7 +111,12 @@ function DemoPageContent({
     content = <AffiliationDetails affiliationId={selectedAffiliationId} />;
   } else if (pathname === "/affiliations/edit") {
     content = <EditAffiliation affiliationId={selectedAffiliationId} />;
-  } else {
+  } else if(pathname === "/users"){
+    content = < UsersPage />
+  } else if(pathname === "/roles") {
+    content = <RolesPage />
+  }
+  else {
     content = <Typography>Unknown page</Typography>;
   }
 

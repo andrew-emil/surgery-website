@@ -7,9 +7,10 @@ import { Role } from "../../../entity/sql/Roles.js";
 
 const delegateUserSchema = z.object({
 	userId: z.string(),
-	roleId: z.string().refine((id) => !isNaN(parseInt(id)), {
-		message: "Invalid role Id",
-	}),
+	roleId: z.coerce
+		.number()
+		.int()
+		.positive("Role ID must be a positive integer"),
 });
 
 export const delegateUser = async (req: Request, res: Response) => {
@@ -18,7 +19,6 @@ export const delegateUser = async (req: Request, res: Response) => {
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
 	const { userId, roleId } = validation.data;
-	const parsedRoleId = parseInt(roleId);
 
 	await AppDataSource.transaction(async (sqlManager) => {
 		const user = await sqlManager.findOne(User, {
@@ -30,20 +30,42 @@ export const delegateUser = async (req: Request, res: Response) => {
 
 		if (!user) throw Error("User not found");
 
-		const role = await sqlManager.findOne(Role, {
+		if (!user.role) {
+			res.status(400).json({
+				message: "User has no assigned role",
+			});
+			return;
+		}
+
+		const targetRole = await sqlManager.findOne(Role, {
 			where: {
-				id: parsedRoleId,
+				id: roleId,
 			},
-			relations: ["children"],
+			relations: ["children", "parent"],
 		});
 
-		if (!role || !role.children) {
+		if (!targetRole || !targetRole.children) {
 			res.status(400).json({
 				message: "can't delegate, User in the lowest hierarchy",
 			});
 			return;
 		}
 
-        
+		const isDirectChild = user.role.children.some(
+			(child) => child.id === targetRole.id
+		);
+
+		if (!isDirectChild) {
+			res.status(400).json({
+				message: "Target role is not a direct child of current user role",
+			});
+			return;
+		}
+
+		await sqlManager.update(User, { id: user.id }, { role: targetRole });
+	});
+
+	res.status(200).json({
+		message: "User delegated successfully",
 	});
 };

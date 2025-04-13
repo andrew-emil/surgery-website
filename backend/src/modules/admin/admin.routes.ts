@@ -11,6 +11,7 @@ import { getAuditTrail } from "./controllers/getAuditTrail.js";
 import { getUsers } from "./controllers/getUsers.js";
 import { promoteUser } from "./controllers/promoteUsers.js";
 import { getDataCount } from "./controllers/getDataCount.js";
+import { delegateUser } from "./controllers/delegateUser.js";
 
 const adminRoutes = Router();
 
@@ -27,5 +28,6 @@ adminRoutes.get("/export", exportLog);
 adminRoutes.get("/audit", getAuditTrail);
 adminRoutes.get("/users", getUsers);
 adminRoutes.patch("/promote/:userId", promoteUser);
+adminRoutes.patch("/delegate/:userId/:roleId", delegateUser);
 
 export default adminRoutes;

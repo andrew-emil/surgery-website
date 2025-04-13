@@ -9,19 +9,16 @@ import {
 	Grid2,
 	AlertTitle,
 	Alert,
-	Button,
 } from "@mui/material";
 import axiosClient from "../../axiosClient";
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
 import BusinessIcon from "@mui/icons-material/Business";
 import PeopleIcon from "@mui/icons-material/People";
-import { useNavigate } from "react-router";
 
 const DataCountCard = () => {
 	const [dataCount, setDataCount] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState(null);
-	const navigate = useNavigate()
 
 	useEffect(() => {
 		axiosClient
@@ -72,15 +69,6 @@ const DataCountCard = () => {
 		);
 	}
 
-	const handleButtonClick = (index) => {
-		if(index === 0){
-			navigate("/admin/users")
-		}
-		if(index === 1){
-			navigate("/admin/affiliations")
-		}
-	}
-
 	const cardData = [
 		{
 			title: "Doctors",
@@ -117,27 +105,22 @@ const DataCountCard = () => {
 								alignItems: "center",
 								justifyContent: "center",
 							}}>
-							<Button fullWidth sx={{ color: "inherit", minHeight: 150 }} onClick={() => handleButtonClick(index)}>
-								<CardContent>
-									<Box
-										display="flex"
-										flexDirection="column"
-										alignItems="center">
-										{card.icon}
-										<Typography
-											variant="subtitle1"
-											color="text.secondary"
-											sx={{ marginTop: 1 }}>
-											{card.title}
-										</Typography>
-										<Typography
-											variant="h4"
-											sx={{ fontWeight: "bold", marginTop: 1 }}>
-											{card.count}
-										</Typography>
-									</Box>
-								</CardContent>
-							</Button>
+							<CardContent>
+								<Box display="flex" flexDirection="column" alignItems="center">
+									{card.icon}
+									<Typography
+										variant="subtitle1"
+										color="text.secondary"
+										sx={{ marginTop: 1 }}>
+										{card.title}
+									</Typography>
+									<Typography
+										variant="h4"
+										sx={{ fontWeight: "bold", marginTop: 1 }}>
+										{card.count}
+									</Typography>
+								</Box>
+							</CardContent>
 						</Card>
 					</Grid2>
 				))}

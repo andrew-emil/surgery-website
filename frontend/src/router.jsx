@@ -34,64 +34,81 @@ import PostSurgery from "./views/postSurgery";
 import RoleAssignmentPage from "./views/RoleAssignment";
 import RoleManagmentPage from "./views/RoleManagmentPage";
 import RequestPage from "./views/requestPage";
+import SurgicalRolePage from "./views/SurgicalRoles";
+import AddSurgicalRole from "./views/AddSurgicalRole";
+import EditSurgicalRole from "./views/EditSurgicalRole";
+import ProcedureTypePage from "./views/ProcedureTypes";
+import AddProcedureType from "./views/AddProcedureType";
+import EditProcedureType from "./views/EditProcedureType";
 
 const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <DefaultLayout />,
-    children: [
-      { path: "/", element: <Home /> },
-      { path: "/home", element: <Home /> },
-      { path: "/account", element: <MyAccount /> },
-      { path: "/surgeryDetails", element: <SurgeryDetails /> },
-      { path: "/create_surgery", element: <CreateSurgery /> },
-      { path: "/equipments", element: <Equipments /> },
-      { path: "/add-equipment", element: <CreateEquipments /> },
-      { path: "/surgeries", element: <Surgeries /> },
-      { path: "/post-surgery", element: <PostSurgery /> },
-      { path: "/surgeries-open-slots", element: <OpenSlots /> },
-      { path: "/surgeriey-request", element: <RequestPage /> },
-      { path: "/edit-surgery", element: <EditSurgery /> },
-      { path: "/edit-equipment", element: <EditEquipment /> },
-      { path: "/role-assign/:roleId", element: <RoleAssignmentPage /> },
-      { path: "/consultant/roles", element: <RoleManagmentPage /> },
+	{
+		path: "/",
+		element: <DefaultLayout />,
+		children: [
+			{ path: "/", element: <Home /> },
+			{ path: "/home", element: <Home /> },
+			{ path: "/account", element: <MyAccount /> },
+			{ path: "/surgeryDetails", element: <SurgeryDetails /> },
+			{ path: "/create_surgery", element: <CreateSurgery /> },
+			{ path: "/equipments", element: <Equipments /> },
+			{ path: "/add-equipment", element: <CreateEquipments /> },
+			{ path: "/surgeries", element: <Surgeries /> },
+			{ path: "/post-surgery", element: <PostSurgery /> },
+			{ path: "/surgeries-open-slots", element: <OpenSlots /> },
+			{ path: "/surgeriey-request", element: <RequestPage /> },
+			{ path: "/edit-surgery", element: <EditSurgery /> },
+			{ path: "/edit-equipment", element: <EditEquipment /> },
+			{ path: "/role-assign/:roleId", element: <RoleAssignmentPage /> },
+			{ path: "/consultant/roles", element: <RoleManagmentPage /> },
 
-      { path: "*", element: <NotFoundPage /> },
-    ],
-  },
-  {
-    path: "/",
-    element: <GuestLayout />,
-    children: [
-      { path: "/login", element: <Login /> },
-      { path: "/register", element: <Register /> },
-      { path: "/forgot-password", element: <ForgoPassword /> },
-      { path: "/reset-password", element: <ResetPassword /> },
-      { path: "/otp", element: <OTP_auth /> },
-      { path: "*", element: <NotFoundPage /> } /* not working */,
-    ],
-  },
-  {
-    path: "/",
-    element: <AdminLayout />,
-    children: [
-      { path: "/admin", element: <AdminDashboard /> },
-      { path: "/admin/dashboard", element: <AdminDashboard /> },
-      { path: "/admin/pending-users", element: <PendingUsers /> },
-      { path: "/admin/affiliations", element: <AffiliationPage /> },
-      { path: "/admin/create-affiliation", element: <CreateAffiliation /> },
-      { path: "/admin/affiliation-details", element: <AffiliationDetails /> },
-      { path: "/admin/affiliations/edit", element: <EditAffiliation /> },
-      { path: "/admin/add-department", element: <AddDepartment /> },
-      { path: "/admin/edit-department", element: <EditDepartment /> },
-      { path: "/admin/users", element: <UsersPage /> },
-      //!need an icon in the drawer admin
+			//add to consultant toolbar
+			{ path: "/surgical-roles", element: <SurgicalRolePage /> },
+			{ path: "/surgical-roles/add", element: <AddSurgicalRole /> },
+			{ path: "/surgical-roles/edit", element: <EditSurgicalRole /> },
 
-      { path: "/admin/roles", element: <RolesPage /> },
-      { path: "/admin/roles/add-role", element: <AddRole /> },
-      { path: "/admin/roles/edit", element: <EditRole /> },
-    ],
-  },
+			//add to consultant toolbar
+			{ path: "/procedure-types", element: <ProcedureTypePage /> },
+			{ path: "/procedure-types/add", element: <AddProcedureType /> },
+			{ path: "/procedure-types/edit", element: <EditProcedureType /> },
+
+			{ path: "*", element: <NotFoundPage /> },
+		],
+	},
+	{
+		path: "/",
+		element: <GuestLayout />,
+		children: [
+			{ path: "/login", element: <Login /> },
+			{ path: "/register", element: <Register /> },
+			{ path: "/forgot-password", element: <ForgoPassword /> },
+			{ path: "/reset-password", element: <ResetPassword /> },
+			{ path: "/otp", element: <OTP_auth /> },
+			{ path: "*", element: <NotFoundPage /> } /* not working */,
+		],
+	},
+	{
+		path: "/",
+		element: <AdminLayout />,
+		children: [
+			{ path: "/admin", element: <AdminDashboard /> },
+			{ path: "/admin/dashboard", element: <AdminDashboard /> },
+			{ path: "/admin/pending-users", element: <PendingUsers /> },
+			{ path: "/admin/affiliations", element: <AffiliationPage /> },
+			{ path: "/admin/create-affiliation", element: <CreateAffiliation /> },
+			{ path: "/admin/affiliation-details", element: <AffiliationDetails /> },
+			{ path: "/admin/affiliations/edit", element: <EditAffiliation /> },
+			{ path: "/admin/add-department", element: <AddDepartment /> },
+			{ path: "/admin/edit-department", element: <EditDepartment /> },
+			{ path: "/admin/users", element: <UsersPage /> },
+
+			{ path: "/admin/roles", element: <RolesPage /> },
+			//! add sub domain from <RolesPage />
+			{ path: "/admin/roles/add-role", element: <AddRole /> },
+			{ path: "/admin/roles/edit", element: <EditRole /> },
+			//TODO: add home page icon in admin toolbar
+		],
+	},
 ]);
 
 export default router;
