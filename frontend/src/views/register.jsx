@@ -43,23 +43,28 @@ export default function Register() {
   const [picture, setPicture] = useState(null);
 
   useEffect(() => {
-    const fetchAffiliationAndRoles = async () => {
-      setLoading(true);
-      try {
-        const [{ affiliationData }, { roleData }] = await Promise.all([
-          axiosClient.get("/affiliation"),
-          axiosClient.get("/roles"),
-        ]);
-        setAffiliationData(affiliationData.affiliations);
-        setRoleData(roleData.data);
-      } catch (err) {
-        console.log(err);
-      } finally {
+    setLoading(true);
+    axiosClient
+      .get("/roles")
+      .then(({ data }) => {
+        setRoleData(data.data);
         setLoading(false);
-      }
-    };
-
-    fetchAffiliationAndRoles();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+  useEffect(() => {
+    setLoading(true);
+    axiosClient
+      .get("/affiliation")
+      .then(({ data }) => {
+        setAffiliationData(data.affiliations);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   useEffect(() => {
@@ -148,8 +153,14 @@ export default function Register() {
     return <Navigate to="/otp" />;
   }
   return (
-    <FormContainer sx={{ display: "flex", flexDirection: "column" }}>
-      <FormCard variant={"register"} className="form">
+    <FormContainer
+      sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
+      <FormCard
+        variant={"register"}
+        className="form"
+        sx={{ maxHeight: "200vh" }}
+      >
         {err && (
           <Alert severity="error" sx={{ marginBottom: "1rem" }}>
             <AlertTitle>Error</AlertTitle>

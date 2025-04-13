@@ -188,6 +188,7 @@ function StepOne({ onComplete }) {
         flexDirection: "column",
         width: "100%",
         height: "70%",
+        minHeight: "70%",
       }}
     >
       {err && (
@@ -541,6 +542,7 @@ function StepTwo({ onComplete }) {
         flexDirection: "column",
         width: "100%",
         height: "70%",
+        minHeight: "70%",
       }}
     >
       {err && (

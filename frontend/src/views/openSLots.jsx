@@ -16,12 +16,6 @@ export default function OpenSlots() {
   const [err, setErr] = useState(null);
   const navigate = useNavigate();
 
-  const statusColors = {
-    Completed: "green",
-    Ongoing: "yellow",
-    Cancelled: "red",
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -89,7 +83,7 @@ export default function OpenSlots() {
   }
   console.log(openSlots);
   return (
-    <Container>
+    <Container sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       {openSlots.length > 0 ? (
         openSlots.map((data) => {
           return (

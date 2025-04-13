@@ -34,7 +34,8 @@ export const FormCard = styled(Card)(({ variant, theme }) => ({
 }));
 
 export const FormContainer = styled(Container)(({ theme }) => ({
-  height: "100vh",
+  minHeight: "100vh",
+  // maxHeight: "200vh",
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
