@@ -24,15 +24,6 @@ export const getSurgery = async (req: Request, res: Response) => {
 		}),
 		surgeryLogsRepo.findOne({
 			where: { surgeryId },
-			select: [
-				"date",
-				"time",
-				"cptCode",
-				"icdCode",
-				"patient_details",
-				"status",
-				"doctorsTeam",
-			],
 		}),
 	]);
 
@@ -73,6 +64,7 @@ export const getSurgery = async (req: Request, res: Response) => {
 	res.status(200).json({
 		success: true,
 		surgeryId: surgery.id,
+slots:surgeryLog.slots,
 		metadata: {
 			surgeryEquipments: surgery.surgeryEquipments,
 			department: department.name,
@@ -101,5 +93,6 @@ export const getSurgery = async (req: Request, res: Response) => {
 			  }
 			: null,
 		ratings: formattedRatings,
+
 	});
 };
