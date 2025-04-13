@@ -278,7 +278,6 @@ export const createRequestSchema = z.object({
 	traineeId: z.string(),
 	consultantId: z.string(),
 	roleId: z.number(),
-	permissions: z.array(z.number()),
 	notes: z.string().optional(),
 });
 
@@ -286,7 +285,6 @@ export const editRequestSchema = z.object({
 	surgeryId: z.number(),
 	traineeId: z.string(),
 	roleId: z.number(),
-	permissions: z.array(z.number()).min(1).optional(),
 	notes: z.string().optional(),
 });
 
