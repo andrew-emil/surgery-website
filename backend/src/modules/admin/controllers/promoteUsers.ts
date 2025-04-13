@@ -53,7 +53,6 @@ export const promoteUser = async (req: Request, res: Response) => {
 				role: parentRole,
 			}
 		);
-		console.log(user, newUser);
 	});
 
 	res.status(200).json({

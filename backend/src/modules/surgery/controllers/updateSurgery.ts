@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { updateSurgerySchema } from "../../../utils/zodSchemas.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import {
-	procedureTypeRepo,
+	postSurgeryRepo,
 	requirementRepo,
 	surgeryLogsRepo,
 } from "../../../config/repositories.js";
@@ -14,16 +14,53 @@ import {
 	notificationService,
 	trainingService,
 } from "../../../config/initializeServices.js";
-import { NOTIFICATION_TYPES } from "../../../utils/dataTypes.js";
+import { NOTIFICATION_TYPES, STATUS } from "../../../utils/dataTypes.js";
 import { ProcedureType } from "../../../entity/sql/ProcedureType.js";
+import { Affiliations } from "../../../entity/sql/Affiliations.js";
+import { Department } from "../../../entity/sql/departments.js";
 
 export const updateSurgery = async (req: Request, res: Response) => {
 	const validation = updateSurgerySchema.safeParse(req.body);
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
 
-	const { surgeryId, procedureTypeId, doctorsTeam, ...updateData } =
-		validation.data;
+	const {
+		surgeryId,
+		hospitalId,
+		departmentId,
+		name,
+		leadSurgeon,
+		procedureTypeId,
+		doctorsTeam,
+		date,
+		time,
+		estimatedEndTime,
+		surgeryEquipments,
+		slots,
+		cptCode,
+		icdCode,
+		patientBmi,
+		patientComorbidity,
+		patientDiagnosis,
+		surgicalTimeMinutes,
+		outcome,
+		complications,
+		dischargeStatus,
+		caseNotes,
+	} = validation.data;
+	let warning: string;
+	const logUpdatedData = {
+		leadSurgeon,
+		date,
+		time,
+		estimatedEndTime,
+		slots,
+		cptCode,
+		icdCode,
+		patientBmi,
+		patientComorbidity,
+		patientDiagnosis,
+	};
 
 	const queryRunner = AppDataSource.createQueryRunner();
 	await queryRunner.connect();
@@ -43,7 +80,39 @@ export const updateSurgery = async (req: Request, res: Response) => {
 			return;
 		}
 
-		const { surgeryEquipments, ...updateDataWithoutRelations } = updateData;
+		if (hospitalId) {
+			const hospital = await queryRunner.manager.findOne(Affiliations, {
+				where: {
+					id: hospitalId,
+					departments: {
+						id: departmentId ? departmentId : surgery.department.id,
+					},
+				},
+				relations: {
+					departments: true,
+				},
+			});
+			if (!hospital) {
+				throw Error("Affiliation not found");
+			}
+
+			surgery.hospital = hospital;
+		}
+
+		if (departmentId) {
+			const department = await queryRunner.manager.findOne(Department, {
+				where: {
+					id: departmentId,
+				},
+			});
+			if (!department) {
+				throw Error("Department not found in this Affiliation");
+			}
+
+			surgery.department = department;
+		}
+
+		if (name) surgery.name = name;
 
 		if (surgeryEquipments) {
 			const equipment = await queryRunner.manager.find(SurgeryEquipment, {
@@ -57,25 +126,22 @@ export const updateSurgery = async (req: Request, res: Response) => {
 			surgery.surgeryEquipments = equipment;
 		}
 
-		const mergedSurgery = queryRunner.manager.merge(
-			Surgery,
-			surgery,
-			updateDataWithoutRelations
-		);
-
-		await queryRunner.manager.save(mergedSurgery);
-
 		let oldProcedureType: ProcedureType | null = null;
 		if (procedureTypeId && surgery.procedure?.id !== procedureTypeId) {
-			const newProcedureType = await procedureTypeRepo.findOne({
-				where: { id: procedureTypeId },
-				relations: ["category"],
-			});
+			const newProcedureType = await queryRunner.manager.findOne(
+				ProcedureType,
+				{
+					where: { id: procedureTypeId },
+					relations: ["category"],
+				}
+			);
 			if (!newProcedureType) throw new Error("Invalid procedure type");
 
 			oldProcedureType = surgery.procedure;
 			surgery.procedure = newProcedureType;
 		}
+
+		const updatedSurgery = await queryRunner.manager.save(surgery);
 
 		if (doctorsTeam && surgery.procedure) {
 			const roleRequirements = await requirementRepo.find({
@@ -91,12 +157,8 @@ export const updateSurgery = async (req: Request, res: Response) => {
 			});
 
 			if (invalidRoles.length > 0) {
-				res.status(400).json({
-					success: false,
-					message:
-						"Some team member roles are not qualified for this procedure type",
-				});
-				return;
+				warning =
+					"Some team member roles are not qualified for this procedure type";
 			}
 		}
 
@@ -114,9 +176,7 @@ export const updateSurgery = async (req: Request, res: Response) => {
 			const previousDoctorIds = previousDoctors.map((d) => d.doctorId);
 
 			if (surgery.procedure) {
-				const addedDoctors = currentDoctorIds.filter(
-					(id) => !previousDoctorIds.includes(id)
-				);
+				currentDoctorIds.filter((id) => !previousDoctorIds.includes(id));
 				const removedDoctors = previousDoctorIds.filter(
 					(id) => !currentDoctorIds.includes(id)
 				);
@@ -145,20 +205,62 @@ export const updateSurgery = async (req: Request, res: Response) => {
 				);
 			}
 		}
-		const scheduleUpdated = Boolean(updateData.date || updateData.time);
+		const scheduleUpdated = Boolean(logUpdatedData.date || logUpdatedData.time);
 
-		const logUpdate = { ...updateData, updatedAt: new Date() };
+		const filteredLogData = Object.entries(logUpdatedData).reduce(
+			(acc, [key, value]) => {
+				if (value !== null && value !== undefined) {
+					acc[key] = value;
+				}
+				return acc;
+			},
+			{} as Record<string, any>
+		);
+		const logUpdate = { ...filteredLogData, updatedAt: new Date() };
 		await surgeryLogsRepo.updateOne(
 			{ surgeryId },
 			{ $set: logUpdate },
 			{ upsert: true }
 		);
 
+		const postSurgery = await postSurgeryRepo.findOne({
+			where: {
+				surgeryId,
+			},
+		});
+
+		if (postSurgery) {
+			postSurgery.outcome = outcome ? outcome : postSurgery.outcome;
+			postSurgery.caseNotes = caseNotes ? caseNotes : postSurgery.caseNotes;
+			postSurgery.complications = complications
+				? complications
+				: postSurgery.complications;
+			postSurgery.surgicalTimeMinutes = surgicalTimeMinutes
+				? surgicalTimeMinutes
+				: postSurgery.surgicalTimeMinutes;
+			if (dischargeStatus) {
+				postSurgery.dischargeStatus = dischargeStatus;
+				postSurgery.dischargedAt = new Date();
+			}
+
+			await postSurgeryRepo.save(postSurgery);
+		}
+
 		await queryRunner.commitTransaction();
 
-		if (scheduleUpdated && doctorsTeam) {
-			const newDate = updateData.date || previousLog.date;
-			const newTime = updateData.time || previousLog.time;
+		const surgeryLog = await surgeryLogsRepo.findOne({
+			where: {
+				surgeryId,
+			},
+		});
+
+		if (
+			scheduleUpdated &&
+			doctorsTeam &&
+			surgeryLog.status === STATUS.COMPLETED
+		) {
+			const newDate = logUpdatedData.date || previousLog.date;
+			const newTime = logUpdatedData.time || previousLog.time;
 			const scheduleDateTime = new Date(`${newDate} ${newTime}`);
 			const formattedSchedule = scheduleDateTime.toLocaleString("en-US", {
 				dateStyle: "medium",
@@ -169,7 +271,11 @@ export const updateSurgery = async (req: Request, res: Response) => {
 			const newAssigned: string[] = [];
 
 			doctorsTeam.forEach((doctor: { doctorId: string }) => {
-				if (doctor.doctorId.includes(doctor.doctorId)) {
+				if (
+					previousDoctors.some(
+						(prev: { doctorId: string }) => prev.doctorId === doctor.doctorId
+					)
+				) {
 					updatedAssigned.push(doctor.doctorId);
 				} else {
 					newAssigned.push(doctor.doctorId);
@@ -181,20 +287,19 @@ export const updateSurgery = async (req: Request, res: Response) => {
 					notificationService.createNotification(
 						doctorId,
 						NOTIFICATION_TYPES.SCHEDULE_UPDATE,
-						`Surgery: ${mergedSurgery.name} schedule updated to ${formattedSchedule}<br>
-						Hospital: ${mergedSurgery.hospital.name}`
+						`Surgery: ${updatedSurgery.name} schedule updated to ${formattedSchedule}<br>
+						Hospital: ${updatedSurgery.hospital.name}`
 					)
 				)
 			);
 
-			// Notify newly assigned doctors that they have been added to the surgery with the new schedule
 			await Promise.all(
 				newAssigned.map((doctorId) =>
 					notificationService.createNotification(
 						doctorId,
 						NOTIFICATION_TYPES.INVITE,
-						`You have been assigned to Surgery: ${mergedSurgery.name} scheduled on ${formattedSchedule}<br>
-						Hospital: ${mergedSurgery.hospital.name}<br>
+						`You have been assigned to Surgery: ${updatedSurgery.name} scheduled on ${formattedSchedule}<br>
+						Hospital: ${updatedSurgery.hospital.name}<br>
 						Please review the surgery and contact the Consultant for any questions`
 					)
 				)
@@ -204,16 +309,11 @@ export const updateSurgery = async (req: Request, res: Response) => {
 		res.status(200).json({
 			success: true,
 			message: "Surgery details updated successfully",
+			warning,
 		});
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
-		res.status(500).json({
-			success: false,
-			message:
-				error instanceof Error
-					? error.message
-					: "Failed to update surgery due to an unexpected error",
-		});
+		throw error;
 	} finally {
 		await queryRunner.release();
 	}

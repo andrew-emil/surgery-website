@@ -16,6 +16,7 @@ export const getUserSurgeries = async (req: Request, res: Response) => {
 			"doctorsTeam",
 			"leadSurgeon",
 			"icdCode",
+			"slots",
 			"cptCode",
 			"date",
 			"time",
@@ -23,7 +24,10 @@ export const getUserSurgeries = async (req: Request, res: Response) => {
 	});
 
 	if (surgeries.length === 0) {
-		throw Error("No Surgeries was found");
+		res.status(400).json({
+			message: "No Surgeries was found",
+		});
+		return;
 	}
 
 	const formatedSurgeries = await formatService.formatSurgeries(surgeries);

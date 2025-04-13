@@ -7,15 +7,10 @@ import {
 	surgeryLogsRepo,
 	authenticationRequestRepo,
 } from "../../../config/repositories.js";
-import {
-	Authentication_Request,
-	NOTIFICATION_STATUS,
-	STATUS,
-} from "../../../utils/dataTypes.js";
+import { Authentication_Request, STATUS } from "../../../utils/dataTypes.js";
 import { trainingService } from "../../../config/initializeServices.js";
 import { ObjectId } from "typeorm";
 import logger from "../../../config/loggerConfig.js";
-import { SurgeryLog } from "../../../entity/mongodb/SurgeryLog.js";
 import { Surgery } from "../../../entity/sql/Surgery.js";
 
 export const addPostSurgery = async (req: Request, res: Response) => {
@@ -25,25 +20,19 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 
 	const { surgeryId, ...postData } = validation.data;
 	let savedPostSurgeryId: ObjectId | null = null;
-	let originalSurgeryLogStatus: STATUS | null = null;
 	let originalAuthStatuses: Array<{
 		id: number;
 		status: Authentication_Request;
 	}> = [];
-	let surgeryLog: SurgeryLog;
+
 	let surgery: Surgery;
 
 	try {
-		// Verify surgery existence
-		[surgery, surgeryLog] = await Promise.all([
-			surgeryRepo.findOne({ where: { id: surgeryId } }),
-			surgeryLogsRepo.findOneBy({ surgeryId }),
-		]);
+		surgery = await surgeryRepo.findOne({ where: { id: surgeryId } });
 
-		if (!surgery || !surgeryLog) {
+		if (!surgery) {
 			const missing = [];
 			if (!surgery) missing.push("surgery");
-			if (!surgeryLog) missing.push("surgery log");
 			res.status(404).json({
 				success: false,
 				message: `Surgery records not found: Missing ${missing.join(" and ")}`,
@@ -51,17 +40,16 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 			return;
 		}
 
-		// Check for existing post-surgery record
 		const existingPost = await postSurgeryRepo.findOneBy({ surgeryId });
 		if (existingPost) {
 			res.status(409).json({
 				success: false,
 				message:
 					"Post-surgery documentation already completed for this procedure",
-				documentationId: existingPost.id,
 			});
 			return;
 		}
+
 		const authRequests = await authenticationRequestRepo.find({
 			where: { surgery: { id: surgeryId } },
 		});
@@ -70,22 +58,16 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 			status: a.status,
 		}));
 
-		// Create and save post-surgery record
 		const postSurgery = postSurgeryRepo.create({
 			surgeryId,
 			...postData,
 			complications: postData.complications?.trim() || null,
 			caseNotes: postData.caseNotes?.trim() || null,
 		});
-		await postSurgeryRepo.save(postSurgery);
-		savedPostSurgeryId = postSurgery.id;
 
-		originalSurgeryLogStatus = surgeryLog.status;
-		surgeryLog.status = STATUS.COMPLETED;
-
-		// Execute all updates in transaction
 		await Promise.all([
-			surgeryLogsRepo.save(surgeryLog),
+			postSurgeryRepo.save(postSurgery),
+			surgeryLogsRepo.update({ surgeryId }, { status: STATUS.COMPLETED }),
 			authenticationRequestRepo.update(
 				{ surgery: { id: surgeryId } },
 				{ status: Authentication_Request.APPROVED }
@@ -101,10 +83,7 @@ export const addPostSurgery = async (req: Request, res: Response) => {
 		try {
 			if (savedPostSurgeryId) {
 				await postSurgeryRepo.delete(savedPostSurgeryId);
-			}
-			if (originalSurgeryLogStatus && surgeryLog) {
-				surgeryLog.status = originalSurgeryLogStatus;
-				await surgeryLogsRepo.save(surgeryLog);
+				await surgeryLogsRepo.update({ surgeryId }, { status: STATUS.ONGOING });
 			}
 			if (originalAuthStatuses.length > 0) {
 				await Promise.all(

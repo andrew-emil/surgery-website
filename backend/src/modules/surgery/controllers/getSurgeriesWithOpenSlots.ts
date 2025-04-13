@@ -85,9 +85,10 @@ export const getSurgeriesWithOpenSlots = async (
 		return {
 			id: log.surgeryId,
 			surgeryName: meta?.name,
+			leadSurgeon: log.leadSurgeon,
 			availableSlot: `${openSlots} available (${assignedCount}/${log.slots})`,
 			hospital: meta?.hospital?.name || "N/A",
-			department: meta?.department?.name  || "N/A",
+			department: meta?.department?.name || "N/A",
 		};
 	});
 

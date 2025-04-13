@@ -1,14 +1,18 @@
 import cron from "node-cron";
 import { AppDataSource } from "../config/data-source.js";
 import { User } from "../entity/sql/User.js";
-import { Authentication_Request, USER_STATUS } from "./dataTypes.js";
+import { Authentication_Request, STATUS, USER_STATUS } from "./dataTypes.js";
 import { EntityManager, In, LessThan } from "typeorm";
-import { auditTrailRepo } from "../config/repositories.js";
+import {
+	auditTrailRepo,
+	postSurgeryRepo,
+	surgeryLogsRepo,
+} from "../config/repositories.js";
 import logger from "../config/loggerConfig.js";
 import { AuthenticationRequest } from "../entity/sql/AuthenticationRequests.js";
 
-const AUDIT_RETENTION_DAYS = 365; // 1 year retention
-const PENDING_REQUEST_EXPIRY_DAYS = 3; // Auto-reject after 3 days
+const AUDIT_RETENTION_DAYS = 365;
+const PENDING_REQUEST_EXPIRY_DAYS = 3;
 
 export const initializeCronJobs = async () => {
 	cron.schedule(
@@ -21,6 +25,7 @@ export const initializeCronJobs = async () => {
 					await handleAuthenticationRequests(entityManager);
 					await handleAccountUnlocking(entityManager);
 					await handlePasswordResetTokens(entityManager);
+					await handleCompletedSurgeries();
 				});
 			} catch (error) {
 				logger.error("Cron job failed:", error);
@@ -69,7 +74,6 @@ const handleAuthenticationRequests = async (entityManager: EntityManager) => {
 	const expiryDate = new Date();
 	expiryDate.setDate(expiryDate.getDate() - PENDING_REQUEST_EXPIRY_DAYS);
 
-	// Expire old pending requests
 	const expiredRequests = await entityManager.find(AuthenticationRequest, {
 		where: {
 			status: Authentication_Request.PENDING,
@@ -113,4 +117,21 @@ const handlePasswordResetTokens = async (entityManager: EntityManager) => {
 		}
 	);
 	logger.info("Cleaned expired password reset tokens");
+};
+
+const handleCompletedSurgeries = async () => {
+	const postSurgeries = await postSurgeryRepo.find({ select: ["surgeryId"] });
+
+	const surgeriesIds = postSurgeries.map((surgery) => surgery.surgeryId);
+
+	if (surgeriesIds.length > 0) {
+		await surgeryLogsRepo.updateMany(
+			{
+				surgeryId: { $in: surgeriesIds },
+				status: STATUS.ONGOING,
+			},
+			{ $set: { status: STATUS.COMPLETED } }
+		);
+	}
+	logger.info("updated completed surgeries records");
 };

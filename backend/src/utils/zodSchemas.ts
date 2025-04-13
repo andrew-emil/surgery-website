@@ -234,6 +234,7 @@ export const updateSurgerySchema = z.object({
 	time: z.string().optional(),
 	estimatedEndTime: z.string().optional(),
 	surgeryEquipments: z.array(z.number()).optional(),
+	slots: z.number().optional(),
 	cptCode: z.string().optional(),
 	icdCode: z.string().optional(),
 	patientBmi: z.number().optional(),

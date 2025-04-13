@@ -33,7 +33,6 @@ import { initializeCronJobs } from "./utils/cronJobs.js";
 import procedureTypeRoutes from "./modules/procedureType.routes.js";
 import { notFoundHandler } from "./handlers/notFoundHandler.js";
 import surgicalRoleRoutes from "./modules/surgicalRole/surgicalRole.routes.js";
-import swaggerUi from "swagger-ui-express";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -54,7 +53,6 @@ io.on("connection", (socket) => {
 	});
 });
 
-//middlewares
 app.use(express.json());
 app.use(
 	morgan("dev", {
@@ -72,7 +70,6 @@ app.use(
 	})
 );
 
-//routes
 app.use("/api/users", usersRoutes);
 app.use("/api/roles", rolesRoutes);
 app.use("/api/departments", departmentRoutes);
@@ -92,7 +89,7 @@ app.use("/api/surgical-role", surgicalRoleRoutes);
 const startServer = async () => {
 	try {
 		await AppDataSource.initialize();
-		await AppDataSource.synchronize(); // Force sync
+		await AppDataSource.synchronize();
 		initializeSQLRepositories();
 		logger.info("Connected to MySQL database");
 
@@ -114,12 +111,9 @@ const startServer = async () => {
 	}
 };
 
-// 404 handler
 app.use(notFoundHandler);
 
-//errors handler
 app.use(errorHandler);
-
 
 export { io, server };
 startServer().then(() =>
