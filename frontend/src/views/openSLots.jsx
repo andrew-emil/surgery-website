@@ -81,7 +81,9 @@ export default function OpenSlots() {
       </Container>
     );
   }
-  console.log(openSlots);
+  const handleRequestClick = (surgery) => {
+    window.location.href = `/surgeriey-request?id=${surgery.id}&consultantId=${surgery.leadSurgeon}`;
+  };
   return (
     <Container sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
       {openSlots.length > 0 ? (
@@ -113,6 +115,7 @@ export default function OpenSlots() {
                       type="button"
                       variant="contained"
                       className="btn btn-black btn-block"
+                      onClick={() => handleRequestClick(data)}
                     >
                       Request Surgery
                     </FormButton>
