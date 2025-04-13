@@ -83,11 +83,11 @@ export const createRequest = async (req: Request, res: Response) => {
 
 	surgeryLog.doctorsTeam.push(doctor);
 
-	await notificationService.createNotification(
-		consultant.id,
-		NOTIFICATION_TYPES.AUTH_REQUEST,
-		`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.procedure.name})`
-	);
+	// await notificationService.createNotification(
+	// 	consultant.id,
+	// 	NOTIFICATION_TYPES.AUTH_REQUEST,
+	// 	`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.procedure.name})`
+	// );
 
 	// 8. Save changes
 	await Promise.all([

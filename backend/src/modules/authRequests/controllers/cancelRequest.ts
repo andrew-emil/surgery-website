@@ -46,21 +46,21 @@ export const rejectRequest = async (req: Request, res: Response) => {
 
 	
 
-	await Promise.all([
-		surgeryAuthService.rejectRequest(authRequest, rejectionReason),
-		// Notify consultant
-		notificationService.createNotification(
-			authRequest.consultant.id,
-			NOTIFICATION_TYPES.AUTH_REQUEST,
-			`Request from ${authRequest.trainee.first_name} ${authRequest.trainee.last_name} for ${authRequest.surgery.name} has been cancelled`
-		),
-		// Notify trainee
-		notificationService.createNotification(
-			authRequest.trainee.id,
-			NOTIFICATION_TYPES.AUTH_REQUEST,
-			`Your request for ${authRequest.surgery.name} has been cancelled`
-		),
-	]);
+	// await Promise.all([
+	// 	surgeryAuthService.rejectRequest(authRequest, rejectionReason),
+	// 	// Notify consultant
+	// 	notificationService.createNotification(
+	// 		authRequest.consultant.id,
+	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
+	// 		`Request from ${authRequest.trainee.first_name} ${authRequest.trainee.last_name} for ${authRequest.surgery.name} has been cancelled`
+	// 	),
+	// 	// Notify trainee
+	// 	notificationService.createNotification(
+	// 		authRequest.trainee.id,
+	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
+	// 		`Your request for ${authRequest.surgery.name} has been cancelled`
+	// 	),
+	// ]);
 
 	// Save changes
 	await Promise.all([

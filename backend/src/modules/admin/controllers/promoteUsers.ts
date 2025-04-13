@@ -44,7 +44,7 @@ export const promoteUser = async (req: Request, res: Response) => {
 			return;
 		}
 
-		const newUser = await manager.update(
+		await manager.update(
 			User,
 			{
 				id: user.id,
