@@ -706,7 +706,6 @@ function StepThree() {
   } = payload;
 
   const confirmSurgery = () => {
-    console.log(payload);
     setLoading(true);
     axiosClient
       .post("/surgery", payload, { withCredentials: true })

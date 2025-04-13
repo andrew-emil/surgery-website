@@ -22,7 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
 import axiosClient from "../axiosClient";
 import { FormButton } from "../components/StyledComponents";
-import { convertImage } from "./../utils/convertImage";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import { Alert, AlertTitle } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
@@ -305,6 +305,9 @@ export default function Equipments() {
   const handleEditClick = (id) => {
     window.location.href = `/edit-surgery?id=${id}`;
   };
+  const handlePostClick = (id) => {
+    window.location.href = `/post-surgery?id=${id}`;
+  };
 
   return (
     <Box>
@@ -388,6 +391,16 @@ export default function Equipments() {
                           }}
                         >
                           <EditIcon />
+                        </IconButton>
+                      </TableCell>
+                      <TableCell align="right" sx={{ width: "10px" }}>
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handlePostClick(row.id);
+                          }}
+                        >
+                          <PostAddIcon />
                         </IconButton>
                       </TableCell>
                     </TableRow>

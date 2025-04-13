@@ -1,11 +1,7 @@
-import { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useLocation } from "react-router-dom";
 import axiosClient from "../axiosClient";
-import {
-  FormButton,
-  FormContainer,
-  FormTextField,
-} from "../components/StyledComponents";
+import { FormTextField } from "../components/StyledComponents";
 import {
   Alert,
   AlertTitle,
@@ -32,15 +28,12 @@ export default function EditSurgery() {
   const query = new URLSearchParams(useLocation().search);
   const id = parseInt(query.get("id"));
 
-  const [surgery, setSurgery] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [msg, setMsg] = useState(null);
   const [redirect, setRedirect] = useState(null);
-  const [initialData, setInitialData] = useState({});
   const [formData, setFormData] = useState({});
   const [affiliation, setAffiliation] = useState(null);
-  const [department, setDepartment] = useState(""); // Keep track of the selected department
+  const [department, setDepartment] = useState(null); // Keep track of the selected department
   const [recommendedStaffData, setRecommendedStaffData] = useState([]); // Fix the variable for recommended staff data
   const [rolesData, setRolesData] = useState([]);
   const [leadSurgeon, setLeadSurgeon] = useState(null);
@@ -50,48 +43,39 @@ export default function EditSurgery() {
   const [affiliationData, setAffiliationData] = useState([]);
   const [notes, setNotes] = useState([]); // New state for notes
 
-  const nameRef = useRef();
   useEffect(() => {
-    setLoading(true);
-    axiosClient
-      .get(`/surgery/get-surgrey/${id}`, { withCredentials: true })
-      .then((res) => {
-        const data = res.data;
-        setInitialData(data);
-        setFormData(data); // update formData to be editable
-        setLoading(false);
-        setError(null);
-        console.log(data);
+    if (!formData?.metadata?.name) {
+      // Check if formData already has data
+      setLoading(true);
+      axiosClient
+        .get(`/surgery/get-surgrey/${id}`, { withCredentials: true })
+        .then((res) => {
+          const data = res.data;
+          setFormData(data); // update formData to be editable
+          setLoading(false);
+          setError(null);
 
-        // Set the affiliation state to the ID of the corresponding affiliation
-        const hospitalName = data.metadata?.hospital;
-        const affiliationObj = affiliationData.find(
-          (aff) => aff.name === hospitalName
-        );
-        if (affiliationObj) {
-          setAffiliation(affiliationObj.id); // Set affiliation to the ID of the affiliation
-        }
+          // Set the affiliation state to the ID of the corresponding affiliation
+          const hospitalName = data.metadata?.hospital;
+          const affiliationObj = affiliationData.find(
+            (aff) => aff.name === hospitalName
+          );
+          if (affiliationObj) {
+            setAffiliation(affiliationObj.id); // Set affiliation to the ID of the affiliation
+          }
 
-        // Set the department based on the initial data (metadata.department)
-        const departmentId = data.metadata?.department;
-        const departmentObj = departmentData.find(
-          (dep) => dep.name === departmentId
-        );
-        if (departmentObj) {
-          setDepartment(departmentObj.id); // Set the department ID in the state
-        }
-
-        // Set the lead surgeon based on the initial team data
-        const leadSurgeon = data.metadata?.leadSurgeon;
-        if (leadSurgeon) {
-          setLeadSurgeon(leadSurgeon);
-        }
-      })
-      .catch((error) => {
-        setError(error?.response?.data?.message || "Error loading surgery");
-        setLoading(false);
-      });
-  }, [id, affiliationData, departmentData]);
+          // Set the lead surgeon based on the initial team data
+          const leadSurgeon = data.metadata?.leadSurgeon;
+          if (leadSurgeon) {
+            setLeadSurgeon(leadSurgeon);
+          }
+        })
+        .catch((error) => {
+          setError(error?.response?.data?.message || "Error loading surgery");
+          setLoading(false);
+        });
+    }
+  }, [id, affiliationData, departmentData, formData?.metadata?.name]); // Only trigger if there's no existing formData.name
 
   useEffect(() => {
     if (
@@ -113,12 +97,18 @@ export default function EditSurgery() {
           { withCredentials: true }
         )
         .then(({ data }) => {
-          setRecommendedStaffData(data.recommendedStaff);
+          setRecommendedStaffData(data.recommendedStaff || []); // Keep it empty if no staff found
           setLoading(false);
+          setError(null);
         })
         .catch((err) => {
           console.log(err);
-          setError(err.response.message);
+          setError(
+            err.response?.message ||
+              "Failed to load recommended staff, please make sure that you have selected affiliation and department."
+          );
+          setLoading(false);
+          setRecommendedStaffData([]); // Reset recommended staff data on error
         });
     }
   }, [
@@ -161,12 +151,39 @@ export default function EditSurgery() {
         .get(`/departments/${affiliation}`, { withCredentials: true })
         .then(({ data }) => {
           setDepartmentData(data.departments);
+          // Set the department based on the initial data (metadata.department)
+          const departmentId = formData.metadata?.department;
+          const departmentObj = data.departments.find(
+            (dep) => dep.name === departmentId
+          );
+          if (departmentObj) {
+            setDepartment(departmentObj.id); // Set the department ID in the state
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     }
   }, [affiliation]);
+
+  useEffect(() => {
+    const team = selectedSurgeons
+      .map((surgeon, index) => {
+        if (surgeon && selectedRoles[index]) {
+          return {
+            doctorId: surgeon,
+            roleId: selectedRoles[index],
+            notes: notes[index] || "", // Include notes for each surgeon
+          };
+        }
+        return null;
+      })
+      .filter((item) => item !== null);
+    setFormData({
+      ...formData,
+      team: team,
+    });
+  }, [notes, selectedRoles, selectedSurgeons]);
 
   const handleChange = (path, value) => {
     const keys = path.split(".");
@@ -177,10 +194,6 @@ export default function EditSurgery() {
     }
     curr[keys[keys.length - 1]] = value;
     setFormData(updated);
-  };
-
-  const handleSubmit = () => {
-    console.log(formData);
   };
 
   const handleAffiliationChange = (event) => {
@@ -206,16 +219,25 @@ export default function EditSurgery() {
     const selectedStatus = event.target.value;
     handleChange("timeline.status", selectedStatus); // Update formData with the status
   };
+
   const handleSurgeonChange = (index, event) => {
     const newSurgeons = [...selectedSurgeons];
     newSurgeons[index] = event.target.value;
     setSelectedSurgeons(newSurgeons);
+    setFormData({
+      ...formData,
+      team: newSurgeons,
+    });
   };
 
   const handleRoleChange = (index, event) => {
     const newRoles = [...selectedRoles];
     newRoles[index] = event.target.value;
     setSelectedRoles(newRoles);
+    setFormData({
+      ...formData,
+      roles: newRoles,
+    });
   };
 
   const handleNotesChange = (index, event) => {
@@ -228,6 +250,53 @@ export default function EditSurgery() {
     return <Skeleton variant="rounded" width="100%" height={600} />;
   }
 
+  const handleSubmit = () => {
+    const team = selectedSurgeons
+      .map((surgeon, index) => {
+        if (surgeon && selectedRoles[index]) {
+          return {
+            doctorId: surgeon.id,
+            roleId: selectedRoles[index].id,
+            notes: notes[index] || "", // Include notes for each surgeon
+          };
+        }
+        return null;
+      })
+      .filter((item) => item !== null);
+    const payload = {
+      surgeryId: id,
+      hospitalId: parseInt(affiliation),
+      departmentId: parseInt(department),
+      name: formData.metadata?.name,
+      date: formData.timeline?.date,
+      time: formData.timeline?.time,
+      status: formData.timeline?.status,
+      diagnosis: formData.patient?.diagnosis,
+      cpt: formData.medicalCodes?.cpt,
+      icd: formData.medicalCodes?.icd,
+      comorbidity: formData.patient?.comorbidity,
+      bmi: formData.patient?.bmi,
+      team: team,
+    };
+    console.log(payload);
+    setLoading(true);
+    axiosClient
+      .put("/surgery", payload, { withCredentials: true })
+      .then(({ data }) => {
+        console.log(data);
+        setRedirect(true);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err.response.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+  if (redirect) {
+    return <Navigate to="/surgeries" />; // Redirect to the surgery list page after submission
+  }
   return (
     <Paper sx={{ p: 4 }}>
       <Typography variant="h5" gutterBottom>
@@ -326,7 +395,7 @@ export default function EditSurgery() {
             variant="standard"
             InputLabelProps={{ shrink: true }}
             value={formData?.timeline?.time || ""}
-            onChange={(e) => handleChange("timeline.time", e.target.value)}
+            onBlur={(e) => handleChange("timeline.time", e.target.value)}
           />
         </Grid>
         <Grid item xs={6}>
@@ -400,7 +469,7 @@ export default function EditSurgery() {
           Surgical Team
         </Typography>
         {formData.team && formData.team.length > 0 ? (
-          formData.team.map((member, index) => (
+          formData.team.map((teamMember, index) => (
             <Box
               key={index}
               sx={{
@@ -418,70 +487,131 @@ export default function EditSurgery() {
                   gap: "1rem",
                 }}
               >
-                <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                  <InputLabel id={`demo-simple-select-standard-label-${index}`}>
-                    Recommended Staff
-                  </InputLabel>
-                  <Select
-                    labelId={`demo-simple-select-standard-label-${index}`}
-                    id={`demo-simple-select-standard-${index}`}
-                    value={selectedSurgeons[index] || ""}
-                    onChange={(event) => handleSurgeonChange(index, event)}
-                    label="Recommended Staff"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {recommendedStaffData.map((Surgeon) => (
-                      <MenuItem key={Surgeon.id} value={Surgeon.id}>
-                        {Surgeon.firstName +
-                          " " +
-                          Surgeon.lastName +
-                          "|" +
-                          Surgeon.expertise}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-
-                <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                  <InputLabel id={`role-select-label-${index}`}>
-                    Role
-                  </InputLabel>
-                  <Select
-                    labelId={`role-select-label-${index}`}
-                    id={`role-select-${index}`}
-                    value={selectedRoles[index] || ""}
-                    onChange={(event) => handleRoleChange(index, event)}
-                    label="Role"
-                  >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    {rolesData.map((role) => (
-                      <MenuItem key={role.id} value={role.id}>
-                        {role.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
-              </Box>
-              {/* Add Notes Field */}
-              <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                <FormTextField
-                  label="Notes"
-                  value={notes[index] || ""}
-                  onChange={(event) => handleNotesChange(index, event)}
-                  multiline
-                  rows={3}
-                  variant="outlined"
+                {/* Display Team Member */}
+                <TextField
+                  label="Name"
+                  fullWidth
+                  variant="standard"
+                  value={
+                    teamMember.name ||
+                    "Dr/ " +
+                      formData.team[index]?.doctorId?.firstName +
+                      " " +
+                      formData.team[index]?.doctorId?.lastName ||
+                    ""
+                  }
+                  disabled
                 />
-              </FormControl>
+                <TextField
+                  label="Hospital Role"
+                  fullWidth
+                  variant="standard"
+                  value={
+                    teamMember.hospitalRole ||
+                    formData.team[index]?.doctorId?.expertise ||
+                    ""
+                  }
+                  disabled
+                />
+                <TextField
+                  label="Surgical Role"
+                  fullWidth
+                  variant="standard"
+                  value={
+                    teamMember.surgicalRole ||
+                    formData.team[index]?.roleId?.name ||
+                    ""
+                  }
+                  disabled
+                />
+              </Box>
             </Box>
           ))
         ) : (
-          <Typography>No team members assigned.</Typography>
+          <Typography variant="body2" color="textSecondary">
+            No surgical team members assigned.
+          </Typography>
         )}
+        <Typography sx={{ marginTop: "2rem" }} variant="h6" gutterBottom>
+          Recommended Staff
+        </Typography>
+        {Array.from({ length: formData.slots }).map((_, index) => (
+          <Box
+            key={index}
+            sx={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "column",
+              gap: "1rem",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                width: "50%",
+                gap: "1rem",
+              }}
+            >
+              <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                <InputLabel id={`demo-simple-select-standard-label-${index}`}>
+                  Recommended Staff
+                </InputLabel>
+                <Select
+                  labelId={`demo-simple-select-standard-label-${index}`}
+                  id={`demo-simple-select-standard-${index}`}
+                  value={selectedSurgeons[index] || ""}
+                  onChange={(event) => handleSurgeonChange(index, event)}
+                  label="Recommended Staff"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {recommendedStaffData.map((Surgeon) => (
+                    <MenuItem key={Surgeon.id} value={Surgeon}>
+                      {Surgeon.firstName +
+                        " " +
+                        Surgeon.lastName +
+                        "|" +
+                        Surgeon.expertise}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                <InputLabel id={`role-select-label-${index}`}>Role</InputLabel>
+                <Select
+                  labelId={`role-select-label-${index}`}
+                  id={`role-select-${index}`}
+                  value={selectedRoles[index] || ""}
+                  onChange={(event) => handleRoleChange(index, event)}
+                  label="Role"
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {rolesData.map((role) => (
+                    <MenuItem key={role.id} value={role}>
+                      {role.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            {/* Add Notes Field */}
+            <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+              <FormTextField
+                label="Notes"
+                value={notes[index] || ""}
+                onChange={(event) => handleNotesChange(index, event)}
+                multiline
+                rows={3}
+                variant="outlined"
+              />
+            </FormControl>
+          </Box>
+        ))}
       </Box>
 
       <Box mt={4}>

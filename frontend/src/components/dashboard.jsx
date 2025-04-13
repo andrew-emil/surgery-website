@@ -1,7 +1,7 @@
 import * as React from "react";
 import { extendTheme, styled } from "@mui/material/styles";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PeopleIcon from "@mui/icons-material/People";
 import BarChartIcon from "@mui/icons-material/BarChart";
 import DescriptionIcon from "@mui/icons-material/Description";
 import LayersIcon from "@mui/icons-material/Layers";
@@ -11,6 +11,13 @@ import { PageContainer } from "@toolpad/core/PageContainer";
 // import Grid from "@mui/material/Grid2";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import AdminDashboard from "../admin/pages/AdminDashborad";
+import PendingUsers from "../admin/pages/PendingUsers";
+import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
+import AffiliationPage from "../admin/pages/AffiliationPage";
+import AffiliationDetails from "../admin/pages/AffiliationDetails";
+import router from "../router";
+import EditAffiliation from "../admin/pages/EditAffiliation";
 
 const NAVIGATION = [
   {
@@ -23,10 +30,16 @@ const NAVIGATION = [
     icon: <DashboardIcon />,
   },
   {
-    segment: "orders",
-    title: "Orders",
-    icon: <ShoppingCartIcon />,
+    segment: "pending_users",
+    title: "Pending Users",
+    icon: <PeopleIcon />,
   },
+  {
+    segment: "affiliation",
+    title: "Affiliations",
+    icon: <LocalHospitalIcon />,
+  },
+
   {
     kind: "divider",
   },
@@ -92,7 +105,34 @@ const Skeleton = styled("div")(({ theme, height }) => ({
   height,
   content: '" "',
 }));
-function DemoPageContent({ pathname }) {
+function DemoPageContent({
+  pathname,
+  navigate,
+  selectedAffiliationId,
+  setSelectedAffiliationId,
+}) {
+  let content = null;
+
+  if (pathname === "/dashboard") {
+    content = <AdminDashboard />;
+  } else if (pathname === "/pending_users") {
+    content = <PendingUsers />;
+  } else if (pathname === "/affiliation") {
+    content = (
+      <AffiliationPage
+        navigate={navigate}
+        selectedAffiliationId={selectedAffiliationId}
+        setSelectedAffiliationId={setSelectedAffiliationId}
+      />
+    );
+  } else if (pathname === "/affiliation-details") {
+    content = <AffiliationDetails affiliationId={selectedAffiliationId} />;
+  } else if (pathname === "/affiliations/edit") {
+    content = <EditAffiliation affiliationId={selectedAffiliationId} />;
+  } else {
+    content = <Typography>Unknown page</Typography>;
+  }
+
   return (
     <Box
       sx={{
@@ -103,12 +143,14 @@ function DemoPageContent({ pathname }) {
         textAlign: "center",
       }}
     >
-      <Typography>Dashboard content for {pathname}</Typography>
+      {content}
     </Box>
   );
 }
 export default function Dashboard(props) {
   const { window } = props;
+  const [selectedAffiliationId, setSelectedAffiliationId] =
+    React.useState(null); // 👈 new state here
 
   const router = useDemoRouter("/dashboard");
 
@@ -121,10 +163,19 @@ export default function Dashboard(props) {
       router={router}
       theme={demoTheme}
       window={demoWindow}
+      branding={{
+        title: "Surgical Web",
+        homeUrl: "/dashboard",
+      }}
     >
       <DashboardLayout>
         <PageContainer>
-          <DemoPageContent pathname={router.pathname} />
+          <DemoPageContent
+            pathname={router.pathname}
+            navigate={router.navigate}
+            selectedAffiliationId={selectedAffiliationId}
+            setSelectedAffiliationId={setSelectedAffiliationId}
+          />{" "}
         </PageContainer>
       </DashboardLayout>
     </AppProvider>
