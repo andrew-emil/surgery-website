@@ -74,7 +74,7 @@ export default function RequestPage() {
       });
   };
   if (redirect) {
-    window.location.href = "/open-slots";
+    window.location.href = "/surgeries-open-slots";
   }
   return (
     <FormContainer

@@ -34,12 +34,36 @@ import PostSurgery from "./views/postSurgery";
 import RoleAssignmentPage from "./views/RoleAssignment";
 import RoleManagmentPage from "./views/RoleManagmentPage";
 import RequestPage from "./views/requestPage";
+
 import SurgicalRolePage from "./views/SurgicalRoles";
 import AddSurgicalRole from "./views/AddSurgicalRole";
 import EditSurgicalRole from "./views/EditSurgicalRole";
 import ProcedureTypePage from "./views/ProcedureTypes";
 import AddProcedureType from "./views/AddProcedureType";
 import EditProcedureType from "./views/EditProcedureType";
+import RequestManagment from "./views/requestManagement";
+import RequestsForSurgery from "./views/requestsForSurgery";
+
+// const router = createBrowserRouter([
+// 	{
+// 		path: "/",
+// 		element: <DefaultLayout />,
+// 		children: [
+// 			{ path: "/", element: <Home /> },
+// 			{ path: "/home", element: <Home /> },
+// 			{ path: "/account", element: <MyAccount /> },
+// 			{ path: "/surgeryDetails", element: <SurgeryDetails /> },
+// 			{ path: "/create_surgery", element: <CreateSurgery /> },
+// 			{ path: "/equipments", element: <Equipments /> },
+// 			{ path: "/add-equipment", element: <CreateEquipments /> },
+// 			{ path: "/surgeries", element: <Surgeries /> },
+// 			{ path: "/post-surgery", element: <PostSurgery /> },
+// 			{ path: "/surgeries-open-slots", element: <OpenSlots /> },
+// 			{ path: "/surgeriey-request", element: <RequestPage /> },
+// 			{ path: "/edit-surgery", element: <EditSurgery /> },
+// 			{ path: "/edit-equipment", element: <EditEquipment /> },
+// 			{ path: "/role-assign/:roleId", element: <RoleAssignmentPage /> },
+// 			{ path: "/consultant/roles", element: <RoleManagmentPage /> },
 
 const router = createBrowserRouter([
 	{
@@ -57,6 +81,11 @@ const router = createBrowserRouter([
 			{ path: "/post-surgery", element: <PostSurgery /> },
 			{ path: "/surgeries-open-slots", element: <OpenSlots /> },
 			{ path: "/surgeriey-request", element: <RequestPage /> },
+			{ path: "/surgery-requests-management", element: <RequestManagment /> },
+			{
+				path: "/surgery-requests-management/all-requests",
+				element: <RequestsForSurgery />,
+			},
 			{ path: "/edit-surgery", element: <EditSurgery /> },
 			{ path: "/edit-equipment", element: <EditEquipment /> },
 			{ path: "/role-assign/:roleId", element: <RoleAssignmentPage /> },
