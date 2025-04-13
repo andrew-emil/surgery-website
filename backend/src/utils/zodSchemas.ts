@@ -219,7 +219,6 @@ export const updateSurgerySchema = z.object({
 			z.object({
 				doctorId: z.string(),
 				roleId: z.number(),
-				participationStatus: z.nativeEnum(PARTICIPATION_STATUS),
 				notes: z.string().optional(),
 			})
 		)
