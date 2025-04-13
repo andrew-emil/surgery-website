@@ -14,10 +14,15 @@ import {
 	notificationService,
 	trainingService,
 } from "../../../config/initializeServices.js";
-import { NOTIFICATION_TYPES, STATUS } from "../../../utils/dataTypes.js";
+import {
+	NOTIFICATION_TYPES,
+	PARTICIPATION_STATUS,
+	STATUS,
+} from "../../../utils/dataTypes.js";
 import { ProcedureType } from "../../../entity/sql/ProcedureType.js";
 import { Affiliations } from "../../../entity/sql/Affiliations.js";
 import { Department } from "../../../entity/sql/departments.js";
+import { DoctorsTeam } from "../../../entity/sub entity/DoctorsTeam.js";
 
 export const updateSurgery = async (req: Request, res: Response) => {
 	const validation = updateSurgerySchema.safeParse(req.body);
@@ -31,7 +36,6 @@ export const updateSurgery = async (req: Request, res: Response) => {
 		name,
 		leadSurgeon,
 		procedureTypeId,
-		doctorsTeam,
 		date,
 		time,
 		estimatedEndTime,
@@ -46,6 +50,7 @@ export const updateSurgery = async (req: Request, res: Response) => {
 		outcome,
 		complications,
 		dischargeStatus,
+		doctorsTeam,
 		caseNotes,
 	} = validation.data;
 	let warning: string;
@@ -204,6 +209,25 @@ export const updateSurgery = async (req: Request, res: Response) => {
 					-1
 				);
 			}
+
+			const updatedDoctorsTeam = doctorsTeam.map((doctor) => {
+				return {
+					...doctor,
+					participationStatus: PARTICIPATION_STATUS.APPROVED,
+				};
+			});
+
+			await surgeryLogsRepo.updateOne(
+				{ surgeryId },
+				{
+					$push: {
+						doctorsTeam: {
+							$each: updatedDoctorsTeam,
+						},
+					} as any,
+				},
+				{ upsert: true }
+			);
 		}
 		const scheduleUpdated = Boolean(logUpdatedData.date || logUpdatedData.time);
 

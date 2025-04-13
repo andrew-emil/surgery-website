@@ -33,7 +33,6 @@ const AddRole = () => {
 	const [permissions, setPermissions] = useState([]);
 	const [procedureTypes, setProcedureTypes] = useState([]);
 	const [roles, SetRoles] = useState([]);
-	// const [numberOfRequirment, setNumber] = useState(0);
 	const [parentId, setParentId] = useState("");
 
 	const [selectedPermissions, setSelectedPermissions] = useState([]);

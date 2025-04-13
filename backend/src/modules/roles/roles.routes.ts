@@ -25,7 +25,7 @@ rolesRoutes.delete("/:id", authUser(["Admin", "Consultant"]), deleteRole);
 rolesRoutes.put("/", authUser(["Admin", "Consultant"]), updateRole);
 
 rolesRoutes.put(
-	"/assign-perm",
+	"/assign-perm/:roleId",
 	authUser(["Admin", "Consultant"]),
 	assignPermissions
 );
