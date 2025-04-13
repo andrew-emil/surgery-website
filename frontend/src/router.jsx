@@ -33,6 +33,7 @@ import UsersPage from "./admin/pages/UsersPage";
 import PostSurgery from "./views/postSurgery";
 import RoleAssignmentPage from "./views/RoleAssignment";
 import RoleManagmentPage from "./views/RoleManagmentPage";
+import RequestPage from "./views/requestPage";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,7 @@ const router = createBrowserRouter([
       { path: "/surgeries", element: <Surgeries /> },
       { path: "/post-surgery", element: <PostSurgery /> },
       { path: "/surgeries-open-slots", element: <OpenSlots /> },
+      { path: "/surgeriey-request", element: <RequestPage /> },
       { path: "/edit-surgery", element: <EditSurgery /> },
       { path: "/edit-equipment", element: <EditEquipment /> },
       { path: "/role-assign/:roleId", element: <RoleAssignmentPage /> },
