@@ -43,7 +43,7 @@ export default function RequestsForSurgery() {
   }, []);
   const handleApprove = (req) => {
     axiosClient
-      .get(`/auth-requests/${req.id}/approve`, {
+      .put(`/auth-requests/${req.id}/approve`, {
         withCredentials: true,
       })
       .then((response) => {
@@ -60,7 +60,7 @@ export default function RequestsForSurgery() {
   };
   const handleReject = (req) => {
     axiosClient
-      .get(`/auth-requests/${req.id}/reject`, {
+      .put(`/auth-requests/${req.id}/reject`, {
         withCredentials: true,
       })
       .then((response) => {

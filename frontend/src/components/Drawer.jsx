@@ -38,6 +38,7 @@ import Notification from "./Notification";
 import { Typography } from "@mui/material";
 import { Circle } from "@mui/icons-material";
 import AssignmentIndTwoTone from "@mui/icons-material/AssignmentIndTwoTone";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 const drawerWidth = 240;
 
@@ -996,6 +997,69 @@ export default function MiniDrawer() {
               </ListItemIcon>
               <ListItemText
                 primary={"Requests Management"}
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            key={"Admin Pannel"}
+            component="a"
+            href="/admin"
+            disablePadding
+            sx={{
+              display: user.userRole === "Admin" ? "block" : "none",
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+              "&:visited": {
+                color: theme.palette.text.primary,
+              },
+              "&:hover": {
+                textDecoration: "none",
+              },
+            }}
+          >
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
+                      justifyContent: "center",
+                    },
+              ]}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: "center",
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: "auto",
+                      },
+                ]}
+              >
+                <AdminPanelSettingsIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Admin Pannel"}
                 sx={[
                   open
                     ? {

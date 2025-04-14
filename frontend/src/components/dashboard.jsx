@@ -15,42 +15,49 @@ import AffiliationPage from "../admin/pages/AffiliationPage";
 import AffiliationDetails from "../admin/pages/AffiliationDetails";
 // import router from "../router";
 import EditAffiliation from "../admin/pages/EditAffiliation";
-import PersonIcon from '@mui/icons-material/Person';
+import PersonIcon from "@mui/icons-material/Person";
 import AssignmentIndTwoTone from "@mui/icons-material/AssignmentIndTwoTone";
-import RolesPage from './../admin/pages/RolesPage';
+import RolesPage from "./../admin/pages/RolesPage";
 import AddRole from "../admin/pages/AddRole";
 import EditRole from "../admin/pages/EditRole";
-
+import CreateAffiliation from "./../admin/pages/CreateAffiliation";
+import HomeIcon from "@mui/icons-material/Home";
+import { Navigate } from "react-router";
 const NAVIGATION = [
-	{
-		kind: "header",
-		title: "Main items",
-	},
-	{
-		segment: "dashboard",
-		title: "Dashboard",
-		icon: <DashboardIcon />,
-	},
-	{
-		segment: "pending_users",
-		title: "Pending Users",
-		icon: <PeopleIcon />,
-	},
-	{
-		segment: "affiliation",
-		title: "Affiliations",
-		icon: <LocalHospitalIcon />,
-	},
-	{
-		segment: "users",
-		title: "Users",
-		icon: <PersonIcon />,
-	},
-	{
-		segment: "roles",
-		title: "Roles",
-		icon: <AssignmentIndTwoTone />,
-	},
+  {
+    segment: "",
+    title: "Home",
+    icon: <HomeIcon />,
+  },
+  {
+    kind: "header",
+    title: "Main items",
+  },
+  {
+    segment: "dashboard",
+    title: "Dashboard",
+    icon: <DashboardIcon />,
+  },
+  {
+    segment: "pending_users",
+    title: "Pending Users",
+    icon: <PeopleIcon />,
+  },
+  {
+    segment: "affiliation",
+    title: "Affiliations",
+    icon: <LocalHospitalIcon />,
+  },
+  {
+    segment: "users",
+    title: "Users",
+    icon: <PersonIcon />,
+  },
+  {
+    segment: "roles",
+    title: "Roles",
+    icon: <AssignmentIndTwoTone />,
+  },
 ];
 
 const demoTheme = extendTheme({
@@ -92,6 +99,8 @@ function DemoPageContent({
   navigate,
   selectedAffiliationId,
   setSelectedAffiliationId,
+  selectedRoleId,
+  setSelectedRoleId,
 }) {
   let content = null;
 
@@ -107,16 +116,25 @@ function DemoPageContent({
         setSelectedAffiliationId={setSelectedAffiliationId}
       />
     );
+  } else if (pathname === "/") {
+    content = <Navigate to="/" />; // or whatever you want
   } else if (pathname === "/affiliation-details") {
     content = <AffiliationDetails affiliationId={selectedAffiliationId} />;
   } else if (pathname === "/affiliations/edit") {
     content = <EditAffiliation affiliationId={selectedAffiliationId} />;
-  } else if(pathname === "/users"){
-    content = < UsersPage />
-  } else if(pathname === "/roles") {
-    content = <RolesPage />
-  }
-  else {
+  } else if (pathname === "/create-affiliation") {
+    content = <CreateAffiliation />;
+  } else if (pathname === "/users") {
+    content = <UsersPage />;
+  } else if (pathname === "/roles") {
+    content = (
+      <RolesPage navigate={navigate} setSelectedRoleId={setSelectedRoleId} />
+    );
+  } else if (pathname === "/roles/add-role") {
+    content = <AddRole />;
+  } else if (pathname === "/roles/edit-role") {
+    content = <EditRole roleId={selectedRoleId} />;
+  } else {
     content = <Typography>Unknown page</Typography>;
   }
 
@@ -137,7 +155,8 @@ function DemoPageContent({
 export default function Dashboard(props) {
   const { window } = props;
   const [selectedAffiliationId, setSelectedAffiliationId] =
-    React.useState(null); // 👈 new state here
+    React.useState(null);
+  const [selectedRoleId, setSelectedRoleId] = React.useState(null);
 
   const router = useDemoRouter("/dashboard");
 
@@ -162,6 +181,8 @@ export default function Dashboard(props) {
             navigate={router.navigate}
             selectedAffiliationId={selectedAffiliationId}
             setSelectedAffiliationId={setSelectedAffiliationId}
+            selectedRoleId={selectedRoleId}
+            setSelectedRoleId={setSelectedRoleId}
           />{" "}
         </PageContainer>
       </DashboardLayout>

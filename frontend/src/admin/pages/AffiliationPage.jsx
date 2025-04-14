@@ -78,7 +78,7 @@ const AffiliationPage = ({
       <div style={{ marginBottom: 16 }}>
         <Button
           variant="contained"
-          onClick={() => navigate("/admin/create-affiliation")}
+          onClick={() => navigate("/create-affiliation")}
           sx={{ mb: 2, mr: 2 }}
         >
           Add Affiliation
