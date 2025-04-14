@@ -11,10 +11,8 @@ import { AuthenticationRequest } from "../../../entity/sql/AuthenticationRequest
 import { UserProgress } from "../../../entity/sql/UserProgress.js";
 
 export const deleteAccount = async (req: Request, res: Response) => {
-	// #swagger.tags = ['Users']
 	const { id } = req.params;
 
-	// Validate userId
 	if (!id) throw Error("Invalid user ID");
 	if (req.user.id !== id) throw Error("Unauthorized");
 
@@ -46,16 +44,15 @@ export const deleteAccount = async (req: Request, res: Response) => {
 	});
 
 	await ratingRepo.deleteMany({ userId: id });
-	// Update surgery logs with proper typing
+
 	await surgeryLogsRepo.bulkWrite([
-		// Remove lead surgeon
 		{
 			updateMany: {
 				filter: { leadSurgeon: id },
 				update: { $unset: { leadSurgeon: "" } } as any,
 			},
 		},
-		// Remove from doctorsTeam array
+
 		{
 			updateMany: {
 				filter: { "doctorsTeam.doctorId": id },

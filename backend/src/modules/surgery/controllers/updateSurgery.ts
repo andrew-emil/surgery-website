@@ -306,28 +306,28 @@ export const updateSurgery = async (req: Request, res: Response) => {
 				}
 			});
 
-			await Promise.all(
-				updatedAssigned.map((doctorId) =>
-					notificationService.createNotification(
-						doctorId,
-						NOTIFICATION_TYPES.SCHEDULE_UPDATE,
-						`Surgery: ${updatedSurgery.name} schedule updated to ${formattedSchedule}<br>
-						Hospital: ${updatedSurgery.hospital.name}`
-					)
-				)
-			);
+			// await Promise.all(
+			// 	updatedAssigned.map((doctorId) =>
+			// 		notificationService.createNotification(
+			// 			doctorId,
+			// 			NOTIFICATION_TYPES.SCHEDULE_UPDATE,
+			// 			`Surgery: ${updatedSurgery.name} schedule updated to ${formattedSchedule}<br>
+			// 			Hospital: ${updatedSurgery.hospital.name}`
+			// 		)
+			// 	)
+			// );
 
-			await Promise.all(
-				newAssigned.map((doctorId) =>
-					notificationService.createNotification(
-						doctorId,
-						NOTIFICATION_TYPES.INVITE,
-						`You have been assigned to Surgery: ${updatedSurgery.name} scheduled on ${formattedSchedule}<br>
-						Hospital: ${updatedSurgery.hospital.name}<br>
-						Please review the surgery and contact the Consultant for any questions`
-					)
-				)
-			);
+			// await Promise.all(
+			// 	newAssigned.map((doctorId) =>
+			// 		notificationService.createNotification(
+			// 			doctorId,
+			// 			NOTIFICATION_TYPES.INVITE,
+			// 			`You have been assigned to Surgery: ${updatedSurgery.name} scheduled on ${formattedSchedule}<br>
+			// 			Hospital: ${updatedSurgery.hospital.name}<br>
+			// 			Please review the surgery and contact the Consultant for any questions`
+			// 		)
+			// 	)
+			// );
 		}
 
 		res.status(200).json({

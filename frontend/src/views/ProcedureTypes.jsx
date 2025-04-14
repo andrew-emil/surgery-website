@@ -123,13 +123,13 @@ const ProcedureTypePage = () => {
 	return (
 		<Container maxWidth="lg">
 			<Box display="flex" justifyContent="space-between" mb={2} mt={4}>
-				<Typography variant="h4">Procedure Type Management</Typography>
+				<Typography variant="h4">Procedure Types</Typography>
 				<Button
 					variant="contained"
 					color="primary"
 					startIcon={<Add />}
 					onClick={handleAdd}>
-					Add Procedure Type
+					Add
 				</Button>
 			</Box>
 

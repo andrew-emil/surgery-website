@@ -91,14 +91,12 @@ export const register = async (req: Request, res: Response) => {
 		select: ["id"],
 	});
 
-	const activationLink = `${process.env.BASE_URL}/admin/approve-user?token=${activationToken}`;
-	await notificationService.createNotification(
-		adminId.id,
-		NOTIFICATION_TYPES.USER_REGISTRATION,
-		`New user registered: ${newUser.email}. 
-		Please review and approve. 
-		Activation link: ${activationLink.split("?")[0]}`
-	);
+	// await notificationService.createNotification(
+	// 	adminId.id,
+	// 	NOTIFICATION_TYPES.USER_REGISTRATION,
+	// 	`New user registered: ${newUser.email}. 
+	// 	Please review and approve. `
+	// );
 
 	res.status(201).json({
 		success: true,

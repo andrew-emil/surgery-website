@@ -379,7 +379,7 @@ export default function Equipments() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.date}</TableCell>
+                      <TableCell align="right">{row.date.split("T")[0]}</TableCell>
                       <TableCell align="right">{row.cptCode}</TableCell>
                       <TableCell align="right">{row.icdCode}</TableCell>
                       <TableCell align="right">{row.time}</TableCell>

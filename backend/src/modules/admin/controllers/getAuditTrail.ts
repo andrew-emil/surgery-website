@@ -11,7 +11,7 @@ const ALLOWED_ACTIONS = [
 	"Daily cleanup",
 ];
 
-const DEFAULT_LIMIT = 100;
+const DEFAULT_LIMIT = 25;
 const DEFAULT_PAGE = 1;
 
 interface AuditQueryParams {

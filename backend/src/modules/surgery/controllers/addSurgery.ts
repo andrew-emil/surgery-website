@@ -96,7 +96,6 @@ export const addSurgery = async (req: Request, res: Response) => {
 			throw new Error("Invalid procedure type");
 		}
 
-		// Validate team members
 		const doctorIds = doctorsTeam.map((p) => p.doctorId);
 		const roleIds = doctorsTeam.map((p) => p.roleId);
 
@@ -140,7 +139,6 @@ export const addSurgery = async (req: Request, res: Response) => {
 		}
 
 		await AppDataSource.transaction(async (transactionalEntityManager) => {
-			// Create SQL surgery
 			surgery = transactionalEntityManager.create(Surgery, {
 				department,
 				hospital,
@@ -152,7 +150,6 @@ export const addSurgery = async (req: Request, res: Response) => {
 
 			await transactionalEntityManager.save(surgery);
 
-			// Create MongoDB surgery log
 			const patient = new PatientDetails(
 				patientBmi,
 				patientComorbidity,
@@ -178,7 +175,6 @@ export const addSurgery = async (req: Request, res: Response) => {
 			surgeryLog.icdCode = icdCode;
 			surgeryLog.patient_details = patient;
 
-			// Initialize training records
 			surgeryLog.trainingCredits =
 				await trainingService.initializeSurgeryRecords(
 					doctorsTeam.map((d) => ({
@@ -233,7 +229,6 @@ export const addSurgery = async (req: Request, res: Response) => {
 			message: `Surgery created successfully, ${warning}`,
 		});
 	} catch (error) {
-		// Cleanup on failure
 		if (surgery?.id) await surgeryRepo.delete(surgery.id);
 		if (surgeryLog?.id) await surgeryLogsRepo.delete(surgeryLog.id);
 

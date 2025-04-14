@@ -27,7 +27,7 @@ export default function OpenSlots() {
         setOpenSlots(data.surgeries);
       } catch (err) {
         console.log(err);
-        setErr(err.message);
+        setErr(err.response.data.message);
       } finally {
         setLoading(false);
       }
@@ -75,7 +75,7 @@ export default function OpenSlots() {
               color: "red",
             }}
           >
-            {err}
+            No surgeries found with open slots!
           </Typography>
         )}
       </Container>

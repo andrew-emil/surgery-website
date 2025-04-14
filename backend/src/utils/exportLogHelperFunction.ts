@@ -60,12 +60,13 @@ const buildDoctorInfo = async (doctor: any) => {
 			select: { name: true },
 		}),
 	]);
+	
 	return {
-		doctor: `Dr. ${safeField(doctorUser.first_name)} ${safeField(
-			doctorUser.last_name
-		)}`,
+		doctor: `Dr. ${safeField(
+			doctorUser?.first_name ? doctorUser.first_name : null
+		)} ${safeField(doctorUser?.last_name ? doctorUser.last_name : null)}`,
 		role: safeField(roleData?.name),
-		notes: safeField(doctor.notes),
+		notes: safeField(doctor?.notes),
 	};
 };
 

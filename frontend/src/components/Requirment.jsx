@@ -4,12 +4,12 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 const Requirments = ({ requirments }) => {
 	console.log(requirments);
 	return (
-		<Box>
+		<Box sx={{ width: "100%" }}>
 			{/* eslint-disable-next-line react/prop-types */}
 			{requirments.map((requirment) => (
 				<Card key={requirment.procedureId}>
 					<CardContent>
-						<Typography sx={{ fontWeight: "bold" }} variant="h3">
+						<Typography sx={{ fontWeight: "bold" }} variant="h4">
 							{requirment.procedureName}
 						</Typography>
 						<Typography variant="h5">{`Category: ${requirment.category}`}</Typography>

@@ -40,8 +40,9 @@ const port: number = parseInt(process.env.PORT as string);
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: "*",
+		origin: process.env.BASE_URL as string,
 		methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
+		credentials: true,
 	},
 });
 

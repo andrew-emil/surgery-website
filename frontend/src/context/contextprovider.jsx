@@ -18,7 +18,6 @@ const StateContext = createContext({
 	setSettings: () => {},
 });
 
-// eslint-disable-next-line react/prop-types
 export const ContextProvider = ({ children }) => {
 	const [user, _setUser] = useState(() => {
 		const cookieValue = Cookies.get("USER");
@@ -56,7 +55,7 @@ export const ContextProvider = ({ children }) => {
 		if (token) {
 			Cookies.set("ACCESS_TOKEN", token, {
 				expires: 30,
-				secure: false, //only for production == true
+				secure: false,
 				sameSite: "Lax",
 				path: "/",
 			});
@@ -67,7 +66,7 @@ export const ContextProvider = ({ children }) => {
 
 	const setSettings = useCallback((newSettings) => {
 		if (typeof newSettings === "string") {
-			newSettings = { theme: newSettings }; // Convert string to object
+			newSettings = { theme: newSettings };
 		}
 
 		_setSettings((prev) => {
@@ -77,28 +76,50 @@ export const ContextProvider = ({ children }) => {
 		});
 	}, []);
 
+	const SOCKET_URL = "http://localhost:4000";
+
 	useEffect(() => {
+		let newSocket;
+
 		if (token && !socket) {
-			const newSocket = io("http://localhost:5173", {
-				withCredentials: true,
-				autoConnect: false,
-			});
+			const setupSocket = () => {
+				const socketInstance = io(SOCKET_URL, {
+					withCredentials: true,
+					autoConnect: true,
+				});
 
-			newSocket.on("connect", () => {
-				console.log("Socket connected");
-				setSocket(newSocket);
-			});
+				socketInstance.on("connect", () => {
+					console.log("Socket connected");
+					setSocket(socketInstance);
+				});
 
-			newSocket.on("disconnect", () => {
-				console.log("Socket disconnected");
-				setSocket(null);
-			});
+				socketInstance.on("disconnect", (reason) => {
+					console.log("Socket disconnected:", reason);
+					if (reason === "io server disconnect") {
+						setTimeout(() => socketInstance.connect(), 1000);
+					}
+				});
 
-			return () => {
-				newSocket.disconnect();
+				socketInstance.on("connect_error", (err) => {
+					console.error("Connection error:", err.message);
+				});
+
+				return socketInstance;
 			};
+
+			newSocket = setupSocket();
 		}
-	}, [socket, token]);
+
+		return () => {
+			if (newSocket) {
+				console.log("Cleaning up socket");
+				newSocket.off("connect");
+				newSocket.off("disconnect");
+				newSocket.off("connect_error");
+				newSocket.disconnect();
+			}
+		};
+	}, [token, socket]);
 
 	return (
 		<StateContext.Provider
@@ -116,5 +137,4 @@ export const ContextProvider = ({ children }) => {
 	);
 };
 
-// eslint-disable-next-line react-refresh/only-export-components
 export const useStateContext = () => useContext(StateContext);

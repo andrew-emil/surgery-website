@@ -9,6 +9,7 @@ import { updateSurgery } from "./controllers/updateSurgery.js";
 import { getSurgeriesWithOpenSlots } from "./controllers/getSurgeriesWithOpenSlots.js";
 import { authUser } from "../../middlewares/authMiddleware.js";
 import { getUserSurgeries } from "./controllers/getUserSurgeries.js";
+import { getAllSurgeries } from "./controllers/getAllSurgeries.js";
 
 const surgeryRoutes = Router();
 
@@ -19,6 +20,8 @@ surgeryRoutes.get("/search", searchSurgery);
 surgeryRoutes.get("/open-slots", getSurgeriesWithOpenSlots);
 
 surgeryRoutes.get("/surgeries", getUserSurgeries);
+
+surgeryRoutes.get("/", getAllSurgeries);
 
 surgeryRoutes.use(auditLogger());
 

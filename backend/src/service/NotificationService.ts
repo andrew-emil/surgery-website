@@ -3,26 +3,19 @@ import { NOTIFICATION_TYPES } from "../utils/dataTypes.js";
 import { userRepo } from "../config/repositories.js";
 import { Notification } from "../entity/sql/Notification.js";
 import { io } from "../server.js";
-// import { transporter } from "../config/nodeMailerConfig.js";
+import { transporter } from "../config/nodeMailerConfig.js";
 import { NOTIFICATION_EMAIL } from "../utils/emailTemplate.js";
-import { mail, sender } from "../config/nodeMailerConfig.js";
+
 
 export class NotificationService {
 	private sender = process.env.SENDER_EMAILS as string;
 
 	private async sendNotificationEmail(to: string, message: string) {
-		// const response = await transporter.sendMail({
-		// 	from: this.sender,
-		// 	to,
-		// 	subject: "New Notification",
-		// 	html: NOTIFICATION_EMAIL.replace("{message}", message),
-		// });
-		await mail.sendMail({
-			from: sender,
+		await transporter.sendMail({
+			from: this.sender,
 			to,
 			subject: "New Notification",
 			html: NOTIFICATION_EMAIL.replace("{message}", message),
-			// sandbox: true,
 		});
 	}
 
@@ -43,7 +36,7 @@ export class NotificationService {
 
 		io.emit(`notification:${userId}`, savedNotification);
 
-		if (user.email) await this.sendNotificationEmail(user.email, message);
+		// if (user.email) await this.sendNotificationEmail(user.email, message);
 
 		return savedNotification;
 	}
@@ -70,8 +63,7 @@ export class NotificationService {
 		if (!notification) throw Error("Notification Not Found");
 		if (notification.user.id !== userId) throw Error("Unauthorized");
 
-		notification.read = true;
-		await notificationRepo.save(notification);
+		await notificationRepo.update(notification, { read: true });
 		return true;
 	}
 }

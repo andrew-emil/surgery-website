@@ -40,7 +40,6 @@ export default function MyAccount() {
 	const [err, setErr] = useState("");
 	const [msg, setMsg] = useState("");
 
-	// User data states
 	const [userData, setUserData] = useState(null);
 	const [userProgress, setUserProgress] = useState(null);
 
@@ -87,7 +86,6 @@ export default function MyAccount() {
 
 			const formData = new FormData();
 
-			// Only append fields that have changed
 			formData.append("first_name", firstnameRef.current.value);
 			formData.append("last_name", lastnameRef.current.value);
 			formData.append("email", emailRef.current.value);
@@ -130,6 +128,25 @@ export default function MyAccount() {
 			}
 		} finally {
 			setIsButtonLoading(false);
+		}
+	};
+
+	const handleDelete = async () => {
+		if (
+			!window.confirm(
+				"Are you sure you want to delete your account? This action cannot be undone."
+			)
+		) {
+			return;
+		}
+		try {
+			await axiosClient.delete("/users", { withCredentials: true });
+
+			setUser(null);
+			setToken(null);
+		} catch (error) {
+			console.error("Error deleting account:", error);
+			setErr("Error deleting account. Please try again.");
 		}
 	};
 
@@ -364,6 +381,22 @@ export default function MyAccount() {
 						type="submit"
 						loading={isButtonLoading}>
 						Update account
+					</FormButton>
+					<FormButton
+						sx={{
+							width: "200px",
+							maxWidth: "80%",
+							mx: "auto",
+							mt: 2,
+							display: "flex",
+							justifyContent: "center",
+							color: "red"
+						}}
+						
+						className="btn btn-red"
+						type="button"
+						onClick={handleDelete}>
+						Delete Account
 					</FormButton>
 				</FormCard>
 			</form>
