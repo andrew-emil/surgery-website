@@ -39,6 +39,8 @@ import { Typography } from "@mui/material";
 import { Circle } from "@mui/icons-material";
 import AssignmentIndTwoTone from "@mui/icons-material/AssignmentIndTwoTone";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import CallToActionIcon from "@mui/icons-material/CallToAction";
+import ThreePIcon from "@mui/icons-material/ThreeP";
 
 const drawerWidth = 240;
 
@@ -889,7 +891,10 @@ export default function MiniDrawer() {
             href="/consultant/roles"
             disablePadding
             sx={{
-              display: user.userRole === "Consultant" ? "block" : "none",
+              display:
+                user.userRole === "Consultant" || user.userRole === "Admin"
+                  ? "block"
+                  : "none",
               textDecoration: "none",
               color: theme.palette.text.primary,
               "&:visited": {
@@ -1060,6 +1065,138 @@ export default function MiniDrawer() {
               </ListItemIcon>
               <ListItemText
                 primary={"Admin Pannel"}
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            key={"surgical-roles"}
+            component="a"
+            href="/surgical-roles"
+            disablePadding
+            sx={{
+              display:
+                user.userRole === "Consultant" || user.userRole === "Admin"
+                  ? "block"
+                  : "none",
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+              "&:visited": {
+                color: theme.palette.text.primary,
+              },
+              "&:hover": {
+                textDecoration: "none",
+              },
+            }}
+          >
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
+                      justifyContent: "center",
+                    },
+              ]}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: "center",
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: "auto",
+                      },
+                ]}
+              >
+                <ThreePIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={"Surgical Roles"}
+                sx={[
+                  open
+                    ? {
+                        opacity: 1,
+                      }
+                    : {
+                        opacity: 0,
+                      },
+                ]}
+              />
+            </ListItemButton>
+          </ListItem>
+          <ListItem
+            key={"procedure-types"}
+            component="a"
+            href="/procedure-types"
+            disablePadding
+            sx={{
+              display:
+                user.userRole === "Consultant" || user.userRole === "Admin"
+                  ? "block"
+                  : "none",
+              textDecoration: "none",
+              color: theme.palette.text.primary,
+              "&:visited": {
+                color: theme.palette.text.primary,
+              },
+              "&:hover": {
+                textDecoration: "none",
+              },
+            }}
+          >
+            <ListItemButton
+              sx={[
+                {
+                  minHeight: 48,
+                  px: 2.5,
+                },
+                open
+                  ? {
+                      justifyContent: "initial",
+                    }
+                  : {
+                      justifyContent: "center",
+                    },
+              ]}
+            >
+              <ListItemIcon
+                sx={[
+                  {
+                    minWidth: 0,
+                    justifyContent: "center",
+                  },
+                  open
+                    ? {
+                        mr: 3,
+                      }
+                    : {
+                        mr: "auto",
+                      },
+                ]}
+              >
+                <CallToActionIcon />
+              </ListItemIcon>
+              <ListItemText
+                primary={"procedure-types"}
                 sx={[
                   open
                     ? {
