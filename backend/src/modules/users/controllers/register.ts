@@ -15,7 +15,6 @@ import { notificationService } from "../../../config/initializeServices.js";
 const hashFunctions = new HashFunctions();
 
 export const register = async (req: Request, res: Response) => {
-	// #swagger.tags = ['Users']
 	const validation = registerSchema.safeParse(req.body);
 
 	if (!validation.success)
@@ -91,12 +90,12 @@ export const register = async (req: Request, res: Response) => {
 		select: ["id"],
 	});
 
-	// await notificationService.createNotification(
-	// 	adminId.id,
-	// 	NOTIFICATION_TYPES.USER_REGISTRATION,
-	// 	`New user registered: ${newUser.email}. 
-	// 	Please review and approve. `
-	// );
+	await notificationService.createNotification(
+		adminId.id,
+		NOTIFICATION_TYPES.USER_REGISTRATION,
+		`New user registered: ${newUser.email}. <br /> 
+		Please review and approve. `
+	);
 
 	res.status(201).json({
 		success: true,

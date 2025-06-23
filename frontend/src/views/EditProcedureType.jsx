@@ -25,9 +25,9 @@ const category = {
 };
 
 const EditProcedureType = () => {
-    const location = useLocation();
+	const location = useLocation();
 	const { procedure } = location.state;
-    console.log(procedure)
+
 	const nameRef = useRef();
 	const [err, setErr] = useState(null);
 	const [isLoading, setIsLoading] = useState(false);

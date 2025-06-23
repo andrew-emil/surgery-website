@@ -81,9 +81,7 @@ const PendingUsers = () => {
 				});
 
 				setPendingUsers(response.data.data);
-				console.log(response.data.data);
-			} catch (err) {
-				console.log(err);
+				
 			} finally {
 				setLoading(false);
 			}

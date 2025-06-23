@@ -4,6 +4,8 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { AppDataSource } from "../../../config/data-source.js";
 import { User } from "../../../entity/sql/User.js";
 import { Role } from "../../../entity/sql/Roles.js";
+import { notificationService } from "../../../config/initializeServices.js";
+import { NOTIFICATION_TYPES } from "../../../utils/dataTypes.js";
 
 const delegateUserSchema = z.object({
 	userId: z.string(),
@@ -63,7 +65,13 @@ export const delegateUser = async (req: Request, res: Response) => {
 		}
 
 		await sqlManager.update(User, { id: user.id }, { role: targetRole });
+		await notificationService.createNotification(
+			userId,
+			NOTIFICATION_TYPES.ROLE_UPDATE,
+			`Your role has been delegated to ${targetRole}`
+		);
 	});
+
 
 	res.status(200).json({
 		message: "User delegated successfully",

@@ -4,7 +4,6 @@ import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { userService } from "../../../config/initializeServices.js";
 
 export const login = async (req: Request, res: Response): Promise<void> => {
-	// #swagger.tags = ['Users']
 	const validation = loginSchema.safeParse(req.body);
 	if (!validation.success)
 		throw Error(formatErrorMessage(validation), { cause: validation.error });
@@ -18,7 +17,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 		return;
 	}
 
-	const otpResult = await userService.sendOtp(authResult.user);
+	// const otpResult = await userService.sendOtp(authResult.user);
 
-	res.status(202).json(otpResult);
+	res.status(202).json({ message: "OTP sent" });
 };

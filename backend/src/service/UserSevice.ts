@@ -1,9 +1,5 @@
 import { createOtp } from "../utils/createOTP.js";
-import {
-	sendAccountUpdateEmail,
-	sendResetEmail,
-	sendVerificationEmails,
-} from "../utils/sendEmails.js";
+import { sendResetEmail, sendVerificationEmails } from "../utils/sendEmails.js";
 import { User } from "../entity/sql/User.js";
 import { createJWTtoken } from "../handlers/jwtHandler.js";
 import { HashFunctions } from "../utils/hashFunction.js";
@@ -27,7 +23,6 @@ export class UserService {
 
 		if (!user) return { success: false, message: "Invalid credentials" };
 
-		// Check if account is locked
 		if (user.lock_until && new Date(user.lock_until) > new Date()) {
 			return {
 				success: false,
@@ -38,7 +33,7 @@ export class UserService {
 		}
 
 		const hashFunction = new HashFunctions(user.password_hash);
-		// Validate password
+
 		const isMatched = await hashFunction.compareBcryptHash(password);
 		if (!isMatched) {
 			user.failed_attempts += 1;
@@ -51,7 +46,6 @@ export class UserService {
 			return { success: false, message: "Invalid credentials" };
 		}
 
-		// Reset failed attempts
 		user.failed_attempts = 0;
 		user.lock_until = null;
 		await this.userRepo.save(user);
@@ -68,7 +62,7 @@ export class UserService {
 		user.otp_secret = hashedOtp;
 
 		await this.userRepo.save(user);
-		// await sendVerificationEmails(user.email, otp);
+		await sendVerificationEmails(user.email, otp);
 
 		return {
 			success: true,
@@ -82,7 +76,6 @@ export class UserService {
 
 		const hashFunction = new HashFunctions();
 
-		// Generate reset token
 		const { token, hashedToken } = await hashFunction.generateResetToken();
 		const todaysDate = Date.now();
 		const expiryDate = todaysDate + 60 * 60 * 1000;
@@ -93,7 +86,6 @@ export class UserService {
 
 		const resetURL = `${process.env.BASE_URL}/reset-password?token=${token}&email=${user.email}`;
 
-		// Send reset email
 		await sendResetEmail(email, resetURL);
 
 		return;
@@ -135,7 +127,6 @@ export class UserService {
 		const hashFunction = new HashFunctions(data.old_password);
 		let passwordUpdated = false;
 
-		// Handle password update securely
 		if (data.old_password && data.new_password) {
 			const isPasswordCorrect = await hashFunction.compareBcryptHash(
 				data.new_password
@@ -145,12 +136,11 @@ export class UserService {
 
 			user.password_hash = await hashFunction.bcryptHash(data.new_password);
 			passwordUpdated = true;
-			user.token_version = (user.token_version || 0) + 1; // Invalidate old tokens
+			user.token_version = (user.token_version || 0) + 1;
 		} else if (!data.old_password && data.new_password) {
 			return { success: false, message: "Invalid credentials" };
 		}
 
-		// Prepare updated fields
 		const updatedUser: Partial<User> = {};
 		if (data.first_name && data.first_name !== user.first_name)
 			updatedUser.first_name = data.first_name;
@@ -164,8 +154,6 @@ export class UserService {
 		if (Object.keys(updatedUser).length > 0 || passwordUpdated) {
 			await this.userRepo.save({ ...user, ...updatedUser });
 		}
-
-		// await sendAccountUpdateEmail(user.email, updatedUser);
 
 		const token = await createJWTtoken(user, false);
 
@@ -181,7 +169,6 @@ export class UserService {
 			return { success: false, message: "User Not Found" };
 		}
 
-		// Check if account is locked
 		if (user.lock_until && new Date(user.lock_until) > new Date()) {
 			return {
 				success: false,
@@ -192,12 +179,11 @@ export class UserService {
 		}
 
 		const hashFunctions = new HashFunctions(user.otp_secret);
-		// Verify OTP
+
 		const isOtpValid = await hashFunctions.compareBcryptHash(otp);
 		if (!isOtpValid) {
 			user.failed_attempts += 1;
 
-			// Lock account if max failed attempts are reached
 			if (user.failed_attempts >= this.MAX_FAILED_ATTEMPTS) {
 				user.lock_until = new Date(
 					Date.now() + this.LOCK_TIME_MINUTES * 60 * 1000
@@ -210,7 +196,6 @@ export class UserService {
 
 		const firstLogin = user.last_login === null ? true : false;
 
-		// Reset failed attempts and clear OTP after successful verification
 		user.failed_attempts = 0;
 		user.lock_until = null;
 		user.otp_secret = null;

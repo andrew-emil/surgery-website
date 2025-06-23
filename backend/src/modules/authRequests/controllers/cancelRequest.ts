@@ -7,7 +7,10 @@ import {
 	Authentication_Request,
 	NOTIFICATION_TYPES,
 } from "../../../utils/dataTypes.js";
-import { notificationService, surgeryAuthService } from "../../../config/initializeServices.js";
+import {
+	notificationService,
+	surgeryAuthService,
+} from "../../../config/initializeServices.js";
 
 export const rejectRequest = async (req: Request, res: Response) => {
 	const { requestId, rejectionReason } = req.body;
@@ -30,39 +33,28 @@ export const rejectRequest = async (req: Request, res: Response) => {
 		return;
 	}
 
-	// Find surgery log
 	const surgeryLog = await surgeryLogsRepo.findOneBy({
 		surgeryId: authRequest.surgery.id,
 	});
 
 	if (!surgeryLog) throw Error("Associated surgery log Not Found");
 
-	// Find doctor in team
 	const doctorIndex = surgeryLog.doctorsTeam.findIndex(
 		(doctor) => doctor.doctorId === authRequest.trainee.id
 	);
 
 	if (doctorIndex === -1) throw Error("Trainee not found in surgery team");
 
-	
+	await Promise.all([
+		surgeryAuthService.rejectRequest(authRequest, rejectionReason),
 
-	// await Promise.all([
-	// 	surgeryAuthService.rejectRequest(authRequest, rejectionReason),
-	// 	// Notify consultant
-	// 	notificationService.createNotification(
-	// 		authRequest.consultant.id,
-	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
-	// 		`Request from ${authRequest.trainee.first_name} ${authRequest.trainee.last_name} for ${authRequest.surgery.name} has been cancelled`
-	// 	),
-	// 	// Notify trainee
-	// 	notificationService.createNotification(
-	// 		authRequest.trainee.id,
-	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
-	// 		`Your request for ${authRequest.surgery.name} has been cancelled`
-	// 	),
-	// ]);
+		notificationService.createNotification(
+			authRequest.trainee.id,
+			NOTIFICATION_TYPES.AUTH_REQUEST,
+			`Your request for ${authRequest.surgery.name} has been rejected`
+		),
+	]);
 
-	// Save changes
 	await Promise.all([
 		surgeryLogsRepo.update(
 			{ surgeryId: authRequest.surgery.id },

@@ -50,7 +50,7 @@ export default function OTP_auth() {
             setToken(token);
           })
           .catch((err) => {
-            console.log(err);
+            
           });
       })
       .catch((err) => {

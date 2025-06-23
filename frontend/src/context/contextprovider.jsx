@@ -18,6 +18,7 @@ const StateContext = createContext({
 	setSettings: () => {},
 });
 
+// eslint-disable-next-line react/prop-types
 export const ContextProvider = ({ children }) => {
 	const [user, _setUser] = useState(() => {
 		const cookieValue = Cookies.get("USER");
@@ -89,12 +90,12 @@ export const ContextProvider = ({ children }) => {
 				});
 
 				socketInstance.on("connect", () => {
-					console.log("Socket connected");
+					
 					setSocket(socketInstance);
 				});
 
 				socketInstance.on("disconnect", (reason) => {
-					console.log("Socket disconnected:", reason);
+					
 					if (reason === "io server disconnect") {
 						setTimeout(() => socketInstance.connect(), 1000);
 					}
@@ -112,7 +113,7 @@ export const ContextProvider = ({ children }) => {
 
 		return () => {
 			if (newSocket) {
-				console.log("Cleaning up socket");
+				
 				newSocket.off("connect");
 				newSocket.off("disconnect");
 				newSocket.off("connect_error");
@@ -137,4 +138,5 @@ export const ContextProvider = ({ children }) => {
 	);
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const useStateContext = () => useContext(StateContext);

@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import { USER_STATUS } from "../../../utils/dataTypes.js";
+import { NOTIFICATION_TYPES, USER_STATUS } from "../../../utils/dataTypes.js";
 import { AppDataSource } from "../../../config/data-source.js";
 import { User } from "../../../entity/sql/User.js";
 import { Role } from "../../../entity/sql/Roles.js";
+import { notificationService } from "../../../config/initializeServices.js";
 
 export const promoteUser = async (req: Request, res: Response) => {
 	const userId = req.params.userId as string;
@@ -52,6 +53,11 @@ export const promoteUser = async (req: Request, res: Response) => {
 			{
 				role: parentRole,
 			}
+		);
+		await notificationService.createNotification(
+			userId,
+			NOTIFICATION_TYPES.ROLE_UPDATE,
+			`Your role has been Promoted to ${parentRole}`
 		);
 	});
 

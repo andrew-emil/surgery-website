@@ -25,7 +25,6 @@ export const createRequest = async (req: Request, res: Response) => {
 
 	const { surgeryId, traineeId, consultantId, roleId, notes } = validation.data;
 
-	// 2. Fetch required entities
 	const [surgery, consultantRole, trainee, consultant, role] =
 		await Promise.all([
 			surgeryRepo.findOne({
@@ -38,7 +37,6 @@ export const createRequest = async (req: Request, res: Response) => {
 			surgicalRolesRepo.findOneBy({ id: roleId }),
 		]);
 
-	// 3. Validate entities
 	if (!surgery) throw Error("Surgery Not Found");
 	if (!consultantRole) throw Error("Consultant role Not Found");
 	if (!trainee) throw Error("Invalid trainee data");
@@ -62,7 +60,6 @@ export const createRequest = async (req: Request, res: Response) => {
 		return;
 	}
 
-	// 5. Create new request
 	const authRequest = new AuthenticationRequest();
 	authRequest.surgery = surgery;
 	authRequest.trainee = trainee;
@@ -70,7 +67,6 @@ export const createRequest = async (req: Request, res: Response) => {
 	authRequest.requestedRole = role;
 	authRequest.status = Authentication_Request.PENDING;
 
-	// 6. Add to doctors team
 	const doctor = new DoctorsTeam(traineeId, role.id, null, notes);
 
 	const surgeryLog = await surgeryLogsRepo.findOneBy({
@@ -83,14 +79,12 @@ export const createRequest = async (req: Request, res: Response) => {
 
 	surgeryLog.doctorsTeam.push(doctor);
 
-	// await notificationService.createNotification(
-	// 	consultant.id,
-	// 	NOTIFICATION_TYPES.AUTH_REQUEST,
-	// 	`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.procedure.name})`
-	// );
-
-	// 8. Save changes
 	await Promise.all([
+		notificationService.createNotification(
+			consultant.id,
+			NOTIFICATION_TYPES.AUTH_REQUEST,
+			`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.procedure.name})`
+		),
 		authenticationRequestRepo.save(authRequest),
 		surgeryLogsRepo.save(surgeryLog),
 	]);

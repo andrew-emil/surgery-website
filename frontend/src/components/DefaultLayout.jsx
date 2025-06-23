@@ -5,10 +5,10 @@ import { Box, Container } from "@mui/material";
 import MiniDrawer from "../components/Drawer";
 
 export default function DefaultLayout() {
-  const { token } = useStateContext();
-  if (!token) {
-    return <Navigate to="/login" />;
-  }
+  // const { token } = useStateContext();
+  // if (!token) {
+  //   return <Navigate to="/login" />;
+  // }
   return (
     <Box id="defaultLayout" sx={{ display: "block" }}>
       <div className="content">

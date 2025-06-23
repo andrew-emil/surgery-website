@@ -6,49 +6,9 @@
     "auditLog": "logs/.867ad2889ff16de82425204c10482625fd1b76dc-audit.json",
     "files": [
         {
-            "date": 1743683310245,
-            "name": "logs/error-2025-04-03.log",
-            "hash": "83cda2efe464ea8d66421ec51b4d20cd018bfa81c04df4c16ac4e1c0cb527f76"
-        },
-        {
-            "date": 1744033530867,
-            "name": "logs/error-2025-04-07.log",
-            "hash": "325a87f48d6b528e8938a50c545073f1b3499dc95f9d611ede6adbb8a11446e7"
-        },
-        {
-            "date": 1744087148238,
-            "name": "logs/error-2025-04-08.log",
-            "hash": "5e2265e509df5031e23a8b9fad88feeb6da17c39468acb9f95187705eab38e97"
-        },
-        {
-            "date": 1744157313377,
-            "name": "logs/error-2025-04-09.log",
-            "hash": "17f329b4044d02790c651ecf6a2a4e8ef488de6c3579fe010c1f029094626473"
-        },
-        {
-            "date": 1744245994296,
-            "name": "logs/error-2025-04-10.log",
-            "hash": "e11354c7f4fb410c0c0598754c6a58fab2938e2c2eeddf69ecff200dc81d0d8c"
-        },
-        {
-            "date": 1744337019514,
-            "name": "logs/error-2025-04-11.log",
-            "hash": "19391ab74edfea38ff9f8d9b1acf6471d65bff6ab75b2be64b4822d91db099e3"
-        },
-        {
-            "date": 1744419503989,
-            "name": "logs/error-2025-04-12.log",
-            "hash": "d802082fa540c025c37beac73b1ad3dbb5cda9f808ae9306c43cb5f70eb0eaed"
-        },
-        {
-            "date": 1744502961494,
-            "name": "logs/error-2025-04-13.log",
-            "hash": "e1e8c29f91c94ae67a19fc063a08316107ca5c54d78b4a78e1eac256a22d15c2"
-        },
-        {
-            "date": 1744593980432,
-            "name": "logs/error-2025-04-14.log",
-            "hash": "8dca8724281bebb7bc096973e73202fa8530d03628890162be986310421d0730"
+            "date": 1748951200188,
+            "name": "logs/error-2025-06-03.log",
+            "hash": "ef9eb90623ed1cd8f899152e90b4dc151182ca947eb50e80432425aa85606ca9"
         }
     ],
     "hashType": "sha256"

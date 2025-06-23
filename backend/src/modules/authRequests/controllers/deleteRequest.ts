@@ -45,18 +45,18 @@ export const deleteRequest = async (req: Request, res: Response) => {
 	if (initialCount === surgeryLog.doctorsTeam.length)
 		throw Error("Trainee Not Found in surgery team");
 
-	// await Promise.all([
-	// 	notificationService.createNotification(
-	// 		authRequest.consultant.id,
-	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
-	// 		`Request from ${authRequest.trainee.first_name} ${authRequest.trainee.last_name} for ${authRequest.surgery.name} was deleted`
-	// 	),
-	// 	notificationService.createNotification(
-	// 		authRequest.trainee.id,
-	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
-	// 		`Your request for ${authRequest.surgery.name} was deleted`
-	// 	),
-	// ]);
+	await Promise.all([
+		notificationService.createNotification(
+			authRequest.consultant.id,
+			NOTIFICATION_TYPES.AUTH_REQUEST,
+			`Request from ${authRequest.trainee.first_name} ${authRequest.trainee.last_name} for ${authRequest.surgery.name} was deleted`
+		),
+		notificationService.createNotification(
+			authRequest.trainee.id,
+			NOTIFICATION_TYPES.AUTH_REQUEST,
+			`Your request for ${authRequest.surgery.name} was deleted`
+		),
+	]);
 
 	const [_, deleteResult] = await Promise.all([
 		surgeryLogsRepo.update(

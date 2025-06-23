@@ -17,9 +17,7 @@ export const errorHandler: ErrorRequestHandler = (
 	let details: any = undefined;
 
 	switch (true) {
-		// Zod validation errors
 		case err instanceof ZodError: {
-			// const formattedError = fromZodError(err);
 			statusCode = 400;
 			message = errorMessage;
 			break;
@@ -31,14 +29,12 @@ export const errorHandler: ErrorRequestHandler = (
 			break;
 		}
 
-		// Authentication errors
 		case ["access denied", "unauthorized"].includes(errorMessageLower): {
 			statusCode = 401;
 			message = errorMessage;
 			break;
 		}
 
-		// Bad request errors
 		case errorMessageLower.includes("validation error"):
 		case errorMessageLower.includes("invalid"):
 		case errorMessageLower.includes("- required"):
@@ -48,7 +44,6 @@ export const errorHandler: ErrorRequestHandler = (
 			break;
 		}
 
-		// Database errors
 		case err.name === "QueryFailedError": {
 			statusCode = 500;
 			message = "Database query error";
@@ -56,7 +51,6 @@ export const errorHandler: ErrorRequestHandler = (
 			break;
 		}
 
-		// Not found errors
 		case err.name === "EntityNotFoundError": {
 			statusCode = 404;
 			message = "Requested resource not found";
@@ -69,14 +63,12 @@ export const errorHandler: ErrorRequestHandler = (
 			break;
 		}
 
-		// Conflict errors
 		case errorMessageLower.includes("already exists"): {
 			statusCode = 409;
 			message = errorMessage;
 			break;
 		}
 
-		// Explicit internal server errors
 		case errorMessage === "Internal server error": {
 			statusCode = 500;
 			message = errorMessage;

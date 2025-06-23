@@ -24,11 +24,9 @@ export const rejectUserAccount = async (req: Request, res: Response) => {
 		return;
 	}
 
-	// Find user
 	const user = await userRepo.findOneBy({ id: userId });
 	if (!user) throw Error("User not found");
 
-	// Validate account state
 	if (user.account_status === USER_STATUS.INACTIVE) {
 		res.status(400).json({
 			success: false,
@@ -37,7 +35,6 @@ export const rejectUserAccount = async (req: Request, res: Response) => {
 		return;
 	}
 
-	// Token validation
 	if (activationToken !== user.activation_token) {
 		res.status(400).json({
 			success: false,
@@ -46,14 +43,12 @@ export const rejectUserAccount = async (req: Request, res: Response) => {
 		return;
 	}
 
-	// Update user
 	user.account_status = USER_STATUS.INACTIVE;
 	user.activation_token = null;
 	user.token_expiry = null;
 	user.rejectionReason = rejectionReason;
 	await userRepo.save(user);
 
-	// Send notification
 	await sendAccountRejectionEmails(user.email, user.rejectionReason);
 
 	res.status(200).json({

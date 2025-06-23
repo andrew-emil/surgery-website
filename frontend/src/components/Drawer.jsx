@@ -266,15 +266,11 @@ export default function MiniDrawer() {
 	const mobileMenuId = "primary-search-account-menu-mobile";
 	React.useEffect(() => {
 		const fetchData = async () => {
-			try {
-				const response = await axiosClient.get("/users", {
-					withCredentials: true,
-				});
-				const { data } = response;
-				setUserData(data.user);
-			} catch (err) {
-				console.log(err);
-			}
+			const response = await axiosClient.get("/users", {
+				withCredentials: true,
+			});
+			const { data } = response;
+			setUserData(data.user);
 		};
 
 		const loadNotifications = async () => {
@@ -311,7 +307,6 @@ export default function MiniDrawer() {
 			onClose={handleMobileMenuClose}>
 			<MenuItem
 				onClick={() => {
-					console.log(socket);
 					navigate("/notifications");
 				}}>
 				<IconButton
@@ -366,6 +361,9 @@ export default function MiniDrawer() {
 		if (type === "auth_request") {
 			navigateString = "/surgery-requests-management/all-requests";
 		}
+		if (type === "role Update") {
+			navigateString = "/account";
+		}
 
 		return navigateString;
 	};
@@ -395,19 +393,15 @@ export default function MiniDrawer() {
 	const [userSurgeries, setUserSurgeries] = React.useState([]);
 	React.useEffect(() => {
 		const fetchData = async () => {
-			try {
-				const response = await axiosClient.get("/surgery", {
-					withCredentials: true,
-				});
-				const { data } = response;
-				setUserSurgeries(data.surgeries);
-				console.log(data.surgeries);
-			} catch (err) {
-				console.log(err);
-			}
+			const response = await axiosClient.get("/surgery", {
+				withCredentials: true,
+			});
+			const { data } = response;
+			setUserSurgeries(data.surgeries);
 		};
 		fetchData();
 	}, []);
+
 	const filterOptions = (options, { inputValue }) => {
 		return options.filter((option) => {
 			const searchStr = inputValue.toLowerCase();
@@ -428,7 +422,7 @@ export default function MiniDrawer() {
 	};
 
 	const handleSurgerySelect = (event, value) => {
-		if (value) {
+		if (value && value.id) {
 			handleButtonClick(value.id);
 		}
 	};
@@ -682,275 +676,260 @@ export default function MiniDrawer() {
 							/>
 						</ListItemButton>
 					</ListItem>
-					{authorizedUser(user, ["Admin", "Consultant"], "create surgery") && (
-						<ListItem
-							key={"Surgery"}
-							component="a"
-							href="/surgeries"
-							disablePadding
-							sx={{
-								display: "block",
-								textDecoration: "none",
+
+					<ListItem
+						key={"Surgery"}
+						component="a"
+						href="/surgeries"
+						disablePadding
+						sx={{
+							display: "block",
+							textDecoration: "none",
+							color: theme.palette.text.primary,
+							"&:visited": {
 								color: theme.palette.text.primary,
-								"&:visited": {
-									color: theme.palette.text.primary,
+							},
+							"&:hover": {
+								textDecoration: "none",
+							},
+						}}>
+						<ListItemButton
+							sx={[
+								{
+									minHeight: 48,
+									px: 2.5,
 								},
-								"&:hover": {
-									textDecoration: "none",
-								},
-							}}>
-							<ListItemButton
+								open
+									? {
+											justifyContent: "initial",
+										}
+									: {
+											justifyContent: "center",
+										},
+							]}>
+							<ListItemIcon
 								sx={[
 									{
-										minHeight: 48,
-										px: 2.5,
+										minWidth: 0,
+										justifyContent: "center",
 									},
 									open
 										? {
-												justifyContent: "initial",
+												mr: 3,
 											}
 										: {
-												justifyContent: "center",
+												mr: "auto",
 											},
 								]}>
-								<ListItemIcon
-									sx={[
-										{
-											minWidth: 0,
+								<LocalHospitalIcon />
+							</ListItemIcon>
+							<ListItemText
+								primary={"Surgery"}
+								sx={[
+									open
+										? {
+												opacity: 1,
+											}
+										: {
+												opacity: 0,
+											},
+								]}
+							/>
+						</ListItemButton>
+					</ListItem>
+
+					<ListItem
+						key={"ُEquipments"}
+						component="a"
+						href="/equipments"
+						disablePadding
+						sx={{
+							display: "block",
+							textDecoration: "none",
+							color: theme.palette.text.primary,
+							"&:visited": {
+								color: theme.palette.text.primary,
+							},
+							"&:hover": {
+								textDecoration: "none",
+							},
+						}}>
+						<ListItemButton
+							sx={[
+								{
+									minHeight: 48,
+									px: 2.5,
+								},
+								open
+									? {
+											justifyContent: "initial",
+										}
+									: {
 											justifyContent: "center",
 										},
-										open
-											? {
-													mr: 3,
-												}
-											: {
-													mr: "auto",
-												},
-									]}>
-									<LocalHospitalIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary={"Surgery"}
-									sx={[
-										open
-											? {
-													opacity: 1,
-												}
-											: {
-													opacity: 0,
-												},
-									]}
-								/>
-							</ListItemButton>
-						</ListItem>
-					)}
-					{authorizedUser(
-						user,
-						["Admin", "Consultant"],
-						"create equipment"
-					) && (
-						<ListItem
-							key={"ُEquipments"}
-							component="a"
-							href="/equipments"
-							disablePadding
-							sx={{
-								display: "block",
-								textDecoration: "none",
-								color: theme.palette.text.primary,
-								"&:visited": {
-									color: theme.palette.text.primary,
-								},
-								"&:hover": {
-									textDecoration: "none",
-								},
-							}}>
-							<ListItemButton
+							]}>
+							<ListItemIcon
 								sx={[
 									{
-										minHeight: 48,
-										px: 2.5,
+										minWidth: 0,
+										justifyContent: "center",
 									},
 									open
 										? {
-												justifyContent: "initial",
+												mr: 3,
 											}
 										: {
-												justifyContent: "center",
+												mr: "auto",
 											},
 								]}>
-								<ListItemIcon
-									sx={[
-										{
-											minWidth: 0,
-											justifyContent: "center",
-										},
-										open
-											? {
-													mr: 3,
-												}
-											: {
-													mr: "auto",
-												},
-									]}>
-									<VaccinesIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary={"Equipments"}
-									sx={[
-										open
-											? {
-													opacity: 1,
-												}
-											: {
-													opacity: 0,
-												},
-									]}
-								/>
-							</ListItemButton>
-						</ListItem>
-					)}
+								<VaccinesIcon />
+							</ListItemIcon>
+							<ListItemText
+								primary={"Equipments"}
+								sx={[
+									open
+										? {
+												opacity: 1,
+											}
+										: {
+												opacity: 0,
+											},
+								]}
+							/>
+						</ListItemButton>
+					</ListItem>
 				</List>
 				<Divider />
 				<List>
-					{authorizedUser(user, [], "perform surgery") && (
-						<ListItem
-							key={"open-slots"}
-							component="a"
-							href="/surgeries-open-slots"
-							disablePadding
-							sx={{
-								display: "block",
-								textDecoration: "none",
+					<ListItem
+						key={"open-slots"}
+						component="a"
+						href="/surgeries-open-slots"
+						disablePadding
+						sx={{
+							display: "block",
+							textDecoration: "none",
+							color: theme.palette.text.primary,
+							"&:visited": {
 								color: theme.palette.text.primary,
-								"&:visited": {
-									color: theme.palette.text.primary,
+							},
+							"&:hover": {
+								textDecoration: "none",
+							},
+						}}>
+						<ListItemButton
+							sx={[
+								{
+									minHeight: 48,
+									px: 2.5,
 								},
-								"&:hover": {
-									textDecoration: "none",
-								},
-							}}>
-							<ListItemButton
+								open
+									? {
+											justifyContent: "initial",
+										}
+									: {
+											justifyContent: "center",
+										},
+							]}>
+							<ListItemIcon
 								sx={[
 									{
-										minHeight: 48,
-										px: 2.5,
+										minWidth: 0,
+										justifyContent: "center",
 									},
 									open
 										? {
-												justifyContent: "initial",
+												mr: 3,
 											}
 										: {
-												justifyContent: "center",
+												mr: "auto",
 											},
 								]}>
-								<ListItemIcon
-									sx={[
-										{
-											minWidth: 0,
-											justifyContent: "center",
-										},
-										open
-											? {
-													mr: 3,
-												}
-											: {
-													mr: "auto",
-												},
-									]}>
-									<MedicalServicesIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary={"Open Slots"}
-									sx={[
-										open
-											? {
-													opacity: 1,
-												}
-											: {
-													opacity: 0,
-												},
-									]}
-								/>
-							</ListItemButton>
-						</ListItem>
-					)}
+								<MedicalServicesIcon />
+							</ListItemIcon>
+							<ListItemText
+								primary={"Open Slots"}
+								sx={[
+									open
+										? {
+												opacity: 1,
+											}
+										: {
+												opacity: 0,
+											},
+								]}
+							/>
+						</ListItemButton>
+					</ListItem>
 
-					{authorizedUser(user, ["Admin", "Consultant"]) && (
-						<ListItem
-							key={"Role Management"}
-							component="a"
-							href="/consultant/roles"
-							disablePadding
-							sx={{
-								display:
-									user.userRole === "Consultant" || user.userRole === "Admin"
-										? "block"
-										: "none",
-								textDecoration: "none",
+					<ListItem
+						key={"Role Management"}
+						component="a"
+						href="/consultant/roles"
+						disablePadding
+						sx={{
+							display: "block",
+							textDecoration: "none",
+							color: theme.palette.text.primary,
+							"&:visited": {
 								color: theme.palette.text.primary,
-								"&:visited": {
-									color: theme.palette.text.primary,
+							},
+							"&:hover": {
+								textDecoration: "none",
+							},
+						}}>
+						<ListItemButton
+							sx={[
+								{
+									minHeight: 48,
+									px: 2.5,
 								},
-								"&:hover": {
-									textDecoration: "none",
-								},
-							}}>
-							<ListItemButton
+								open
+									? {
+											justifyContent: "initial",
+										}
+									: {
+											justifyContent: "center",
+										},
+							]}>
+							<ListItemIcon
 								sx={[
 									{
-										minHeight: 48,
-										px: 2.5,
+										minWidth: 0,
+										justifyContent: "center",
 									},
 									open
 										? {
-												justifyContent: "initial",
+												mr: 3,
 											}
 										: {
-												justifyContent: "center",
+												mr: "auto",
 											},
 								]}>
-								<ListItemIcon
-									sx={[
-										{
-											minWidth: 0,
-											justifyContent: "center",
-										},
-										open
-											? {
-													mr: 3,
-												}
-											: {
-													mr: "auto",
-												},
-									]}>
-									<AssignmentIndTwoTone />
-								</ListItemIcon>
-								<ListItemText
-									primary={"Role Management"}
-									sx={[
-										open
-											? {
-													opacity: 1,
-												}
-											: {
-													opacity: 0,
-												},
-									]}
-								/>
-							</ListItemButton>
-						</ListItem>
-					)}
+								<AssignmentIndTwoTone />
+							</ListItemIcon>
+							<ListItemText
+								primary={"Role Management"}
+								sx={[
+									open
+										? {
+												opacity: 1,
+											}
+										: {
+												opacity: 0,
+											},
+								]}
+							/>
+						</ListItemButton>
+					</ListItem>
+
 					<ListItem
 						key={"Request Management"}
 						component="a"
 						href="/surgery-requests-management"
 						disablePadding
 						sx={{
-							display:
-								user.userRole === "Consultant" || user.userRole === "Admin"
-									? "block"
-									: "none",
+							display: "block",
 							textDecoration: "none",
 							color: theme.palette.text.primary,
 							"&:visited": {
@@ -1010,7 +989,7 @@ export default function MiniDrawer() {
 						href="/admin"
 						disablePadding
 						sx={{
-							display: user.userRole === "Admin" ? "block" : "none",
+							display: "block",
 							textDecoration: "none",
 							color: theme.palette.text.primary,
 							"&:visited": {
@@ -1064,68 +1043,67 @@ export default function MiniDrawer() {
 							/>
 						</ListItemButton>
 					</ListItem>
-					{authorizedUser(user, [], "add surgical role") && (
-						<ListItem
-							key={"surgical-roles"}
-							component="a"
-							href="/surgical-roles"
-							disablePadding
-							sx={{
-								display: "block",
-								textDecoration: "none",
+
+					<ListItem
+						key={"surgical-roles"}
+						component="a"
+						href="/surgical-roles"
+						disablePadding
+						sx={{
+							display: "block",
+							textDecoration: "none",
+							color: theme.palette.text.primary,
+							"&:visited": {
 								color: theme.palette.text.primary,
-								"&:visited": {
-									color: theme.palette.text.primary,
+							},
+							"&:hover": {
+								textDecoration: "none",
+							},
+						}}>
+						<ListItemButton
+							sx={[
+								{
+									minHeight: 48,
+									px: 2.5,
 								},
-								"&:hover": {
-									textDecoration: "none",
-								},
-							}}>
-							<ListItemButton
+								open
+									? {
+											justifyContent: "initial",
+										}
+									: {
+											justifyContent: "center",
+										},
+							]}>
+							<ListItemIcon
 								sx={[
 									{
-										minHeight: 48,
-										px: 2.5,
+										minWidth: 0,
+										justifyContent: "center",
 									},
 									open
 										? {
-												justifyContent: "initial",
+												mr: 3,
 											}
 										: {
-												justifyContent: "center",
+												mr: "auto",
 											},
 								]}>
-								<ListItemIcon
-									sx={[
-										{
-											minWidth: 0,
-											justifyContent: "center",
-										},
-										open
-											? {
-													mr: 3,
-												}
-											: {
-													mr: "auto",
-												},
-									]}>
-									<ThreePIcon />
-								</ListItemIcon>
-								<ListItemText
-									primary={"Surgical Roles"}
-									sx={[
-										open
-											? {
-													opacity: 1,
-												}
-											: {
-													opacity: 0,
-												},
-									]}
-								/>
-							</ListItemButton>
-						</ListItem>
-					)}
+								<ThreePIcon />
+							</ListItemIcon>
+							<ListItemText
+								primary={"Surgical Roles"}
+								sx={[
+									open
+										? {
+												opacity: 1,
+											}
+										: {
+												opacity: 0,
+											},
+								]}
+							/>
+						</ListItemButton>
+					</ListItem>
 
 					<ListItem
 						key={"procedure-types"}
@@ -1133,10 +1111,7 @@ export default function MiniDrawer() {
 						href="/procedure-types"
 						disablePadding
 						sx={{
-							display:
-								user.userRole === "Consultant" || user.userRole === "Admin"
-									? "block"
-									: "none",
+							display: "block",
 							textDecoration: "none",
 							color: theme.palette.text.primary,
 							"&:visited": {

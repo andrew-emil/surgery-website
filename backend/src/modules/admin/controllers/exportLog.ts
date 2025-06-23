@@ -58,7 +58,7 @@ export const exportLog = async (req: Request, res: Response) => {
 		const csv = json2csv(data, {
 			arrayIndexesAsKeys: true,
 		});
-		res.header("Contnet-Type", "text/csv").attachment("report.csv").send(csv);
+		res.header("Content-Type", "text/csv").attachment("report.csv").send(csv);
 		return;
 	}
 

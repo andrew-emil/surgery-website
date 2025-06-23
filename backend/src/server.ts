@@ -21,7 +21,6 @@ import surgeryRoutes from "./modules/surgery/surgery.routes.js";
 import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
 import authRequestsRoutes from "./modules/authRequests/authRequests.routes.js";
 import notificationRoutes from "./modules/notification/notification.routes.js";
-import { seedDatabase } from "./config/databaseSeed.js";
 import adminRoutes from "./modules/admin/admin.routes.js";
 import { intializeServices } from "./config/initializeServices.js";
 import surgeryEquiRoutes from "./modules/surgeryEquipments/surgeryEquip.routes.js";
@@ -33,6 +32,7 @@ import { initializeCronJobs } from "./utils/cronJobs.js";
 import procedureTypeRoutes from "./modules/procedureType.routes.js";
 import { notFoundHandler } from "./handlers/notFoundHandler.js";
 import surgicalRoleRoutes from "./modules/surgicalRole/surgicalRole.routes.js";
+import { seedSurgeries } from "./seeders/surgerySeeder.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -76,7 +76,7 @@ app.use("/api/roles", rolesRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/affiliation", affiliationRoutes);
 
-app.use(authMiddleware);
+// app.use(authMiddleware);
 app.use("/api/surgery", surgeryRoutes);
 app.use("/api/auth-requests", authRequestsRoutes);
 app.use("/api/notification", notificationRoutes);
@@ -103,6 +103,13 @@ const startServer = async () => {
 		await initializeCronJobs();
 		logger.info("Cron jobs initialized");
 
+		console.log("Running seeders...");
+
+		// Run seeders
+		await seedSurgeries();
+
+		console.log("All seeders completed successfully!");
+
 		server.listen(port, () => {
 			logger.info(`app listening on port: ${port}`);
 		});
@@ -117,9 +124,5 @@ app.use(notFoundHandler);
 app.use(errorHandler);
 
 export { io, server };
-startServer().then(() =>
-	seedDatabase().catch((error) => {
-		logger.error("Error seeding database:", error);
-		process.exit(1);
-	})
-);
+
+startServer();

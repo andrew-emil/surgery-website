@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { Box, CardHeader, Container, Divider, Skeleton } from "@mui/material";
 import axiosClient from "./../axiosClient";
-import StarRating from "./../components/StarRating";
 import { useNavigate } from "react-router-dom";
 import { FormButton } from "../components/StyledComponents";
 
@@ -26,7 +23,7 @@ export default function OpenSlots() {
 
         setOpenSlots(data.surgeries);
       } catch (err) {
-        console.log(err);
+        
         setErr(err.response.data.message);
       } finally {
         setLoading(false);
@@ -37,7 +34,7 @@ export default function OpenSlots() {
   }, []);
 
   const handleButtonClick = (surgeryId) => {
-    console.log(surgeryId);
+    
     navigate("/surgeryDetails", {
       state: {
         surgeryId,

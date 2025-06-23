@@ -7,6 +7,7 @@ import { Box, Container, List, ListItem } from "@mui/material";
 import Notification from "./../components/Notification";
 import { Circle } from "@mui/icons-material";
 
+
 const NotificationPage = () => {
 	const { notifications, unreadCount, setNotifications, setUnreadCount } =
 		useNotifications();
@@ -31,8 +32,6 @@ const NotificationPage = () => {
 					withCredentials: true,
 				});
 				const { data } = response;
-
-				console.log(data);
 
 				setNotifications(data.notifications);
 				setUnreadCount(data.unreadCount);

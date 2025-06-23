@@ -46,7 +46,7 @@ export default function Equipments() {
         setRows(newRows);
       })
       .catch((err) => {
-        console.log(err);
+        
       });
   }, []);
 

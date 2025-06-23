@@ -28,14 +28,14 @@ export default function ResetPassword() {
 			setErr("Passwords do not match.");
 			return;
 		}
-		
+
 		setIsLoading(true);
 		const payload = {
 			email,
 			token,
 			newPassword: passwordRef.current.value,
 		};
-		
+
 		axiosClient
 			.post("/users/reset-password", payload)
 			.then(({ data }) => {
@@ -43,7 +43,7 @@ export default function ResetPassword() {
 			})
 			.catch((err) => {
 				const response = err.response;
-				console.log(err);
+
 				if (response) {
 					setErr(response.data.message);
 				}

@@ -58,6 +58,7 @@ export enum NOTIFICATION_TYPES {
 	AUTH_REQUEST = "auth_request",
 	SCHEDULE_UPDATE = "schedule_update",
 	USER_REGISTRATION = "User Registration",
+	ROLE_UPDATE = "role Update"
 }
 
 export enum Authentication_Request {

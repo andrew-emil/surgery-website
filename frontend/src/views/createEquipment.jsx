@@ -43,7 +43,7 @@ export default function CreateEquipments() {
 			})
 			.catch((err) => {
 				const response = err.response;
-				console.log(err);
+
 				if (response) {
 					setErr(response.data.message);
 				}

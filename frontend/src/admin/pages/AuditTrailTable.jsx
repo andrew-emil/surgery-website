@@ -19,6 +19,7 @@ import {
 	InputLabel,
 	Select,
 	MenuItem,
+	Stack,
 } from "@mui/material";
 import axiosClient from "../../axiosClient";
 
@@ -59,7 +60,6 @@ const AuditTrailTable = () => {
 		if (query.startDate) params.append("startDate", query.startDate);
 		if (query.endDate) params.append("endDate", query.endDate);
 		params.append("page", page);
-		console.log(params);
 
 		try {
 			const response = await axiosClient.get(
@@ -115,13 +115,22 @@ const AuditTrailTable = () => {
 
 	return (
 		<Container>
-			<Box p={2}>
+			<Box>
 				{/* Search Inputs */}
-				<Box display="flex" gap={2} mb={2} alignItems="center">
-					<FormControl autoWidth>
+				<Stack
+					direction={{ xs: "column", sm: "row" }} // ← column on mobile, row on sm+
+					spacing={2}
+					flexWrap="wrap"
+					sx={{
+						overflowX: "auto",
+						margin: "1rem",
+						gap: "1rem",
+						padding: "1rem",
+					}}>
+					<FormControl fullWidth sx={{ maxWidth: { sm: 160 } }}>
 						<InputLabel id="action-select-label">Action</InputLabel>
 						<Select
-							autoWidth
+							sx={{ width: "8rem" }}
 							labelId="action-select-label"
 							id="action-select"
 							name="action"
@@ -146,6 +155,7 @@ const AuditTrailTable = () => {
 						InputLabelProps={{ shrink: true }}
 						value={query.startDate}
 						onChange={handleInputChange}
+						sx={{ maxWidth: { sm: 180 } }}
 					/>
 					<TextField
 						label="End Date"
@@ -154,11 +164,15 @@ const AuditTrailTable = () => {
 						InputLabelProps={{ shrink: true }}
 						value={query.endDate}
 						onChange={handleInputChange}
+						sx={{ maxWidth: { sm: 180 } }}
 					/>
-					<Button variant="contained" onClick={handleSearch}>
+					<Button
+						variant="contained"
+						onClick={handleSearch}
+						sx={{ maxWidth: { sm: "auto" } }}>
 						Search
 					</Button>
-				</Box>
+				</Stack>
 
 				{/* Audit Trail Data Table */}
 				<TableContainer component={Paper}>

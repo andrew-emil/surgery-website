@@ -20,15 +20,12 @@ axiosClient.interceptors.response.use(
     return response;
   },
   (error) => {
-    try {
+    
       if (error.response.status === 401) {
         Cookies.remove("ACCESS_TOKEN");
         window.location.href = "/login";
       }
-    } catch (error) {
-      console.log(error);
-    }
-    throw error;
+    
   }
 );
 export default axiosClient;

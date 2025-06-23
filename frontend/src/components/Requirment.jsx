@@ -2,7 +2,7 @@ import { Box, Card, CardContent, Typography } from "@mui/material";
 
 // eslint-disable-next-line react/prop-types
 const Requirments = ({ requirments }) => {
-	console.log(requirments);
+	
 	return (
 		<Box sx={{ width: "100%" }}>
 			{/* eslint-disable-next-line react/prop-types */}

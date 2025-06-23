@@ -27,7 +27,7 @@ const RoleManagmentPage = () => {
 					withCredentials: true,
 				});
 				const { data } = response;
-				console.log(data);
+
 				setRoles(data.data);
 			} catch (err) {
 				console.error(err.response.data.message);

@@ -34,7 +34,6 @@ export default function RequestsForSurgery() {
 				setRequests(data.requests);
 				setSurguries(data.surgery);
 			} catch (err) {
-				console.log(err);
 				setErr(err.response.data.message);
 			} finally {
 				setLoading(false);
@@ -53,7 +52,6 @@ export default function RequestsForSurgery() {
 				setRequests((prev) => prev.filter((r) => r.id !== req.id));
 			})
 			.catch((err) => {
-				console.log(err);
 				setErr(err.message);
 			})
 			.finally(() => {
@@ -70,7 +68,6 @@ export default function RequestsForSurgery() {
 				setRequests((prev) => prev.filter((r) => r.id !== req.id));
 			})
 			.catch((err) => {
-				console.log(err);
 				setErr(err.message);
 			})
 			.finally(() => {

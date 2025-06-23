@@ -36,7 +36,7 @@ export class NotificationService {
 
 		io.emit(`notification:${userId}`, savedNotification);
 
-		// if (user.email) await this.sendNotificationEmail(user.email, message);
+		if (user.email) await this.sendNotificationEmail(user.email, message);
 
 		return savedNotification;
 	}

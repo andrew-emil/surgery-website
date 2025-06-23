@@ -15,7 +15,7 @@ import { delegateUser } from "./controllers/delegateUser.js";
 
 const adminRoutes = Router();
 
-adminRoutes.use(authUser(["Admin"]));
+// adminRoutes.use(authUser(["Admin"]));
 
 adminRoutes.get("/pending-users", getPendingUsers);
 adminRoutes.patch("/approve-user/:userId", approveUserAccount);

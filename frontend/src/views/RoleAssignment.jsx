@@ -31,7 +31,7 @@ const RoleAssignmentPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(roleId);
+        
         const [permissionsData] = await Promise.all([
           axiosClient.get("/roles/permissions", { withCredentials: true }),
         ]);
