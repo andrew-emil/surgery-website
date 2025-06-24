@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import { updateAffiliationSchema } from "../../../utils/zodSchemas.js";
 import { affiliationRepo } from "../../../config/repositories.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 
 export const updateAffiliation = async (req: Request, res: Response) => {
-	const validation = updateAffiliationSchema.safeParse(req.body);
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
-	const { id, institution_type, ...updateData } = validation.data;
+	const { id, institution_type, ...updateData } = validateSchema(
+		updateAffiliationSchema,
+		req.body
+	);
 
 	const affiliationId = parseInt(id);
 	if (isNaN(parseInt(id))) throw Error("Invalid Affiliation Id");
@@ -28,5 +28,6 @@ export const updateAffiliation = async (req: Request, res: Response) => {
 	res.status(200).json({
 		success: true,
 		message: "Affiliation updated successfully",
+		affiliation,
 	});
 };

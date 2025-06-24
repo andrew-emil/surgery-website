@@ -45,20 +45,14 @@ export const promoteUser = async (req: Request, res: Response) => {
 			return;
 		}
 
-		await manager.update(
-			User,
-			{
-				id: user.id,
-			},
-			{
-				role: parentRole,
-			}
-		);
-		await notificationService.createNotification(
-			userId,
-			NOTIFICATION_TYPES.ROLE_UPDATE,
-			`Your role has been Promoted to ${parentRole}`
-		);
+		await manager.update(User, { id: user.id }, { role: parentRole });
+
+		//!free trial expired
+		// await notificationService.createNotification(
+		// 	userId,
+		// 	NOTIFICATION_TYPES.ROLE_UPDATE,
+		// 	`Your role has been Promoted to ${parentRole}`
+		// );
 	});
 
 	res.status(200).json({

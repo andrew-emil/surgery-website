@@ -39,7 +39,7 @@ export const getAllRoles = async (req: Request, res: Response) => {
 	]);
 
 	if (roles.length === 0) {
-		res.status(404).json({ message: "No roles found" });
+		res.status(404).json({ success: false, message: "No roles found" });
 		return;
 	}
 
@@ -63,4 +63,5 @@ export const getAllRoles = async (req: Request, res: Response) => {
 			})),
 		})),
 	});
+	return;
 };

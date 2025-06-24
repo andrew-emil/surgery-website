@@ -27,8 +27,5 @@ export const deleteEquipment = async (req: Request, res: Response) => {
 		await manager.delete(SurgeryEquipment, { id });
 	});
 
-	res.status(204).json({
-		success: true,
-		message: "Surgery Equipment deleted successfully.",
-	});
+	res.status(204).end();
 };

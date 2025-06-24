@@ -1,17 +1,12 @@
 import { Request, Response } from "express";
 import {
-	affiliationRepo,
-	departmentRepo,
+	departmentRepo
 } from "../../../config/repositories.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 import { updateDepartmentSchema } from "../../../utils/zodSchemas.js";
-import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 
 export const updateDepartment = async (req: Request, res: Response) => {
-	const validation = updateDepartmentSchema.safeParse(req.body);
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
-	const { id, name } = validation.data;
+	const { id, name } = validateSchema(updateDepartmentSchema, req.body);
 
 	if (!id || isNaN(parseInt(id))) throw Error("Invalid department ID");
 
@@ -32,4 +27,5 @@ export const updateDepartment = async (req: Request, res: Response) => {
 		success: true,
 		message: "Department updated successfully",
 	});
+	return;
 };

@@ -2,13 +2,13 @@ import { Request, Response } from "express";
 import { addAffiliationSchema } from "../../../utils/zodSchemas.js";
 import { affiliationRepo } from "../../../config/repositories.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 
 export const addAffiliation = async (req: Request, res: Response) => {
-	const validation = addAffiliationSchema.safeParse(req.body);
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
-	const { name, country, city, address, institution_type } = validation.data;
+	const { name, country, city, address, institution_type } = validateSchema(
+		addAffiliationSchema,
+		req.body
+	);
 
 	const existingAffiliation = await affiliationRepo.findOne({
 		where: { name, country, city, address },
@@ -26,7 +26,7 @@ export const addAffiliation = async (req: Request, res: Response) => {
 		country,
 		city,
 		address,
-		institution_type: institution_type
+		institution_type: institution_type,
 	});
 
 	await affiliationRepo.save(newAffiliation);
@@ -34,5 +34,6 @@ export const addAffiliation = async (req: Request, res: Response) => {
 	res.status(201).json({
 		success: true,
 		message: "Affiliation created successfully",
+		affiliation: newAffiliation,
 	});
 };

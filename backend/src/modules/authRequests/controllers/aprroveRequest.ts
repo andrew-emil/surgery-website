@@ -8,7 +8,7 @@ export const approveRequest = async (req: Request, res: Response) => {
 
 	await surgeryAuthService.handleRequestApproval(requestId);
 
-	res.json({
+	res.status(200).json({
 		success: true,
 		message: "Request approved successfully",
 	});

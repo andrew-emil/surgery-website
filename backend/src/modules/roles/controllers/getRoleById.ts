@@ -38,7 +38,11 @@ export const getRoleById = async (req: Request, res: Response) => {
 		},
 	});
 
-	if (!role) throw Error("Role not found");
+	if (!role) {
+		res.status(404).json({ success: false, message: "Role not found" });
+		return;
+	}
 
 	res.status(200).json(role);
+	return;
 };

@@ -1,6 +1,4 @@
 import { Request, Response } from "express";
-import { editRequestSchema } from "../../../utils/zodSchemas.js";
-import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import {
 	authenticationRequestRepo,
 	surgeryLogsRepo,
@@ -8,14 +6,11 @@ import {
 	surgicalRolesRepo,
 	userRepo,
 } from "../../../config/repositories.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
+import { editRequestSchema } from "../../../utils/zodSchemas.js";
 
 export const editRequest = async (req: Request, res: Response) => {
-	const validation = editRequestSchema.safeParse(req.body);
-
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
-	const { surgeryId, traineeId, roleId, notes } = validation.data;
+	const { surgeryId, traineeId, roleId, notes } = validateSchema(editRequestSchema, req.body)
 
 	if (req.user.id !== traineeId) throw Error("Unauthorized");
 
@@ -79,5 +74,6 @@ export const editRequest = async (req: Request, res: Response) => {
 	res.status(200).json({
 		success: true,
 		message: "Request updated successfully",
+		request: authRequest,
 	});
 };

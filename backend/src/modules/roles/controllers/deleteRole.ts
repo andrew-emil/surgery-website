@@ -11,7 +11,7 @@ export const deleteRole = async (req: Request, res: Response) => {
 	const roleId = parseInt(id);
 
 	if (isNaN(roleId)) {
-		res.status(400).json({ error: "Invalid role ID format" });
+		res.status(400).json({ success: false, message: "Invalid role ID format" });
 		return;
 	}
 
@@ -21,7 +21,7 @@ export const deleteRole = async (req: Request, res: Response) => {
 	});
 
 	if (!role) {
-		res.status(404).json({ error: "Role not found" });
+		res.status(404).json({ success: false, message: "Role not found" });
 		return;
 	}
 
@@ -55,4 +55,5 @@ export const deleteRole = async (req: Request, res: Response) => {
 	});
 
 	res.status(204).end();
+	return;
 };

@@ -13,7 +13,13 @@ export const getAffiliations = async (req: Request, res: Response) => {
 	});
 
 	if (total === 0) {
-		res.status(404).json({ success: false, message: "No affiliations found" });
+		res.status(200).json({
+			success: true,
+			affiliations,
+			page,
+			total,
+			totalPages: Math.ceil(total / take),
+		});
 		return;
 	}
 

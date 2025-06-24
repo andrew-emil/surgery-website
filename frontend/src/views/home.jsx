@@ -1,19 +1,15 @@
-import { useEffect, useState } from "react";
+import { Container, Skeleton } from "@mui/material";
+import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { Container, Skeleton } from "@mui/material";
-import axiosClient from "./../axiosClient";
+import { useLoaderData, useNavigation } from "react-router";
 import StarRating from "./../components/StarRating";
-import { useNavigate } from "react-router-dom";
 
 export default function Home() {
-	const [loading, setLoading] = useState(true);
-	const [userSurgeries, setUserSurgeries] = useState([]);
-	const [err, setErr] = useState(null);
-	const navigate = useNavigate();
+	const userSurgeries = useLoaderData();
+	const navigation = useNavigation();
 
 	const statusColors = {
 		Completed: "green",
@@ -21,64 +17,16 @@ export default function Home() {
 		Cancelled: "red",
 	};
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await axiosClient.get("/surgery/surgeries", {
-					withCredentials: true,
-				});
-				const { data } = response;
-				setUserSurgeries(data.surgeries);
-			} catch (err) {
-				setErr(err.response?.data?.message || "error fetching surgeries");
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		fetchData();
-	}, []);
-
 	const handleButtonClick = (surgeryId) => {
-		
-		navigate("/surgeryDetails", {
-			state: {
-				surgeryId,
-			},
-		});
+		navigation(`/surgeryDetails/${surgeryId}`);
 	};
 
-	if (loading) {
+	if (navigation.state === "loading") {
 		return (
 			<Container>
 				<Skeleton variant="rectangular" height={205} sx={{ marginY: "1rem" }} />
 				<Skeleton variant="rectangular" height={205} sx={{ marginY: "1rem" }} />
 				<Skeleton variant="rectangular" height={205} sx={{ marginY: "1rem" }} />
-			</Container>
-		);
-	}
-
-	if (err) {
-		return (
-			<Container
-				sx={{
-					position: "absolute",
-					top: "50%",
-					left: "50%",
-					transform: "translate(-50%, -50%)",
-					display: "flex",
-					width: "auto",
-				}}>
-				{err && (
-					<Typography
-						variant="h4"
-						sx={{
-							marginBottom: "1rem",
-							color: "red",
-						}}>
-						{err}
-					</Typography>
-				)}
 			</Container>
 		);
 	}

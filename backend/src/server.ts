@@ -22,17 +22,17 @@ import affiliationRoutes from "./modules/affiliations/affiliations.routes.js";
 import authRequestsRoutes from "./modules/authRequests/authRequests.routes.js";
 import notificationRoutes from "./modules/notification/notification.routes.js";
 import adminRoutes from "./modules/admin/admin.routes.js";
-import { intializeServices } from "./config/initializeServices.js";
+import { initializeServices } from "./config/initializeServices.js";
 import surgeryEquiRoutes from "./modules/surgeryEquipments/surgeryEquip.routes.js";
 import ratingRoutes from "./modules/rating/rating.routes.js";
 import scheduleRoutes from "./modules/Scheduling/schedule.routes.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
 import logger from "./config/loggerConfig.js";
 import { initializeCronJobs } from "./utils/cronJobs.js";
-import procedureTypeRoutes from "./modules/procedureType.routes.js";
 import { notFoundHandler } from "./handlers/notFoundHandler.js";
 import surgicalRoleRoutes from "./modules/surgicalRole/surgicalRole.routes.js";
 import { seedSurgeries } from "./seeders/surgerySeeder.js";
+import procedureTypeRoutes from "./modules/procedure-type/procedureType.routes.js";
 
 config({ path: "./.env" });
 const app: Application = express();
@@ -98,7 +98,7 @@ const startServer = async () => {
 		initializeMongoRepositories();
 		logger.info("Connected to MongoDB database successfully");
 
-		intializeServices();
+		initializeServices();
 
 		await initializeCronJobs();
 		logger.info("Cron jobs initialized");
@@ -120,7 +120,6 @@ const startServer = async () => {
 };
 
 app.use(notFoundHandler);
-
 app.use(errorHandler);
 
 export { io, server };

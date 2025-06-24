@@ -15,21 +15,16 @@ const rolesRoutes = Router();
 rolesRoutes.get("/", getAllRoles);
 
 rolesRoutes.use(authMiddleware);
+
 rolesRoutes.get("/permissions", getAllPermissions);
 rolesRoutes.get("/get-role/:roleId", getRoleById);
 rolesRoutes.get("/get-children/:roleId", getRoleChildren);
 
-rolesRoutes.use(auditLogger());
-rolesRoutes.post("/", authUser(["Admin", "Consultant"]), addRole);
+rolesRoutes.use(authUser(["Admin", "Consultant"]), auditLogger());
 
-rolesRoutes.delete("/:id", authUser(["Admin", "Consultant"]), deleteRole);
-
-rolesRoutes.put("/", authUser(["Admin", "Consultant"]), updateRole);
-
-rolesRoutes.put(
-	"/assign-perm/:roleId",
-	authUser(["Admin", "Consultant"]),
-	assignPermissions
-);
+rolesRoutes.post("/", addRole);
+rolesRoutes.delete("/:id", deleteRole);
+rolesRoutes.put("/", updateRole);
+rolesRoutes.put("/assign-perm/:roleId", assignPermissions);
 
 export default rolesRoutes;

@@ -13,11 +13,15 @@ export const getRoleChildren = async (req: Request, res: Response) => {
 		relations: ["children"],
 	});
 
-	if (!role) throw Error("Role Not found");
+	if (!role) {
+		res.status(404).json({ success: false, message: "Role Not found" });
+		return;
+	}
 
 	res.status(200).json({
 		id: role.id,
 		name: role.name,
 		children: role.children || [],
 	});
+	return;
 };

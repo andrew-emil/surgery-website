@@ -5,16 +5,12 @@ import {
 	procedureTypeRepo,
 	requirementRepo,
 } from "../../../config/repositories.js";
-import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 import { addRoleSchema } from "../../../utils/zodSchemas.js";
 
 export const addRole = async (req: Request, res: Response) => {
-	const validation = addRoleSchema.safeParse(req.body);
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
 	const { name, parentId, permissionActions, procedureRequirements } =
-		validation.data;
+		validateSchema(addRoleSchema, req.body);
 
 	const existingRole = await roleRepo
 		.createQueryBuilder("role")
@@ -95,12 +91,14 @@ export const addRole = async (req: Request, res: Response) => {
 			success: true,
 			message: "Role added with requirements successfully",
 		});
+		return;
 	} catch (error) {
 		await queryRunner.rollbackTransaction();
 		res.status(500).json({
 			success: false,
 			message: error instanceof Error ? error.message : "Failed to create role",
 		});
+		return;
 	} finally {
 		await queryRunner.release();
 	}

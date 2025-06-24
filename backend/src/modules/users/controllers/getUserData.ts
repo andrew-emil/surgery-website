@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { userRepo } from "../../../config/repositories.js";
 
 export const getUserData = async (req: Request, res: Response) => {
-	// #swagger.tags = ['Users']
 	if (!req.user) throw Error("Unauthorized");
 	const userId = req.user?.id;
 

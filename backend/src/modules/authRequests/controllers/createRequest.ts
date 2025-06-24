@@ -8,22 +8,18 @@ import {
 	userRepo,
 } from "../../../config/repositories.js";
 import { AuthenticationRequest } from "../../../entity/sql/AuthenticationRequests.js";
-import {
-	Authentication_Request,
-	NOTIFICATION_TYPES,
-} from "../../../utils/dataTypes.js";
-import { createRequestSchema } from "../../../utils/zodSchemas.js";
-import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
 import { DoctorsTeam } from "../../../entity/sub entity/DoctorsTeam.js";
-import { notificationService } from "../../../config/initializeServices.js";
+import {
+	Authentication_Request
+} from "../../../utils/dataTypes.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
+import { createRequestSchema } from "../../../utils/zodSchemas.js";
 
 export const createRequest = async (req: Request, res: Response) => {
-	const validation = createRequestSchema.safeParse(req.body);
-	if (!validation.success) {
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-	}
-
-	const { surgeryId, traineeId, consultantId, roleId, notes } = validation.data;
+	const { surgeryId, traineeId, consultantId, roleId, notes } = validateSchema(
+		createRequestSchema,
+		req.body
+	);
 
 	const [surgery, consultantRole, trainee, consultant, role] =
 		await Promise.all([
@@ -80,11 +76,12 @@ export const createRequest = async (req: Request, res: Response) => {
 	surgeryLog.doctorsTeam.push(doctor);
 
 	await Promise.all([
-		notificationService.createNotification(
-			consultant.id,
-			NOTIFICATION_TYPES.AUTH_REQUEST,
-			`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.procedure.name})`
-		),
+		//! free trial expired
+		// notificationService.createNotification(
+		// 	consultant.id,
+		// 	NOTIFICATION_TYPES.AUTH_REQUEST,
+		// 	`New request from DR.${trainee.first_name} ${trainee.last_name} for ${surgery.name} (${surgery.procedure.name})`
+		// ),
 		authenticationRequestRepo.save(authRequest),
 		surgeryLogsRepo.save(surgeryLog),
 	]);
@@ -92,5 +89,6 @@ export const createRequest = async (req: Request, res: Response) => {
 	res.status(201).json({
 		success: true,
 		message: "Request created successfully",
+		request: authRequest,
 	});
 };

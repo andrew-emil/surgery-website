@@ -12,7 +12,7 @@ import { getAllSurgeries } from "./controllers/getAllSurgeries.js";
 
 const surgeryRoutes = Router();
 
-surgeryRoutes.get("/get-surgrey/:surgeryId", getSurgery);
+surgeryRoutes.get("/get-surgery/:surgeryId", getSurgery);
 
 surgeryRoutes.get("/open-slots", getSurgeriesWithOpenSlots);
 

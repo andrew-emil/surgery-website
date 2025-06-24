@@ -6,6 +6,7 @@ import { User } from "../../../entity/sql/User.js";
 import { Role } from "../../../entity/sql/Roles.js";
 import { notificationService } from "../../../config/initializeServices.js";
 import { NOTIFICATION_TYPES } from "../../../utils/dataTypes.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 
 const delegateUserSchema = z.object({
 	userId: z.string(),
@@ -16,11 +17,7 @@ const delegateUserSchema = z.object({
 });
 
 export const delegateUser = async (req: Request, res: Response) => {
-	const validation = delegateUserSchema.safeParse(req.params);
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
-	const { userId, roleId } = validation.data;
+	const { userId, roleId } = validateSchema(delegateUserSchema, req.params);
 
 	await AppDataSource.transaction(async (sqlManager) => {
 		const user = await sqlManager.findOne(User, {
@@ -65,13 +62,12 @@ export const delegateUser = async (req: Request, res: Response) => {
 		}
 
 		await sqlManager.update(User, { id: user.id }, { role: targetRole });
-		await notificationService.createNotification(
-			userId,
-			NOTIFICATION_TYPES.ROLE_UPDATE,
-			`Your role has been delegated to ${targetRole}`
-		);
+		// await notificationService.createNotification(
+		// 	userId,
+		// 	NOTIFICATION_TYPES.ROLE_UPDATE,
+		// 	`Your role has been delegated to ${targetRole}`
+		// );
 	});
-
 
 	res.status(200).json({
 		message: "User delegated successfully",

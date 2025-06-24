@@ -2,9 +2,6 @@ export interface JWTPayload {
 	id: string;
 	userRole: string;
 	permissions: string[];
-	name: string;
-	tokenVersion: number;
-	first_login: boolean;
 }
 
 export enum STATUS {

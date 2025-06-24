@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
+import { z } from "zod";
 import { surgeryEquipmentRepo } from "../../../config/repositories.js";
 import { sanitizeString } from "../../../utils/sanitizeString.js";
-import { z } from "zod";
-import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 
 const addEquipmentSchema = z.object({
 	name: z.string().min(2).max(255).transform(sanitizeString),
@@ -17,17 +17,13 @@ const addEquipmentSchema = z.object({
 });
 
 export const addSurgeryEquipment = async (req: Request, res: Response) => {
-	const validation = addEquipmentSchema.safeParse(req.body);
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
+	const { name, photo } = validateSchema(addEquipmentSchema, req.body);
 
-	const { name, photo } = validation.data;
-
-	const exisitingEquipment = await surgeryEquipmentRepo.findOneBy({
+	const existingEquipment = await surgeryEquipmentRepo.findOneBy({
 		equipment_name: name,
 	});
 
-	if (exisitingEquipment) throw Error("Equipment already exists");
+	if (existingEquipment) throw Error("Equipment already exists");
 
 	const newEquipment = surgeryEquipmentRepo.create({
 		equipment_name: name,

@@ -4,8 +4,9 @@ import { SurgeryEquipment } from "../../../entity/sql/SurgeryEquipments.js";
 import { z } from "zod";
 import { sanitizeString } from "../../../utils/sanitizeString.js";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 
-const UpdateEquipmentSchema = z.object({
+const updateEquipmentSchema = z.object({
 	name: z.string().min(2).max(255).transform(sanitizeString).optional(),
 	photo: z
 		.string()
@@ -19,27 +20,10 @@ const UpdateEquipmentSchema = z.object({
 });
 
 export const updateEquipment = async (req: Request, res: Response) => {
-	// Validate ID parameter
-	const idValidation = z.coerce
-		.number()
-		.int()
-		.positive()
-		.safeParse(req.params.id);
-	if (!idValidation.success) {
-		throw Error(formatErrorMessage(idValidation), {
-			cause: idValidation.error,
-		});
-	}
-	const id = idValidation.data;
+	const id = parseInt(req.params.id);
+	if (isNaN(id)) throw Error("Invalid ID format");
 
-	// Validate request body
-	const validationResult = UpdateEquipmentSchema.safeParse(req.body);
-	if (!validationResult.success) {
-		throw Error(formatErrorMessage(validationResult), {
-			cause: validationResult.error,
-		});
-	}
-	const { name, photo } = validationResult.data;
+	const { name, photo } = validateSchema(updateEquipmentSchema, req.body);
 
 	await AppDataSource.transaction(async (manager) => {
 		const equipment = await manager.findOne(SurgeryEquipment, {

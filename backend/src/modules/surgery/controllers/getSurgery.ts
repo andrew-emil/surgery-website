@@ -63,36 +63,37 @@ export const getSurgery = async (req: Request, res: Response) => {
 
 	res.status(200).json({
 		success: true,
-		surgeryId: surgery.id,
-slots:surgeryLog.slots,
-		metadata: {
-			surgeryEquipments: surgery.surgeryEquipments,
-			department: department.name,
-			name: surgery.name,
-			hospital: hospital.name,
-			leadSurgeon: leadSurgeon
-				? `${leadSurgeon.first_name} ${leadSurgeon.last_name}`
-				: "Not assigned",
-		},
-		timeline: {
-			date: surgeryLog.date,
-			time: surgeryLog.time,
-			status: surgeryLog.status,
-		},
-		medicalCodes: {
-			cpt: surgeryLog.cptCode,
-			icd: surgeryLog.icdCode,
-		},
-		team: doctorDetails,
-		patient: surgeryLog.patient_details,
-		outcomes: postSurgery
-			? {
+		surgery: {
+			surgeryId: surgery.id,
+			slots: surgeryLog.slots,
+			metadata: {
+				surgeryEquipments: surgery.surgeryEquipments,
+				department: department.name,
+				name: surgery.name,
+				hospital: hospital.name,
+				leadSurgeon: leadSurgeon
+					? `${leadSurgeon.first_name} ${leadSurgeon.last_name}`
+					: "Not assigned",
+			},
+			timeline: {
+				date: surgeryLog.date,
+				time: surgeryLog.time,
+				status: surgeryLog.status,
+			},
+			medicalCodes: {
+				cpt: surgeryLog.cptCode,
+				icd: surgeryLog.icdCode,
+			},
+			team: doctorDetails,
+			patient: surgeryLog.patient_details,
+			outcomes: postSurgery
+				? {
 					duration: postSurgery.surgicalTimeMinutes,
 					result: postSurgery.outcome,
 					dischargeStatus: postSurgery.dischargeStatus,
-			  }
-			: null,
-		ratings: formattedRatings,
-
+				}
+				: null,
+			ratings: formattedRatings,
+		},
 	});
 };

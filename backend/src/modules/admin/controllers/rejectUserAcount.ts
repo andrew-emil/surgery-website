@@ -49,7 +49,8 @@ export const rejectUserAccount = async (req: Request, res: Response) => {
 	user.rejectionReason = rejectionReason;
 	await userRepo.save(user);
 
-	await sendAccountRejectionEmails(user.email, user.rejectionReason);
+	//!free trial expired
+	// await sendAccountRejectionEmails(user.email, user.rejectionReason);
 
 	res.status(200).json({
 		success: true,

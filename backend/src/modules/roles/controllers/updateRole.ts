@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { updateRoleSchema } from "../../../utils/zodSchemas.js";
-import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 import { requirementRepo, roleRepo } from "../../../config/repositories.js";
 import { AppDataSource } from "../../../config/data-source.js";
 import { Role } from "../../../entity/sql/Roles.js";
@@ -9,12 +9,8 @@ import { Requirement } from "../../../entity/sql/Requirments.js";
 import { ProcedureType } from "../../../entity/sql/ProcedureType.js";
 
 export const updateRole = async (req: Request, res: Response) => {
-	const validation = updateRoleSchema.safeParse(req.body);
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
 	const { id, name, parentId, permissions, procedureRequirements } =
-		validation.data;
+		validateSchema(updateRoleSchema, req.body);
 
 	try {
 		const role = await roleRepo.findOne({
@@ -127,11 +123,13 @@ export const updateRole = async (req: Request, res: Response) => {
 			success: true,
 			message: "Role updated successfully",
 		});
+		return;
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({
 			success: false,
 			message: error instanceof Error ? error.message : "Failed to update role",
 		});
+		return;
 	}
 };

@@ -16,10 +16,10 @@ import AffiliationDetails from "../admin/pages/AffiliationDetails";
 import EditAffiliation from "../admin/pages/EditAffiliation";
 import PersonIcon from "@mui/icons-material/Person";
 import AssignmentIndTwoTone from "@mui/icons-material/AssignmentIndTwoTone";
-import RolesPage from "./../admin/pages/RolesPage";
+import RolesPage from "../admin/pages/RolesPage";
 import AddRole from "../admin/pages/AddRole";
 import EditRole from "../admin/pages/EditRole";
-import CreateAffiliation from "./../admin/pages/CreateAffiliation";
+import CreateAffiliation from "../admin/pages/CreateAffiliation";
 import HomeIcon from "@mui/icons-material/Home";
 import HistoryIcon from "@mui/icons-material/History";
 import AssessmentIcon from "@mui/icons-material/Assessment";
@@ -171,8 +171,7 @@ function DemoPageContent({
 }
 export default function Dashboard(props) {
 	const { window } = props;
-	const [selectedAffiliationId, setSelectedAffiliationId] =
-		useState(null);
+	const [selectedAffiliationId, setSelectedAffiliationId] = useState(null);
 	const [selectedRoleId, setSelectedRoleId] = useState(null);
 
 	const router = useDemoRouter("/dashboard");

@@ -23,7 +23,7 @@ export let procedureTypeService: ProcedureTypeService;
 export let userService: UserService;
 export let formatService: FormatService;
 
-export const intializeServices = () => {
+export const initializeServices = () => {
 	trainingService = new TrainingService(userRepo, roleRepo, surgeryLogsRepo);
 
 	surgeryAuthService = new SurgeryAuthService(

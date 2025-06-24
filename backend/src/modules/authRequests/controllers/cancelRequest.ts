@@ -1,16 +1,14 @@
 import { Request, Response } from "express";
 import {
+	surgeryAuthService
+} from "../../../config/initializeServices.js";
+import {
 	authenticationRequestRepo,
 	surgeryLogsRepo,
 } from "../../../config/repositories.js";
 import {
-	Authentication_Request,
-	NOTIFICATION_TYPES,
+	Authentication_Request
 } from "../../../utils/dataTypes.js";
-import {
-	notificationService,
-	surgeryAuthService,
-} from "../../../config/initializeServices.js";
 
 export const rejectRequest = async (req: Request, res: Response) => {
 	const { requestId, rejectionReason } = req.body;
@@ -48,11 +46,11 @@ export const rejectRequest = async (req: Request, res: Response) => {
 	await Promise.all([
 		surgeryAuthService.rejectRequest(authRequest, rejectionReason),
 
-		notificationService.createNotification(
-			authRequest.trainee.id,
-			NOTIFICATION_TYPES.AUTH_REQUEST,
-			`Your request for ${authRequest.surgery.name} has been rejected`
-		),
+		// notificationService.createNotification(
+		// 	authRequest.trainee.id,
+		// 	NOTIFICATION_TYPES.AUTH_REQUEST,
+		// 	`Your request for ${authRequest.surgery.name} has been rejected`
+		// ),
 	]);
 
 	await Promise.all([
@@ -66,5 +64,6 @@ export const rejectRequest = async (req: Request, res: Response) => {
 	res.status(200).json({
 		success: true,
 		message: "Request cancelled successfully",
+		request: authRequest,
 	});
 };

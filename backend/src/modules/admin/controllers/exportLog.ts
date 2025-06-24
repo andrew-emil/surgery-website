@@ -11,16 +11,15 @@ import {
 	pdfFormat,
 	transformLog,
 } from "../../../utils/exportLogHelperFunction.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 
 const availableFormats = ["csv", "pdf", "excel"];
 
 export const exportLog = async (req: Request, res: Response) => {
-	const validation = exportLogSchema.safeParse(req.query);
-
-	if (!validation.success)
-		throw Error(formatErrorMessage(validation), { cause: validation.error });
-
-	const { format, startDate, endDate } = validation.data;
+	const { format, startDate, endDate } = validateSchema(
+		exportLogSchema,
+		req.query
+	);
 
 	if (!availableFormats.includes(format)) {
 		throw Error(

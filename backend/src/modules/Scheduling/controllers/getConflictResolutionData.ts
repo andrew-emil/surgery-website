@@ -5,10 +5,10 @@ export const getConflictResolutionData = async (
 	req: Request,
 	res: Response
 ) => {
-	const conflicationData = await scheduleService.getConflictResolutionData();
+	const conflictData = await scheduleService.getConflictResolutionData();
 
 	res.status(200).json({
 		success: true,
-		conflicationData,
+		conflictData,
 	});
 };

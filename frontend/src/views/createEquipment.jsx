@@ -1,81 +1,46 @@
-import { useRef, useState } from "react";
+import { Alert, AlertTitle, Avatar, Box } from "@mui/material";
+import { useState } from "react";
+import { Form, useActionData, useNavigation } from "react-router-dom";
 import {
-	FormContainer,
-	FormCard,
 	FormButton,
+	FormCard,
+	FormContainer,
 	FormTextField,
 	FormTitle,
 } from "../components/StyledComponents";
-import { Alert, AlertTitle, Box, Avatar } from "@mui/material";
-import axiosClient from "../axiosClient";
 import { convertImage } from "./../utils/convertImage";
 
 export default function CreateEquipments() {
-	const nameRef = useRef();
-	const [isLoading, setIsLoading] = useState(false);
-	const [err, setErr] = useState(null);
-	const [msg, setMsg] = useState(null);
 	const [picture, setPicture] = useState(null);
+	const actionData = useActionData();
 
-	const submit = async (ev) => {
-		ev.preventDefault();
-		setIsLoading(true);
-		setErr(null);
-		const formData = new FormData();
-		formData.append("name", nameRef.current.value);
+	const navigation = useNavigation();
+	const isLoading = navigation.state === "submitting";
 
-		if (picture) {
-			const base64Image = await new Promise((resolve, reject) => {
-				const reader = new FileReader();
-				reader.onload = () => resolve(reader.result);
-				reader.onerror = (error) => reject(error);
-				reader.readAsDataURL(picture);
-			});
-
-			formData.delete("photo");
-			formData.append("photo", base64Image);
-		}
-
-		axiosClient
-			.post("/surgery-equipments", formData, { withCredentials: true })
-			.then(({ data }) => {
-				setMsg(data.message);
-			})
-			.catch((err) => {
-				const response = err.response;
-
-				if (response) {
-					setErr(response.data.message);
-				}
-			})
-			.finally(() => {
-				setIsLoading(false);
-			});
-	};
 	return (
 		<FormContainer>
 			<FormCard sx={{ width: "400px", padding: "2rem" }}>
-				{err && (
+				{actionData?.error && (
 					<Alert severity="error" sx={{ marginBottom: "1rem" }}>
 						<AlertTitle>Error</AlertTitle>
-						{err}
+						{actionData.error}
 					</Alert>
 				)}
-				{msg && (
+				{actionData?.message && (
 					<Alert severity="success" sx={{ marginBottom: "1rem" }}>
 						<AlertTitle>Success</AlertTitle>
-						{msg}
+						{actionData.message}
 					</Alert>
 				)}
 				<FormTitle>Create New Equipment</FormTitle>
-				<form onSubmit={submit}>
+				<Form method="post" encType="multipart/form-data">
 					<FormTextField
-						inputRef={nameRef}
 						type="text"
 						label="Equipment Name"
 						variant="outlined"
 						fullWidth
 						required
+						name="name"
 					/>
 					<Box
 						sx={{
@@ -100,6 +65,7 @@ export default function CreateEquipments() {
 								id="picture-upload"
 								type="file"
 								accept="image/*"
+								name="photo"
 								onChange={(e) => {
 									setPicture(e.target.files[0]);
 								}}
@@ -110,10 +76,11 @@ export default function CreateEquipments() {
 						type="submit"
 						variant="contained"
 						color="primary"
-						loading={isLoading}>
+						loading={isLoading}
+						disabled={isLoading}>
 						Create Equipment
 					</FormButton>
-				</form>
+				</Form>
 			</FormCard>
 		</FormContainer>
 	);

@@ -157,6 +157,11 @@ export const updateDepartmentSchema = z.object({
 	affiliationId: z.string().optional(),
 });
 
+export const addDepartmentSchema = z.object({
+	name: z.string(),
+	affiliationId: z.string(),
+});
+
 export const addAffiliationSchema = z.object({
 	name: z.string().min(2, "Name must be at least 2 characters"),
 	city: z.string().min(2, "City must be at least 2 characters"),
@@ -343,4 +348,13 @@ export const exportLogSchema = z.object({
 	endDate: z.string().refine((d) => !isNaN(Date.parse(d)), {
 		message: "Invalid date format",
 	}),
+});
+
+export const updateRatingSchema = z.object({
+	stars: z
+		.number()
+		.min(0, { message: "Stars must be from 0-5" })
+		.max(5, { message: "Stars must be from 0-5" })
+		.optional(),
+	comment: z.string().optional(),
 });

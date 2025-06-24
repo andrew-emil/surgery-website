@@ -6,13 +6,13 @@ export const getAvailabilityCalendar = async (req: Request, res: Response) => {
 	const { userId } = req.params;
 	if (!userId) throw Error("Invalid user ID");
 
-	const isUserExistes = await userRepo.exists({
+	const isUserExists = await userRepo.exists({
 		where: {
 			id: userId,
 		},
 	});
 
-	if (!isUserExistes) throw Error("user not found in the system");
+	if (!isUserExists) throw Error("user not found in the system");
 
 	const availabilityCalendar =
 		await scheduleService.getUserAvailabilityCalendar(userId);

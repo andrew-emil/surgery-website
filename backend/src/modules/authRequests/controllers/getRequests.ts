@@ -23,11 +23,10 @@ export const getRequests = async (req: Request, res: Response) => {
 		relations: ["trainee", "consultant"],
 	});
 
-	if (requests.length === 0) throw Error("No requests Found");
-
 	res.status(200).json({
 		success: true,
 		requests,
 		surgery,
+		message: requests.length === 0 ? "No requests found" : undefined,
 	});
 };

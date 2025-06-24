@@ -30,4 +30,5 @@ export const getDoctorsDepartment = async (req: Request, res: Response) => {
 	res.status(200).json({
 		doctors: formattedDoctors,
 	});
+	return;
 };

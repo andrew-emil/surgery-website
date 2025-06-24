@@ -57,4 +57,5 @@ export const assignPermissions = async (req: Request, res: Response) => {
 		success: true,
 		message: "Role updated successfully",
 	});
+	return;
 };

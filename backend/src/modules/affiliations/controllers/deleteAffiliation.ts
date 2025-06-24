@@ -39,8 +39,5 @@ export const deleteAffiliation = async (req: Request, res: Response) => {
 		if (result.affected === 0) throw Error("Internal server error");
 	});
 
-	res.status(204).json({
-		sucess: true,
-		message: "Affiliation deleted successfully",
-	});
+	res.status(204);
 };

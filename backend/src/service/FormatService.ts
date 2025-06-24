@@ -93,4 +93,18 @@ export class FormatService {
 			breakdown,
 		};
 	}
+
+	formatNewRating(rating: Rating, user: User) {
+		return {
+			id: rating.id,
+			stars: rating.stars,
+			comment: rating.comment,
+			createdAt: rating.createdAt,
+			user: {
+				id: user.id,
+				name: `Dr. ${user.first_name} ${user.last_name}`,
+				picture: user.picture,
+			},
+		};
+	}
 }

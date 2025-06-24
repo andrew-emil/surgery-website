@@ -3,13 +3,11 @@ import {
 	departmentRepo,
 	affiliationRepo,
 } from "../../../config/repositories.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
+import { addDepartmentSchema } from "../../../utils/zodSchemas.js";
 
 export const addDepartment = async (req: Request, res: Response) => {
-	const { name, affiliationId } = req.body;
-
-	if (!name?.trim()) throw Error("Invalid department name");
-	if (!affiliationId || isNaN(parseInt(affiliationId)))
-		throw Error("Invalid affiliation ID");
+	const { name, affiliationId } = validateSchema(addDepartmentSchema, req.body);
 
 	const trimmedName = name.trim();
 
@@ -38,4 +36,5 @@ export const addDepartment = async (req: Request, res: Response) => {
 		message: "Department added successfully",
 		department: newDepartment,
 	});
+	return;
 };

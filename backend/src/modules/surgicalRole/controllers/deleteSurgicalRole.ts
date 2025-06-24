@@ -17,7 +17,5 @@ export const deleteSurgicalRole = async (req: Request, res: Response) => {
 
 	await surgicalRolesRepo.delete({ id: parsedId });
 
-	res.status(201).json({
-		message: "surgical role deleted successfully",
-	});
+	res.status(204).end()
 };

@@ -28,4 +28,5 @@ export const deleteDepartment = async (req: Request, res: Response) => {
 	});
 
 	res.status(204).end();
+	return;
 };

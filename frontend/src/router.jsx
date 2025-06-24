@@ -9,12 +9,12 @@ import ForgoPassword from "./views/forgot_password";
 import ResetPassword from "./views/reset_password";
 import NotFoundPage from "./views/not_found";
 import AdminLayout from "./components/adminLayout";
-import MyAccount from "./views/myAccount";
+import MyAccount from "./views/auth/myAccount";
 import CreateAffiliation from "./admin/pages/CreateAffiliation";
 import CreateSurgery from "./views/createSurgery";
-import SurgeryDetails from "./views/SurgeryDetails";
-import Equipments from "./views/equipments";
-import CreateEquipments from "./views/createEquipment";
+import SurgeryDetails from "./views/surgery/SurgeryDetails";
+import Equipments from "./views/equipments/equipmentsPage";
+import CreateEquipments from "./views/equipments/createEquipment";
 import Surgeries from "./views/surgeries";
 import AdminDashboard from "./admin/pages/AdminDashborad";
 import PendingUsers from "./admin/pages/PendingUsers";
@@ -47,22 +47,53 @@ import NotificationPage from "./views/NotificationPage";
 import AuditTrailTable from "./admin/pages/AuditTrailTable";
 import ReportsPanel from "./admin/pages/ReportPanel";
 
+import Error from "./Error";
+
+//loaders
+import { homeLoader } from "./loaders/homeLoader";
+import { surgeryDetailsLoader } from "./loaders/surgeryDetailsLoader";
+import { accountLoader } from "./loaders/accountLoader";
+import { myAccountAction } from "./actions/myAccountAction";
+
+//actions
+import {createEquipmentAction} from "./actions/createEquipmentAction"
+
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <DefaultLayout />,
+		errorElement: <Error />,
 		children: [
-			{ path: "/", element: <Home /> },
-			{ path: "/home", element: <Home /> },
-			{ path: "/account", element: <MyAccount /> },
-			{ path: "/surgeryDetails", element: <SurgeryDetails /> },
+			{
+				path: "/",
+				element: <Home />,
+				loader: homeLoader(),
+				index: true,
+			},
+			{
+				path: "/surgeryDetails/:surgeryId",
+				element: <SurgeryDetails />,
+				loader: surgeryDetailsLoader(),
+			},
+			{
+				path: "/account",
+				element: <MyAccount />,
+				loader: accountLoader,
+				action: myAccountAction,
+			},
+
+			//TODO: adjust this also
 			{ path: "/create_surgery", element: <CreateSurgery /> },
-			{ path: "/equipments", element: <Equipments /> },
+			{
+				path: "/equipments",
+				element: <Equipments />,
+				action: createEquipmentAction,
+			},
 			{ path: "/add-equipment", element: <CreateEquipments /> },
 			{ path: "/surgeries", element: <Surgeries /> },
 			{ path: "/post-surgery", element: <PostSurgery /> },
 			{ path: "/surgeries-open-slots", element: <OpenSlots /> },
-			{ path: "/surgeriey-request", element: <RequestPage /> },
+			{ path: "/surgeries-request", element: <RequestPage /> },
 			{ path: "/surgery-requests-management", element: <RequestManagment /> },
 			{
 				path: "/surgery-requests-management/all-requests",

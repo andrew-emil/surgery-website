@@ -2,17 +2,14 @@ import { Request, Response } from "express";
 import { surgeryEquipmentRepo } from "../../../config/repositories.js";
 import { z } from "zod";
 import { formatErrorMessage } from "../../../utils/formatErrorMessage.js";
+import { validateSchema } from "../../../utils/validateSchema.js";
 
-const GetEquipmentSchema = z.object({
+const getEquipmentSchema = z.object({
 	page: z.string().regex(/^\d+$/).transform(Number).default("1"),
 });
 
 export const getSurgeryEquipments = async (req: Request, res: Response) => {
-	const queryResult = GetEquipmentSchema.safeParse(req.query);
-	if (!queryResult.success)
-		throw Error(formatErrorMessage(queryResult), { cause: queryResult.error });
-
-	let page = queryResult.data.page;
+	let { page } = validateSchema(getEquipmentSchema, req.query);
 	const limit = 20;
 
 	const total = await surgeryEquipmentRepo.count();

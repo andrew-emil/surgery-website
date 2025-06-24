@@ -3,11 +3,7 @@ import {
 	authenticationRequestRepo,
 	surgeryLogsRepo,
 } from "../../../config/repositories.js";
-import {
-	Authentication_Request,
-	NOTIFICATION_TYPES,
-} from "../../../utils/dataTypes.js";
-import { notificationService } from "../../../config/initializeServices.js";
+import { Authentication_Request } from "../../../utils/dataTypes.js";
 
 export const deleteRequest = async (req: Request, res: Response) => {
 	const requestId = parseInt(req.params.id);
@@ -17,9 +13,17 @@ export const deleteRequest = async (req: Request, res: Response) => {
 		where: { id: requestId },
 		relations: ["trainee", "surgery", "consultant"],
 	});
-	if (!authRequest) throw Error("Authentication request Not Found");
+	if (!authRequest) {
+		res
+			.status(404)
+			.json({ success: false, message: "Authentication request not found" });
+		return;
+	}
 
-	if (req.user.id !== authRequest.trainee.id) throw Error("Unauthorized");
+	if (req.user.id !== authRequest.trainee.id) {
+		res.status(403).json({ success: false, message: "Unauthorized" });
+		return;
+	}
 
 	// Validate request state
 	if (authRequest.status === Authentication_Request.APPROVED) {
@@ -42,21 +46,25 @@ export const deleteRequest = async (req: Request, res: Response) => {
 		(doctor) => doctor.doctorId !== authRequest.trainee.id
 	);
 
-	if (initialCount === surgeryLog.doctorsTeam.length)
-		throw Error("Trainee Not Found in surgery team");
+	if (initialCount === surgeryLog.doctorsTeam.length) {
+		res
+			.status(404)
+			.json({ success: false, message: "Trainee not found in surgery team" });
+		return;
+	}
 
-	await Promise.all([
-		notificationService.createNotification(
-			authRequest.consultant.id,
-			NOTIFICATION_TYPES.AUTH_REQUEST,
-			`Request from ${authRequest.trainee.first_name} ${authRequest.trainee.last_name} for ${authRequest.surgery.name} was deleted`
-		),
-		notificationService.createNotification(
-			authRequest.trainee.id,
-			NOTIFICATION_TYPES.AUTH_REQUEST,
-			`Your request for ${authRequest.surgery.name} was deleted`
-		),
-	]);
+	// await Promise.all([
+	// 	notificationService.createNotification(
+	// 		authRequest.consultant.id,
+	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
+	// 		`Request from ${authRequest.trainee.first_name} ${authRequest.trainee.last_name} for ${authRequest.surgery.name} was deleted`
+	// 	),
+	// 	notificationService.createNotification(
+	// 		authRequest.trainee.id,
+	// 		NOTIFICATION_TYPES.AUTH_REQUEST,
+	// 		`Your request for ${authRequest.surgery.name} was deleted`
+	// 	),
+	// ]);
 
 	const [_, deleteResult] = await Promise.all([
 		surgeryLogsRepo.update(
@@ -75,8 +83,5 @@ export const deleteRequest = async (req: Request, res: Response) => {
 		return;
 	}
 
-	res.status(204).json({
-		success: true,
-		message: "Request and team participation deleted successfully",
-	});
+	res.status(204).send();
 };
