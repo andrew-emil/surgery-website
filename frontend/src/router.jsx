@@ -1,28 +1,27 @@
 import { createBrowserRouter } from "react-router-dom";
-import Login from "./views/login";
-import Register from "./views/register";
+import Login from "./views/auth/login";
+import Register from "./views/auth/register";
 import DefaultLayout from "./components/DefaultLayout";
 import GuestLayout from "./components/GuestLayout";
-import OTP_auth from "./views/OTP_auth";
+import OTP_auth from "./views/auth/OTP_auth";
 import Home from "./views/home";
-import ForgoPassword from "./views/forgot_password";
-import ResetPassword from "./views/reset_password";
+import ForgoPassword from "./views/auth/forgot_password";
+import ResetPassword from "./views/auth/reset_password";
 import NotFoundPage from "./views/not_found";
 import AdminLayout from "./components/adminLayout";
 import MyAccount from "./views/auth/myAccount";
 import CreateAffiliation from "./admin/pages/CreateAffiliation";
-import CreateSurgery from "./views/createSurgery";
+import CreateSurgery from "./views/surgery/createSurgery";
 import SurgeryDetails from "./views/surgery/SurgeryDetails";
 import Equipments from "./views/equipments/equipmentsPage";
 import CreateEquipments from "./views/equipments/createEquipment";
-import Surgeries from "./views/surgeries";
+import Surgeries from "./views/surgery/surgeries";
 import AdminDashboard from "./admin/pages/AdminDashborad";
 import PendingUsers from "./admin/pages/PendingUsers";
 import AffiliationPage from "./admin/pages/AffiliationPage";
-import EditEquipment from "./views/editEquipment";
+import EditEquipment from "./views/equipments/editEquipment";
 import AffiliationDetails from "./admin/pages/AffiliationDetails";
-import EditSurgery from "./views/editSurgery";
-import OpenSlots from "./views/openSLots";
+import EditSurgery from "./views/surgery/editSurgery";
 import AddDepartment from "./admin/pages/AddDepartments";
 import EditDepartment from "./admin/pages/editDepartment";
 import EditAffiliation from "./admin/pages/EditAffiliation";
@@ -33,7 +32,7 @@ import UsersPage from "./admin/pages/UsersPage";
 import PostSurgery from "./views/postSurgery";
 import RoleAssignmentPage from "./views/RoleAssignment";
 import RoleManagmentPage from "./views/RoleManagmentPage";
-import RequestPage from "./views/requestPage";
+import RequestPage from "./views/requests/requestPage";
 
 import SurgicalRolePage from "./views/SurgicalRoles";
 import AddSurgicalRole from "./views/AddSurgicalRole";
@@ -41,22 +40,31 @@ import EditSurgicalRole from "./views/EditSurgicalRole";
 import ProcedureTypePage from "./views/ProcedureTypes";
 import AddProcedureType from "./views/AddProcedureType";
 import EditProcedureType from "./views/EditProcedureType";
-import RequestManagment from "./views/requestManagement";
-import RequestsForSurgery from "./views/requestsForSurgery";
+import RequestManagement from "./views/requests/requestManagement";
+import RequestsForSurgery from "./views/requests/requestsForSurgery";
 import NotificationPage from "./views/NotificationPage";
 import AuditTrailTable from "./admin/pages/AuditTrailTable";
 import ReportsPanel from "./admin/pages/ReportPanel";
+import OpenSlotsSurgeries from "./views/surgery/OpenSlotsSurgeries";
 
 import Error from "./Error";
 
 //loaders
 import { homeLoader } from "./loaders/homeLoader";
-import { surgeryDetailsLoader } from "./loaders/surgeryDetailsLoader";
+import { loader as surgeryDetailsLoader } from "./loaders/surgeryDetailsLoader";
 import { accountLoader } from "./loaders/accountLoader";
-import { myAccountAction } from "./actions/myAccountAction";
+import { openSlotsLoader } from "./loaders/openSlotsLoader";
+import { requestPageLoader } from "./loaders/requestPageLoader";
+import { requestManagementLoader } from "./loaders/requestManagementLoader";
+import { registerLoader } from "./loaders/registerLoader";
 
 //actions
-import {createEquipmentAction} from "./actions/createEquipmentAction"
+import { myAccountAction } from "./actions/myAccountAction";
+import { createEquipmentAction } from "./actions/createEquipmentAction";
+import { requestPageAction } from "./actions/requestPageAction";
+import { requestsForSurgeryLoader } from "./loaders/requestsForSurgeryLoader";
+import { loginAction } from "./actions/loginAction";
+import { registerAction } from "./actions/registerAction";
 
 const router = createBrowserRouter([
 	{
@@ -67,13 +75,13 @@ const router = createBrowserRouter([
 			{
 				path: "/",
 				element: <Home />,
-				loader: homeLoader(),
+				loader: homeLoader,
 				index: true,
 			},
 			{
 				path: "/surgeryDetails/:surgeryId",
 				element: <SurgeryDetails />,
-				loader: surgeryDetailsLoader(),
+				loader: surgeryDetailsLoader,
 			},
 			{
 				path: "/account",
@@ -81,27 +89,46 @@ const router = createBrowserRouter([
 				loader: accountLoader,
 				action: myAccountAction,
 			},
-
-			//TODO: adjust this also
-			{ path: "/create_surgery", element: <CreateSurgery /> },
 			{
-				path: "/equipments",
-				element: <Equipments />,
+				path: "/add-equipment",
+				element: <CreateEquipments />,
 				action: createEquipmentAction,
 			},
-			{ path: "/add-equipment", element: <CreateEquipments /> },
+
+			//TODO: adjust these also
+			{ path: "/create_surgery", element: <CreateSurgery /> },
+			{ path: "/equipments", element: <Equipments /> },
 			{ path: "/surgeries", element: <Surgeries /> },
 			{ path: "/post-surgery", element: <PostSurgery /> },
-			{ path: "/surgeries-open-slots", element: <OpenSlots /> },
-			{ path: "/surgeries-request", element: <RequestPage /> },
-			{ path: "/surgery-requests-management", element: <RequestManagment /> },
+
 			{
-				path: "/surgery-requests-management/all-requests",
+				path: "/surgeries-open-slots",
+				element: <OpenSlotsSurgeries />,
+				loader: openSlotsLoader,
+			},
+			{
+				path: "/surgeries-request/:id",
+				element: <RequestPage />,
+				loader: requestPageLoader,
+				action: requestPageAction,
+			},
+
+			{
+				path: "/surgery-requests-management",
+				element: <RequestManagement />,
+				loader: requestManagementLoader,
+			},
+			{
+				path: "/surgery-requests-management/all-requests/:surgeryId",
 				element: <RequestsForSurgery />,
+				loader: requestsForSurgeryLoader,
 			},
 			{ path: "/notifications", element: <NotificationPage /> },
+			//TODO: adjust this also
 			{ path: "/edit-surgery", element: <EditSurgery /> },
-			{ path: "/edit-equipment", element: <EditEquipment /> },
+
+			//TODO: adjust these also
+			{ path: "/edit-equipment/:id", element: <EditEquipment /> },
 			{ path: "/role-assign/:roleId", element: <RoleAssignmentPage /> },
 			{ path: "/consultant/roles", element: <RoleManagmentPage /> },
 
@@ -120,8 +147,13 @@ const router = createBrowserRouter([
 		path: "/",
 		element: <GuestLayout />,
 		children: [
-			{ path: "/login", element: <Login /> },
-			{ path: "/register", element: <Register /> },
+			{ path: "/login", element: <Login />, action: loginAction },
+			{
+				path: "/register",
+				element: <Register />,
+				loader: registerLoader,
+				action: registerAction,
+			},
 			{ path: "/forgot-password", element: <ForgoPassword /> },
 			{ path: "/reset-password", element: <ResetPassword /> },
 			{ path: "/otp", element: <OTP_auth /> },
@@ -129,6 +161,7 @@ const router = createBrowserRouter([
 		],
 	},
 	{
+		//TODO: admin
 		path: "/",
 		element: <AdminLayout />,
 		children: [

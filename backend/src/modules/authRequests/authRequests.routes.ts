@@ -19,12 +19,12 @@ authRequestsRoutes.get(
 authRequestsRoutes.use(auditLogger());
 
 authRequestsRoutes.post("/", createRequest);
-authRequestsRoutes.put(
+authRequestsRoutes.patch(
 	"/:id/approve",
 	authUser(["Admin", "Consultant"]),
 	approveRequest
 );
-authRequestsRoutes.put(
+authRequestsRoutes.patch(
 	"/:id/reject",
 	authUser(["Admin", "Consultant"]),
 	rejectRequest

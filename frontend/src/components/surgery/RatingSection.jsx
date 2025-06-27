@@ -1,7 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
-import { React } from "react";
-import { ListItem } from "@mui/material";
+import React, { useState } from "react";
 import {
 	Avatar,
 	ListItemAvatar,
@@ -9,21 +7,25 @@ import {
 	Rating,
 	Button,
 	Grid2,
+	List,
+	Box,
+	Typography,
+	Stack,
+	Divider,
+	ListItem,
+	ListItemText,
 } from "@mui/material";
 import { convertImage } from "./../../utils/convertImage";
-import { ListItemText } from "@mui/material/ListItemText";
-import { FormTextField, FormButton } from "../components/StyledComponents";
-import { Stack } from "@mui/material";
-import { Typography } from "@mui/material/Typography";
-import { Box } from "@mui/material/Box";
-import { List } from "@mui/material";
+import { decodeJWTToken } from "./../../utils/decodeToken";
+import { FormTextField, FormButton } from "../StyledComponents";
 import { Star, Person } from "@mui/icons-material";
-import { Divider } from "@mui/material";
 import axiosClient from "../../axiosClient";
 
+//TODO: add the api requests to the services
+//TODO: add action
 export default function RatingsSection({
 	surgeryData,
-	user,
+	token,
 	updateRatingsState,
 }) {
 	const [newRatingStars, setNewRatingStars] = useState(0);
@@ -34,10 +36,15 @@ export default function RatingsSection({
 	const [editingRatingStars, setEditingRatingStars] = useState(0);
 	const [editingRatingComment, setEditingRatingComment] = useState("");
 
-	const isAuthorizedToRate =
-		user &&
-		(surgeryData.team.some((member) => member.id === user.id) ||
-			user?.name === surgeryData.metadata.leadSurgeon);
+	async function isAuthorizedToRate() {
+		if (!token) return false;
+		const { id } = await decodeJWTToken(token);
+
+		return (
+			surgeryData.team.some((member) => member.id === id) ||
+			id === surgeryData.metadata.leadSurgeonId
+		);
+	}
 
 	const handleRatingSubmit = async (e) => {
 		e.preventDefault();
@@ -115,7 +122,7 @@ export default function RatingsSection({
 
 	const renderRatingReview = (review, index) => {
 		const isEditing = editingRatingId === review.id;
-		const isUserReview = user && review.user && review.user.id === user.id;
+		const isUserReview = token && review.user && review.user.id === token.id;
 		return (
 			<React.Fragment key={review.id}>
 				<ListItem alignItems="flex-start">

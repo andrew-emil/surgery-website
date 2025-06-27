@@ -20,13 +20,13 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import axiosClient from "../axiosClient";
-import { FormButton } from "../components/StyledComponents";
+import axiosClient from "../../axiosClient";
+import { FormButton } from "../../components/StyledComponents";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import { Alert, AlertTitle } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-export default function Equipments() {
+export default function Surgeries() {
 	const [rows, setRows] = React.useState([]);
 	const [err, setErr] = React.useState(null);
 

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import axiosClient from "../axiosClient";
-import { FormTextField } from "../components/StyledComponents";
+import axiosClient from "../../axiosClient";
+import { FormTextField } from "../../components/StyledComponents";
 import {
 	Alert,
 	AlertTitle,

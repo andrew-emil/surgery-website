@@ -5,10 +5,10 @@ import {
 	FormTitle,
 	FormTextField,
 	FormButton,
-} from "../components/StyledComponents";
-import axiosClient from "../axiosClient";
+} from "../../components/StyledComponents";
+import axiosClient from "../../axiosClient";
 import { Typography, Alert, AlertTitle } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 
 export default function ForgoPassword() {
 	const emailRef = useRef();

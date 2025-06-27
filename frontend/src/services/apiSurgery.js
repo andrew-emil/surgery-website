@@ -22,6 +22,32 @@ export async function fetchSurgeryDetails(surgeryId) {
 		const { surgery } = response.data;
 		return surgery;
 	} catch (error) {
-		throw Error(error.response?.data?.message || "error fetching surgery");
+		throw Error(error.response?.data?.message || "Error fetching surgery");
+	}
+}
+
+export async function fetchSurgeriesWithOpenSlots() {
+	try {
+		const { data } = await axiosClient.get("/surgery/open-slots", {
+			withCredentials: true,
+		});
+		const { surgeries, pagination } = data;
+
+		return { surgeries, pagination };
+	} catch (err) {
+		console.log(err);
+		throw Error(err.response?.data?.message || "Error fetching surgeries");
+	}
+}
+
+export async function fetchSurgicalRoles() {
+	try {
+		const { data } = await axiosClient.get("/surgical-role", {
+			withCredentials: true,
+		});
+
+		return data;
+	} catch (err) {
+		throw Error(err.response?.data?.message || "error fetching data");
 	}
 }

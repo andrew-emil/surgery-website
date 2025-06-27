@@ -1,15 +1,15 @@
-import { Container, Skeleton } from "@mui/material";
+import { Container } from "@mui/material";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { useLoaderData, useNavigation } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 import StarRating from "./../components/StarRating";
 
 export default function Home() {
 	const userSurgeries = useLoaderData();
-	const navigation = useNavigation();
+	const navigation = useNavigate();
 
 	const statusColors = {
 		Completed: "green",
@@ -20,16 +20,6 @@ export default function Home() {
 	const handleButtonClick = (surgeryId) => {
 		navigation(`/surgeryDetails/${surgeryId}`);
 	};
-
-	if (navigation.state === "loading") {
-		return (
-			<Container>
-				<Skeleton variant="rectangular" height={205} sx={{ marginY: "1rem" }} />
-				<Skeleton variant="rectangular" height={205} sx={{ marginY: "1rem" }} />
-				<Skeleton variant="rectangular" height={205} sx={{ marginY: "1rem" }} />
-			</Container>
-		);
-	}
 
 	return (
 		<Container>

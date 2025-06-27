@@ -74,6 +74,7 @@ export const getSurgery = async (req: Request, res: Response) => {
 				leadSurgeon: leadSurgeon
 					? `${leadSurgeon.first_name} ${leadSurgeon.last_name}`
 					: "Not assigned",
+				leadSurgeonId: leadSurgeon.id
 			},
 			timeline: {
 				date: surgeryLog.date,

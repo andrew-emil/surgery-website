@@ -10,6 +10,6 @@ scheduleRoutes.use(authUser(["Admin", "Consultant"]));
 
 scheduleRoutes.get("/availability-calendar/:userId", getAvailabilityCalendar);
 scheduleRoutes.post("/recommend-staff", getRecommendedStaff);
-scheduleRoutes.get("/confliction-data", getConflictResolutionData);
+scheduleRoutes.get("/conflict-data", getConflictResolutionData);
 
 export default scheduleRoutes;

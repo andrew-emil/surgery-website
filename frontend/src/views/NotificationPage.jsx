@@ -1,12 +1,15 @@
-import { useNotifications } from "./../hooks/useNotifications ";
-import { useEffect, useState } from "react";
-import { useStateContext } from "../context/contextprovider";
-import { useNavigate } from "react-router";
-import axiosClient from "./../axiosClient";
-import { Box, Container, List, ListItem } from "@mui/material";
-import Notification from "./../components/Notification";
 import { Circle } from "@mui/icons-material";
-
+import { Box, Container, List, ListItem } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useStateContext } from "../context/contextprovider";
+import {
+	fetchNotifications,
+	markNotificationAsRead,
+} from "../services/apiNotification";
+import Notification from "./../components/Notification";
+import { useNotifications } from "./../hooks/useNotifications ";
+import { checkNotificationType } from "./../utils/checkNotificationType";
 
 const NotificationPage = () => {
 	const { notifications, unreadCount, setNotifications, setUnreadCount } =
@@ -25,25 +28,9 @@ const NotificationPage = () => {
 		socket.on(`notification:${userId}`, (notification) => {
 			setNotifications((prev) => [notification, ...prev]);
 		});
+		fetchNotifications(userId);
 
-		const loadNotifications = async () => {
-			try {
-				const response = await axiosClient.get(`/notification/${userId}`, {
-					withCredentials: true,
-				});
-				const { data } = response;
-
-				setNotifications(data.notifications);
-				setUnreadCount(data.unreadCount);
-			} catch (error) {
-				console.error("Error loading notifications:", error);
-			} finally {
-				setLoading(false);
-			}
-		};
-
-		loadNotifications();
-
+		setLoading(false);
 		return () => {
 			socket.off(`notification:${userId}`);
 			socket.disconnect();
@@ -52,28 +39,9 @@ const NotificationPage = () => {
 
 	if (loading) return <div>Loading notifications...</div>;
 
-	const checkNotificationtype = (type) => {
-		let navigateString;
-		if (type === "invite" || type === "schedule_update") {
-			navigateString = "/home";
-		}
-		if (type === "User Registration") {
-			navigateString = "/admin/pending-users";
-		}
-		if (type === "auth_request") {
-			navigateString = "/";
-		}
-
-		return navigateString;
-	};
-
 	const markAsRead = async (notificationId, type) => {
 		try {
-			await axiosClient.patch(
-				"/notification",
-				{ userId: user.id, notificationId },
-				{ withCredentials: true }
-			);
+			await markNotificationAsRead(notificationId, user.id);
 
 			setNotifications((prev) =>
 				prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n))
@@ -81,7 +49,7 @@ const NotificationPage = () => {
 			if (unreadCount > 0) {
 				setUnreadCount((prev) => prev - 1);
 			}
-			const navigatePath = checkNotificationtype(type);
+			const navigatePath = checkNotificationType(type);
 
 			navigate(navigatePath);
 		} catch (error) {

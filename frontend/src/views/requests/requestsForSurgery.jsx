@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react";
-import axiosClient from "../axiosClient";
-import { useLocation } from "react-router";
 import {
 	Box,
 	Card,
@@ -10,70 +7,34 @@ import {
 	Divider,
 	Typography,
 } from "@mui/material";
-import { FormButton } from "../components/StyledComponents";
-import { useStateContext } from "../context/contextprovider";
+import { useState } from "react";
+import { useLoaderData } from "react-router";
+import { FormButton } from "../../components/StyledComponents";
+import { useStateContext } from "../../context/contextprovider";
+import { handleApproveOrRejectRequest } from "../../services/apiRequestSurgery";
 
 export default function RequestsForSurgery() {
-	const query = new URLSearchParams(useLocation().search);
-	const id = parseInt(query.get("id"));
-	const [loading, setLoading] = useState(true);
-	const [requests, setRequests] = useState([]);
-	const [surgeries, setSurguries] = useState([]);
-	const [msg, setMsg] = useState(null);
 	const { user } = useStateContext();
+	const requestsData = useLoaderData();
 
+	const [requests, setRequests] = useState(requestsData);
+	const [msg, setMsg] = useState(null);
 	const [err, setErr] = useState(null);
-	useEffect(() => {
-		setLoading(true);
-		const fetchData = async () => {
-			try {
-				const response = await axiosClient.get(`/auth-requests/${id}/request`, {
-					withCredentials: true,
-				});
-				const { data } = response;
-				setRequests(data.requests);
-				setSurguries(data.surgery);
-			} catch (err) {
-				setErr(err.response.data.message);
-			} finally {
-				setLoading(false);
-			}
-		};
+	const [loading, setLoading] = useState(false);
 
-		fetchData();
-	}, []);
-	const handleApprove = (req) => {
-		axiosClient
-			.put(`/auth-requests/${req.id}/approve`, {
-				withCredentials: true,
-			})
-			.then((response) => {
-				setMsg(response.data.message);
-				setRequests((prev) => prev.filter((r) => r.id !== req.id));
-			})
-			.catch((err) => {
-				setErr(err.message);
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	};
-	const handleReject = (req) => {
-		axiosClient
-			.put(`/auth-requests/${req.id}/reject`, {
-				withCredentials: true,
-			})
-			.then((response) => {
-				setMsg(response.data.message);
-				setRequests((prev) => prev.filter((r) => r.id !== req.id));
-			})
-			.catch((err) => {
-				setErr(err.message);
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	};
+	async function handlingApproveOrRejectRequest(isApproved, id) {
+		setLoading(true);
+		const response = await handleApproveOrRejectRequest(isApproved, id);
+		if (response.error) {
+			setErr(response.error);
+		} else if (response.message) {
+			setRequests((prev) => prev.filter((req) => req.id !== id));
+			setMsg(response.message);
+		}
+
+		setLoading(false);
+	}
+
 	return (
 		<Container sx={{ py: 4, display: "flex", flexDirection: "column", gap: 4 }}>
 			{msg && (
@@ -96,8 +57,10 @@ export default function RequestsForSurgery() {
 					<CardHeader
 						title={`Request #${index + 1}`}
 						subheader={`Status: ${request.status}`}
-						titleTypographyProps={{ variant: "h6", fontWeight: 600 }}
-						subheaderTypographyProps={{ color: "text.secondary" }}
+						slotProps={{
+							title: { variant: "h6", fontWeight: 600 },
+							subheader: { color: "text.secondary" },
+						}}
 					/>
 					<Divider />
 					<CardContent>
@@ -162,16 +125,22 @@ export default function RequestsForSurgery() {
 									type="button"
 									variant="contained"
 									className="btn btn-black btn-block"
-									onClick={() => handleApprove(request)}
-									disabled={user.id !== request.consultant.id}>
+									onClick={() =>
+										handlingApproveOrRejectRequest(true, request.id)
+									}
+									disabled={user.id !== request.consultant.id}
+									loading={loading}>
 									Approve
 								</FormButton>
 								<FormButton
 									type="button"
 									variant="contained"
 									className="btn btn-black btn-block"
-									onClick={() => handleReject(request)}
-									disabled={user.id !== request.consultant.id}>
+									onClick={() =>
+										handlingApproveOrRejectRequest(false, request.id)
+									}
+									disabled={user.id !== request.consultant.id}
+									loading={loading}>
 									Reject
 								</FormButton>
 							</Box>

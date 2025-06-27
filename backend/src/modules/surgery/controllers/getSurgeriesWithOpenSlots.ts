@@ -12,6 +12,7 @@ export const getSurgeriesWithOpenSlots = async (
 	const limitNumber = 10;
 	const skip = (pageNumber - 1) * limitNumber;
 
+	//TODO: add to pipeline file
 	const pipeline = [
 		{
 			$match: {

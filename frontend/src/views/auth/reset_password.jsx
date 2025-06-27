@@ -1,15 +1,14 @@
 import { useRef, useState } from "react";
-import axiosClient from "../axiosClient";
+import axiosClient from "../../axiosClient";
 import {
 	FormContainer,
 	FormCard,
 	FormTitle,
 	FormTextField,
 	FormButton,
-} from "../components/StyledComponents";
+} from "../../components/StyledComponents";
 import { Alert, AlertTitle, Box, Button } from "@mui/material";
-import { Navigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
+import { Navigate, Link as RouterLink } from "react-router";
 
 export default function ResetPassword() {
 	const urlParams = new URLSearchParams(window.location.search);

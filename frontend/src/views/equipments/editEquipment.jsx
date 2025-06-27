@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
-import axiosClient from "../axiosClient";
+import axiosClient from "../../axiosClient";
 import {
   FormButton,
   FormContainer,
   FormTextField,
-} from "../components/StyledComponents";
-import { Alert, AlertTitle } from "@mui/material";
-import { Box } from "@mui/system";
-import { convertImage } from "../utils/convertImage";
+} from "../../components/StyledComponents";
+import { Alert, AlertTitle, Box } from "@mui/material";
+import { convertImage } from "../../utils/convertImage";
 
 export default function EditEquipment() {
   const query = new URLSearchParams(useLocation().search);
@@ -18,7 +17,7 @@ export default function EditEquipment() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [picture, setPicture] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null); // 👈 for Avatar preview
+  const [imagePreview, setImagePreview] = useState(null);
   const [msg, setMsg] = useState(null);
   const [redirect, setRedirect] = useState(null);
 
@@ -31,8 +30,8 @@ export default function EditEquipment() {
       .then((res) => {
         const data = res.data;
         setEquipment(data);
-        setPicture(null); // don't set the photo as a File
-        setImagePreview(convertImage(data?.photo?.data)); // 👈 use base64 preview
+        setPicture(null); 
+        setImagePreview(convertImage(data?.photo?.data));
         setLoading(false);
         setError(null);
       })
@@ -121,8 +120,8 @@ export default function EditEquipment() {
           placeholder={equipment?.equipment_name}
           fullWidth
           required
-          InputLabelProps={{
-            shrink: true,
+          slotProps={{
+            inputLabel: {shrink: true}
           }}
         />
         <Box

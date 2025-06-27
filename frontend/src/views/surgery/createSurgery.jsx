@@ -4,8 +4,8 @@ import Step from "@mui/material/Step";
 import StepButton from "@mui/material/StepButton";
 import Button from "@mui/material/Button";
 import { useEffect, useRef, useState } from "react";
-import { FormContainer, FormTextField } from "../components/StyledComponents";
-import axiosClient from "../axiosClient";
+import { FormContainer, FormTextField } from "../../components/StyledComponents";
+import axiosClient from "../../axiosClient";
 import AlertTitle from "@mui/material/AlertTitle";
 import {
 	Alert,

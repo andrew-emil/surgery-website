@@ -16,7 +16,7 @@ import {
 	useLoaderData,
 	useNavigation,
 } from "react-router";
-import Requirements from "../../components/auth/Requirement";
+import Requirements from "../../components/auth/Requirements";
 import RequirementProgress from "../../components/auth/RequirementProgress";
 import {
 	FormButton,
@@ -27,11 +27,12 @@ import {
 } from "../../components/StyledComponents";
 import { useStateContext } from "../../context/contextprovider";
 import { convertImage } from "../../utils/convertImage";
-import "../main.css";
 import { getFieldError } from "../../utils/getFieldError";
 
+import "../../main.css";
+
 export default function MyAccount() {
-	const { user, setUser, setToken } = useStateContext();
+	const { setToken } = useStateContext();
 	const { userData, progress } = useLoaderData();
 	const actionData = useActionData();
 	const navigate = useNavigation();
@@ -58,8 +59,7 @@ export default function MyAccount() {
 		);
 	}
 
-	const { token, payload } = actionData;
-	setUser(payload);
+	const { token } = actionData;
 	setToken(token);
 
 	return (
@@ -68,8 +68,8 @@ export default function MyAccount() {
 				My Account
 			</FormTitle>
 			<Form
-				method="post"
 				encType="multipart/form-data"
+				method="post"
 				className="account-form">
 				<Box
 					sx={{
@@ -132,7 +132,7 @@ export default function MyAccount() {
 							label="First Name"
 							name="first_name"
 							id="first_name"
-							defaultValue={user.name.split(" ")[0]}
+							defaultValue={userData.name.split(" ")[0]}
 							error={!!getFieldError(actionData, "first_name")}
 							helperText={getFieldError(actionData, "first_name")}
 						/>
@@ -141,7 +141,7 @@ export default function MyAccount() {
 							label="Last Name"
 							name="last_name"
 							id="last_name"
-							defaultValue={user.name.split(" ")[1]}
+							defaultValue={userData.name.split(" ")[1]}
 							error={!!getFieldError(actionData, "last_name")}
 							helperText={getFieldError(actionData, "last_name")}
 						/>
@@ -217,11 +217,11 @@ export default function MyAccount() {
 							<NativeSelect
 								labelId="role-label"
 								id="role"
-								value={user.userRole}
+								value={userData.userRole}
 								label="Role"
 								disabled
 								name="role">
-								<option>{user.userRole}</option>
+								<option>{userData.userRole}</option>
 							</NativeSelect>
 						</FormControl>
 					</Box>

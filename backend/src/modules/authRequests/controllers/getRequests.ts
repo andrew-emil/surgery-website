@@ -26,7 +26,6 @@ export const getRequests = async (req: Request, res: Response) => {
 	res.status(200).json({
 		success: true,
 		requests,
-		surgery,
 		message: requests.length === 0 ? "No requests found" : undefined,
 	});
 };

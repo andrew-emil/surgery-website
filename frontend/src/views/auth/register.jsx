@@ -1,67 +1,75 @@
-import { useEffect, useRef, useState } from "react";
+import {
+	Alert,
+	AlertTitle,
+	Box,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	Typography,
+	Avatar,
+} from "@mui/material";
+import { useEffect, useState } from "react";
+import {
+	Link,
+	useLoaderData,
+	useNavigate,
+	useNavigation,
+	Form,
+	useActionData,
+} from "react-router";
+import axiosClient from "../../axiosClient";
+import DarkModeButton from "../../components/darkmodeButton";
 import {
 	FormButton,
 	FormCard,
 	FormContainer,
 	FormTextField,
 	FormTitle,
-} from "../components/StyledComponents";
-import { Link, Navigate } from "react-router-dom";
-import axiosClient from "../axiosClient";
-import AlertTitle from "@mui/material/AlertTitle";
-import {
-	Alert,
-	Typography,
-	InputLabel,
-	Select,
-	MenuItem,
-	FormControl,
-	Box,
-	Skeleton,
-} from "@mui/material";
-import DarkModeButton from "./../components/darkmodeButton";
+} from "../../components/StyledComponents";
+import { convertImage } from "../../utils/convertImage";
 
 export default function Register() {
-	const firstnameRef = useRef();
-	const lastnameRef = useRef();
-	const emailRef = useRef();
-	const passwordRef = useRef();
-	const phoneRef = useRef();
-	const confirmPasswordRef = useRef();
+	const { roles, affiliations } = useLoaderData();
+
+	const { state } = useNavigation();
+	const navigate = useNavigate();
 
 	const [err, setErr] = useState(null);
-	const [msg, setMsg] = useState(null);
-	const [redirectToOTP, setRedirectToOTP] = useState(false);
-	const [loading, setLoading] = useState(true);
-	const [isButtonloading, setIsButtonLoading] = useState(false);
 	const [affiliation, setAffiliation] = useState(null);
 	const [department, setDepartment] = useState("");
-	const [role, setRole] = useState("");
-	const [affiliationData, setAffiliationData] = useState([]);
-	const [roleData, setRoleData] = useState([]);
-	const [departmentData, setDepartmentData] = useState([]);
 	const [picture, setPicture] = useState(null);
+	const [role, setRole] = useState("");
+	const [departmentData, setDepartmentData] = useState([]);
+	const [isLoading, setIsLoading] = useState(false);
+	const [imagePreview, setImagePreview] = useState(null);
 
-	useEffect(() => {
-		setLoading(true);
-		axiosClient
-			.get("/roles")
-			.then(({ data }) => {
-				setRoleData(data.data);
-				setLoading(false);
-			})
-			.catch((err) => {});
-	}, []);
-	useEffect(() => {
-		setLoading(true);
-		axiosClient
-			.get("/affiliation")
-			.then(({ data }) => {
-				setAffiliationData(data.affiliations);
-				setLoading(false);
-			})
-			.catch((err) => {});
-	}, []);
+	const actionData = useActionData();
+
+	const handleAffiliationChange = (event) => {
+		setAffiliation(event.target.value);
+		setDepartment("");
+	};
+
+	const handleDepartmentChange = (event) => {
+		setDepartment(event.target.value);
+	};
+
+	const handleRoleChange = (event) => {
+		setRole(event.target.value);
+	};
+
+	const handlePictureChange = (e) => {
+		const file = e.target.files[0];
+		setPicture(file);
+		if (file) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				setImagePreview(reader.result);
+			};
+			reader.readAsArrayBuffer(file);
+		}
+	};
 
 	useEffect(() => {
 		if (affiliation) {
@@ -70,78 +78,37 @@ export default function Register() {
 				.then(({ data }) => {
 					setDepartmentData(data.departments);
 				})
-				.catch((err) => {});
+				.catch(() => setDepartmentData([]));
 		} else {
+			setDepartmentData([]);
 		}
-	}, [affiliation, setDepartmentData]);
+	}, [affiliation]);
 
-	if (loading) {
-		return (
-			<FormContainer>
-				<Skeleton variant="rounded" width={720} height={526} />
-			</FormContainer>
-		);
-	}
-
-	const submit = async (ev) => {
-		ev.preventDefault();
-		setIsButtonLoading(true);
-		setErr("");
-		if (passwordRef.current.value == confirmPasswordRef.current.value) {
-			const formData = new FormData();
-			formData.append("first_name", firstnameRef.current.value);
-			formData.append("last_name", lastnameRef.current.value);
-			formData.append("email", emailRef.current.value);
-			formData.append("phone_number", phoneRef.current.value);
-			formData.append("password", passwordRef.current.value);
-			formData.append("roleId", parseInt(role));
-			formData.append("affiliationId", parseInt(affiliation));
-			formData.append("departmentId", parseInt(department));
-
-			if (picture) {
-				const base64Image = await new Promise((resolve, reject) => {
-					const reader = new FileReader();
-					reader.onload = () => resolve(reader.result);
-					reader.onerror = (error) => reject(error);
-					reader.readAsDataURL(picture);
-				});
-
-				formData.append("picture", base64Image);
-			}
-
-			axiosClient
-				.post("/users/register", formData)
-				.then(({ data }) => {
-					setMsg(data.message);
-					setRedirectToOTP(true);
-				})
-				.catch((err) => {
-					const response = err.response;
-
-					if (response) {
-						setErr(response.data.message);
-					}
-				})
-				.finally(() => setIsButtonLoading(false));
-		} else {
-			setErr("Passwords do not match.");
-			setIsButtonLoading(false);
+	useEffect(() => {
+		if (picture) {
+			const reader = new FileReader();
+			reader.onload = () => {
+				setImagePreview(convertImage(new Uint8Array(reader.result)));
+			};
+			reader.readAsArrayBuffer(picture);
 		}
-	};
+	}, [picture]);
 
-	const handleAffiliationChange = (event) => {
-		setAffiliation(event.target.value);
-	};
-	const handleDepartmentChange = (event) => {
-		setDepartment(event.target.value);
-	};
-	const handleRoleChange = (event) => {
-		setRole(event.target.value);
-	};
+	useEffect(() => {
+		if (state === "submitting" || state === "loading") setIsLoading(true);
+		else {
+			setIsLoading(false);
+		}
+	}, [state]);
 
-	if (redirectToOTP) {
-		return <Navigate to="/otp" />;
-	}
+	useEffect(() => {
+		if (actionData.error) {
+			setErr(actionData.error);
+		} else if (actionData.message) {
+			navigate(`/otp?email=${actionData.email}`);
+		}
+	}, [actionData, navigate]);
+
 	return (
 		<FormContainer
 			sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
@@ -155,13 +122,7 @@ export default function Register() {
 						{err}
 					</Alert>
 				)}
-				{msg && (
-					<Alert severity="success" sx={{ marginBottom: "1rem" }}>
-						<AlertTitle>Success</AlertTitle>
-						{msg}
-					</Alert>
-				)}
-				<form onSubmit={submit}>
+				<Form method="POST" encType="multipart/form-data">
 					<Box
 						sx={{
 							display: "flex",
@@ -173,60 +134,61 @@ export default function Register() {
 								Personal Information
 							</FormTitle>
 							<FormTextField
-								inputRef={firstnameRef}
 								type="name"
-								name=""
+								name="first_name"
 								id="standard-basic"
 								label="First Name"
 								variant="standard"
 								required
 							/>
 							<FormTextField
-								inputRef={lastnameRef}
 								type="name"
-								name=""
+								name="last_name"
 								id="standard-basic"
 								label="Last Name"
 								variant="standard"
 								required
 							/>
 							<FormTextField
-								inputRef={emailRef}
 								type="email"
-								name=""
+								name="email"
 								id="standard-basic"
 								label="Email"
 								variant="standard"
 								required
 							/>
 							<FormTextField
-								inputRef={phoneRef}
 								type="text"
-								name=""
+								name="phone"
 								id="standard-basic"
 								label="Phone"
 								variant="standard"
 								required
 							/>
 							<FormTextField
-								inputRef={passwordRef}
 								type="password"
-								name=""
+								name="password"
 								id="standard-basic"
 								label="Password"
 								variant="standard"
 								required
 							/>
 							<FormTextField
-								inputRef={confirmPasswordRef}
 								type="password"
-								name=""
+								name="confirm_password"
 								id="standard-basic"
 								label="Confirm Password"
 								variant="standard"
 								required
 							/>
-							<Box sx={{ marginTop: "1rem", marginBottom: "1rem" }}>
+							<Box
+								sx={{
+									marginTop: "1rem",
+									marginBottom: "1rem",
+									display: "flex",
+									alignItems: "center",
+									gap: 2,
+								}}>
 								<InputLabel shrink htmlFor="picture-upload">
 									Upload Picture
 								</InputLabel>
@@ -234,8 +196,15 @@ export default function Register() {
 									id="picture-upload"
 									type="file"
 									accept="image/*"
-									onChange={(e) => setPicture(e.target.files[0])}
+									onChange={handlePictureChange}
 								/>
+								{imagePreview && (
+									<Avatar
+										src={imagePreview}
+										alt="Preview"
+										sx={{ width: 56, height: 56 }}
+									/>
+								)}
 							</Box>
 						</Box>
 						<Box sx={{ width: "50%" }}>
@@ -255,9 +224,9 @@ export default function Register() {
 									<MenuItem value="">
 										<em>None</em>
 									</MenuItem>
-									{affiliationData.map((affiliation) => (
-										<MenuItem key={affiliation.id} value={affiliation.id}>
-											{affiliation.name}
+									{affiliations.map((aff) => (
+										<MenuItem key={aff.id} value={aff.id}>
+											{aff.name}
 										</MenuItem>
 									))}
 								</Select>
@@ -278,15 +247,12 @@ export default function Register() {
 									<MenuItem value="">
 										<em>None</em>
 									</MenuItem>
-									{departmentData.length > 0 ? (
-										departmentData.map((department) => (
-											<MenuItem key={department.id} value={department.id}>
-												{department.name}
+									{departmentData.length > 0 &&
+										departmentData.map((dep) => (
+											<MenuItem key={dep.id} value={dep.id}>
+												{dep.name}
 											</MenuItem>
-										))
-									) : (
-										<MenuItem></MenuItem>
-									)}
+										))}
 								</Select>
 							</FormControl>
 							<FormControl
@@ -300,13 +266,13 @@ export default function Register() {
 									id="demo-simple-select-standard"
 									value={role}
 									onChange={handleRoleChange}
-									label="Department">
+									label="Role">
 									<MenuItem value="">
 										<em>None</em>
 									</MenuItem>
-									{roleData.map((role) => (
-										<MenuItem key={role.id} value={role.id}>
-											{role.name}
+									{roles.map((r) => (
+										<MenuItem key={r.id} value={r.id}>
+											{r.name}
 										</MenuItem>
 									))}
 								</Select>
@@ -317,10 +283,10 @@ export default function Register() {
 						variant="contained"
 						className="btn btn-black"
 						type="submit"
-						loading={isButtonloading}>
+						loading={isLoading}>
 						Sign-Up
 					</FormButton>
-				</form>
+				</Form>
 				<Typography
 					variant="body2"
 					className="message"

@@ -62,7 +62,7 @@ export class UserService {
 		user.otp_secret = hashedOtp;
 
 		await this.userRepo.save(user);
-		await sendVerificationEmails(user.email, otp);
+		// await sendVerificationEmails(user.email, otp);
 
 		return {
 			success: true,

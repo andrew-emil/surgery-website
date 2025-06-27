@@ -20,9 +20,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { visuallyHidden } from "@mui/utils";
-import axiosClient from "../axiosClient";
-import { FormButton } from "../components/StyledComponents";
-import { convertImage } from "./../utils/convertImage";
+import axiosClient from "../../axiosClient";
+import { FormButton } from "../../components/StyledComponents";
+import { convertImage } from "../../utils/convertImage";
 import EditIcon from "@mui/icons-material/Edit";
 
 export default function Equipments() {

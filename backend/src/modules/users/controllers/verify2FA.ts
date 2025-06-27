@@ -2,7 +2,6 @@ import { Response, Request } from "express";
 import { userService } from "../../../config/initializeServices.js";
 
 export const verify2FA = async (req: Request, res: Response) => {
-	// #swagger.tags = ['Users']
 	const { email, otp } = req.body;
 
 	if (!email || !otp) throw Error("Invalid credentials");

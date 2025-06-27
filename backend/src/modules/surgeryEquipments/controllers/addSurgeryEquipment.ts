@@ -35,5 +35,6 @@ export const addSurgeryEquipment = async (req: Request, res: Response) => {
 	res.status(201).json({
 		success: true,
 		message: "Equipment added successfully",
+		equipment: newEquipment,
 	});
 };

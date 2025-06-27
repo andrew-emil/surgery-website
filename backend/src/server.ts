@@ -23,7 +23,7 @@ import authRequestsRoutes from "./modules/authRequests/authRequests.routes.js";
 import notificationRoutes from "./modules/notification/notification.routes.js";
 import adminRoutes from "./modules/admin/admin.routes.js";
 import { initializeServices } from "./config/initializeServices.js";
-import surgeryEquiRoutes from "./modules/surgeryEquipments/surgeryEquip.routes.js";
+import surgeryEquipRoutes from "./modules/surgeryEquipments/surgeryEquip.routes.js";
 import ratingRoutes from "./modules/rating/rating.routes.js";
 import scheduleRoutes from "./modules/Scheduling/schedule.routes.js";
 import { authMiddleware } from "./middlewares/authMiddleware.js";
@@ -76,12 +76,13 @@ app.use("/api/roles", rolesRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/affiliation", affiliationRoutes);
 
-// app.use(authMiddleware);
+app.use(authMiddleware);
+
 app.use("/api/surgery", surgeryRoutes);
 app.use("/api/auth-requests", authRequestsRoutes);
 app.use("/api/notification", notificationRoutes);
 app.use("/api/admin", adminRoutes);
-app.use("/api/surgery-equipments", surgeryEquiRoutes);
+app.use("/api/surgery-equipments", surgeryEquipRoutes);
 app.use("/api/rating", ratingRoutes);
 app.use("/api/schedule", scheduleRoutes);
 app.use("/api/procedure-types", procedureTypeRoutes);
@@ -103,12 +104,12 @@ const startServer = async () => {
 		await initializeCronJobs();
 		logger.info("Cron jobs initialized");
 
-		console.log("Running seeders...");
+		// console.log("Running seeders...");
 
 		// Run seeders
-		await seedSurgeries();
+		// await seedSurgeries();
 
-		console.log("All seeders completed successfully!");
+		// console.log("All seeders completed successfully!");
 
 		server.listen(port, () => {
 			logger.info(`app listening on port: ${port}`);

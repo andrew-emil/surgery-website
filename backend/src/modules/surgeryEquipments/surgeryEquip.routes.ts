@@ -8,17 +8,17 @@ import { authUser } from "../../middlewares/authMiddleware.js";
 import { auditLogger } from "../../middlewares/auditLogger.js";
 import { getEquipmentById } from "./controllers/getEquipmentById.js";
 
-const surgeryEquiRoutes = Router();
+const surgeryEquipRoutes = Router();
 
-surgeryEquiRoutes.use(authUser(["Admin", "Consultant"]));
-surgeryEquiRoutes.get("/", getSurgeryEquipments);
-surgeryEquiRoutes.get("/:id", getEquipmentById);
+surgeryEquipRoutes.use(authUser(["Admin", "Consultant"]));
+surgeryEquipRoutes.get("/", getSurgeryEquipments);
+surgeryEquipRoutes.get("/:id", getEquipmentById);
 
-surgeryEquiRoutes.delete("/:id", auditLogger(), deleteEquipment);
+surgeryEquipRoutes.delete("/:id", auditLogger(), deleteEquipment);
 
-surgeryEquiRoutes.use(validateEquipmentPhoto, auditLogger());
+surgeryEquipRoutes.use(validateEquipmentPhoto, auditLogger());
 
-surgeryEquiRoutes.post("/", addSurgeryEquipment);
-surgeryEquiRoutes.put("/:id", updateEquipment);
+surgeryEquipRoutes.post("/", addSurgeryEquipment);
+surgeryEquipRoutes.put("/:id", updateEquipment);
 
-export default surgeryEquiRoutes;
+export default surgeryEquipRoutes;

@@ -24,9 +24,9 @@ export const getAllSurgeries = async (req: Request, res: Response) => {
 		return;
 	}
 
-	const formatedSurgeries = await formatService.formatSurgeries(surgeries);
+	const formattedSurgeries = await formatService.formatSurgeries(surgeries);
 
 	res.status(200).json({
-		surgeries: formatedSurgeries,
+		surgeries: formattedSurgeries,
 	});
 };

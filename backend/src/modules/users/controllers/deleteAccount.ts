@@ -11,16 +11,15 @@ import { AuthenticationRequest } from "../../../entity/sql/AuthenticationRequest
 import { UserProgress } from "../../../entity/sql/UserProgress.js";
 
 export const deleteAccount = async (req: Request, res: Response) => {
-	const { id } = req.params;
+	const userId = req.user.id;
 
-	if (!id) throw Error("Invalid user ID");
-	if (req.user.id !== id) throw Error("Unauthorized");
+	if (!userId) throw new Error("Unauthorized");
 
 	await AppDataSource.transaction(async (sqlManager) => {
 		const user = await sqlManager.findOne(User, {
 			where: {
+				id: userId,
 				account_status: USER_STATUS.ACTIVE,
-				id,
 			},
 		});
 
@@ -40,29 +39,29 @@ export const deleteAccount = async (req: Request, res: Response) => {
 			sqlManager.remove(UserProgress, userProgress),
 		]);
 
-		await sqlManager.delete(User, id);
+		await sqlManager.delete(User, userId);
 	});
 
-	await ratingRepo.deleteMany({ userId: id });
+	await ratingRepo.deleteMany({ userId });
 
 	await surgeryLogsRepo.bulkWrite([
 		{
 			updateMany: {
-				filter: { leadSurgeon: id },
+				filter: { leadSurgeon: userId },
 				update: { $unset: { leadSurgeon: "" } } as any,
 			},
 		},
 
 		{
 			updateMany: {
-				filter: { "doctorsTeam.doctorId": id },
+				filter: { "doctorsTeam.doctorId": userId },
 				update: {
 					$pull: {
 						doctorsTeam: {
-							doctorId: id,
-						} as never,
+							doctorId: userId,
+						},
 					},
-				},
+				} as any,
 			},
 		},
 	]);

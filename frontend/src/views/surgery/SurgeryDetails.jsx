@@ -1,37 +1,35 @@
-import { useState } from "react";
 import {
+	AccessTime,
+	CheckCircle,
+	MedicalInformation,
+	MedicalServices,
+	MonitorHeart,
+	Person,
+} from "@mui/icons-material";
+import {
+	Avatar,
+	Box,
+	Chip,
 	Container,
-	Skeleton,
-	Paper,
-	Typography,
+	Divider,
 	Grid2,
 	List,
 	ListItem,
 	ListItemText,
-	Divider,
-	Chip,
-	Box,
+	Paper,
 	Stack,
-	Avatar,
 	Tooltip,
+	Typography
 } from "@mui/material";
-import { useLoaderData, useNavigation } from "react-router-dom";
-import {
-	CheckCircle,
-	Person,
-	MedicalInformation,
-	AccessTime,
-	MonitorHeart,
-	MedicalServices,
-} from "@mui/icons-material";
-import { useStateContext } from "../context/contextprovider";
-import { convertImage } from "./../utils/convertImage";
+import { useState } from "react";
+import { useLoaderData } from "react-router";
+import { useStateContext } from "../../context/contextprovider";
+import { convertImage } from "../../utils/convertImage";
 import RatingsSection from './../../components/surgery/RatingSection';
 
 const SurgeryDetails = () => {
-	const navigation = useNavigation();
 	const surgeryData = useLoaderData();
-	const { user } = useStateContext();
+	const { token } = useStateContext();
 	const [ratings, setRatings] = useState(surgeryData.ratings);
 
 	const updateRatingsState = (updatedBreakdown) => {
@@ -45,14 +43,6 @@ const SurgeryDetails = () => {
 			count,
 		});
 	};
-
-	if (navigation.state === "loading") {
-		return (
-			<Container>
-				<Skeleton variant="rectangular" height={500} sx={{ marginY: "1rem" }} />
-			</Container>
-		);
-	}
 
 	return (
 		<Container>
@@ -234,7 +224,7 @@ const SurgeryDetails = () => {
 				{/* Ratings & Reviews */}
 				<RatingsSection
 					surgeryData={{ ...surgeryData, ratings }}
-					user={user}
+					token={token}
 					updateRatingsState={updateRatingsState}
 				/>
 			</Paper>
@@ -243,5 +233,3 @@ const SurgeryDetails = () => {
 };
 
 export default SurgeryDetails;
-
-

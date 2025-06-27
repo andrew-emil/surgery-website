@@ -11,7 +11,8 @@ import { authMiddleware } from "../../middlewares/authMiddleware.js";
 import { validateUserPhoto } from "../../middlewares/filesMiddleware.js";
 import { getUserData } from "./controllers/getUserData.js";
 import { getTrainingProgress } from "./controllers/getTrainingProgress.js";
-import { getRoleRequirment } from "./controllers/getRoleRequirment.js";
+import { getRoleRequirement } from "./controllers/getRoleRequirement.js";
+
 
 const usersRoutes = Router();
 
@@ -28,18 +29,20 @@ usersRoutes.post(
 
 usersRoutes.post("/verify", auditLogger("Verify"), verify2FA);
 
-usersRoutes.post("/reset-password", auditLogger(), resetPassword);
+usersRoutes.use(auditLogger())
+
+usersRoutes.post("/reset-password", resetPassword);
 
 usersRoutes.use(authMiddleware);
 
-usersRoutes.delete("/:id", auditLogger(), deleteAccount);
 
-usersRoutes.patch("/", validateUserPhoto, auditLogger(), updateAccount);
-
+usersRoutes.delete("/", deleteAccount);
+usersRoutes.patch("/", validateUserPhoto, updateAccount);
 usersRoutes.get("/", getUserData);
-
 usersRoutes.get("/training/progress", getTrainingProgress);
+usersRoutes.get("/roles/requirements", getRoleRequirement);
 
-usersRoutes.get("/roles/requirements", getRoleRequirment);
+
+
 
 export default usersRoutes;

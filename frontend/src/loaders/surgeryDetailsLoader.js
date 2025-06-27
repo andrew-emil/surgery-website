@@ -1,7 +1,6 @@
-import { fetchSurgeryDetails } from "../../services/apiSurgery";
+import { fetchSurgeryDetails } from "../services/apiSurgery";
 
-export async function loader({ params }, queryClient) {
-	const { queryKey, queryFn } = fetchSurgeryDetails(params.surgeryId);
-	const surgery = queryClient.ensureQueryData({ queryKey, queryFn });
+export async function loader({ params }) {
+	const surgery = await fetchSurgeryDetails(params.surgeryId);
 	return surgery;
 }

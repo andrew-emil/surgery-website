@@ -40,3 +40,13 @@ export const FormContainer = styled(Container)(({ theme }) => ({
   justifyContent: "center",
   alignItems: "center",
 }));
+
+export const StyledImg = styled("img")(({ theme }) => ({
+	width: 100,
+	height: 100,
+	borderRadius: "50%",
+	objectFit: "contain",
+	border: `2px solid ${theme.palette.primary.main}`,
+	boxShadow: theme.shadows[2],
+	marginBottom: ".5rem",
+}));

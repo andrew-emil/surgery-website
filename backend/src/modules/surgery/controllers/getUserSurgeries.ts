@@ -3,6 +3,7 @@ import { surgeryLogsRepo } from "../../../config/repositories.js";
 import { formatService } from "./../../../config/initializeServices.js";
 
 export const getUserSurgeries = async (req: Request, res: Response) => {
+	console.log(req.user)
 	if (!req.user) throw Error("unauthorized");
 	const userId = req.user.id;
 
@@ -30,9 +31,9 @@ export const getUserSurgeries = async (req: Request, res: Response) => {
 		return;
 	}
 
-	const formatedSurgeries = await formatService.formatSurgeries(surgeries);
+	const formattedSurgeries = await formatService.formatSurgeries(surgeries);
 
 	res.status(200).json({
-		surgeries: formatedSurgeries,
+		surgeries: formattedSurgeries,
 	});
 };

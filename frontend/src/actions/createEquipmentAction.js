@@ -1,4 +1,4 @@
-import axiosClient from "../axiosClient";
+import { createEquipment } from "../services/apiSurgeryEquipment";
 
 export async function createEquipmentAction({ request }) {
 	const formData = await request.formData();
@@ -19,10 +19,8 @@ export async function createEquipmentAction({ request }) {
 			dataToSend.append("photo", base64Image);
 		}
 
-		const { data } = await axiosClient.post("/surgery-equipments", dataToSend, {
-			withCredentials: true,
-		});
-		return { message: data.message };
+		const { message, equipment } = await createEquipment(dataToSend);
+		return { message, equipment };
 	} catch (err) {
 		const response = err.response;
 		if (response) {

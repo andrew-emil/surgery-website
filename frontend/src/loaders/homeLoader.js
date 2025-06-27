@@ -1,7 +1,6 @@
 import { fetchUserSurgeries } from './../services/apiSurgery';
 
-export async function loader(queryClient) {
-	const { queryKey, queryFn } = fetchUserSurgeries();
-	const surgeries = await queryClient.ensureQueryData({ queryKey, queryFn });
+export async function homeLoader() {
+	const surgeries = await fetchUserSurgeries();
 	return surgeries;
 }

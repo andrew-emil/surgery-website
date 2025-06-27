@@ -1,5 +1,4 @@
-import axiosClient from "../axiosClient";
-import * as jose from "jose";
+import { deleteUser, updateUser } from "../services/apiUser";
 
 export async function myAccountAction({ request }) {
 	const formData = await request.formData();
@@ -7,7 +6,7 @@ export async function myAccountAction({ request }) {
 
 	try {
 		if (intent === "delete") {
-			await axiosClient.delete("/users", { withCredentials: true });
+			await deleteUser();
 
 			return { message: "Account deleted successfully." };
 		}
@@ -45,18 +44,9 @@ export async function myAccountAction({ request }) {
 			updateData.append("new_password", password);
 		}
 
-		//TODO: put the secret ket in .env file
-		const secret = new TextEncoder().encode("mySecret1243");
-		const { data } = await axiosClient.patch("/users", updateData, {
-			withCredentials: true,
-		});
+		const { token, message } = await updateUser(updateData);
 
-		const token = data.token;
-		const { payload } = await jose.jwtVerify(token, secret, {
-			algorithms: ["HS256"],
-		});
-
-		return { message: data.message, token, payload };
+		return { message, token };
 	} catch (err) {
 		const response = err.response;
 		if (response) {

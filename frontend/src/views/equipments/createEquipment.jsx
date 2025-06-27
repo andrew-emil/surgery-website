@@ -7,8 +7,8 @@ import {
 	FormContainer,
 	FormTextField,
 	FormTitle,
-} from "../components/StyledComponents";
-import { convertImage } from "./../utils/convertImage";
+} from "../../components/StyledComponents";
+import { convertImage } from "../../utils/convertImage";
 
 export default function CreateEquipments() {
 	const [picture, setPicture] = useState(null);

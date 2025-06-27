@@ -10,6 +10,7 @@ export const authMiddleware = async (
 	next: NextFunction
 ) => {
 	const token = await getCookie("ACCESS_TOKEN", { req, res });
+	console.log(token)
 
 	if (!token) throw Error("Unauthorized");
 
